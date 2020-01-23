@@ -1,8 +1,7 @@
 import React from "react";
-import {FormattedMessage} from "react-intl";
 import "./style.css";
 
-class App extends React.Component {
+class LangBtn extends React.Component {
   constructor(props) {
     super(props);
     let targetLang;
@@ -25,19 +24,8 @@ class App extends React.Component {
   };
 
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <div>
-            <button onClick={this.toggleLang}>{this.state.targetLang}</button>
-          </div>
-          <div>
-            <FormattedMessage id="app.learn" values={{name: "React"}} />
-          </div>
-        </header>
-      </div>
-    );
+    return <button onClick={this.toggleLang}>{this.state.targetLang}</button>;
   }
 }
 
-export default App;
+export default LangBtn;

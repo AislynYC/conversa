@@ -5,7 +5,7 @@ import {IntlProvider} from "react-intl";
 import en from "./i18n/en.js";
 import zh from "./i18n/zh.js";
 import "./style.css";
-import App from "./app.js";
+import LangBtn from "./LangBtn.js";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
@@ -18,7 +18,7 @@ const Root = () => {
   }
   return (
     <IntlProvider locale={locale} key={locale} defaultLocale="en" messages={messages}>
-      <App locale={locale} setLocale={setLocale} />
+      <LangBtn locale={locale} setLocale={setLocale} />
     </IntlProvider>
   );
 };
