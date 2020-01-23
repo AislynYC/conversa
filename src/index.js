@@ -18,7 +18,7 @@ const Root = () => {
   }
   return (
     <IntlProvider locale={locale} key={locale} defaultLocale="en" messages={messages}>
-      <App setLocale={setLocale} />
+      <App locale={locale} setLocale={setLocale} />
     </IntlProvider>
   );
 };
