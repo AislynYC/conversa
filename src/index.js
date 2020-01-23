@@ -1,14 +1,24 @@
-import React from "react";
+import React, {useState} from "react";
 import ReactDOM from "react-dom";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-import "./style.css";
 import {IntlProvider} from "react-intl";
+import en from "./i18n/en.js";
+import zh from "./i18n/zh.js";
+import "./style.css";
+import App from "./app.js";
 
 const Root = () => {
-  const locale = navigator.language;
+  const [locale, setLocale] = useState(navigator.language);
+  let messages;
+
+  if (locale.includes("zh")) {
+    messages = zh;
+  } else {
+    messages = en;
+  }
   return (
-    <IntlProvider locale={locale} key={locale} defaultLocale="en">
-      <App />
+    <IntlProvider locale={locale} key={locale} defaultLocale="en" messages={messages}>
+      <App setLocale={setLocale} />
     </IntlProvider>
   );
 };
