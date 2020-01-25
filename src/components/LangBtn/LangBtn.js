@@ -1,4 +1,5 @@
 import React from "react";
+import "./style.css";
 
 class LangBtn extends React.Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class LangBtn extends React.Component {
     if (props.locale.includes("zh")) {
       targetLang = "En";
     } else {
-      targetLang = "中文";
+      targetLang = "中";
     }
     this.state = {
       targetLang: targetLang
@@ -23,7 +24,11 @@ class LangBtn extends React.Component {
   };
 
   render() {
-    return <button onClick={this.toggleLang}>{this.state.targetLang}</button>;
+    return (
+      <button id="lang-btn" onClick={this.toggleLang}>
+        {this.state.targetLang}
+      </button>
+    );
   }
 }
 
