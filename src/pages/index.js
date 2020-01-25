@@ -6,6 +6,8 @@ import en from "../i18n/en.js";
 import zh from "../i18n/zh.js";
 import Header from "../components/Header/Header.js";
 import CurrentSld from "../components/CurrentSld/CurrentSld.js";
+import SldSelector from "../components/SldSelector/SldSelector.js";
+import "./style.css";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
@@ -19,7 +21,10 @@ const Root = () => {
   return (
     <IntlProvider locale={locale} key={locale} defaultLocale="en" messages={messages}>
       <Header locale={locale} setLocale={setLocale} />
-      <CurrentSld />
+      <div className="container">
+        <SldSelector />
+        <CurrentSld />
+      </div>
     </IntlProvider>
   );
 };

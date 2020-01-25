@@ -4,7 +4,8 @@
   background-color: cadetblue;
 }
 #current-sld-border {
-  width: 500px;
-  height: 360px;
+  width: 600px;
+  height: 400px;
   border: 1px solid black;
+  margin: 10px;
 }
