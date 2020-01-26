@@ -1,4 +1,6 @@
 import React from "react";
+import {FormattedMessage} from "react-intl";
+import "./style.css";
 class PresentBtn extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +20,11 @@ class PresentBtn extends React.Component {
   };
 
   render() {
-    return <button onClick={this.present}>Present</button>;
+    return (
+      <button onClick={this.present} id="present-btn">
+        <FormattedMessage id="app.present" />
+      </button>
+    );
   }
 }
 export default PresentBtn;

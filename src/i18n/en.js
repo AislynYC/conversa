@@ -1,2 +1,2 @@
-const en = {"app.learn": "Learn {name}"};
+const en = {"app.present": "Present"};
 export default en;
