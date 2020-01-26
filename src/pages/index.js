@@ -7,6 +7,9 @@ import zh from "../i18n/zh.js";
 import Header from "../components/Header/Header.js";
 import CurrentSld from "../components/CurrentSld/CurrentSld.js";
 import SldSelector from "../components/SldSelector/SldSelector.js";
+import ControlPanel from "../components/ControlPanel/ControlPanel.js";
+import SldEditor from "../components/SldEditor/SldEditor.js";
+import "./reset.css";
 import "./style.css";
 
 const Root = () => {
@@ -23,7 +26,11 @@ const Root = () => {
       <Header locale={locale} setLocale={setLocale} />
       <div className="container">
         <SldSelector />
-        <CurrentSld />
+        <div className="center">
+          <CurrentSld />
+          <SldEditor />
+        </div>
+        <ControlPanel />
       </div>
     </IntlProvider>
   );
