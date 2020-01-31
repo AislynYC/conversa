@@ -24,14 +24,7 @@ const Root = () => {
   return (
     <IntlProvider locale={locale} key={locale} defaultLocale="en" messages={messages}>
       <Header locale={locale} setLocale={setLocale} />
-      <div className="container">
-        <SldSelector />
-        <div className="center">
-          <CurrentSld />
-          <SldEditor />
-        </div>
-        <ControlPanel />
-      </div>
+      <SldEditor />
     </IntlProvider>
   );
 };

@@ -1,5 +1,60 @@
-#sld-editor {
+.container {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 100px);
+}
+
+.center {
+  width: 50%;
+  margin: 10px 10px 0;
+}
+
+/* current slide */
+#current-sld {
+  width: 100%;
+  height: 100%;
+  background-color: cadetblue;
+}
+#current-sld-border {
+  width: 100%;
+  height: 70%;
+  border: 1px solid black;
+}
+
+/* content editor */
+#content-editor {
   background-color: yellowgreen;
   height: 30%;
+  margin-top: 10px;
+}
+
+/* slide selector */
+#sld-selector {
+  width: 20%;
+  background-color: olivedrab;
+  margin-top: 10px;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.sld-item {
+  display: flex;
+  height: 150px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.sld {
+  background-color: white;
+  border: 1px solid black;
+  width: 180px;
+  height: 120px;
+}
+
+/* control panel */
+#control-panel {
+  width: 30%;
+  height: 100%;
+  background-color: seagreen;
   margin-top: 10px;
 }
