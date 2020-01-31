@@ -2,11 +2,12 @@ import React, {useState} from "react";
 import ReactDOM from "react-dom";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {createStore} from "redux";
+import {provider, connect} from "react-redux";
 import {IntlProvider} from "react-intl";
-import en from "../i18n/en.js";
-import zh from "../i18n/zh.js";
-import Header from "../components/Header/Header.js";
-import SldEditor from "../components/SldEditor/SldEditor.js";
+import en from "./i18n/en.js";
+import zh from "./i18n/zh.js";
+import Header from "./components/Header/Header.js";
+import SldEditor from "./components/SldEditor/SldEditor.js";
 import "./reset.css";
 import "./style.css";
 
@@ -32,7 +33,7 @@ let redux = {
   store: null,
   reducer: function(state, action) {
     switch (action.type) {
-      case "SelectSld":
+      case "SELECT_SLD":
         if (action.selected === false) {
           return {
             slds: state.slds.map(sld => {
@@ -83,4 +84,5 @@ redux.store = createStore(redux.reducer, {
     }
   ]
 });
+
 ReactDOM.render(<Root />, document.getElementById("root"));

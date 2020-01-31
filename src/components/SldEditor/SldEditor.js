@@ -8,7 +8,7 @@ class SldEditor extends React.Component {
 
   selectSld = (selected, selectedId) => {
     this.props.redux.store.dispatch({
-      type: "SelectSld",
+      type: "SELECT_SLD",
       selected: selected,
       selectedId: selectedId
     });
@@ -34,6 +34,7 @@ class SldEditor extends React.Component {
     });
 
     let currentSldObj = slds.find(sld => sld.selected === true);
+    console.log(currentSldObj);
 
     let currentSld = (
       <div id="current-sld">
@@ -41,6 +42,23 @@ class SldEditor extends React.Component {
         <div>{currentSldObj.resContent}</div>
       </div>
     );
+
+    // let handler = () => {
+    //   let state = this.props.redux.store.getState();
+
+    //   currentSldObj = state.slds.find(sld => sld.selected === true);
+
+    //   currentSld = (
+    //     <div id="current-sld">
+    //       <div>{currentSldObj.qContent}</div>
+    //       <div>{currentSldObj.resContent}</div>
+    //     </div>
+    //   );
+
+    //   console.log(currentSld);
+    // };
+
+    // this.props.redux.store.subscribe(handler);
 
     return (
       <div className="container">
