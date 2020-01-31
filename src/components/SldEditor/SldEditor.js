@@ -3,20 +3,10 @@ import "./style.css";
 class SldEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.props.redux.store.getState();
   }
 
-  selectSld = (selected, selectedId) => {
-    this.props.redux.store.dispatch({
-      type: "SELECT_SLD",
-      selected: selected,
-      selectedId: selectedId
-    });
-    console.log(this.state.slds);
-  };
-
   render() {
-    let slds = this.props.redux.store.getState().slds;
+    let slds = this.props.slds;
     let sldsItems = slds.map((item, index) => {
       return (
         <div className="sld-item" key={index + 1}>
@@ -24,7 +14,7 @@ class SldEditor extends React.Component {
           <div
             className="sld"
             onClick={() => {
-              this.selectSld(item.selected, item.id);
+              this.props.selectSld(item.selected, item.id);
             }}>
             <div>{item.qContent}</div>
             <div>{item.resContent}</div>
@@ -34,7 +24,6 @@ class SldEditor extends React.Component {
     });
 
     let currentSldObj = slds.find(sld => sld.selected === true);
-    console.log(currentSldObj);
 
     let currentSld = (
       <div id="current-sld">
@@ -42,23 +31,6 @@ class SldEditor extends React.Component {
         <div>{currentSldObj.resContent}</div>
       </div>
     );
-
-    // let handler = () => {
-    //   let state = this.props.redux.store.getState();
-
-    //   currentSldObj = state.slds.find(sld => sld.selected === true);
-
-    //   currentSld = (
-    //     <div id="current-sld">
-    //       <div>{currentSldObj.qContent}</div>
-    //       <div>{currentSldObj.resContent}</div>
-    //     </div>
-    //   );
-
-    //   console.log(currentSld);
-    // };
-
-    // this.props.redux.store.subscribe(handler);
 
     return (
       <div className="container">

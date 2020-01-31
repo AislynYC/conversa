@@ -1,41 +1,31 @@
 import React, {useState} from "react";
 import ReactDOM from "react-dom";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-import {createStore, combineReducers} from "redux";
-import {Provider} from "react-redux";
+import {createStore} from "redux";
+import {provider, connect} from "react-redux";
 import {IntlProvider} from "react-intl";
-import en from "./i18n/en.js";
-import zh from "./i18n/zh.js";
 import Header from "./components/Header/Header.js";
-import SldEditorContainer from "./containers/SldEditorContainer.js";
+import SldEditor from "./components/SldEditor/SldEditor.js";
 import "./reset.css";
 import "./style.css";
 
-import reducer, {selectSld} from "./ducks/widgets";
-
-// const rootReducer = combineReducers(reducer);
-
-const Root = () => {
-  const [locale, setLocale] = useState(navigator.language);
-  let messages;
-
-  if (locale.includes("zh")) {
-    messages = zh;
-  } else {
-    messages = en;
+class PEF extends React.Component {
+  constructor(props) {
+    super(props);
   }
+  render() {
+    return (
+      <div>
+        <Header locale={locale} setLocale={setLocale} />
+        <SldEditor redux={redux} />
+      </div>
+    );
+  }
+}
 
-  return (
-    <IntlProvider locale={locale} key={locale} defaultLocale="en" messages={messages}>
-      <Header locale={locale} setLocale={setLocale} />
-      <Provider store={store}>
-        <SldEditorContainer />
-      </Provider>
-    </IntlProvider>
-  );
-};
+let store;
 
-let store = createStore(reducer, {
+store = createStore(redux.reducer, {
   slds: [
     {
       id: "01",
