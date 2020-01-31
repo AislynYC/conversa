@@ -3,60 +3,28 @@ import "./style.css";
 class SldEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      slds: [
-        {
-          id: "01",
-          qContent: "Question content for test 1",
-          qType: "Question type for test 1",
-          resContent: "Result content for test 1",
-          resType: "Result type for test 1",
-          selected: true
-        },
-        {
-          id: "02",
-          qContent: "Question content for test 2",
-          qType: "Question type for test 2",
-          resContent: "Result content for test 2",
-          resType: "Result type for test 2",
-          selected: false
-        },
-        {
-          id: "03",
-          qContent: "Question content for test 3",
-          qType: "Question type for test 3",
-          resContent: "Result content for test 3",
-          resType: "Result type for test 3",
-          selected: false
-        }
-      ]
-    };
+    this.state = this.props.redux.store.getState();
   }
 
-  selectSld = (e, selected, selectedId) => {
-    if (selected === false) {
-      this.setState(
-        prevState => ({
-          slds: prevState.slds.map(sld => {
-            return sld.id === selectedId
-              ? {...sld, selected: true}
-              : {...sld, selected: false};
-          })
-        }),
-        () => console.log(this.state.slds)
-      );
-    }
+  selectSld = (selected, selectedId) => {
+    this.props.redux.store.dispatch({
+      type: "SelectSld",
+      selected: selected,
+      selectedId: selectedId
+    });
+    console.log(this.state.slds);
   };
 
   render() {
-    let sldsItems = this.state.slds.map((item, index) => {
+    let slds = this.props.redux.store.getState().slds;
+    let sldsItems = slds.map((item, index) => {
       return (
         <div className="sld-item" key={index + 1}>
           <div>{index + 1}</div>
           <div
             className="sld"
-            onClick={e => {
-              this.selectSld(e, item.selected, item.id);
+            onClick={() => {
+              this.selectSld(item.selected, item.id);
             }}>
             <div>{item.qContent}</div>
             <div>{item.resContent}</div>
@@ -65,10 +33,8 @@ class SldEditor extends React.Component {
       );
     });
 
-    let currentSldObj = this.state.slds.find(sld => {
-      return sld.selected === true;
-    });
-    console.log(currentSldObj);
+    let currentSldObj = slds.find(sld => sld.selected === true);
+
     let currentSld = (
       <div id="current-sld">
         <div>{currentSldObj.qContent}</div>
