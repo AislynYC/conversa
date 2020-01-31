@@ -1,12 +1,8 @@
 import React from "react";
 import {FormattedMessage} from "react-intl";
 import "./style.css";
-class PresentBtn extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  present = () => {
+const PresentBtn = () => {
+  let present = () => {
     const elem = document.getElementById("current-sld");
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
@@ -19,12 +15,10 @@ class PresentBtn extends React.Component {
     }
   };
 
-  render() {
-    return (
-      <button onClick={this.present} id="present-btn">
-        <FormattedMessage id="app.present" />
-      </button>
-    );
-  }
-}
+  return (
+    <button onClick={present} id="present-btn">
+      <FormattedMessage id="app.present" />
+    </button>
+  );
+};
 export default PresentBtn;
