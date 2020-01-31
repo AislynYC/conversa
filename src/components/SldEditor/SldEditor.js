@@ -11,7 +11,7 @@ class SldEditor extends React.Component {
           qType: "Question type for test 1",
           resContent: "Result content for test 1",
           resType: "Result type for test 1",
-          selected: false
+          selected: true
         },
         {
           id: "02",
@@ -65,13 +65,22 @@ class SldEditor extends React.Component {
       );
     });
 
+    let currentSldObj = this.state.slds.find(sld => {
+      return sld.selected === true;
+    });
+    console.log(currentSldObj);
+    let currentSld = (
+      <div id="current-sld">
+        <div>{currentSldObj.qContent}</div>
+        <div>{currentSldObj.resContent}</div>
+      </div>
+    );
+
     return (
       <div className="container">
         <div id="sld-selector">{sldsItems}</div>
         <div className="center">
-          <div id="current-sld-border">
-            <div id="current-sld">For Testing</div>
-          </div>
+          <div id="current-sld-border">{currentSld}</div>
           <div id="content-editor">test</div>
         </div>
         <div id="control-panel"></div>
