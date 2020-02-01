@@ -9,30 +9,40 @@
 
 .center {
   width: 57%;
-  margin: 10px 10px 0;
+  padding: 10px 10px 0;
 }
 
 /* current slide */
-#current-sld {
-  width: 100%;
-  height: 100%;
-  padding: 30px;
-  font-size: 1.5em;
+#current-sld-container {
+  width: 80%;
+  margin: 0 auto;
 }
 #current-sld-border {
-  width: 81%;
-  height: 60%;
+  width: 100%;
   margin: 20px auto 0;
   border: 1px solid #aaa;
+  padding-top: 56.25%;
+  position: relative;
+}
+
+#current-sld {
+  box-sizing: border-box;
+  padding: 30px;
+  font-size: 1.5em;
   background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 /* content editor */
 #content-editor {
   border: 1px solid #aaa;
   border-radius: 15px;
-  height: 33%;
-  margin-top: 20px;
+  height: 37%;
+  margin-top: 30px;
   background-color: white;
 }
 
@@ -60,6 +70,10 @@
   height: 120px;
   padding: 10px;
   font-size: 0.5em;
+}
+
+.sld-item-selected {
+  background-color: rgba(191, 212, 212, 0.63);
 }
 
 /* control panel */

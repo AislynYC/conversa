@@ -9,10 +9,14 @@ class SldEditor extends React.Component {
   render() {
     let sldsItems = this.props.slds.map((item, index) => {
       let path = null;
+      let sldClass = null;
       index === 0 ? (path = "/") : (path = "/" + item.id);
+      item.id === this.props.currentSldId
+        ? (sldClass = "sld-item sld-item-selected")
+        : (sldClass = "sld-item");
 
       return (
-        <div className="sld-item" key={index + 1}>
+        <div className={sldClass} key={index + 1}>
           <div>{index + 1}</div>
           <Link to={path}>
             <div
@@ -51,10 +55,12 @@ const SldPage = props => {
     return (
       <Route {...path} key={sld.id}>
         <div className="center">
-          <div id="current-sld-border">
-            <div id="current-sld">
-              <div>{currentSldObj.qContent}</div>
-              <div>{currentSldObj.resContent}</div>
+          <div id="current-sld-container">
+            <div id="current-sld-border">
+              <div id="current-sld">
+                <div>{currentSldObj.qContent}</div>
+                <div>{currentSldObj.resContent}</div>
+              </div>
             </div>
           </div>
           <div id="content-editor"></div>
