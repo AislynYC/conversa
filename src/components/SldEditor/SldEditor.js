@@ -64,7 +64,7 @@ const SldPage = props => {
               <div>{currentSldObj.resContent}</div>
             </div>
           </div>
-          <div id="content-editor">test</div>
+          <div id="content-editor"></div>
         </div>
         <div id="control-panel"></div>
       </Route>

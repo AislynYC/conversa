@@ -1,11 +1,14 @@
 .container {
   display: flex;
   width: 100%;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 86px);
+  font-size: 16px;
+  margin: 0 auto;
+  background-color: rgb(117, 146, 130);
 }
 
 .center {
-  width: 50%;
+  width: 57%;
   margin: 10px 10px 0;
 }
 
@@ -13,26 +16,31 @@
 #current-sld {
   width: 100%;
   height: 100%;
-  background-color: cadetblue;
+  padding: 30px;
+  font-size: 1.5em;
 }
 #current-sld-border {
-  width: 100%;
-  height: 70%;
-  border: 1px solid black;
+  width: 81%;
+  height: 60%;
+  margin: 20px auto 0;
+  border: 1px solid #aaa;
+  background-color: white;
 }
 
 /* content editor */
 #content-editor {
-  background-color: yellowgreen;
-  height: 30%;
-  margin-top: 10px;
+  border: 1px solid #aaa;
+  border-radius: 15px;
+  height: 33%;
+  margin-top: 20px;
+  background-color: white;
 }
 
 /* slide selector */
 #sld-selector {
-  width: 20%;
-  background-color: olivedrab;
-  margin-top: 10px;
+  background-color: rgb(226, 247, 206);
+  border: 1px solid #aaa;
+  width: 18%;
   height: 100%;
   overflow-y: scroll;
 }
@@ -45,16 +53,19 @@
 }
 
 .sld {
+  box-sizing: border-box;
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid #aaa;
   width: 180px;
   height: 120px;
+  padding: 10px;
+  font-size: 0.5em;
 }
 
 /* control panel */
 #control-panel {
-  width: 30%;
+  width: 25%;
   height: 100%;
-  background-color: seagreen;
-  margin-top: 10px;
+  border: 1px solid #aaa;
+  background-color: white;
 }
