@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import ReactDOM from "react-dom";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {createStore, combineReducers} from "redux";
 import {Provider} from "react-redux";
 import {IntlProvider} from "react-intl";
@@ -11,7 +10,7 @@ import SldEditorContainer from "./containers/SldEditorContainer.js";
 import "./reset.css";
 import "./style.css";
 
-import reducer, {selectSld} from "./ducks/widgets";
+import reducer from "./ducks/widgets";
 
 // const rootReducer = combineReducers(reducer);
 
@@ -27,8 +26,8 @@ const Root = () => {
 
   return (
     <IntlProvider locale={locale} key={locale} defaultLocale="en" messages={messages}>
-      <Header locale={locale} setLocale={setLocale} />
       <Provider store={store}>
+        <Header locale={locale} setLocale={setLocale} />
         <SldEditorContainer />
       </Provider>
     </IntlProvider>
