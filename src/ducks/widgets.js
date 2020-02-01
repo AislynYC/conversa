@@ -2,10 +2,9 @@
 const SELECT_SLD = "SELECT_SLD";
 
 // Action Creators
-export function selectSld(selected, selectedId) {
+export function selectSld(selectedId) {
   return {
     type: SELECT_SLD,
-    selected: selected,
     selectedId: selectedId
   };
 }
@@ -14,13 +13,10 @@ export function selectSld(selected, selectedId) {
 export default function reducer(state = null, action) {
   switch (action.type) {
     case "SELECT_SLD":
-      if (action.selected === false) {
+      if (action.selectedId !== state.currentSldId) {
         return {
-          slds: state.slds.map(sld => {
-            return sld.id === action.selectedId
-              ? {...sld, selected: true}
-              : {...sld, selected: false};
-          })
+          currentSldId: action.selectedId,
+          slds: state.slds
         };
       } else {
         return state;

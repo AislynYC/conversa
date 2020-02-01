@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 import SldEditor from "../components/SldEditor/SldEditor.js";
 import {selectSld} from "../ducks/widgets.js";
 let mapStateToProps = state => {
-  return {slds: state.slds};
+  return {currentSldId: state.currentSldId, slds: state.slds};
 };
 let mapDispatchToProps = dispatch => {
   return {

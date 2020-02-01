@@ -7,14 +7,10 @@ class SldEditor extends React.Component {
   }
 
   render() {
-    let slds = this.props.slds;
-    let sldsItems = slds.map((item, index) => {
+    let sldsItems = this.props.slds.map((item, index) => {
       let path = null;
-      if (index === 0) {
-        path = "/";
-      } else {
-        path = "/" + item.id;
-      }
+      index === 0 ? (path = "/") : (path = "/" + item.id);
+
       return (
         <div className="sld-item" key={index + 1}>
           <div>{index + 1}</div>
@@ -22,7 +18,7 @@ class SldEditor extends React.Component {
             <div
               className="sld"
               onClick={() => {
-                this.props.selectSld(item.selected, item.id);
+                this.props.selectSld(item.id);
               }}>
               <div>{item.qContent}</div>
               <div>{item.resContent}</div>
@@ -37,7 +33,7 @@ class SldEditor extends React.Component {
         <div className="container">
           <div id="sld-selector">{sldsItems}</div>
           <Switch>
-            <SldPage slds={slds} />
+            <SldPage {...this.props} />
           </Switch>
         </div>
       </Router>
@@ -46,15 +42,12 @@ class SldEditor extends React.Component {
 }
 
 const SldPage = props => {
-  let currentSldObj = props.slds.find(sld => sld.selected === true);
+  let currentSldObj = props.slds.find(sld => sld.id === props.currentSldId);
 
   return props.slds.map((sld, index) => {
     let path = null;
-    if (index === 0) {
-      path = {exact: true, path: "/"};
-    } else {
-      path = {path: "/" + sld.id};
-    }
+    index === 0 ? (path = {exact: true, path: "/"}) : (path = {path: "/" + sld.id});
+
     return (
       <Route {...path} key={sld.id}>
         <div className="center">
