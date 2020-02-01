@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ReactDOM from "react-dom";
-import {createStore, combineReducers} from "redux";
+import {createStore} from "redux";
 import {Provider} from "react-redux";
 import {IntlProvider} from "react-intl";
 import en from "./i18n/en.js";
@@ -11,8 +11,6 @@ import "./reset.css";
 import "./style.css";
 
 import reducer from "./ducks/widgets";
-
-// const rootReducer = combineReducers(reducer);
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);

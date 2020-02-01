@@ -14,10 +14,7 @@ export default function reducer(state = null, action) {
   switch (action.type) {
     case "SELECT_SLD":
       if (action.selectedId !== state.currentSldId) {
-        return {
-          currentSldId: action.selectedId,
-          slds: state.slds
-        };
+        return {...state, currentSldId: action.selectedId};
       } else {
         return state;
       }
