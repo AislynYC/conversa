@@ -10,7 +10,7 @@ import SldEditorContainer from "./containers/SldEditorContainer.js";
 import "./reset.css";
 import "./style.css";
 
-import reducer from "./ducks/widgets";
+import reducers from "./ducks/sldEditorReducers.js";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
@@ -27,7 +27,7 @@ const Root = () => {
   );
 };
 
-let store = createStore(reducer, {
+let store = createStore(reducers, {
   currentSldId: "01",
   slds: [
     {
