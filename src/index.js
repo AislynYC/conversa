@@ -5,12 +5,17 @@ import {Provider} from "react-redux";
 import {IntlProvider} from "react-intl";
 import en from "./i18n/en.js";
 import zh from "./i18n/zh.js";
-import Header from "./components/Header/Header.js";
-import SldEditorContainer from "./containers/SldEditorContainer.js";
+import rootReducer from "./ducks/rootReducer";
+import Header from "./components/Header/Header";
+import SldEditorContainer from "./containers/SldEditorContainer";
 import "./reset.css";
 import "./style.css";
 
-import reducers from "./ducks/sldEditorReducers.js";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import "firebase/auth";
+import {createFirestoreInstance} from "redux-firestore";
+import {ReactReduxFirebaseProvider} from "react-redux-firebase";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
@@ -20,38 +25,41 @@ const Root = () => {
   return (
     <IntlProvider locale={locale} key={locale} defaultLocale="en" messages={messages}>
       <Provider store={store}>
-        <Header locale={locale} setLocale={setLocale} />
-        <SldEditorContainer />
+        <ReactReduxFirebaseProvider {...rrfProps}>
+          <Header locale={locale} setLocale={setLocale} />
+          <SldEditorContainer />
+        </ReactReduxFirebaseProvider>
       </Provider>
     </IntlProvider>
   );
 };
 
-let store = createStore(reducers, {
-  currentSldId: "01",
-  slds: [
-    {
-      id: "01",
-      qContent: "Question content for test 1",
-      qType: "Question type for test 1",
-      resContent: "Result content for test 1",
-      resType: "Result type for test 1"
-    },
-    {
-      id: "02",
-      qContent: "Question content for test 2",
-      qType: "Question type for test 2",
-      resContent: "Result content for test 2",
-      resType: "Result type for test 2"
-    },
-    {
-      id: "03",
-      qContent: "Question content for test 3",
-      qType: "Question type for test 3",
-      resContent: "Result content for test 3",
-      resType: "Result type for test 3"
-    }
-  ]
-});
+let store = createStore(rootReducer);
+const firebaseConfig = {
+  apiKey: "AIzaSyDCtYWOFUFUJqhQTk0InJTOPsgp26KOcA0",
+  authDomain: "conversa-a419b.firebaseapp.com",
+  databaseURL: "https://conversa-a419b.firebaseio.com",
+  projectId: "conversa-a419b",
+  storageBucket: "conversa-a419b.appspot.com",
+  messagingSenderId: "1016180568273",
+  appId: "1:1016180568273:web:3e2f51982044a3990d15f0",
+  measurementId: "G-G8R1TS3R41"
+};
+
+// react-redux-firebase config
+const rrfConfig = {
+  userProfile: "users",
+  useFirestoreForProfile: true
+};
+
+const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance
+};
+
+firebase.initializeApp(firebaseConfig);
+firebase.firestore();
 
 ReactDOM.render(<Root />, document.getElementById("root"));

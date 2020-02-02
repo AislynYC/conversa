@@ -25,8 +25,34 @@ export function lastSld(currentSldIndex) {
   };
 }
 
+const initState = {
+  currentSldId: "01",
+  slds: [
+    {
+      id: "01",
+      qContent: "Question content for test 1",
+      qType: "Question type for test 1",
+      resContent: "Result content for test 1",
+      resType: "Result type for test 1"
+    },
+    {
+      id: "02",
+      qContent: "Question content for test 2",
+      qType: "Question type for test 2",
+      resContent: "Result content for test 2",
+      resType: "Result type for test 2"
+    },
+    {
+      id: "03",
+      qContent: "Question content for test 3",
+      qType: "Question type for test 3",
+      resContent: "Result content for test 3",
+      resType: "Result type for test 3"
+    }
+  ]
+};
 // Reducer
-export default function reducer(state = null, action) {
+export function sldEditorReducers(state = initState, action) {
   switch (action.type) {
     case "SELECT_SLD":
       if (action.selectedId !== state.currentSldId) {

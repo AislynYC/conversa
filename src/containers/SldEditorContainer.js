@@ -1,11 +1,12 @@
 import {connect} from "react-redux";
 import SldEditor from "../components/SldEditor/SldEditor.js";
-import {selectSld} from "../ducks/sldEditorReducers.js";
-import {nextSld} from "../ducks/sldEditorReducers.js";
-import {lastSld} from "../ducks/sldEditorReducers.js";
+import {selectSld, nextSld, lastSld} from "../ducks/sldEditorReducers.js";
 
 let mapStateToProps = state => {
-  return {currentSldId: state.currentSldId, slds: state.slds};
+  return {
+    currentSldId: state.sldEditor.currentSldId,
+    slds: state.sldEditor.slds
+  };
 };
 let mapDispatchToProps = dispatch => {
   return {

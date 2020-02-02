@@ -1,7 +1,9 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
-var firebaseConfig = {
+import {createFirestoreInstance} from "redux-firestore";
+
+const firebaseConfig = {
   apiKey: "AIzaSyDCtYWOFUFUJqhQTk0InJTOPsgp26KOcA0",
   authDomain: "conversa-a419b.firebaseapp.com",
   databaseURL: "https://conversa-a419b.firebaseio.com",
@@ -11,8 +13,22 @@ var firebaseConfig = {
   appId: "1:1016180568273:web:3e2f51982044a3990d15f0",
   measurementId: "G-G8R1TS3R41"
 };
+
+// react-redux-firebase config
+const rrfConfig = {
+  userProfile: "users",
+  useFirestoreForProfile: true
+};
+
+const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance
+};
+
 firebase.initializeApp(firebaseConfig);
-firebase.analytics();
-var db = firebase.firestore();
+firebase.firestore();
 
 export default firebase;
+export {rrfProps};
