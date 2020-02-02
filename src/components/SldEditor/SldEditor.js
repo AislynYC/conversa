@@ -47,6 +47,7 @@ class SldEditor extends React.Component {
 
 const SldPage = props => {
   let currentSldObj = props.slds.find(sld => sld.id === props.currentSldId);
+  let currentSldIndex = props.slds.indexOf(currentSldObj);
 
   return props.slds.map((sld, index) => {
     let path = null;
@@ -57,7 +58,19 @@ const SldPage = props => {
         <div className="center">
           <div id="current-sld-container">
             <div id="current-sld-border">
-              <div id="current-sld">
+              <div
+                id="current-sld"
+                tabIndex="0"
+                onKeyDown={e => {
+                  if (
+                    e.key === "Enter" ||
+                    e.key === "ArrowDown" ||
+                    e.key === "ArrowRight"
+                  ) {
+                    console.log("first");
+                    props.nextSld(currentSldIndex);
+                  }
+                }}>
                 <div>{currentSldObj.qContent}</div>
                 <div>{currentSldObj.resContent}</div>
               </div>

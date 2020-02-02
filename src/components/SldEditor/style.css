@@ -1,7 +1,8 @@
 .container {
   display: flex;
   width: 100%;
-  height: calc(100vh - 86px);
+  height: calc(100vh - 80px);
+  overflow: hidden;
   font-size: 16px;
   margin: 0 auto;
   background-color: rgb(117, 146, 130);
@@ -9,7 +10,8 @@
 
 .center {
   width: 57%;
-  padding: 10px 10px 0;
+  margin: 10px 10px 0;
+  height: 100%;
 }
 
 /* current slide */
@@ -42,7 +44,8 @@
   border: 1px solid #aaa;
   border-radius: 15px;
   height: 37%;
-  margin-top: 30px;
+  width: 100%;
+  margin-top: 20px;
   background-color: white;
 }
 
@@ -82,4 +85,5 @@
   height: 100%;
   border: 1px solid #aaa;
   background-color: white;
+  overflow-y: scroll;
 }
