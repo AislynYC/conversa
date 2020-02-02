@@ -1,18 +1,20 @@
 #current-sld:-moz-full-screen {
   width: 100%;
-  background-color: rgb(231, 200, 237);
+  background-color: white;
 }
 
 #current-sld:-webkit-full-screen {
   width: 100%;
-  background-color: rgb(231, 200, 237);
+  background-color: white;
 }
 
 #current-sld:-ms-fullscreen {
-  background-color: rgb(231, 200, 237);
+  background-color: white;
   width: 100%; /* needed to center contents in IE */
 }
 #current-sld:fullscreen {
   width: 100%;
-  background-color: rgb(231, 200, 237);
+  background-color: white;
+  font-size: 3.3em;
+  padding: 80px;
 }

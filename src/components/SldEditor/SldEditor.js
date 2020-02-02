@@ -17,8 +17,21 @@ class SldEditor extends React.Component {
     }
   };
 
+  fullScreenClicking = e => {
+    let currentSldObj = this.props.slds.find(sld => sld.id === this.props.currentSldId);
+    let currentSldIndex = this.props.slds.indexOf(currentSldObj);
+    this.props.nextSld(currentSldIndex);
+  };
+
   componentDidMount() {
     document.addEventListener("keydown", this.keyDownHandler);
+    document.addEventListener("fullscreenchange", () => {
+      if (document.fullscreenElement) {
+        document.addEventListener("click", this.fullScreenClicking);
+      } else {
+        document.removeEventListener("click", this.fullScreenClicking);
+      }
+    });
   }
 
   render() {
