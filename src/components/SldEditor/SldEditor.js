@@ -6,6 +6,21 @@ class SldEditor extends React.Component {
     super(props);
   }
 
+  keyDownHandler = e => {
+    let currentSldObj = this.props.slds.find(sld => sld.id === this.props.currentSldId);
+    let currentSldIndex = this.props.slds.indexOf(currentSldObj);
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+      this.props.nextSld(currentSldIndex);
+    }
+    if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+      this.props.lastSld(currentSldIndex);
+    }
+  };
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.keyDownHandler);
+  }
+
   render() {
     let sldsItems = this.props.slds.map((item, index) => {
       let path = null;
@@ -47,7 +62,6 @@ class SldEditor extends React.Component {
 
 const SldPage = props => {
   let currentSldObj = props.slds.find(sld => sld.id === props.currentSldId);
-  let currentSldIndex = props.slds.indexOf(currentSldObj);
 
   return props.slds.map((sld, index) => {
     let path = null;
@@ -58,19 +72,7 @@ const SldPage = props => {
         <div className="center">
           <div id="current-sld-container">
             <div id="current-sld-border">
-              <div
-                id="current-sld"
-                tabIndex="0"
-                onKeyDown={e => {
-                  if (
-                    e.key === "Enter" ||
-                    e.key === "ArrowDown" ||
-                    e.key === "ArrowRight"
-                  ) {
-                    console.log("first");
-                    props.nextSld(currentSldIndex);
-                  }
-                }}>
+              <div id="current-sld">
                 <div>{currentSldObj.qContent}</div>
                 <div>{currentSldObj.resContent}</div>
               </div>
