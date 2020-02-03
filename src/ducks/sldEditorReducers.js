@@ -2,6 +2,7 @@
 const SELECT_SLD = "SELECT_SLD";
 const NEXT_SLD = "NEXT_SLD";
 const LAST_SLD = "LAST_SLD";
+const ADD_SLD = "ADD_SLD";
 
 // Action Creators
 export function selectSld(selectedId) {
@@ -22,6 +23,12 @@ export function lastSld(currentSldIndex) {
   return {
     type: LAST_SLD,
     currentSldIndex: currentSldIndex
+  };
+}
+
+export function addSld() {
+  return {
+    type: ADD_SLD
   };
 }
 
@@ -74,6 +81,7 @@ export function sldEditorReducers(state = initState, action) {
       } else {
         return state;
       }
+
     default:
       return state;
   }

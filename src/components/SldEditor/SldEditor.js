@@ -1,5 +1,6 @@
 import React from "react";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {useFirestore} from "react-redux-firebase";
 import "./style.css";
 class SldEditor extends React.Component {
   constructor(props) {
@@ -35,35 +36,13 @@ class SldEditor extends React.Component {
   }
 
   render() {
-    let sldsItems = this.props.slds.map((item, index) => {
-      let path = null;
-      let sldClass = null;
-      index === 0 ? (path = "/") : (path = "/" + item.id);
-      item.id === this.props.currentSldId
-        ? (sldClass = "sld-item sld-item-selected")
-        : (sldClass = "sld-item");
-
-      return (
-        <div className={sldClass} key={index + 1}>
-          <div>{index + 1}</div>
-          <Link to={path}>
-            <div
-              className="sld"
-              onClick={() => {
-                this.props.selectSld(item.id);
-              }}>
-              <div>{item.qContent}</div>
-              <div>{item.resContent}</div>
-            </div>
-          </Link>
-        </div>
-      );
-    });
-
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <div className="container">
-          <div id="sld-selector">{sldsItems}</div>
+          <div id="sld-selector">
+            <SldsItems {...this.props} />
+            <AddSldBtn />
+          </div>
           <Switch>
             <SldPage {...this.props} />
           </Switch>
@@ -72,8 +51,41 @@ class SldEditor extends React.Component {
     );
   }
 }
+const SldsItems = props => {
+  console.log(props);
+  if (!props.slds) {
+    return <div>Loading</div>;
+  }
+  return props.slds.map((item, index) => {
+    let path = null;
+    let sldClass = null;
+    index === 0 ? (path = "/") : (path = "/" + item.id);
+    item.id === props.currentSldId
+      ? (sldClass = "sld-item sld-item-selected")
+      : (sldClass = "sld-item");
+
+    return (
+      <div className={sldClass} key={index + 1}>
+        <div>{index + 1}</div>
+        <Link to={path}>
+          <div
+            className="sld"
+            onClick={() => {
+              props.selectSld(item.id);
+            }}>
+            <div>{item.qContent}</div>
+            <div>{item.resContent}</div>
+          </div>
+        </Link>
+      </div>
+    );
+  });
+};
 
 const SldPage = props => {
+  if (!props.slds) {
+    return <div>Loading</div>;
+  }
   let currentSldObj = props.slds.find(sld => sld.id === props.currentSldId);
 
   return props.slds.map((sld, index) => {
@@ -97,5 +109,42 @@ const SldPage = props => {
       </Route>
     );
   });
+};
+
+const AddSldBtn = () => {
+  const db = useFirestore();
+  const addSld = () => {
+    return db
+      .collection("users")
+      .doc("test")
+      .collection("projects")
+      .doc("test")
+      .set({
+        lastEdited: Date.now(),
+        currentSldId: "01",
+        slds: [
+          {
+            id: "02",
+            qContent: "Question content for test 2",
+            qType: "Question type for test 2",
+            resContent: "Result content for test 2",
+            resType: "Result type for test 2"
+          },
+          {
+            id: "03",
+            qContent: "Question content for test 3",
+            qType: "Question type for test 3",
+            resContent: "Result content for test 3",
+            resType: "Result type for test 3"
+          }
+        ]
+      })
+      .then(console.log("success"));
+  };
+  return (
+    <button id="add-sld-btn" onClick={addSld}>
+      Add Slide
+    </button>
+  );
 };
 export default SldEditor;
