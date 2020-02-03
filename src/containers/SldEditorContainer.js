@@ -5,26 +5,27 @@ import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 
 let mapStateToProps = state => {
-  console.log(state);
   // 目前只選第一個 user 的第一個 project ，之後記得改成變數！！
   // currentSldId: state.sldEditor.currentSldId,
   // slds: state.sldEditor.slds
   let data = state.firestore.ordered["PLdhrvmiHZQJZVTsh9X0-projects"];
   if (data) {
     return {
-      currentSldId: data[0].currentSldId,
+      firestore: state.firestore,
+      // localCurSldId: state.sldEditor.curSldIndex,
+      curSldIndex: data[0].curSldIndex,
       slds: data[0].slds
     };
   } else {
     return {
-      currentSldId: undefined,
+      curSldIndex: undefined,
       slds: undefined
     };
   }
 };
 let mapDispatchToProps = dispatch => {
   return {
-    selectSld: (selected, selectedId) => dispatch(selectSld(selected, selectedId)),
+    selectSld: selectedId => dispatch(selectSld(selectedId)),
     nextSld: currentSldIndex => dispatch(nextSld(currentSldIndex)),
     lastSld: currentSldIndex => dispatch(lastSld(currentSldIndex))
   };

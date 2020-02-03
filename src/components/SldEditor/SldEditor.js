@@ -1,58 +1,100 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import "./style.css";
-class SldEditor extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  keyDownHandler = e => {
-    let currentSldObj = this.props.slds.find(sld => sld.id === this.props.currentSldId);
-    let currentSldIndex = this.props.slds.indexOf(currentSldObj);
+const SldEditor = props => {
+  const keyDownHandler = e => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-      this.props.nextSld(currentSldIndex);
-    }
-    if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-      this.props.lastSld(currentSldIndex);
+      nextSld(props.curSldIndex, props.slds.length);
+    } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+      lastSld(props.curSldIndex);
     }
   };
 
-  fullScreenClicking = e => {
-    let currentSldObj = this.props.slds.find(sld => sld.id === this.props.currentSldId);
-    let currentSldIndex = this.props.slds.indexOf(currentSldObj);
-    this.props.nextSld(currentSldIndex);
+  const fullScreenClicking = () => {
+    nextSld(props.curSldIndex, props.slds.length);
   };
 
-  componentDidMount() {
-    document.addEventListener("keydown", this.keyDownHandler);
-    document.addEventListener("fullscreenchange", () => {
-      if (document.fullscreenElement) {
-        document.addEventListener("click", this.fullScreenClicking);
-      } else {
-        document.removeEventListener("click", this.fullScreenClicking);
-      }
-    });
-  }
+  const db = useFirestore();
+  const selectSld = selIndex => {
+    if (selIndex !== props.curSldIndex) {
+      return db
+        .collection("users")
+        .doc("PLdhrvmiHZQJZVTsh9X0")
+        .collection("projects")
+        .doc("96vfuLFEfKavi0trtngb")
+        .update({curSldIndex: selIndex});
+    }
+  };
 
-  render() {
-    return (
-      <Router basename={process.env.PUBLIC_URL}>
-        <div className="container">
-          <div id="sld-selector">
-            <SldsItems {...this.props} />
-            <AddSldBtn />
-          </div>
-          <Switch>
-            <SldPage {...this.props} />
-          </Switch>
+  const nextSld = (curSldIndex, sldsLength) => {
+    if (curSldIndex < sldsLength - 1) {
+      return db
+        .collection("users")
+        .doc("PLdhrvmiHZQJZVTsh9X0")
+        .collection("projects")
+        .doc("96vfuLFEfKavi0trtngb")
+        .update({curSldIndex: curSldIndex + 1});
+    }
+  };
+
+  const lastSld = curSldIndex => {
+    if (curSldIndex > 0) {
+      return db
+        .collection("users")
+        .doc("PLdhrvmiHZQJZVTsh9X0")
+        .collection("projects")
+        .doc("96vfuLFEfKavi0trtngb")
+        .update({curSldIndex: curSldIndex - 1});
+    }
+  };
+
+  const ifFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.addEventListener("click", fullScreenClicking);
+    } else {
+      document.removeEventListener("click", fullScreenClicking);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", keyDownHandler);
+    // document.addEventListener("fullscreenchange", ifFullscreen);
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler);
+      // document.removeEventListener("fullscreenchange", ifFullscreen);
+    };
+  }, [keyDownHandler]);
+
+  // useEffect(() => {
+  //   const ifFullscreen = () => {
+  //     if (document.fullscreenElement) {
+  //       document.addEventListener("click", fullScreenClicking);
+  //     } else {
+  //       document.removeEventListener("click", fullScreenClicking);
+  //     }
+  //   };
+  //   document.addEventListener("fullscreenchange", ifFullscreen);
+
+  //   return () => document.removeEventListener("fullscreenchange", ifFullscreen);
+  // }, [ifFullscreen]);
+
+  return (
+    <Router basename={process.env.PUBLIC_URL}>
+      <div className="container">
+        <div id="sld-selector">
+          <SldsItems {...props} selectSld={selectSld} />
+          <AddSldBtn {...props} />
         </div>
-      </Router>
-    );
-  }
-}
+        <Switch>
+          <SldPage {...props} />
+        </Switch>
+      </div>
+    </Router>
+  );
+};
+
 const SldsItems = props => {
-  console.log(props);
   if (!props.slds) {
     return <div>Loading</div>;
   }
@@ -60,7 +102,7 @@ const SldsItems = props => {
     let path = null;
     let sldClass = null;
     index === 0 ? (path = "/") : (path = "/" + item.id);
-    item.id === props.currentSldId
+    index === props.curSldIndex
       ? (sldClass = "sld-item sld-item-selected")
       : (sldClass = "sld-item");
 
@@ -71,7 +113,7 @@ const SldsItems = props => {
           <div
             className="sld"
             onClick={() => {
-              props.selectSld(item.id);
+              props.selectSld(index);
             }}>
             <div>{item.qContent}</div>
             <div>{item.resContent}</div>
@@ -86,7 +128,7 @@ const SldPage = props => {
   if (!props.slds) {
     return <div>Loading</div>;
   }
-  let currentSldObj = props.slds.find(sld => sld.id === props.currentSldId);
+  let curSldObj = props.slds[props.curSldIndex];
 
   return props.slds.map((sld, index) => {
     let path = null;
@@ -98,8 +140,8 @@ const SldPage = props => {
           <div id="current-sld-container">
             <div id="current-sld-border">
               <div id="current-sld">
-                <div>{currentSldObj.qContent}</div>
-                <div>{currentSldObj.resContent}</div>
+                <div>{curSldObj.qContent}</div>
+                <div>{curSldObj.resContent}</div>
               </div>
             </div>
           </div>
@@ -111,18 +153,26 @@ const SldPage = props => {
   });
 };
 
-const AddSldBtn = () => {
+const AddSldBtn = props => {
   const db = useFirestore();
   const addSld = () => {
     return db
       .collection("users")
-      .doc("test")
+      .doc("PLdhrvmiHZQJZVTsh9X0")
       .collection("projects")
-      .doc("test")
+      .doc("96vfuLFEfKavi0trtngb")
       .set({
         lastEdited: Date.now(),
-        currentSldId: "01",
+        curSldIndex: "01",
+        created: Date.now(),
         slds: [
+          {
+            id: "01",
+            qContent: "Question content for test 1",
+            qType: "Question type for test 1",
+            resContent: "Result content for test 1",
+            resType: "Result type for test 1"
+          },
           {
             id: "02",
             qContent: "Question content for test 2",
