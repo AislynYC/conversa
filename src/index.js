@@ -11,11 +11,9 @@ import SldEditorContainer from "./containers/SldEditorContainer";
 import "./reset.css";
 import "./style.css";
 
-import firebase from "firebase/app";
-import "firebase/firestore";
-import "firebase/auth";
-import {createFirestoreInstance} from "redux-firestore";
 import {ReactReduxFirebaseProvider} from "react-redux-firebase";
+import {createFirestoreInstance} from "redux-firestore";
+import fbConfig from "./config/fbConfig";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
@@ -35,16 +33,6 @@ const Root = () => {
 };
 
 let store = createStore(rootReducer);
-const firebaseConfig = {
-  apiKey: "AIzaSyDCtYWOFUFUJqhQTk0InJTOPsgp26KOcA0",
-  authDomain: "conversa-a419b.firebaseapp.com",
-  databaseURL: "https://conversa-a419b.firebaseio.com",
-  projectId: "conversa-a419b",
-  storageBucket: "conversa-a419b.appspot.com",
-  messagingSenderId: "1016180568273",
-  appId: "1:1016180568273:web:3e2f51982044a3990d15f0",
-  measurementId: "G-G8R1TS3R41"
-};
 
 // react-redux-firebase config
 const rrfConfig = {
@@ -53,13 +41,10 @@ const rrfConfig = {
 };
 
 const rrfProps = {
-  firebase,
+  firebase: fbConfig,
   config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance
 };
-
-firebase.initializeApp(firebaseConfig);
-firebase.firestore();
 
 ReactDOM.render(<Root />, document.getElementById("root"));
