@@ -161,31 +161,16 @@ const AddSldBtn = props => {
       .doc("PLdhrvmiHZQJZVTsh9X0")
       .collection("projects")
       .doc("96vfuLFEfKavi0trtngb")
-      .set({
+      .update({
         lastEdited: Date.now(),
-        curSldIndex: "01",
-        created: Date.now(),
         slds: [
+          ...props.slds,
           {
-            id: "01",
-            qContent: "Question content for test 1",
-            qType: "Question type for test 1",
-            resContent: "Result content for test 1",
-            resType: "Result type for test 1"
-          },
-          {
-            id: "02",
-            qContent: "Question content for test 2",
-            qType: "Question type for test 2",
-            resContent: "Result content for test 2",
-            resType: "Result type for test 2"
-          },
-          {
-            id: "03",
-            qContent: "Question content for test 3",
-            qType: "Question type for test 3",
-            resContent: "Result content for test 3",
-            resType: "Result type for test 3"
+            id: Date.now(),
+            qContent: "",
+            qType: "",
+            resContent: "",
+            resType: ""
           }
         ]
       })
