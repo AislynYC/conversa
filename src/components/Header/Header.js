@@ -5,7 +5,7 @@ import "./style.css";
 const Header = props => {
   return (
     <div className="header">
-      <div className="logo">LOGO</div>
+      <div className="logo">CONVERSA</div>
       <LangBtn locale={props.locale} setLocale={props.setLocale} />
       <PresentBtn />
     </div>
