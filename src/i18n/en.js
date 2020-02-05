@@ -1,2 +1,2 @@
-const en = {"app.present": "Present", "add.sld": "Add Slide"};
+const en = {"app.present": "Present", "app.qus-content": "Question"};
 export default en;
