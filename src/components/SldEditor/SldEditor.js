@@ -189,8 +189,10 @@ const SldEditor = props => {
   };
 
   const QusForm = props => {
+    useEffect(() => {
+      setFocus();
+    });
     const editQus = (e, props) => {
-      // setFocus();
       let newSlds = props.slds.map((sld, index) => {
         if (index === props.sldIndex) {
           sld.lastEdited = Date.now();
@@ -207,9 +209,6 @@ const SldEditor = props => {
           lastEdited: Date.now(),
           slds: newSlds
         });
-      // .then(() => {
-
-      // });
     };
 
     return (
@@ -221,11 +220,9 @@ const SldEditor = props => {
             id="qus-input"
             ref={inputRef}
             value={props.sld.qContent}
-            // autoFocus="autofocus"
             onChange={e => {
               editQus(e, props);
             }}
-            onBlur={() => setFocus()}
           />
         </label>
       </form>
