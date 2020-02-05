@@ -39,8 +39,8 @@
   right: 0;
 }
 
-/* content editor */
-#content-editor {
+/* control panel */
+#control-panel {
   border: 1px solid #aaa;
   border-radius: 15px;
   height: 37%;
@@ -88,8 +88,8 @@
   align-self: center;
   margin-top: 25px;
 }
-/* control panel */
-#control-panel {
+/* question form */
+#qus-form {
   width: 25%;
   height: 100%;
   border: 1px solid #aaa;

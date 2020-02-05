@@ -1,7 +1,8 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import {Router, Switch, Route, Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
+import {FormattedMessage} from "react-intl";
 import "./style.css";
 const history = createBrowserHistory();
 
@@ -38,19 +39,15 @@ const SldEditor = props => {
         .collection("projects")
         .doc("96vfuLFEfKavi0trtngb")
         .update({curSldIndex: curSldIndex + 1})
-        .then(
-          // props.updateRedirPath(curSldIndex + 1)
-          () => {
-            history.push(`/${curSldIndex + 1}`);
-          }
-        );
+        .then(() => {
+          history.push(`/${curSldIndex + 1}`);
+        });
     }
   };
 
   const lastSld = curSldIndex => {
     if (curSldIndex > 0) {
-      return db
-        .collection("users")
+      db.collection("users")
         .doc("PLdhrvmiHZQJZVTsh9X0")
         .collection("projects")
         .doc("96vfuLFEfKavi0trtngb")
@@ -137,6 +134,7 @@ const SldEditor = props => {
       return (
         <Route {...path} key={index}>
           <SldPageRoute {...props} sld={sld} />
+          <QusForm {...props} sld={sld} sldIndex={index} />
         </Route>
       );
     });
@@ -161,8 +159,7 @@ const SldEditor = props => {
   const AddSldBtn = props => {
     const db = useFirestore();
     const addSld = () => {
-      return db
-        .collection("users")
+      db.collection("users")
         .doc("PLdhrvmiHZQJZVTsh9X0")
         .collection("projects")
         .doc("96vfuLFEfKavi0trtngb")
@@ -186,7 +183,54 @@ const SldEditor = props => {
       </button>
     );
   };
+  const inputRef = useRef(null);
+  const setFocus = () => {
+    inputRef.current.focus();
+  };
 
+  const QusForm = props => {
+    const editQus = (e, props) => {
+      // setFocus();
+      let newSlds = props.slds.map((sld, index) => {
+        if (index === props.sldIndex) {
+          sld.lastEdited = Date.now();
+          sld.qContent = e.target.value;
+        }
+        return sld;
+      });
+
+      db.collection("users")
+        .doc("PLdhrvmiHZQJZVTsh9X0")
+        .collection("projects")
+        .doc("96vfuLFEfKavi0trtngb")
+        .update({
+          lastEdited: Date.now(),
+          slds: newSlds
+        });
+      // .then(() => {
+
+      // });
+    };
+
+    return (
+      <form id="qus-form">
+        <label htmlFor="qus-input">
+          <FormattedMessage id="app.qus-content" />
+          <input
+            type="text"
+            id="qus-input"
+            ref={inputRef}
+            value={props.sld.qContent}
+            // autoFocus="autofocus"
+            onChange={e => {
+              editQus(e, props);
+            }}
+            onBlur={() => setFocus()}
+          />
+        </label>
+      </form>
+    );
+  };
   return (
     <Router basename={process.env.PUBLIC_URL} history={history}>
       <div className="container">
