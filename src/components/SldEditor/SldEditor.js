@@ -1,8 +1,12 @@
 import React, {useEffect} from "react";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {Router, Switch, Route, Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
+import {createBrowserHistory} from "history";
 import "./style.css";
+const history = createBrowserHistory();
+
 const SldEditor = props => {
+  const db = useFirestore();
   const keyDownHandler = e => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
       nextSld(props.curSldIndex, props.slds.length);
@@ -15,7 +19,6 @@ const SldEditor = props => {
     nextSld(props.curSldIndex, props.slds.length);
   };
 
-  const db = useFirestore();
   const selectSld = selIndex => {
     if (selIndex !== props.curSldIndex) {
       return db
@@ -34,7 +37,13 @@ const SldEditor = props => {
         .doc("PLdhrvmiHZQJZVTsh9X0")
         .collection("projects")
         .doc("96vfuLFEfKavi0trtngb")
-        .update({curSldIndex: curSldIndex + 1});
+        .update({curSldIndex: curSldIndex + 1})
+        .then(
+          // props.updateRedirPath(curSldIndex + 1)
+          () => {
+            history.push(`/${curSldIndex + 1}`);
+          }
+        );
     }
   };
 
@@ -45,7 +54,14 @@ const SldEditor = props => {
         .doc("PLdhrvmiHZQJZVTsh9X0")
         .collection("projects")
         .doc("96vfuLFEfKavi0trtngb")
-        .update({curSldIndex: curSldIndex - 1});
+        .update({curSldIndex: curSldIndex - 1})
+        .then(() => {
+          if (curSldIndex - 1 === 0) {
+            history.push("/");
+          } else {
+            history.push(`/${curSldIndex - 1}`);
+          }
+        });
     }
   };
 
@@ -79,8 +95,100 @@ const SldEditor = props => {
   //   return () => document.removeEventListener("fullscreenchange", ifFullscreen);
   // }, [ifFullscreen]);
 
+  const SldsItems = props => {
+    if (!props.slds) {
+      return <div>Loading</div>;
+    }
+    return props.slds.map((item, index) => {
+      let path = null;
+      let sldClass = null;
+      index === 0 ? (path = "/") : (path = "/" + index);
+      index === props.curSldIndex
+        ? (sldClass = "sld-item sld-item-selected")
+        : (sldClass = "sld-item");
+
+      return (
+        <div className={sldClass} key={index}>
+          <div>{index + 1}</div>
+          <Link to={path}>
+            <div
+              className="sld"
+              onClick={() => {
+                props.selectSld(index);
+              }}>
+              <div>{item.qContent}</div>
+              <div>{item.resContent}</div>
+            </div>
+          </Link>
+        </div>
+      );
+    });
+  };
+
+  const SldPage = props => {
+    if (!props.slds) {
+      return <div>Loading</div>;
+    }
+
+    return props.slds.map((sld, index) => {
+      let path = null;
+      index === 0 ? (path = {exact: true, path: "/"}) : (path = {path: "/" + index});
+
+      return (
+        <Route {...path} key={index}>
+          <SldPageRoute {...props} sld={sld} />
+        </Route>
+      );
+    });
+  };
+
+  const SldPageRoute = props => {
+    return (
+      <div className="center">
+        <div id="current-sld-container">
+          <div id="current-sld-border">
+            <div id="current-sld">
+              <div>{props.sld.qContent}</div>
+              <div>{props.sld.resContent}</div>
+            </div>
+          </div>
+        </div>
+        <div id="control-panel"></div>
+      </div>
+    );
+  };
+
+  const AddSldBtn = props => {
+    const db = useFirestore();
+    const addSld = () => {
+      return db
+        .collection("users")
+        .doc("PLdhrvmiHZQJZVTsh9X0")
+        .collection("projects")
+        .doc("96vfuLFEfKavi0trtngb")
+        .update({
+          lastEdited: Date.now(),
+          slds: [
+            ...props.slds,
+            {
+              id: Date.now(),
+              qContent: "",
+              qType: "",
+              resContent: "",
+              resType: ""
+            }
+          ]
+        });
+    };
+    return (
+      <button id="add-sld-btn" onClick={addSld}>
+        Add Slide
+      </button>
+    );
+  };
+
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router basename={process.env.PUBLIC_URL} history={history}>
       <div className="container">
         <div id="sld-selector">
           <SldsItems {...props} selectSld={selectSld} />
@@ -94,92 +202,4 @@ const SldEditor = props => {
   );
 };
 
-const SldsItems = props => {
-  if (!props.slds) {
-    return <div>Loading</div>;
-  }
-  return props.slds.map((item, index) => {
-    let path = null;
-    let sldClass = null;
-    index === 0 ? (path = "/") : (path = "/" + item.id);
-    index === props.curSldIndex
-      ? (sldClass = "sld-item sld-item-selected")
-      : (sldClass = "sld-item");
-
-    return (
-      <div className={sldClass} key={index + 1}>
-        <div>{index + 1}</div>
-        <Link to={path}>
-          <div
-            className="sld"
-            onClick={() => {
-              props.selectSld(index);
-            }}>
-            <div>{item.qContent}</div>
-            <div>{item.resContent}</div>
-          </div>
-        </Link>
-      </div>
-    );
-  });
-};
-
-const SldPage = props => {
-  if (!props.slds) {
-    return <div>Loading</div>;
-  }
-  let curSldObj = props.slds[props.curSldIndex];
-
-  return props.slds.map((sld, index) => {
-    let path = null;
-    index === 0 ? (path = {exact: true, path: "/"}) : (path = {path: "/" + sld.id});
-
-    return (
-      <Route {...path} key={sld.id}>
-        <div className="center">
-          <div id="current-sld-container">
-            <div id="current-sld-border">
-              <div id="current-sld">
-                <div>{curSldObj.qContent}</div>
-                <div>{curSldObj.resContent}</div>
-              </div>
-            </div>
-          </div>
-          <div id="content-editor"></div>
-        </div>
-        <div id="control-panel"></div>
-      </Route>
-    );
-  });
-};
-
-const AddSldBtn = props => {
-  const db = useFirestore();
-  const addSld = () => {
-    return db
-      .collection("users")
-      .doc("PLdhrvmiHZQJZVTsh9X0")
-      .collection("projects")
-      .doc("96vfuLFEfKavi0trtngb")
-      .update({
-        lastEdited: Date.now(),
-        slds: [
-          ...props.slds,
-          {
-            id: Date.now(),
-            qContent: "",
-            qType: "",
-            resContent: "",
-            resType: ""
-          }
-        ]
-      })
-      .then(console.log("success"));
-  };
-  return (
-    <button id="add-sld-btn" onClick={addSld}>
-      Add Slide
-    </button>
-  );
-};
 export default SldEditor;
