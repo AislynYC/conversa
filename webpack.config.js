@@ -5,7 +5,8 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "/"
   },
   module: {
     rules: [
@@ -20,6 +21,7 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: "./dist"
+    contentBase: "./dist",
+    historyApiFallback: true
   }
 };
