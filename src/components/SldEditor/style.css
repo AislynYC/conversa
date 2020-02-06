@@ -95,4 +95,34 @@
   border: 1px solid #aaa;
   background-color: white;
   overflow-y: scroll;
+  padding: 20px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+#qus-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+#qus-input {
+  margin: 5px 0;
+  width: 100%;
+}
+
+.opt-input-group {
+  display: flex;
+}
+.opt-input {
+  margin: 5px 0;
+  width: 100%;
+}
+
+.delete-opt-btn {
+  vertical-align: middle;
+  font-size: 1.3em;
+  cursor: pointer;
+  padding: 5px;
 }

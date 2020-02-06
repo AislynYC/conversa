@@ -201,7 +201,7 @@ const AddSldBtn = props => {
   };
   return (
     <button id="add-sld-btn" onClick={addSld}>
-      Add Slide
+      <FormattedMessage id="app.add-sld" />
     </button>
   );
 };
@@ -226,6 +226,7 @@ const QusForm = props => {
       <div className="input-group">
         <OptInputs {...props} />
       </div>
+      <AddOptBtn {...props} />
     </form>
   );
 };
@@ -258,7 +259,7 @@ const QusInput = props => {
 
   return (
     <div className="input-group">
-      <label htmlFor="qus-input">
+      <label htmlFor="qus-input" id="qus-input-group">
         <FormattedMessage id="app.qus-label" />
         <input
           type="text"
@@ -294,9 +295,16 @@ const OptInputs = props => {
         slds: newSlds
       });
   };
-  let optInputs = props.sld.opts.map((opt, index) => {
-    return <OptInput key={index} opt={opt} optIndex={index} editOpt={editOpt} />;
-  });
+
+  let optInputs = null;
+  if (props.sld.opts !== "") {
+    optInputs = props.sld.opts.map((opt, index) => {
+      return (
+        <OptInput {...props} key={index} opt={opt} optIndex={index} editOpt={editOpt} />
+      );
+    });
+  }
+
   return <div id="opt-inputs">{optInputs}</div>;
 };
 
@@ -304,19 +312,84 @@ const OptInput = props => {
   const [inputRef, setInputFocus] = UseFocus();
   let optValue = props.opt;
   useEffect(() => {
-    console.log(props.opt);
     setInputFocus();
   }, [optValue]);
   return (
-    <input
-      type="text"
-      id={"opt-input" + props.optIndex}
-      ref={inputRef}
-      value={optValue}
-      onChange={e => {
-        props.editOpt(e, props.optIndex);
-      }}
-    />
+    <div className="opt-input-group">
+      <input
+        type="text"
+        id={"opt-input" + props.optIndex}
+        className="opt-input"
+        ref={inputRef}
+        value={optValue}
+        onChange={e => {
+          props.editOpt(e, props.optIndex);
+        }}
+      />
+      <DelOptBtn {...props} optIndex={props.optIndex} />
+    </div>
   );
 };
+
+const DelOptBtn = props => {
+  const db = useFirestore();
+  const deleteOpt = () => {
+    let newSlds = props.slds.map((sld, index) => {
+      if (index === props.sldIndex) {
+        sld.lastEdited = Date.now();
+        sld.opts.splice(props.optIndex, 1);
+      }
+      return sld;
+    });
+
+    db.collection("users")
+      .doc("PLdhrvmiHZQJZVTsh9X0")
+      .collection("projects")
+      .doc("96vfuLFEfKavi0trtngb")
+      .update({
+        lastEdited: Date.now(),
+        slds: newSlds
+      });
+  };
+  return (
+    <div className="delete-opt-btn" onClick={deleteOpt}>
+      ✖
+    </div>
+  );
+};
+
+const AddOptBtn = props => {
+  const db = useFirestore();
+  const addOption = e => {
+    e.preventDefault();
+    console.log(props.slds);
+
+    let newSlds = props.slds.map((sld, index) => {
+      if (index === props.sldIndex) {
+        sld.lastEdited = Date.now();
+        sld.opts !== "" ? sld.opts.push("") : (sld.opts = [""]);
+      }
+      return sld;
+    });
+
+    db.collection("users")
+      .doc("PLdhrvmiHZQJZVTsh9X0")
+      .collection("projects")
+      .doc("96vfuLFEfKavi0trtngb")
+      .update({
+        lastEdited: Date.now(),
+        slds: newSlds
+      });
+  };
+
+  return (
+    <button
+      onClick={e => {
+        addOption(e);
+      }}>
+      <FormattedMessage id="app.add-opt" />
+    </button>
+  );
+};
+
 export default SldEditor;
