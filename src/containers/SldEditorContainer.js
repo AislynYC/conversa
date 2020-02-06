@@ -6,8 +6,7 @@ import {compose} from "redux";
 
 let mapStateToProps = state => {
   // 目前只選第一個 user 的第一個 project ，之後記得改成變數！！
-  // currentSldId: state.sldEditor.currentSldId,
-  // slds: state.sldEditor.slds
+
   let data = state.firestore.ordered["PLdhrvmiHZQJZVTsh9X0-projects"];
   if (data) {
     return {
@@ -25,9 +24,7 @@ let mapStateToProps = state => {
 };
 let mapDispatchToProps = dispatch => {
   return {
-    selectSld: selectedId => dispatch(selectSld(selectedId)),
-    nextSld: currentSldIndex => dispatch(nextSld(currentSldIndex)),
-    lastSld: currentSldIndex => dispatch(lastSld(currentSldIndex))
+    selectSld: selectedId => dispatch(selectSld(selectedId))
   };
 };
 export default compose(
