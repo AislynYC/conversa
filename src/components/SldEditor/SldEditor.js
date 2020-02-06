@@ -27,7 +27,14 @@ const SldEditor = props => {
         .doc("PLdhrvmiHZQJZVTsh9X0")
         .collection("projects")
         .doc("96vfuLFEfKavi0trtngb")
-        .update({curSldIndex: selIndex});
+        .update({curSldIndex: selIndex})
+        .then(() => {
+          if (selIndex === 0) {
+            history.push("/");
+          } else {
+            history.push(`/${selIndex}`);
+          }
+        });
     }
   };
 
@@ -92,142 +99,6 @@ const SldEditor = props => {
   //   return () => document.removeEventListener("fullscreenchange", ifFullscreen);
   // }, [ifFullscreen]);
 
-  const SldsItems = props => {
-    if (!props.slds) {
-      return <div>Loading</div>;
-    }
-    return props.slds.map((item, index) => {
-      let path = null;
-      let sldClass = null;
-      index === 0 ? (path = "/") : (path = "/" + index);
-      index === props.curSldIndex
-        ? (sldClass = "sld-item sld-item-selected")
-        : (sldClass = "sld-item");
-
-      return (
-        <div className={sldClass} key={index}>
-          <div>{index + 1}</div>
-          <Link to={path}>
-            <div
-              className="sld"
-              onClick={() => {
-                props.selectSld(index);
-              }}>
-              <div>{item.qContent}</div>
-              <div>{item.resContent}</div>
-            </div>
-          </Link>
-        </div>
-      );
-    });
-  };
-
-  const SldPage = props => {
-    if (!props.slds) {
-      return <div>Loading</div>;
-    }
-
-    return props.slds.map((sld, index) => {
-      let path = null;
-      index === 0 ? (path = {exact: true, path: "/"}) : (path = {path: "/" + index});
-
-      return (
-        <Route {...path} key={index}>
-          <SldPageRoute {...props} sld={sld} />
-          <QusForm {...props} sld={sld} sldIndex={index} />
-        </Route>
-      );
-    });
-  };
-
-  const SldPageRoute = props => {
-    return (
-      <div className="center">
-        <div id="current-sld-container">
-          <div id="current-sld-border">
-            <div id="current-sld">
-              <div>{props.sld.qContent}</div>
-              <div>{props.sld.resContent}</div>
-            </div>
-          </div>
-        </div>
-        <div id="control-panel"></div>
-      </div>
-    );
-  };
-
-  const AddSldBtn = props => {
-    const db = useFirestore();
-    const addSld = () => {
-      db.collection("users")
-        .doc("PLdhrvmiHZQJZVTsh9X0")
-        .collection("projects")
-        .doc("96vfuLFEfKavi0trtngb")
-        .update({
-          lastEdited: Date.now(),
-          slds: [
-            ...props.slds,
-            {
-              id: Date.now(),
-              qContent: "",
-              qType: "",
-              resContent: "",
-              resType: ""
-            }
-          ]
-        });
-    };
-    return (
-      <button id="add-sld-btn" onClick={addSld}>
-        Add Slide
-      </button>
-    );
-  };
-  const inputRef = useRef(null);
-  const setFocus = () => {
-    inputRef.current.focus();
-  };
-
-  const QusForm = props => {
-    useEffect(() => {
-      setFocus();
-    });
-    const editQus = (e, props) => {
-      let newSlds = props.slds.map((sld, index) => {
-        if (index === props.sldIndex) {
-          sld.lastEdited = Date.now();
-          sld.qContent = e.target.value;
-        }
-        return sld;
-      });
-
-      db.collection("users")
-        .doc("PLdhrvmiHZQJZVTsh9X0")
-        .collection("projects")
-        .doc("96vfuLFEfKavi0trtngb")
-        .update({
-          lastEdited: Date.now(),
-          slds: newSlds
-        });
-    };
-
-    return (
-      <form id="qus-form">
-        <label htmlFor="qus-input">
-          <FormattedMessage id="app.qus-content" />
-          <input
-            type="text"
-            id="qus-input"
-            ref={inputRef}
-            value={props.sld.qContent}
-            onChange={e => {
-              editQus(e, props);
-            }}
-          />
-        </label>
-      </form>
-    );
-  };
   return (
     <Router basename={process.env.PUBLIC_URL} history={history}>
       <div className="container">
@@ -243,4 +114,209 @@ const SldEditor = props => {
   );
 };
 
+const SldsItems = props => {
+  if (!props.slds) {
+    return <div>Loading</div>;
+  }
+  return props.slds.map((item, index) => {
+    let path = null;
+    let sldClass = null;
+    index === 0 ? (path = "/") : (path = "/" + index);
+    index === props.curSldIndex
+      ? (sldClass = "sld-item sld-item-selected")
+      : (sldClass = "sld-item");
+
+    return (
+      <div className={sldClass} key={index}>
+        <div>{index + 1}</div>
+        <Link to={path}>
+          <div
+            className="sld"
+            onClick={() => {
+              props.selectSld(index);
+            }}>
+            <div>{item.qContent}</div>
+            <div>{item.opts}</div>
+          </div>
+        </Link>
+      </div>
+    );
+  });
+};
+
+const SldPage = props => {
+  if (!props.slds) {
+    return <div>Loading</div>;
+  }
+
+  return props.slds.map((sld, index) => {
+    let path = null;
+    index === 0 ? (path = {exact: true, path: "/"}) : (path = {path: "/" + index});
+
+    return (
+      <Route {...path} key={index}>
+        <SldPageRoute {...props} sld={sld} />
+        <QusForm {...props} sld={sld} sldIndex={index} />
+      </Route>
+    );
+  });
+};
+
+const SldPageRoute = props => {
+  return (
+    <div className="center">
+      <div id="current-sld-container">
+        <div id="current-sld-border">
+          <div id="current-sld">
+            <div>{props.sld.qContent}</div>
+            <div>{props.sld.opts}</div>
+          </div>
+        </div>
+      </div>
+      <div id="control-panel"></div>
+    </div>
+  );
+};
+
+const AddSldBtn = props => {
+  const db = useFirestore();
+  const addSld = () => {
+    db.collection("users")
+      .doc("PLdhrvmiHZQJZVTsh9X0")
+      .collection("projects")
+      .doc("96vfuLFEfKavi0trtngb")
+      .update({
+        lastEdited: Date.now(),
+        slds: [
+          ...props.slds,
+          {
+            id: Date.now(),
+            qContent: "",
+            qType: "",
+            opts: "",
+            resType: ""
+          }
+        ]
+      });
+  };
+  return (
+    <button id="add-sld-btn" onClick={addSld}>
+      Add Slide
+    </button>
+  );
+};
+
+// Geneal Focus Back setting
+const UseFocus = () => {
+  const htmlElRef = useRef(null);
+  const setFocus = () => {
+    htmlElRef.current.focus();
+  };
+
+  return [htmlElRef, setFocus];
+};
+
+const QusForm = props => {
+  return (
+    <form id="qus-form">
+      <QusInput {...props} />
+      <label htmlFor="opt-input">
+        <FormattedMessage id="app.opt-label" />
+      </label>
+      <div className="input-group">
+        <OptInputs {...props} />
+      </div>
+    </form>
+  );
+};
+
+const QusInput = props => {
+  const db = useFirestore();
+  const [input1Ref, setInput1Focus] = UseFocus();
+  useEffect(() => {
+    setInput1Focus();
+  }, [props.sld.qContent]);
+
+  const editQus = (e, props) => {
+    let newSlds = props.slds.map((sld, index) => {
+      if (index === props.sldIndex) {
+        sld.lastEdited = Date.now();
+        sld.qContent = e.target.value;
+      }
+      return sld;
+    });
+
+    db.collection("users")
+      .doc("PLdhrvmiHZQJZVTsh9X0")
+      .collection("projects")
+      .doc("96vfuLFEfKavi0trtngb")
+      .update({
+        lastEdited: Date.now(),
+        slds: newSlds
+      });
+  };
+
+  return (
+    <div className="input-group">
+      <label htmlFor="qus-input">
+        <FormattedMessage id="app.qus-label" />
+        <input
+          type="text"
+          id="qus-input"
+          ref={input1Ref}
+          value={props.sld.qContent}
+          onChange={e => {
+            editQus(e, props);
+          }}
+        />
+      </label>
+    </div>
+  );
+};
+
+const OptInputs = props => {
+  const db = useFirestore();
+  const editOpt = (e, optIndex) => {
+    let newSlds = props.slds.map((sld, index) => {
+      if (index === props.sldIndex) {
+        sld.lastEdited = Date.now();
+        sld.opts[optIndex] = e.target.value;
+      }
+      return sld;
+    });
+
+    db.collection("users")
+      .doc("PLdhrvmiHZQJZVTsh9X0")
+      .collection("projects")
+      .doc("96vfuLFEfKavi0trtngb")
+      .update({
+        lastEdited: Date.now(),
+        slds: newSlds
+      });
+  };
+  let optInputs = props.sld.opts.map((opt, index) => {
+    return <OptInput key={index} opt={opt} optIndex={index} editOpt={editOpt} />;
+  });
+  return <div id="opt-inputs">{optInputs}</div>;
+};
+
+const OptInput = props => {
+  const [inputRef, setInputFocus] = UseFocus();
+  let optValue = props.opt;
+  useEffect(() => {
+    console.log(props.opt);
+    setInputFocus();
+  }, [optValue]);
+  return (
+    <input
+      type="text"
+      id={"opt-input" + props.optIndex}
+      ref={inputRef}
+      value={optValue}
+      onChange={e => {
+        props.editOpt(e, props.optIndex);
+      }}
+    />
+  );
+};
 export default SldEditor;
