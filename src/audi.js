@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {useFirestore} from "react-redux-firebase";
 
 const Audi = props => {
-  const firestore = useFirestore();
+  const db = useFirestore();
   const listenerSettings = {
     collection: "users",
     doc: "PLdhrvmiHZQJZVTsh9X0",
@@ -14,9 +14,9 @@ const Audi = props => {
   };
 
   useEffect(() => {
-    firestore.setListener(listenerSettings);
+    db.setListener(listenerSettings);
     return function cleanup() {
-      firestore.unsetListener(listenerSettings);
+      db.unsetListener(listenerSettings);
     };
   }, []);
 
@@ -34,6 +34,11 @@ const Audi = props => {
       ) : (
         <div>
           <div>{projData.slds[projData.curSldIndex].qContent}</div>
+          <ul>
+            {projData.slds[projData.curSldIndex].opts.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
         </div>
       )}
     </Fragment>
