@@ -7,7 +7,6 @@ import "./style.css";
 const history = createBrowserHistory();
 
 const SldEditor = props => {
-  console.log("fir", props);
   const db = useFirestore();
   const keyDownHandler = e => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
@@ -83,7 +82,7 @@ const SldEditor = props => {
   };
 
   useEffect(() => {
-    console.log("useEffect");
+    // console.log("useEffect");
     document.addEventListener("keydown", keyDownHandler);
     return () => {
       document.removeEventListener("keydown", keyDownHandler);
@@ -93,10 +92,10 @@ const SldEditor = props => {
   useEffect(() => {
     const ifFullscreen = () => {
       if (document.fullscreenElement) {
-        console.log("fullscreen In");
+        // console.log("fullscreen In");
         document.addEventListener("click", fullScreenClicking);
       } else {
-        console.log("fullscreen Out");
+        // console.log("fullscreen Out");
       }
     };
     document.addEventListener("fullscreenchange", ifFullscreen);
@@ -124,7 +123,6 @@ const SldEditor = props => {
 export default SldEditor;
 
 const SldsItems = props => {
-  console.log(props);
   if (!props.slds) {
     return <div>Loading</div>;
   }
@@ -153,8 +151,8 @@ const SldsItems = props => {
             onClick={() => {
               props.selectSld(index);
             }}>
-            <div>{item.qContent}</div>
-            <div>{optionLi}</div>
+            <div className="qus-div">{item.qContent}</div>
+            <ul className="opt-ul">{optionLi}</ul>
           </div>
         </Link>
       </div>
@@ -183,17 +181,21 @@ const SldPage = props => {
 };
 
 const SldPageRoute = props => {
-  let optionLi = props.slds[props.curSldIndex].opts.map((opt, index) => {
-    return <li key={index}>{opt}</li>;
-  });
-  console.log(props.slds[props.curSldIndex].opts);
+  let optsArray = props.slds[props.curSldIndex].opts;
+  let optionLi = null;
+  if (optsArray) {
+    optionLi = props.slds[props.curSldIndex].opts.map((opt, index) => {
+      return <li key={index}>{opt}</li>;
+    });
+  }
+
   return (
     <div className="center">
       <div id="current-sld-container">
         <div id="current-sld-border">
           <div id="current-sld">
-            <div>{props.slds[props.curSldIndex].qContent}</div>
-            <ul>{optionLi}</ul>
+            <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
+            <ul className="opt-ul">{optionLi}</ul>
           </div>
         </div>
       </div>
@@ -390,7 +392,6 @@ const AddOptBtn = props => {
   const db = useFirestore();
   const addOption = e => {
     e.preventDefault();
-    console.log(props.slds);
 
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
