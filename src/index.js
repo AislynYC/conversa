@@ -3,17 +3,18 @@ import ReactDOM from "react-dom";
 import {createStore} from "redux";
 import {Provider} from "react-redux";
 import {IntlProvider} from "react-intl";
-import en from "./i18n/en.js";
-import zh from "./i18n/zh.js";
-import rootReducer from "./ducks/rootReducer";
-import Header from "./components/Header/Header";
-import SldEditorContainer from "./containers/SldEditorContainer";
-import "./reset.css";
-import "./style.css";
-
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {ReactReduxFirebaseProvider} from "react-redux-firebase";
 import {createFirestoreInstance} from "redux-firestore";
 import fbConfig from "./config/fbConfig";
+
+import en from "./i18n/en.js";
+import zh from "./i18n/zh.js";
+import rootReducer from "./ducks/rootReducer";
+import Edit from "./edit";
+import Audi from "./audi";
+import "./reset.css";
+import "./style.css";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
@@ -24,8 +25,21 @@ const Root = () => {
     <IntlProvider locale={locale} key={locale} defaultLocale="en" messages={messages}>
       <Provider store={store}>
         <ReactReduxFirebaseProvider {...rrfProps}>
-          <Header locale={locale} setLocale={setLocale} />
-          <SldEditorContainer />
+          <Router>
+            <Route
+              exact
+              path="/"
+              render={() => {
+                <div>Home</div>;
+              }}
+            />
+
+            <Route
+              path="/edit"
+              render={props => <Edit {...props} locale={locale} setLocale={setLocale} />}
+            />
+            <Route path="/audi" component={Audi} />
+          </Router>
         </ReactReduxFirebaseProvider>
       </Provider>
     </IntlProvider>
