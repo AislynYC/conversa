@@ -120,9 +120,13 @@
   width: 100%;
 }
 
+.input {
+  height: 30px;
+}
 .delete-opt-btn {
   vertical-align: middle;
   font-size: 1.3em;
   cursor: pointer;
   padding: 5px;
+  color: rgba(15, 99, 51, 0.708);
 }

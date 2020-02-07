@@ -7,6 +7,7 @@ import "./style.css";
 const history = createBrowserHistory();
 
 const SldEditor = props => {
+  console.log("fir", props);
   const db = useFirestore();
   const keyDownHandler = e => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
@@ -14,10 +15,6 @@ const SldEditor = props => {
     } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
       lastSld(props.curSldIndex);
     }
-  };
-
-  const fullScreenClicking = () => {
-    nextSld(props.curSldIndex, props.slds.length);
   };
 
   const selectSld = selIndex => {
@@ -30,9 +27,9 @@ const SldEditor = props => {
         .update({curSldIndex: selIndex})
         .then(() => {
           if (selIndex === 0) {
-            history.push("/");
+            history.push("/edit");
           } else {
-            history.push(`/${selIndex}`);
+            history.push(`/edit/${selIndex}`);
           }
         });
     }
@@ -47,7 +44,9 @@ const SldEditor = props => {
         .doc("96vfuLFEfKavi0trtngb")
         .update({curSldIndex: curSldIndex + 1})
         .then(() => {
-          history.push(`/${curSldIndex + 1}`);
+          if (!document.fullscreenElement) {
+            history.push(`/edit/${curSldIndex + 1}`);
+          }
         });
     }
   };
@@ -60,13 +59,19 @@ const SldEditor = props => {
         .doc("96vfuLFEfKavi0trtngb")
         .update({curSldIndex: curSldIndex - 1})
         .then(() => {
-          if (curSldIndex - 1 === 0) {
-            history.push("/");
-          } else {
-            history.push(`/${curSldIndex - 1}`);
+          if (!document.fullscreenElement) {
+            if (curSldIndex - 1 === 0) {
+              history.push("/edit");
+            } else {
+              history.push(`/edit/${curSldIndex - 1}`);
+            }
           }
         });
     }
+  };
+
+  const fullScreenClicking = () => {
+    nextSld(props.curSldIndex, props.slds.length);
   };
 
   const ifFullscreen = () => {
@@ -78,33 +83,36 @@ const SldEditor = props => {
   };
 
   useEffect(() => {
+    console.log("useEffect");
     document.addEventListener("keydown", keyDownHandler);
-    // document.addEventListener("fullscreenchange", ifFullscreen);
     return () => {
       document.removeEventListener("keydown", keyDownHandler);
-      // document.removeEventListener("fullscreenchange", ifFullscreen);
     };
   }, [keyDownHandler]);
 
-  // useEffect(() => {
-  //   const ifFullscreen = () => {
-  //     if (document.fullscreenElement) {
-  //       document.addEventListener("click", fullScreenClicking);
-  //     } else {
-  //       document.removeEventListener("click", fullScreenClicking);
-  //     }
-  //   };
-  //   document.addEventListener("fullscreenchange", ifFullscreen);
+  useEffect(() => {
+    const ifFullscreen = () => {
+      if (document.fullscreenElement) {
+        console.log("fullscreen In");
+        document.addEventListener("click", fullScreenClicking);
+      } else {
+        console.log("fullscreen Out");
+      }
+    };
+    document.addEventListener("fullscreenchange", ifFullscreen);
 
-  //   return () => document.removeEventListener("fullscreenchange", ifFullscreen);
-  // }, [ifFullscreen]);
+    return () => {
+      document.removeEventListener("fullscreenchange", ifFullscreen);
+      document.removeEventListener("click", fullScreenClicking);
+    };
+  }, [fullScreenClicking]);
 
   return (
     <Router basename={process.env.PUBLIC_URL} history={history}>
       <div className="container">
         <div id="sld-selector">
           <SldsItems {...props} selectSld={selectSld} />
-          <AddSldBtn {...props} />
+          <AddSldBtn {...props} selectSld={selectSld} />
         </div>
         <Switch>
           <SldPage {...props} />
@@ -113,15 +121,19 @@ const SldEditor = props => {
     </Router>
   );
 };
+export default SldEditor;
 
 const SldsItems = props => {
+  console.log(props);
   if (!props.slds) {
     return <div>Loading</div>;
   }
   return props.slds.map((item, index) => {
     let path = null;
     let sldClass = null;
-    index === 0 ? (path = "/") : (path = "/" + index);
+    index === 0
+      ? (path = `${props.history.location.pathname}`)
+      : (path = `${props.history.location.pathname}/${index}`);
     index === props.curSldIndex
       ? (sldClass = "sld-item sld-item-selected")
       : (sldClass = "sld-item");
@@ -151,7 +163,9 @@ const SldPage = props => {
 
   return props.slds.map((sld, index) => {
     let path = null;
-    index === 0 ? (path = {exact: true, path: "/"}) : (path = {path: "/" + index});
+    index === 0
+      ? (path = {exact: true, path: `${props.history.location.pathname}`})
+      : (path = {path: `${props.history.location.pathname}/${index}`});
 
     return (
       <Route {...path} key={index}>
@@ -163,13 +177,17 @@ const SldPage = props => {
 };
 
 const SldPageRoute = props => {
+  let optionLi = props.slds[props.curSldIndex].opts.map((opt, index) => {
+    return <li key={index}>{opt}</li>;
+  });
+  console.log(props.slds[props.curSldIndex].opts);
   return (
     <div className="center">
       <div id="current-sld-container">
         <div id="current-sld-border">
           <div id="current-sld">
-            <div>{props.sld.qContent}</div>
-            <div>{props.sld.opts}</div>
+            <div>{props.slds[props.curSldIndex].qContent}</div>
+            <ul>{optionLi}</ul>
           </div>
         </div>
       </div>
@@ -197,6 +215,9 @@ const AddSldBtn = props => {
             resType: ""
           }
         ]
+      })
+      .then(() => {
+        props.selectSld(props.slds.length);
       });
   };
   return (
@@ -264,6 +285,7 @@ const QusInput = props => {
         <input
           type="text"
           id="qus-input"
+          className="input"
           ref={input1Ref}
           value={props.sld.qContent}
           onChange={e => {
@@ -319,7 +341,7 @@ const OptInput = props => {
       <input
         type="text"
         id={"opt-input" + props.optIndex}
-        className="opt-input"
+        className="opt-input input"
         ref={inputRef}
         value={optValue}
         onChange={e => {
@@ -391,5 +413,3 @@ const AddOptBtn = props => {
     </button>
   );
 };
-
-export default SldEditor;
