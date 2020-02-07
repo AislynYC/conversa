@@ -137,6 +137,12 @@ const SldsItems = props => {
     index === props.curSldIndex
       ? (sldClass = "sld-item sld-item-selected")
       : (sldClass = "sld-item");
+    let optionLi = null;
+    if (item.opts) {
+      optionLi = item.opts.map((opt, index) => {
+        return <li key={index}>{opt}</li>;
+      });
+    }
 
     return (
       <div className={sldClass} key={index}>
@@ -148,7 +154,7 @@ const SldsItems = props => {
               props.selectSld(index);
             }}>
             <div>{item.qContent}</div>
-            <div>{item.opts}</div>
+            <div>{optionLi}</div>
           </div>
         </Link>
       </div>
