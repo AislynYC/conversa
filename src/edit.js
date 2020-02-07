@@ -1,14 +1,14 @@
 import React, {Fragment} from "react";
 
 import Header from "./components/Header/Header";
-import SldEditorContainer from "./containers/SldEditorContainer";
+import SldEditorConnect from "./containers/SldEditorConnect";
 
 const Edit = props => {
   console.log(props);
   return (
     <Fragment>
       <Header locale={props.locale} setLocale={props.setLocale} />
-      <SldEditorContainer {...props} />
+      <SldEditorConnect {...props} />
     </Fragment>
   );
 };

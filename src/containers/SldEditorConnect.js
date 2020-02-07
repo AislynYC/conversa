@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import SldEditor from "../components/SldEditor/SldEditor.js";
+import SldEditor from "./SldEditor.js";
 import {selectSld} from "../ducks/sldEditorReducers.js";
 import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
