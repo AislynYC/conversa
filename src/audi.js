@@ -1,13 +1,30 @@
-import React, {Fragment} from "react";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-import AudiView from "./containers/AudiView";
+import {connect} from "react-redux";
+import {firestoreConnect} from "react-redux-firebase";
+import {compose} from "redux";
 
-const Audi = props => {
-  console.log(props);
-  return (
-    <Router>
-      <Route component={AudiView} />
-    </Router>
-  );
+import AudiViewConnect from "./containers/AudiViewConnect";
+
+let mapStateToProps = (state, props) => {
+  let invitationArray = state.firestore.ordered.invitation;
+
+  if (invitationArray !== undefined) {
+    const inviteObj = invitationArray.find(item => {
+      return item.inviteCode === props.match.params.invtCode;
+    });
+    if (inviteObj !== undefined) {
+      return {
+        userId: inviteObj.owner,
+        projId: inviteObj.projId
+      };
+    }
+  }
 };
-export default Audi;
+
+export default compose(
+  firestoreConnect(() => [
+    {
+      collection: "invitation"
+    }
+  ]),
+  connect(mapStateToProps)
+)(AudiViewConnect);

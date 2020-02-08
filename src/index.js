@@ -15,7 +15,6 @@ import Edit from "./edit";
 import Audi from "./audi";
 import "./reset.css";
 import "./style.css";
-import AudiViewConnect from "./containers/AudiViewConnect";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
