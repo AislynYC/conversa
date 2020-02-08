@@ -1,13 +1,13 @@
 import {connect} from "react-redux";
-import SldEditor from "./SldEditor.js";
-import {selectSld} from "../ducks/sldEditorReducers.js";
 import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 
-let mapStateToProps = state => {
-  // 目前只選第一個 user 的第一個 project ，之後記得改成變數！！
+import SldEditor from "./SldEditor.js";
+import AudiViewConnect from "./AudiViewConnect";
+import {selectSld} from "../ducks/sldEditorReducers.js";
 
-  let data = state.firestore.ordered["PLdhrvmiHZQJZVTsh9X0-projects"];
+let mapStateToProps = (state, props) => {
+  let data = state.firestore.ordered[`${props.userId}-projects`];
   if (data) {
     return {
       firestore: state.firestore,
@@ -17,6 +17,7 @@ let mapStateToProps = state => {
     };
   } else {
     return {
+      firestore: undefined,
       curSldIndex: undefined,
       slds: undefined
     };
@@ -28,13 +29,14 @@ let mapDispatchToProps = dispatch => {
   };
 };
 export default compose(
-  firestoreConnect(() => [
+  firestoreConnect(props => [
     {
       collection: "users",
-      doc: "PLdhrvmiHZQJZVTsh9X0",
+      doc: `${props.userId}`,
       subcollections: [{collection: "projects"}],
-      storeAs: "PLdhrvmiHZQJZVTsh9X0-projects"
+      storeAs: `${props.userId}-projects`
     }
   ]),
+
   connect(mapStateToProps, mapDispatchToProps)
 )(SldEditor);

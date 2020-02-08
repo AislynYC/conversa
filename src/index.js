@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import {createStore} from "redux";
 import {Provider} from "react-redux";
 import {IntlProvider} from "react-intl";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 import {ReactReduxFirebaseProvider} from "react-redux-firebase";
 import {createFirestoreInstance} from "redux-firestore";
 import fbConfig from "./config/fbConfig";
@@ -15,6 +15,7 @@ import Edit from "./edit";
 import Audi from "./audi";
 import "./reset.css";
 import "./style.css";
+import AudiViewConnect from "./containers/AudiViewConnect";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
@@ -35,10 +36,11 @@ const Root = () => {
             />
 
             <Route
-              path="/edit"
+              exact
+              path="/edit/:userId/:projId"
               render={props => <Edit {...props} locale={locale} setLocale={setLocale} />}
             />
-            <Route path="/audi" component={Audi} />
+            <Route path="/:invtCode" render={props => <Audi {...props} />} />
           </Router>
         </ReactReduxFirebaseProvider>
       </Provider>

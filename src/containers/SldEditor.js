@@ -7,7 +7,10 @@ import "./style.css";
 const history = createBrowserHistory();
 
 const SldEditor = props => {
+  console.log(props);
   const db = useFirestore();
+  const userId = props.match.params.userId;
+  const projId = props.match.params.projId;
   const keyDownHandler = e => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
       nextSld(props.curSldIndex, props.slds.length);
@@ -20,15 +23,15 @@ const SldEditor = props => {
     if (selIndex !== props.curSldIndex) {
       return db
         .collection("users")
-        .doc("PLdhrvmiHZQJZVTsh9X0")
+        .doc(userId)
         .collection("projects")
-        .doc("96vfuLFEfKavi0trtngb")
+        .doc(projId)
         .update({curSldIndex: selIndex})
         .then(() => {
           if (selIndex === 0) {
-            history.push("/edit");
+            history.push(`${props.match.url}`);
           } else {
-            history.push(`/edit/${selIndex}`);
+            history.push(`${props.match.url}/${selIndex}`);
           }
         });
     }
@@ -38,13 +41,13 @@ const SldEditor = props => {
     if (curSldIndex < sldsLength - 1) {
       return db
         .collection("users")
-        .doc("PLdhrvmiHZQJZVTsh9X0")
+        .doc(userId)
         .collection("projects")
-        .doc("96vfuLFEfKavi0trtngb")
+        .doc(projId)
         .update({curSldIndex: curSldIndex + 1})
         .then(() => {
           if (!document.fullscreenElement) {
-            history.push(`/edit/${curSldIndex + 1}`);
+            history.push(`${props.match.url}/${curSldIndex + 1}`);
           }
         });
     }
@@ -53,16 +56,16 @@ const SldEditor = props => {
   const lastSld = curSldIndex => {
     if (curSldIndex > 0) {
       db.collection("users")
-        .doc("PLdhrvmiHZQJZVTsh9X0")
+        .doc(userId)
         .collection("projects")
-        .doc("96vfuLFEfKavi0trtngb")
+        .doc(projId)
         .update({curSldIndex: curSldIndex - 1})
         .then(() => {
           if (!document.fullscreenElement) {
             if (curSldIndex - 1 === 0) {
-              history.push("/edit");
+              history.push(`${props.match.url}`);
             } else {
-              history.push(`/edit/${curSldIndex - 1}`);
+              history.push(`${props.match.url}/${curSldIndex - 1}`);
             }
           }
         });
@@ -129,9 +132,7 @@ const SldsItems = props => {
   return props.slds.map((item, index) => {
     let path = null;
     let sldClass = null;
-    index === 0
-      ? (path = `${props.history.location.pathname}`)
-      : (path = `${props.history.location.pathname}/${index}`);
+    index === 0 ? (path = `${props.match.url}`) : (path = `${props.match.url}/${index}`);
     index === props.curSldIndex
       ? (sldClass = "sld-item sld-item-selected")
       : (sldClass = "sld-item");
@@ -168,8 +169,8 @@ const SldPage = props => {
   return props.slds.map((sld, index) => {
     let path = null;
     index === 0
-      ? (path = {exact: true, path: `${props.history.location.pathname}`})
-      : (path = {path: `${props.history.location.pathname}/${index}`});
+      ? (path = {exact: true, path: `${props.match.url}`})
+      : (path = {path: `${props.match.url}/${index}`});
 
     return (
       <Route {...path} key={index}>
@@ -206,11 +207,13 @@ const SldPageRoute = props => {
 
 const AddSldBtn = props => {
   const db = useFirestore();
+  const userId = props.match.params.userId;
+  const projId = props.match.params.projId;
   const addSld = () => {
     db.collection("users")
-      .doc("PLdhrvmiHZQJZVTsh9X0")
+      .doc(userId)
       .collection("projects")
-      .doc("96vfuLFEfKavi0trtngb")
+      .doc(projId)
       .update({
         lastEdited: Date.now(),
         slds: [
@@ -262,6 +265,8 @@ const QusForm = props => {
 
 const QusInput = props => {
   const db = useFirestore();
+  const userId = props.match.params.userId;
+  const projId = props.match.params.projId;
   const [input1Ref, setInput1Focus] = UseFocus();
   useEffect(() => {
     setInput1Focus();
@@ -277,9 +282,9 @@ const QusInput = props => {
     });
 
     db.collection("users")
-      .doc("PLdhrvmiHZQJZVTsh9X0")
+      .doc(userId)
       .collection("projects")
-      .doc("96vfuLFEfKavi0trtngb")
+      .doc(projId)
       .update({
         lastEdited: Date.now(),
         slds: newSlds
@@ -307,6 +312,8 @@ const QusInput = props => {
 
 const OptInputs = props => {
   const db = useFirestore();
+  const userId = props.match.params.userId;
+  const projId = props.match.params.projId;
   const editOpt = (e, optIndex) => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
@@ -317,9 +324,9 @@ const OptInputs = props => {
     });
 
     db.collection("users")
-      .doc("PLdhrvmiHZQJZVTsh9X0")
+      .doc(userId)
       .collection("projects")
-      .doc("96vfuLFEfKavi0trtngb")
+      .doc(projId)
       .update({
         lastEdited: Date.now(),
         slds: newSlds
@@ -363,6 +370,8 @@ const OptInput = props => {
 
 const DelOptBtn = props => {
   const db = useFirestore();
+  const userId = props.match.params.userId;
+  const projId = props.match.params.projId;
   const deleteOpt = () => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
@@ -373,9 +382,9 @@ const DelOptBtn = props => {
     });
 
     db.collection("users")
-      .doc("PLdhrvmiHZQJZVTsh9X0")
+      .doc(userId)
       .collection("projects")
-      .doc("96vfuLFEfKavi0trtngb")
+      .doc(projId)
       .update({
         lastEdited: Date.now(),
         slds: newSlds
@@ -390,6 +399,8 @@ const DelOptBtn = props => {
 
 const AddOptBtn = props => {
   const db = useFirestore();
+  const userId = props.match.params.userId;
+  const projId = props.match.params.projId;
   const addOption = e => {
     e.preventDefault();
 
@@ -402,9 +413,9 @@ const AddOptBtn = props => {
     });
 
     db.collection("users")
-      .doc("PLdhrvmiHZQJZVTsh9X0")
+      .doc(userId)
       .collection("projects")
-      .doc("96vfuLFEfKavi0trtngb")
+      .doc(projId)
       .update({
         lastEdited: Date.now(),
         slds: newSlds
