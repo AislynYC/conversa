@@ -9,11 +9,14 @@ const AudiView = props => {
       {props.curSldIndex === undefined ? (
         <span>Loading</span>
       ) : (
-        <div>
+        <div className="quest">
           <div>{props.slds[props.curSldIndex].qContent}</div>
           <ul>
             {props.slds[props.curSldIndex].opts.map((item, index) => (
-              <li key={index}>{item}</li>
+              <div className="res-group" key={index}>
+                <input type="radio" name="res-group" value={index} />
+                <li key={index}>{item}</li>
+              </div>
             ))}
           </ul>
         </div>
