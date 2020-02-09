@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 
-import AudiViewConnect from "./containers/AudiViewConnect";
+import AudiViewConnect from "./AudiViewConnect";
 
 let mapStateToProps = (state, props) => {
   let invitationArray = state.firestore.ordered.invitation;
@@ -16,7 +16,17 @@ let mapStateToProps = (state, props) => {
         userId: inviteObj.owner,
         projId: inviteObj.projId
       };
+    } else {
+      return {
+        userId: undefined,
+        projId: undefined
+      };
     }
+  } else {
+    return {
+      userId: undefined,
+      projId: undefined
+    };
   }
 };
 

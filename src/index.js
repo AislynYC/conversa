@@ -12,7 +12,7 @@ import en from "./i18n/en.js";
 import zh from "./i18n/zh.js";
 import rootReducer from "./ducks/rootReducer";
 import Edit from "./edit";
-import Audi from "./audi";
+import InviteConnect from "./containers/InviteConnect";
 import "./reset.css";
 import "./style.css";
 
@@ -39,7 +39,7 @@ const Root = () => {
               path="/edit/:userId/:projId"
               render={props => <Edit {...props} locale={locale} setLocale={setLocale} />}
             />
-            <Route path="/:invtCode" render={props => <Audi {...props} />} />
+            <Route path="/:invtCode" render={props => <InviteConnect {...props} />} />
           </Router>
         </ReactReduxFirebaseProvider>
       </Provider>
