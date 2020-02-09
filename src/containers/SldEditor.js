@@ -207,7 +207,7 @@ const SldPageRoute = props => {
           </div>
         </div>
       </div>
-      <div id="control-panel"></div>
+      <ControlPanel {...props} />
     </div>
   );
 };
@@ -229,7 +229,7 @@ const AddSldBtn = props => {
           {
             id: t,
             qContent: "",
-            qType: "",
+            sldType: "",
             opts: "",
             resType: "",
             result: ""
@@ -444,5 +444,62 @@ const AddOptBtn = props => {
       }}>
       <FormattedMessage id="edit.add-opt" />
     </button>
+  );
+};
+
+const ControlPanel = props => {
+  const db = useFirestore();
+  const userId = props.match.params.userId;
+  const projId = props.match.params.projId;
+  const changeSldType = e => {
+    let newSlds = props.slds.map((sld, index) => {
+      console.log("ya");
+      if (index === props.curSldIndex) {
+        sld.lastEdited = Date.now();
+        sld.sldType = e.target.value;
+      }
+      return sld;
+    });
+
+    db.collection("users")
+      .doc(userId)
+      .collection("projects")
+      .doc(projId)
+      .update({
+        lastEdited: Date.now(),
+        slds: newSlds
+      });
+  };
+
+  return (
+    <div id="control-panel">
+      <div>投影片類型</div>
+      <form name="sld-type-form" id="sld-type-form">
+        <label className="sld-type-group">
+          <input
+            type="radio"
+            name="sld-type-group"
+            value="heading-page"
+            checked={props.sld.sldType === "heading-page"}
+            onChange={e => {
+              changeSldType(e);
+            }}
+          />
+          <FormattedMessage id="edit.heading-page" />
+        </label>
+        <label className="sld-type-group">
+          <input
+            type="radio"
+            name="sld-type-group"
+            value="multiple-choice"
+            checked={props.sld.sldType === "multiple-choice"}
+            onChange={e => {
+              changeSldType(e);
+            }}
+          />
+          <FormattedMessage id="edit.multiple-choice" />
+        </label>
+      </form>
+    </div>
   );
 };
