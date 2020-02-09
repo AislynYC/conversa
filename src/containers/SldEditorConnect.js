@@ -3,7 +3,6 @@ import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 
 import SldEditor from "./SldEditor.js";
-import {selectSld} from "../ducks/sldEditorReducers.js";
 
 let mapStateToProps = (state, props) => {
   let data = state.firestore.ordered[`${props.userId}-projects`];
@@ -22,11 +21,7 @@ let mapStateToProps = (state, props) => {
     };
   }
 };
-let mapDispatchToProps = dispatch => {
-  return {
-    selectSld: selectedId => dispatch(selectSld(selectedId))
-  };
-};
+
 export default compose(
   firestoreConnect(props => [
     {
@@ -37,5 +32,5 @@ export default compose(
     }
   ]),
 
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps)
 )(SldEditor);
