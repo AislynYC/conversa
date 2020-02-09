@@ -16,7 +16,7 @@ const PresentBtn = () => {
   };
   return (
     <button onClick={present} id="present-btn">
-      <FormattedMessage id="app.present" />
+      <FormattedMessage id="edit.present" />
     </button>
   );
 };

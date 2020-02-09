@@ -1,8 +1,9 @@
 const en = {
-  "app.present": "Present",
-  "app.qus-label": "Question",
-  "app.opt-label": "Options",
-  "app.add-opt": "Add Option",
-  "app.add-sld": "Add Slide"
+  "edit.present": "Present",
+  "edit.qus-label": "Question",
+  "edit.opt-label": "Options",
+  "edit.add-opt": "Add Option",
+  "edit.add-sld": "Add Slide",
+  "audi.submit": "Submit"
 };
 export default en;
