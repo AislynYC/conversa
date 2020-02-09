@@ -5,19 +5,27 @@ import {compose} from "redux";
 import SldEditor from "./SldEditor.js";
 
 let mapStateToProps = (state, props) => {
-  let data = state.firestore.ordered[`${props.userId}-projects`];
-  if (data) {
+  let projDataArray = state.firestore.ordered[`${props.userId}-projects`];
+  let projInvitation = state.firestore.ordered.invitation;
+
+  if (
+    projDataArray !== undefined &&
+    projDataArray.length !== 0 &&
+    projInvitation !== undefined
+  ) {
+    const projResponded = projInvitation.find(item => item.id === props.projId);
     return {
       firestore: state.firestore,
-      // localCurSldId: state.sldEditor.curSldIndex,
-      curSldIndex: data[0].curSldIndex,
-      slds: data[0].slds
+      curSldIndex: projDataArray[0].curSldIndex,
+      slds: projDataArray[0].slds,
+      respondedAudi: projResponded.respondedAudi
     };
   } else {
     return {
       firestore: undefined,
       curSldIndex: undefined,
-      slds: undefined
+      slds: undefined,
+      respondedAudi: undefined
     };
   }
 };
@@ -31,6 +39,10 @@ export default compose(
       storeAs: `${props.userId}-projects`
     }
   ]),
-
+  firestoreConnect(() => [
+    {
+      collection: "invitation"
+    }
+  ]),
   connect(mapStateToProps)
 )(SldEditor);

@@ -35,9 +35,30 @@ const AudiView = props => {
 export default AudiView;
 
 const Poll = props => {
-  console.log(props);
-  console.log("test", props.audiId);
+  console.log(props.respondedAudi, props.slds, props.curSldIndex);
   const db = useFirestore();
+
+  // useEffect(() => {
+  // if (!props.respondedAudi) {
+  //   console.log("ya");
+  //   let newResObj = {};
+  //   let sldsIdArray = props.slds.map(sld => sld.id);
+  //   for (i = 0; i < sldsIdArray.length; i++) {
+  //     return (newResObj.sldsIdArray[i] = []);
+  //   }
+  //   db.collection("invitation")
+  //     .doc(props.projId)
+  //     .update({respondedAudi: newResObj});
+  // }
+  //   if (props.respondedAudi[props.slds[props.curSldIndex].id] === undefined) {
+  //     console.log("yo");
+  //     props.respondedAudi[props.slds[props.curSldIndex].id] = [];
+  //     db.collection("invitation")
+  //       .doc(props.projId)
+  //       .update({respondedAudi: props.respondedAudi});
+  //   }
+  // });
+
   const respondPoll = e => {
     e.preventDefault();
     let newSlds = props.slds.map((sld, index) => {
@@ -67,7 +88,9 @@ const Poll = props => {
   return (
     <div className="poll">
       {props.slds[props.curSldIndex].opts !== "" ? (
-        !props.respondedAudi[props.slds[props.curSldIndex].id].includes(props.audiId) ? (
+        props.respondedAudi[props.slds[props.curSldIndex].id].includes(props.audiId) ? (
+          <Wait {...props} />
+        ) : (
           <Fragment>
             <div>{props.slds[props.curSldIndex].qContent}</div>
             <form
@@ -92,8 +115,6 @@ const Poll = props => {
               </button>
             </form>
           </Fragment>
-        ) : (
-          <Wait {...props} />
         )
       ) : (
         <Wait {...props} />

@@ -25,15 +25,14 @@ const SldEditor = props => {
         .doc(userId)
         .collection("projects")
         .doc(projId)
-        .update({curSldIndex: selIndex});
-      // Router Link seems can replace below code
-      // .then(() => {
-      //   if (selIndex === 0) {
-      //     history.push(`${props.match.url}`);
-      //   } else {
-      //     history.push(`${props.match.url}/${selIndex}`);
-      //   }
-      // });
+        .update({curSldIndex: selIndex})
+        .then(() => {
+          if (selIndex === 0) {
+            history.push(`${props.match.url}`);
+          } else {
+            history.push(`${props.match.url}/${selIndex}`);
+          }
+        });
     }
   };
 
@@ -218,16 +217,17 @@ const AddSldBtn = props => {
   const userId = props.match.params.userId;
   const projId = props.match.params.projId;
   const addSld = () => {
+    const t = Date.now();
     db.collection("users")
       .doc(userId)
       .collection("projects")
       .doc(projId)
       .update({
-        lastEdited: Date.now(),
+        lastEdited: t,
         slds: [
           ...props.slds,
           {
-            id: Date.now(),
+            id: t,
             qContent: "",
             qType: "",
             opts: "",
@@ -238,6 +238,10 @@ const AddSldBtn = props => {
       })
       .then(() => {
         props.selectSld(props.slds.length);
+        props.respondedAudi[t] = [];
+        db.collection("invitation")
+          .doc(projId)
+          .update({respondedAudi: props.respondedAudi});
       });
   };
   return (
