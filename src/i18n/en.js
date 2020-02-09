@@ -4,6 +4,7 @@ const en = {
   "edit.opt-label": "Options",
   "edit.add-opt": "Add Option",
   "edit.add-sld": "Add Slide",
-  "audi.submit": "Submit"
+  "audi.submit": "Submit",
+  "audi.wait": "Please wait for the presenter to show the next slide..."
 };
 export default en;

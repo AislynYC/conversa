@@ -124,5 +124,9 @@ const Poll = props => {
 };
 
 const Wait = props => {
-  return <div className="wait">Please Wait...</div>;
+  return (
+    <div className="wait">
+      <FormattedMessage id="audi.wait" />
+    </div>
+  );
 };

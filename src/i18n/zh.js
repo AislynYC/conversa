@@ -4,6 +4,7 @@ const zh_TW = {
   "edit.opt-label": "選項",
   "edit.add-opt": "新增選項",
   "edit.add-sld": "新增投影片",
-  "audi.submit": "送出"
+  "audi.submit": "送出",
+  "audi.wait": "請等候講者切換下一張投影片..."
 };
 export default zh_TW;
