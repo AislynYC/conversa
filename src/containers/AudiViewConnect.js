@@ -3,30 +3,44 @@ import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 
 import AudiView from "./AudiView.js";
-import {chooseOpt} from "../ducks/audiViewReducers.js";
+import {chooseOpt} from "../ducks/audiViewReducers";
+import {getAudiId} from "../ducks/audiViewReducers";
+
 let mapStateToProps = (state, props) => {
   let projDataArray = state.firestore.ordered[`${props.userId}-projects`];
-  if (projDataArray !== undefined && projDataArray.length !== 0) {
-    const projData = projDataArray.find(item => (item.id = props.projId));
+  let projInvitation = state.firestore.ordered.invitation;
+  if (
+    projDataArray !== undefined &&
+    projDataArray.length !== 0 &&
+    projInvitation !== undefined
+  ) {
+    const projData = projDataArray.find(item => item.id === props.projId);
+    const projResponded = projInvitation.find(item => item.id === props.projId);
     return {
       firestore: state.firestore,
       curSldIndex: projData.curSldIndex,
       slds: projData.slds,
-      selOptIndex: state.audiView.selOptIndex
+      selOptIndex: state.audiView.selOptIndex,
+      audiId: state.audiView.audiId,
+      respondedAudi: projResponded.respondedAudi
     };
   } else {
     return {
       firestore: undefined,
       curSldIndex: undefined,
       slds: undefined,
-      selOptIndex: undefined
+      selOptIndex: undefined,
+      audiId: undefined,
+      respondedAudi: undefined
     };
   }
 };
 
 let mapDispatchToProps = dispatch => {
   return {
-    chooseOpt: e => dispatch(chooseOpt(e))
+    chooseOpt: e => dispatch(chooseOpt(e)),
+    switchWait: e => dispatch(switchWait(e)),
+    getAudiId: () => dispatch(getAudiId())
   };
 };
 

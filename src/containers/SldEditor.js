@@ -7,7 +7,6 @@ import "./sldEditor.css";
 const history = createBrowserHistory();
 
 const SldEditor = props => {
-  console.log(props);
   const db = useFirestore();
   const userId = props.match.params.userId;
   const projId = props.match.params.projId;
@@ -191,7 +190,9 @@ const SldPageRoute = props => {
       return (
         <li key={index}>
           {opt}
-          <span class="result">{resultArray[index] !== "" ? resultArray[index] : 0}</span>
+          <span className="result">
+            {resultArray[index] !== "" ? resultArray[index] : 0}
+          </span>
         </li>
       );
     });
