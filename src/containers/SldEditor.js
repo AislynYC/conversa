@@ -3,7 +3,7 @@ import {Router, Switch, Route, Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
-import "./style.css";
+import "./sldEditor.css";
 const history = createBrowserHistory();
 
 const SldEditor = props => {
@@ -26,14 +26,15 @@ const SldEditor = props => {
         .doc(userId)
         .collection("projects")
         .doc(projId)
-        .update({curSldIndex: selIndex})
-        .then(() => {
-          if (selIndex === 0) {
-            history.push(`${props.match.url}`);
-          } else {
-            history.push(`${props.match.url}/${selIndex}`);
-          }
-        });
+        .update({curSldIndex: selIndex});
+      // Router Link seems can replace below code
+      // .then(() => {
+      //   if (selIndex === 0) {
+      //     history.push(`${props.match.url}`);
+      //   } else {
+      //     history.push(`${props.match.url}/${selIndex}`);
+      //   }
+      // });
     }
   };
 
@@ -183,10 +184,16 @@ const SldPage = props => {
 
 const SldPageRoute = props => {
   let optsArray = props.slds[props.curSldIndex].opts;
+  let resultArray = props.sld.result;
   let optionLi = null;
   if (optsArray) {
     optionLi = props.slds[props.curSldIndex].opts.map((opt, index) => {
-      return <li key={index}>{opt}</li>;
+      return (
+        <li key={index}>
+          {opt}
+          <span class="result">{resultArray[index] !== "" ? resultArray[index] : 0}</span>
+        </li>
+      );
     });
   }
 
@@ -223,7 +230,8 @@ const AddSldBtn = props => {
             qContent: "",
             qType: "",
             opts: "",
-            resType: ""
+            resType: "",
+            result: ""
           }
         ]
       })
@@ -233,7 +241,7 @@ const AddSldBtn = props => {
   };
   return (
     <button id="add-sld-btn" onClick={addSld}>
-      <FormattedMessage id="app.add-sld" />
+      <FormattedMessage id="edit.add-sld" />
     </button>
   );
 };
@@ -253,7 +261,7 @@ const QusForm = props => {
     <form id="qus-form">
       <QusInput {...props} />
       <label htmlFor="opt-input">
-        <FormattedMessage id="app.opt-label" />
+        <FormattedMessage id="edit.opt-label" />
       </label>
       <div className="input-group">
         <OptInputs {...props} />
@@ -294,7 +302,7 @@ const QusInput = props => {
   return (
     <div className="input-group">
       <label htmlFor="qus-input" id="qus-input-group">
-        <FormattedMessage id="app.qus-label" />
+        <FormattedMessage id="edit.qus-label" />
         <input
           type="text"
           id="qus-input"
@@ -377,6 +385,7 @@ const DelOptBtn = props => {
       if (index === props.sldIndex) {
         sld.lastEdited = Date.now();
         sld.opts.splice(props.optIndex, 1);
+        sld.result.splice(props.optIndex, 1);
       }
       return sld;
     });
@@ -408,6 +417,7 @@ const AddOptBtn = props => {
       if (index === props.sldIndex) {
         sld.lastEdited = Date.now();
         sld.opts !== "" ? sld.opts.push("") : (sld.opts = [""]);
+        sld.result !== "" ? sld.result.push("") : (sld.result = [""]);
       }
       return sld;
     });
@@ -427,7 +437,7 @@ const AddOptBtn = props => {
       onClick={e => {
         addOption(e);
       }}>
-      <FormattedMessage id="app.add-opt" />
+      <FormattedMessage id="edit.add-opt" />
     </button>
   );
 };
