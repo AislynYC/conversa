@@ -1,0 +1,10 @@
+/* Audi Page */
+
+.res-group {
+  display: flex;
+  margin: 30px 0;
+}
+
+.res-group > input {
+  margin-right: 20px;
+}

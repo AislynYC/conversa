@@ -47,6 +47,12 @@
   padding: 0.5em 0;
 }
 
+.result {
+  margin-left: 20px;
+  font-weight: 900;
+  color: rgb(238, 128, 25);
+}
+
 /* control panel */
 #control-panel {
   border: 1px solid #aaa;
@@ -137,15 +143,4 @@
   cursor: pointer;
   padding: 5px;
   color: rgba(15, 99, 51, 0.708);
-}
-
-/* Audi Page */
-
-.res-group {
-  display: flex;
-  margin: 30px 0;
-}
-
-.res-group > input {
-  margin-right: 20px;
 }
