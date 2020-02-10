@@ -110,6 +110,12 @@ const Poll = props => {
       .update({reaction: props.reaction});
   };
 
+  const [selectedValue, setSelectedValue] = React.useState("a");
+
+  const handleChange = event => {
+    setSelectedValue(event.target.value);
+  };
+
   return (
     <div className="poll">
       {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
@@ -131,8 +137,9 @@ const Poll = props => {
                       type="radio"
                       name="res-group"
                       value={index}
-                      onChange={props.chooseOpt}
-                      inputProps={{"aria-label": "C"}}
+                      checked={selectedValue == index}
+                      onChange={handleChange}
+                      inputProps={{"aria-label": index}}
                     />
                     <div className="opts"> {item} </div>
                   </label>
