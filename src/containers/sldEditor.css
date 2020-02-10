@@ -53,6 +53,9 @@
   color: rgb(238, 128, 25);
 }
 
+.reaction-count {
+  margin-left: 10px;
+}
 /* control panel */
 #control-panel {
   box-sizing: border-box;
@@ -67,6 +70,14 @@
 
 #control-panel > form > label {
   padding: 10px;
+}
+
+#control-panel > form > label > input {
+  margin-right: 10px;
+}
+.control-label {
+  margin-bottom: 20px;
+  font-weight: 600;
 }
 
 /* slide selector */
@@ -148,6 +159,7 @@
 
 .heading-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;

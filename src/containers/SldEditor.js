@@ -3,7 +3,15 @@ import {Router, Switch, Route, Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
+
 import "./sldEditor.css";
+
+// FontAwesome Setting
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {library} from "@fortawesome/fontawesome-svg-core";
+import {faLaughSquint} from "@fortawesome/free-regular-svg-icons";
+library.add(faLaughSquint);
+
 const history = createBrowserHistory();
 
 const SldEditor = props => {
@@ -222,6 +230,10 @@ const SldPageRoute = props => {
             ) : (
               <div className="heading-container">
                 <div className="heading">{props.sld.heading}</div>
+                <div className="reaction-icons">
+                  <FontAwesomeIcon icon={["far", "laugh-squint"]} />
+                  <span className="reaction-count">{props.reaction.laugh}</span>
+                </div>
               </div>
             )}
           </div>
@@ -493,7 +505,7 @@ const ControlPanel = props => {
 
   return (
     <div id="control-panel">
-      <div>
+      <div className="control-label">
         <FormattedMessage id="edit.sld-type" />
       </div>
       <form name="sld-type-form" id="sld-type-form">
