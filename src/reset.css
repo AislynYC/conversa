@@ -402,9 +402,7 @@ th {
  * Remove default list styles, margins and padding.
  */
 
-ol,
-ul,
-li {
+ol {
   margin: 0;
   padding: 0;
   list-style: none;

@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "@material-ui/core/Button";
 import "./style.css";
 
 class LangBtn extends React.Component {
@@ -25,9 +26,9 @@ class LangBtn extends React.Component {
 
   render() {
     return (
-      <button id="lang-btn" onClick={this.toggleLang}>
+      <Button variant="contained" size="small" id="lang-btn" onClick={this.toggleLang}>
         {this.state.targetLang}
-      </button>
+      </Button>
     );
   }
 }
