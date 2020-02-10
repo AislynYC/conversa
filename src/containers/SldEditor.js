@@ -19,6 +19,7 @@ const SldEditor = props => {
   const userId = props.match.params.userId;
   const projId = props.match.params.projId;
   const keyDownHandler = e => {
+    console.log("test");
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
       nextSld(props.curSldIndex, props.slds.length);
     } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
@@ -46,6 +47,7 @@ const SldEditor = props => {
 
   const nextSld = (curSldIndex, sldsLength) => {
     if (curSldIndex < sldsLength - 1) {
+      console.log("next");
       return db
         .collection("users")
         .doc(userId)
@@ -62,6 +64,7 @@ const SldEditor = props => {
 
   const lastSld = curSldIndex => {
     if (curSldIndex > 0) {
+      console.log("last");
       db.collection("users")
         .doc(userId)
         .collection("projects")
@@ -222,14 +225,14 @@ const SldPageRoute = props => {
       <div id="current-sld-container">
         <div id="current-sld-border">
           <div id="current-sld">
-            {props.sld.sldType === "multiple-choice" ? (
+            {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
               <Fragment>
                 <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
                 <ul className="opt-ul">{optionLi}</ul>
               </Fragment>
             ) : (
               <div className="heading-container">
-                <div className="heading">{props.sld.heading}</div>
+                <div className="heading">{props.slds[props.curSldIndex].heading}</div>
                 <div className="reaction-icons">
                   <FontAwesomeIcon icon={["far", "laugh-squint"]} />
                   <span className="reaction-count">{props.reaction.laugh}</span>

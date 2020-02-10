@@ -5,7 +5,7 @@
   overflow: hidden;
   font-size: 15px;
   margin: 0 auto;
-  background-color: rgb(117, 146, 130);
+  background-color: rgb(123, 144, 133);
 }
 
 .center {
@@ -16,12 +16,12 @@
 
 /* current slide */
 #current-sld-container {
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
 }
 #current-sld-border {
   width: 100%;
-  margin: 20px auto 0;
+  margin: 0 auto;
   border: 1px solid #aaa;
   padding-top: 56.25%;
   position: relative;
@@ -30,7 +30,7 @@
 #current-sld {
   box-sizing: border-box;
   padding: 30px;
-  font-size: 1.5em;
+  font-size: 1.6em;
   background-color: white;
   position: absolute;
   top: 0;
@@ -124,6 +124,7 @@
   width: 25%;
   height: 100%;
   border: 1px solid #aaa;
+  border-radius: 15px;
   background-color: white;
   overflow-y: scroll;
   padding: 20px;
@@ -170,4 +171,8 @@
 .edit-panel > label {
   display: flex;
   flex-direction: column;
+}
+
+.heading {
+  font-size: 1.5em;
 }
