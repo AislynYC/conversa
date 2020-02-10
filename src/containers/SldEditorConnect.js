@@ -18,14 +18,16 @@ let mapStateToProps = (state, props) => {
       firestore: state.firestore,
       curSldIndex: projDataArray[0].curSldIndex,
       slds: projDataArray[0].slds,
-      respondedAudi: projResponded.respondedAudi
+      respondedAudi: projResponded.respondedAudi,
+      reaction: projResponded.reaction
     };
   } else {
     return {
       firestore: undefined,
       curSldIndex: undefined,
       slds: undefined,
-      respondedAudi: undefined
+      respondedAudi: undefined,
+      reaction: undefined
     };
   }
 };
