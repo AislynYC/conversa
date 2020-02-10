@@ -3,6 +3,24 @@ import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
 
 import "./AudiView.css";
+// FontAwesome Setting
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {library} from "@fortawesome/fontawesome-svg-core";
+import {faLaughSquint} from "@fortawesome/free-regular-svg-icons";
+library.add(faLaughSquint);
+
+import Button from "@material-ui/core/Button";
+import Radio from "@material-ui/core/Radio";
+import {withStyles} from "@material-ui/core/styles";
+import {green} from "@material-ui/core/colors";
+const GreenRadio = withStyles({
+  root: {
+    "&$checked": {
+      color: green[600]
+    }
+  },
+  checked: {}
+})(props => <Radio color="default" {...props} />);
 
 const AudiView = props => {
   console.log(props);
@@ -85,6 +103,13 @@ const Poll = props => {
       .update({respondedAudi: props.respondedAudi});
   };
 
+  const addReaction = type => {
+    props.reaction[type]++;
+    db.collection("invitation")
+      .doc(props.projId)
+      .update({reaction: props.reaction});
+  };
+
   return (
     <div className="poll">
       {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
@@ -102,18 +127,19 @@ const Poll = props => {
                 }}>
                 {props.slds[props.curSldIndex].opts.map((item, index) => (
                   <label className="res-group" key={index}>
-                    <input
+                    <GreenRadio
                       type="radio"
                       name="res-group"
                       value={index}
                       onChange={props.chooseOpt}
+                      inputProps={{"aria-label": "C"}}
                     />
-                    {item}
+                    <div className="opts"> {item} </div>
                   </label>
                 ))}
-                <button className="submit-btn" type="submit">
+                <Button variant="contained" className="submit-btn" type="submit">
                   <FormattedMessage id="audi.submit" />
-                </button>
+                </Button>
               </form>
             </Fragment>
           )
@@ -121,7 +147,17 @@ const Poll = props => {
           <Wait {...props} />
         )
       ) : (
-        <div>{props.slds[props.curSldIndex].heading}</div>
+        <div className="heading-container">
+          <div className="heading">{props.slds[props.curSldIndex].heading}</div>
+          <Button
+            variant="contained"
+            size="large"
+            className="reaction-icons"
+            id="reaction-laugh"
+            onClick={() => addReaction("laugh")}>
+            <FontAwesomeIcon icon={["far", "laugh-squint"]} size="2x" />
+          </Button>
+        </div>
       )}
     </div>
   );
