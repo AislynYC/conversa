@@ -39,7 +39,10 @@ const Root = () => {
               path="/edit/:userId/:projId"
               render={props => <Edit {...props} locale={locale} setLocale={setLocale} />}
             />
-            <Route path="/:invtCode" render={props => <InviteConnect {...props} />} />
+            <Route
+              path="/audi/:invtCode"
+              render={props => <InviteConnect {...props} />}
+            />
           </Router>
         </ReactReduxFirebaseProvider>
       </Provider>
