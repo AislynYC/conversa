@@ -6,7 +6,9 @@ const zh_TW = {
   "edit.add-sld": "新增投影片",
   "audi.submit": "送出",
   "audi.wait": "請等候講者切換下一張投影片...",
+  "edit.sld-type": "投影片類型",
   "edit.heading-page": "標題",
-  "edit.multiple-choice": "單選題"
+  "edit.multiple-choice": "單選題",
+  "edit.heading-label": "標題 / 副標題"
 };
 export default zh_TW;

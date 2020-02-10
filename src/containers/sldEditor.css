@@ -55,12 +55,18 @@
 
 /* control panel */
 #control-panel {
+  box-sizing: border-box;
   border: 1px solid #aaa;
   border-radius: 15px;
   height: 37%;
   width: 100%;
   margin-top: 20px;
   background-color: white;
+  padding: 20px;
+}
+
+#control-panel > form > label {
+  padding: 10px;
 }
 
 /* slide selector */
@@ -103,7 +109,7 @@
   margin-top: 25px;
 }
 /* question form */
-#qus-form {
+.edit-panel {
   width: 25%;
   height: 100%;
   border: 1px solid #aaa;
@@ -121,20 +127,13 @@
   flex-direction: column;
 }
 
-#qus-input {
-  margin: 5px 0;
-  width: 100%;
-}
-
 .opt-input-group {
   display: flex;
 }
-.opt-input {
-  margin: 5px 0;
-  width: 100%;
-}
 
 .input {
+  width: 100%;
+  margin: 5px 0;
   height: 30px;
 }
 .delete-opt-btn {
@@ -143,4 +142,20 @@
   cursor: pointer;
   padding: 5px;
   color: rgba(15, 99, 51, 0.708);
+}
+
+/* Heading Page Render */
+
+.heading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Heading setting */
+.edit-panel > label {
+  display: flex;
+  flex-direction: column;
 }

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, Fragment} from "react";
 import {Router, Switch, Route, Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
@@ -151,8 +151,16 @@ const SldsItems = props => {
             onClick={() => {
               props.selectSld(index);
             }}>
-            <div className="qus-div">{item.qContent}</div>
-            <ul className="opt-ul">{optionLi}</ul>
+            {item.sldType === "multiple-choice" ? (
+              <Fragment>
+                <div className="qus-div">{item.qContent}</div>
+                <ul className="opt-ul">{optionLi}</ul>
+              </Fragment>
+            ) : (
+              <div className="heading-container">
+                <div className="heading">{item.heading}</div>
+              </div>
+            )}
           </div>
         </Link>
       </div>
@@ -174,7 +182,11 @@ const SldPage = props => {
     return (
       <Route {...path} key={index}>
         <SldPageRoute {...props} sld={sld} />
-        <QusForm {...props} sld={sld} sldIndex={index} />
+        {sld.sldType === "multiple-choice" ? (
+          <QusForm {...props} sld={sld} sldIndex={index} />
+        ) : (
+          <HeadingSld {...props} sld={sld} sldIndex={index} />
+        )}
       </Route>
     );
   });
@@ -202,8 +214,16 @@ const SldPageRoute = props => {
       <div id="current-sld-container">
         <div id="current-sld-border">
           <div id="current-sld">
-            <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
-            <ul className="opt-ul">{optionLi}</ul>
+            {props.sld.sldType === "multiple-choice" ? (
+              <Fragment>
+                <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
+                <ul className="opt-ul">{optionLi}</ul>
+              </Fragment>
+            ) : (
+              <div className="heading-container">
+                <div className="heading">{props.sld.heading}</div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -232,7 +252,8 @@ const AddSldBtn = props => {
             sldType: "",
             opts: "",
             resType: "",
-            result: ""
+            result: "",
+            heading: ""
           }
         ]
       })
@@ -263,7 +284,7 @@ const UseFocus = () => {
 
 const QusForm = props => {
   return (
-    <form id="qus-form">
+    <form id="qus-form" className="edit-panel">
       <QusInput {...props} />
       <label htmlFor="opt-input">
         <FormattedMessage id="edit.opt-label" />
@@ -453,7 +474,6 @@ const ControlPanel = props => {
   const projId = props.match.params.projId;
   const changeSldType = e => {
     let newSlds = props.slds.map((sld, index) => {
-      console.log("ya");
       if (index === props.curSldIndex) {
         sld.lastEdited = Date.now();
         sld.sldType = e.target.value;
@@ -473,7 +493,9 @@ const ControlPanel = props => {
 
   return (
     <div id="control-panel">
-      <div>投影片類型</div>
+      <div>
+        <FormattedMessage id="edit.sld-type" />
+      </div>
       <form name="sld-type-form" id="sld-type-form">
         <label className="sld-type-group">
           <input
@@ -500,6 +522,52 @@ const ControlPanel = props => {
           <FormattedMessage id="edit.multiple-choice" />
         </label>
       </form>
+    </div>
+  );
+};
+
+const HeadingSld = props => {
+  const db = useFirestore();
+  const userId = props.match.params.userId;
+  const projId = props.match.params.projId;
+  const [inputRefHeading, setInputHeadingFocus] = UseFocus();
+  useEffect(() => {
+    setInputHeadingFocus();
+  }, [props.sld.heading]);
+
+  const editHeading = (e, props) => {
+    let newSlds = props.slds.map((sld, index) => {
+      if (index === props.sldIndex) {
+        sld.lastEdited = Date.now();
+        sld.heading = e.target.value;
+      }
+      return sld;
+    });
+
+    db.collection("users")
+      .doc(userId)
+      .collection("projects")
+      .doc(projId)
+      .update({
+        lastEdited: Date.now(),
+        slds: newSlds
+      });
+  };
+  return (
+    <div className="edit-panel">
+      <label htmlFor="heading-input" id="heading-input-group">
+        <FormattedMessage id="edit.heading-label" />
+        <input
+          type="text"
+          id="heading-input"
+          className="input"
+          ref={inputRefHeading}
+          value={props.sld.heading}
+          onChange={e => {
+            editHeading(e, props);
+          }}
+        />
+      </label>
     </div>
   );
 };

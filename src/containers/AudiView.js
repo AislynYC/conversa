@@ -87,37 +87,41 @@ const Poll = props => {
 
   return (
     <div className="poll">
-      {props.slds[props.curSldIndex].opts !== "" ? (
-        props.respondedAudi[props.slds[props.curSldIndex].id].includes(props.audiId) ? (
-          <Wait {...props} />
+      {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
+        props.slds[props.curSldIndex].opts !== "" ? (
+          props.respondedAudi[props.slds[props.curSldIndex].id].includes(props.audiId) ? (
+            <Wait {...props} />
+          ) : (
+            <Fragment>
+              <div>{props.slds[props.curSldIndex].qContent}</div>
+              <form
+                name="poll-form"
+                id="poll-form"
+                onSubmit={e => {
+                  respondPoll(e);
+                }}>
+                {props.slds[props.curSldIndex].opts.map((item, index) => (
+                  <label className="res-group" key={index}>
+                    <input
+                      type="radio"
+                      name="res-group"
+                      value={index}
+                      onChange={props.chooseOpt}
+                    />
+                    {item}
+                  </label>
+                ))}
+                <button className="submit-btn" type="submit">
+                  <FormattedMessage id="audi.submit" />
+                </button>
+              </form>
+            </Fragment>
+          )
         ) : (
-          <Fragment>
-            <div>{props.slds[props.curSldIndex].qContent}</div>
-            <form
-              name="poll-form"
-              id="poll-form"
-              onSubmit={e => {
-                respondPoll(e);
-              }}>
-              {props.slds[props.curSldIndex].opts.map((item, index) => (
-                <label className="res-group" key={index}>
-                  <input
-                    type="radio"
-                    name="res-group"
-                    value={index}
-                    onChange={props.chooseOpt}
-                  />
-                  {item}
-                </label>
-              ))}
-              <button className="submit-btn" type="submit">
-                <FormattedMessage id="audi.submit" />
-              </button>
-            </form>
-          </Fragment>
+          <Wait {...props} />
         )
       ) : (
-        <Wait {...props} />
+        <div>{props.slds[props.curSldIndex].heading}</div>
       )}
     </div>
   );
