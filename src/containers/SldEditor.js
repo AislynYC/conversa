@@ -1,8 +1,9 @@
-import React, {useEffect, useRef, Fragment} from "react";
+import React, {useEffect, useRef, Fragment, useState} from "react";
 import {Router, Switch, Route, Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
+import {isChrome, isFirefox, isSafari, isIE, isEdge, isOpera} from "../BrowserDetection";
 
 import "./sldEditor.css";
 
@@ -316,16 +317,19 @@ const QusInput = props => {
   const db = useFirestore();
   const userId = props.match.params.userId;
   const projId = props.match.params.projId;
-  const [input1Ref, setInput1Focus] = UseFocus();
-  useEffect(() => {
-    setInput1Focus();
-  }, [props.sld.qContent]);
+  const [inputValue, setInputValue] = useState("");
+  const [isOnComposition, setIsOnComposition] = useState(false);
+  const [isInnerChangeFromOnChange, setIsInnerChangeFromOnChange] = useState(false);
 
-  const editQus = (e, props) => {
+  useEffect(() => {
+    setInputValue(props.sld.qContent);
+  }, []);
+
+  const setInnerValue = (value, props) => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
         sld.lastEdited = Date.now();
-        sld.qContent = e.target.value;
+        sld.qContent = value;
       }
       return sld;
     });
@@ -340,6 +344,76 @@ const QusInput = props => {
       });
   };
 
+  const handleChange = e => {
+    console.log(
+      "change type ",
+      e.type,
+      ", target ",
+      e.target,
+      ", target.value ",
+      e.target.value
+    );
+
+    // Flow check
+    if (!(e.target instanceof HTMLInputElement)) return;
+
+    if (isInnerChangeFromOnChange) {
+      setInputValue(e.target.value);
+      setInnerValue(e.target.value, props);
+      setIsInnerChangeFromOnChange(false);
+      return;
+    }
+
+    // when is on composition, change inputValue only
+    // when not in composition change inputValue and innerValue both
+    if (!isOnComposition) {
+      setInputValue(e.target.value);
+      setInnerValue(e.target.value, props);
+    } else {
+      setInputValue(e.target.value);
+    }
+  };
+
+  const handleComposition = e => {
+    console.log(
+      "type ",
+      e.type,
+      ", target ",
+      e.target,
+      ",target.value ",
+      e.target.value,
+      ", data",
+      e.data
+    );
+
+    // Flow check
+    if (!(e.target instanceof HTMLInputElement)) return;
+
+    if (e.type === "compositionend") {
+      // Chrome is ok for only setState innerValue
+      // Opera, IE and Edge is like Chrome
+      if (isChrome || isIE || isEdge || isOpera) {
+        setInnerValue(e.target.value, props);
+      }
+
+      // Firefox need to setState inputValue again...
+      if (isFirefox) {
+        setInputValue(e.target.value);
+        setInnerValue(e.target.value, props);
+      }
+
+      // Safari think e.target.value in composition event is keyboard char,
+      //  but it will fired another change after compositionend
+      if (isSafari) {
+        // do change in the next change event
+        setIsInnerChangeFromOnChange(true);
+      }
+      setIsOnComposition(false);
+    } else {
+      setIsOnComposition(false);
+    }
+  };
+
   return (
     <div className="input-group">
       <label htmlFor="qus-input" id="qus-input-group">
@@ -348,11 +422,15 @@ const QusInput = props => {
           type="text"
           id="qus-input"
           className="input"
-          ref={input1Ref}
-          value={props.sld.qContent}
-          onChange={e => {
-            editQus(e, props);
-          }}
+          // value={props.sld.qContent}
+          // onChange={e => {
+          //   setInnerValue(e.target.value, props);
+          // }}
+          value={inputValue}
+          onChange={e => handleChange(e)}
+          onCompositionUpdate={e => handleComposition(e)}
+          onCompositionEnd={e => handleComposition(e)}
+          onCompositionStart={e => handleComposition(e)}
         />
       </label>
     </div>
