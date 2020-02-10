@@ -52,6 +52,13 @@
 .reaction-count {
   margin-left: 10px;
 }
+
+.qr-code {
+  width: 200px;
+}
+.qr-code > img {
+  width: 100%;
+}
 /* control panel */
 #control-panel {
   box-sizing: border-box;
@@ -154,7 +161,7 @@
 
 /* Heading Page Render */
 
-.heading-container {
+.heading-render-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -169,6 +176,6 @@
   flex-direction: column;
 }
 
-.heading {
+.heading-render-container > .heading-render {
   font-size: 1.5em;
 }

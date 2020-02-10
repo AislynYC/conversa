@@ -4,7 +4,7 @@ import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
 import {isChrome, isFirefox, isSafari, isIE, isEdge, isOpera} from "../BrowserDetection";
-
+import testQrcode from "../img/conversa_test_qrcode.png";
 import "./sldEditor.css";
 
 // FontAwesome Setting
@@ -169,8 +169,8 @@ const SldsItems = props => {
                 <ul className="opt-ul">{optionLi}</ul>
               </Fragment>
             ) : (
-              <div className="heading-container">
-                <div className="heading">{item.heading}</div>
+              <div className="heading-render-container">
+                <div className="heading-render">{item.heading}</div>
               </div>
             )}
           </div>
@@ -232,8 +232,13 @@ const SldPageRoute = props => {
                 <ul className="opt-ul">{optionLi}</ul>
               </Fragment>
             ) : (
-              <div className="heading-container">
-                <div className="heading">{props.slds[props.curSldIndex].heading}</div>
+              <div className="heading-render-container">
+                <div className="heading-render">
+                  {props.slds[props.curSldIndex].heading}
+                </div>
+                <div className="qr-code">
+                  <img src={testQrcode} alt="QR-Code" />
+                </div>
                 <div className="reaction-icons">
                   <FontAwesomeIcon icon={["far", "laugh-squint"]} />
                   <span className="reaction-count">{props.reaction.laugh}</span>
