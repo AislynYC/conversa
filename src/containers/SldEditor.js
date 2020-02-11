@@ -22,9 +22,9 @@ const SldEditor = props => {
   const keyDownHandler = e => {
     console.log("test");
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-      nextSld(props.curSldIndex, props.slds.length);
+      nextSld();
     } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-      lastSld(props.curSldIndex);
+      lastSld();
     }
   };
 
@@ -46,37 +46,37 @@ const SldEditor = props => {
     }
   };
 
-  const nextSld = (curSldIndex, sldsLength) => {
-    if (curSldIndex < sldsLength - 1) {
+  const nextSld = () => {
+    if (props.curSldIndex < props.slds.length - 1) {
       console.log("next");
       return db
         .collection("users")
         .doc(userId)
         .collection("projects")
         .doc(projId)
-        .update({curSldIndex: curSldIndex + 1})
+        .update({curSldIndex: props.curSldIndex + 1})
         .then(() => {
           if (!document.fullscreenElement) {
-            history.push(`${props.match.url}/${curSldIndex + 1}`);
+            history.push(`${props.match.url}/${props.curSldIndex + 1}`);
           }
         });
     }
   };
 
-  const lastSld = curSldIndex => {
-    if (curSldIndex > 0) {
+  const lastSld = () => {
+    if (props.curSldIndex > 0) {
       console.log("last");
       db.collection("users")
         .doc(userId)
         .collection("projects")
         .doc(projId)
-        .update({curSldIndex: curSldIndex - 1})
+        .update({curSldIndex: props.curSldIndex - 1})
         .then(() => {
           if (!document.fullscreenElement) {
             if (curSldIndex - 1 === 0) {
               history.push(`${props.match.url}`);
             } else {
-              history.push(`${props.match.url}/${curSldIndex - 1}`);
+              history.push(`${props.match.url}/${props.curSldIndex - 1}`);
             }
           }
         });
@@ -84,19 +84,33 @@ const SldEditor = props => {
   };
 
   const fullScreenClicking = () => {
-    nextSld(props.curSldIndex, props.slds.length);
-  };
-
-  const ifFullscreen = () => {
-    if (document.fullscreenElement) {
-      document.addEventListener("click", fullScreenClicking);
-    } else {
-      document.removeEventListener("click", fullScreenClicking);
+    console.log("fullscreen Clicking", props.slds, props.curSldIndex);
+    if (props.slds !== undefined && props.curSldIndex !== undefined) {
+      nextSld();
     }
   };
 
   useEffect(() => {
-    // console.log("useEffect");
+    let historyPath = history.location.pathname;
+    if (/^[/]\d$/.test(historyPath.substr(history.location.pathname.length - 2, 2))) {
+      db.collection("users")
+        .doc(userId)
+        .collection("projects")
+        .doc(projId)
+        .update({
+          curSldIndex: historyPath.charAt(history.location.pathname.length - 1)
+        });
+    } else {
+      db.collection("users")
+        .doc(userId)
+        .collection("projects")
+        .doc(projId)
+        .update({
+          curSldIndex: 0
+        });
+    }
+  }, []);
+  useEffect(() => {
     document.addEventListener("keydown", keyDownHandler);
     return () => {
       document.removeEventListener("keydown", keyDownHandler);
@@ -106,10 +120,9 @@ const SldEditor = props => {
   useEffect(() => {
     const ifFullscreen = () => {
       if (document.fullscreenElement) {
-        // console.log("fullscreen In");
         document.addEventListener("click", fullScreenClicking);
       } else {
-        // console.log("fullscreen Out");
+        document.removeEventListener("click", fullScreenClicking);
       }
     };
     document.addEventListener("fullscreenchange", ifFullscreen);
@@ -118,7 +131,7 @@ const SldEditor = props => {
       document.removeEventListener("fullscreenchange", ifFullscreen);
       document.removeEventListener("click", fullScreenClicking);
     };
-  }, [fullScreenClicking]);
+  }, []);
 
   return (
     <Router basename={process.env.PUBLIC_URL} history={history}>
