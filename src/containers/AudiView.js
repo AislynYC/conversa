@@ -79,11 +79,14 @@ const Poll = props => {
 
   const respondPoll = e => {
     e.preventDefault();
+    console.log("respond", e);
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.curSldIndex) {
         if (sld.result[props.selOptIndex] === "") {
+          console.log("result for 0");
           sld.result[props.selOptIndex] = 1;
         } else {
+          console.log("result if not 0", sld.result[props.selOptIndex]);
           sld.result[props.selOptIndex]++;
         }
       }
@@ -110,12 +113,6 @@ const Poll = props => {
       .update({reaction: props.reaction});
   };
 
-  const [selectedValue, setSelectedValue] = React.useState("a");
-
-  const handleChange = event => {
-    setSelectedValue(event.target.value);
-  };
-
   return (
     <div className="poll">
       {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
@@ -137,8 +134,8 @@ const Poll = props => {
                       type="radio"
                       name="res-group"
                       value={index}
-                      checked={selectedValue == index}
-                      onChange={handleChange}
+                      checked={props.selOptIndex == index}
+                      onChange={e => props.chooseOpt(e)}
                       inputProps={{"aria-label": index}}
                     />
                     <div className="opts"> {item} </div>
