@@ -11,6 +11,7 @@ import fbConfig from "./config/fbConfig";
 import en from "./i18n/en.js";
 import zh from "./i18n/zh.js";
 import rootReducer from "./ducks/rootReducer";
+import Home from "./home";
 import Edit from "./edit";
 import InviteConnect from "./containers/InviteConnect";
 import "./reset.css";
@@ -29,9 +30,7 @@ const Root = () => {
             <Route
               exact
               path="/"
-              render={() => {
-                <div>Home Page</div>;
-              }}
+              render={props => <Home {...props} locale={locale} setLocale={setLocale} />}
             />
 
             <Route

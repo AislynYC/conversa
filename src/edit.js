@@ -1,5 +1,4 @@
 import React, {Fragment} from "react";
-import {BrowserRouter as Router, Route} from "react-router-dom";
 
 import Header from "./components/Header/Header";
 import SldEditorConnect from "./containers/SldEditorConnect";
@@ -10,7 +9,7 @@ const Edit = props => {
 
   return (
     <Fragment>
-      <Header locale={props.locale} setLocale={props.setLocale} />
+      <Header {...props} locale={props.locale} setLocale={props.setLocale} />
       <SldEditorConnect {...props} userId={userId} projId={projId} />
     </Fragment>
   );

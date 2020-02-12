@@ -9,6 +9,8 @@ const zh_TW = {
   "edit.sld-type": "投影片類型",
   "edit.heading-page": "標題",
   "edit.multiple-choice": "單選題",
-  "edit.heading-label": "標題 / 副標題"
+  "edit.heading-label": "標題 / 副標題",
+  "home.logIn": "登入",
+  "home.signUp": "註冊"
 };
 export default zh_TW;

@@ -9,6 +9,8 @@ const en = {
   "edit.sld-type": "Slide Type",
   "edit.heading-page": "Heading",
   "edit.multiple-choice": "Multiple Choice",
-  "edit.heading-label": "Heading / Sub Heading"
+  "edit.heading-label": "Heading / Sub Heading",
+  "home.logIn": "Log In",
+  "home.signUp": "Sign Up"
 };
 export default en;
