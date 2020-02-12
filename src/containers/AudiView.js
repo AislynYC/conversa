@@ -12,11 +12,11 @@ library.add(faLaughSquint);
 import Button from "@material-ui/core/Button";
 import Radio from "@material-ui/core/Radio";
 import {withStyles} from "@material-ui/core/styles";
-import {green} from "@material-ui/core/colors";
+import {lightGreen} from "@material-ui/core/colors";
 const GreenRadio = withStyles({
   root: {
     "&$checked": {
-      color: green[600]
+      color: lightGreen[600]
     }
   },
   checked: {}

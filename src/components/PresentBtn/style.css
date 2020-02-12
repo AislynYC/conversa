@@ -1,10 +1,10 @@
 #present-btn {
   width: 150px;
-  height: 35px;
+  height: 40px;
   margin-left: 10px;
   margin-right: 10px;
   border-radius: 15px;
   background-color: white;
   font-size: 1.05em;
-  letter-spacing: 3px;
+  letter-spacing: 5px;
 }
