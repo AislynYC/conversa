@@ -73,7 +73,7 @@ const SldEditor = props => {
         .update({curSldIndex: props.curSldIndex - 1})
         .then(() => {
           if (!document.fullscreenElement) {
-            if (curSldIndex - 1 === 0) {
+            if (props.curSldIndex - 1 === 0) {
               history.push(`${props.match.url}`);
             } else {
               history.push(`${props.match.url}/${props.curSldIndex - 1}`);
