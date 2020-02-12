@@ -5,7 +5,7 @@ import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
 import {isChrome, isFirefox, isSafari, isIE, isEdge, isOpera} from "../BrowserDetection";
 import testQrcode from "../img/conversa_test_qrcode.png";
-import "./sldEditor.css";
+import "./style.css";
 
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
