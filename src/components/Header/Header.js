@@ -9,10 +9,10 @@ import "./style.css";
 
 import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
-import {lightGreen} from "@material-ui/core/colors";
+
 const SignBtn = withStyles({
   root: {
-    color: lightGreen[50],
+    color: "white",
     margin: "0 0 0 10px",
     letterSpacing: "3px"
   }
