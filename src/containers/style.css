@@ -148,18 +148,50 @@
 }
 
 .input {
+  box-sizing: border-box;
   width: 100%;
   margin: 5px 0;
-  height: 30px;
+  height: 45px;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  padding: 5px 10px;
+}
+
+.input:hover {
+  border: 1px solid #333;
+}
+
+.input:focus {
+  outline: none;
+  animation-name: input-focus;
+  animation-duration: 0.1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes input-focus {
+  from {
+    border: 1px solid #333;
+  }
+  to {
+    border: 1.5px solid rgba(75, 143, 107, 0.692);
+  }
 }
 .delete-opt-btn {
   vertical-align: middle;
   font-size: 1.3em;
   cursor: pointer;
-  padding: 5px;
+  align-self: center;
+  padding: 0 8px;
   color: rgba(15, 99, 51, 0.708);
 }
 
+#add-opt-btn {
+  color: #3c4e57;
+  min-width: 120px;
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 3px;
+}
 /* Heading Page Render */
 
 .heading-render-container {

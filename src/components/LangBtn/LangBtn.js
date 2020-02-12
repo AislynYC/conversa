@@ -1,5 +1,4 @@
 import React from "react";
-import "./style.css";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import {withStyles} from "@material-ui/core/styles";
@@ -54,8 +53,7 @@ class LangBtn extends React.Component {
     return (
       <Select
         variant="standard"
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
+        id="lang-select"
         value={this.state.selLang}
         input={<CustomInput />}
         onChange={e => this.handleChange(e)}>
