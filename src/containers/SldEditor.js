@@ -91,33 +91,6 @@ const SldEditor = props => {
   };
 
   useEffect(() => {
-    let historyPath = history.location.pathname;
-    if (/^[/]\d$/.test(historyPath.substr(historyPath.length - 2, 2))) {
-      db.collection("users")
-        .doc(userId)
-        .collection("projects")
-        .doc(projId)
-        .update({
-          curSldIndex: historyPath.charAt(historyPath.length - 1)
-        });
-    } else {
-      db.collection("users")
-        .doc(userId)
-        .collection("projects")
-        .doc(projId)
-        .update({
-          curSldIndex: 0
-        });
-    }
-  }, []);
-  useEffect(() => {
-    document.addEventListener("keydown", keyDownHandler);
-    return () => {
-      document.removeEventListener("keydown", keyDownHandler);
-    };
-  }, [keyDownHandler]);
-
-  useEffect(() => {
     const ifFullscreen = () => {
       if (document.fullscreenElement) {
         document.addEventListener("click", fullScreenClicking);
@@ -131,7 +104,35 @@ const SldEditor = props => {
       document.removeEventListener("fullscreenchange", ifFullscreen);
       document.removeEventListener("click", fullScreenClicking);
     };
+  });
+
+  useEffect(() => {
+    let historyPath = history.location.pathname;
+    if (/^[/]\d$/.test(historyPath.substr(historyPath.length - 2, 2))) {
+      db.collection("users")
+        .doc(userId)
+        .collection("projects")
+        .doc(projId)
+        .update({
+          curSldIndex: parseInt(historyPath.charAt(historyPath.length - 1))
+        });
+    } else {
+      db.collection("users")
+        .doc(userId)
+        .collection("projects")
+        .doc(projId)
+        .update({
+          curSldIndex: 0
+        });
+    }
   }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", keyDownHandler);
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler);
+    };
+  }, [keyDownHandler]);
 
   return (
     <Router basename={process.env.PUBLIC_URL} history={history}>
@@ -224,7 +225,7 @@ const SldPage = props => {
 
 const SldPageRoute = props => {
   let optsArray = props.slds[props.curSldIndex].opts;
-  let resultArray = props.sld.result;
+  let resultArray = props.slds[props.curSldIndex].result;
   let optionLi = null;
   if (optsArray) {
     optionLi = props.slds[props.curSldIndex].opts.map((opt, index) => {
