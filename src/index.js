@@ -30,15 +30,15 @@ const Root = () => {
               exact
               path="/"
               render={() => {
-                <div>Home</div>;
+                <div>Home Page</div>;
               }}
             />
 
             <Route
-              exact
               path="/edit/:userId/:projId"
               render={props => <Edit {...props} locale={locale} setLocale={setLocale} />}
             />
+
             <Route
               path="/audi/:invtCode"
               render={props => <InviteConnect {...props} />}

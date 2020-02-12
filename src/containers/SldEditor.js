@@ -92,13 +92,13 @@ const SldEditor = props => {
 
   useEffect(() => {
     let historyPath = history.location.pathname;
-    if (/^[/]\d$/.test(historyPath.substr(history.location.pathname.length - 2, 2))) {
+    if (/^[/]\d$/.test(historyPath.substr(historyPath.length - 2, 2))) {
       db.collection("users")
         .doc(userId)
         .collection("projects")
         .doc(projId)
         .update({
-          curSldIndex: historyPath.charAt(history.location.pathname.length - 1)
+          curSldIndex: historyPath.charAt(historyPath.length - 1)
         });
     } else {
       db.collection("users")
@@ -153,13 +153,18 @@ const SldsItems = props => {
   if (!props.slds) {
     return <div>Loading</div>;
   }
+
   return props.slds.map((item, index) => {
     let path = null;
     let sldClass = null;
+
     index === 0 ? (path = `${props.match.url}`) : (path = `${props.match.url}/${index}`);
-    index === props.curSldIndex
-      ? (sldClass = "sld-item sld-item-selected")
-      : (sldClass = "sld-item");
+    if (index === parseInt(props.curSldIndex)) {
+      sldClass = "sld-item sld-item-selected";
+    } else {
+      sldClass = "sld-item";
+    }
+
     let optionLi = null;
     if (item.opts) {
       optionLi = item.opts.map((opt, index) => {
