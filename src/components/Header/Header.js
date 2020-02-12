@@ -1,5 +1,6 @@
 import React, {Fragment} from "react";
 import {FormattedMessage} from "react-intl";
+import {Link} from "react-router-dom";
 
 import LangBtn from "../LangBtn/LangBtn.js";
 import PresentBtn from "../PresentBtn/PresentBtn.js";
@@ -30,12 +31,17 @@ const Header = props => {
         <PresentBtn />
       ) : (
         <Fragment>
-          <SignBtn>
-            <FormattedMessage id="home.logIn" />
-          </SignBtn>
-          <SignBtn>
-            <FormattedMessage id="home.signUp" />
-          </SignBtn>
+          <Link to="/login">
+            <SignBtn>
+              <FormattedMessage id="home.logIn" />
+            </SignBtn>
+          </Link>
+
+          <Link to="/signup">
+            <SignBtn>
+              <FormattedMessage id="home.signUp" />
+            </SignBtn>
+          </Link>
         </Fragment>
       )}
     </div>

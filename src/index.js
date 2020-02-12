@@ -16,6 +16,8 @@ import Edit from "./edit";
 import InviteConnect from "./containers/InviteConnect";
 import "./reset.css";
 import "./style.css";
+import SignUp from "./containers/SignUp";
+import LogIn from "./containers/LogIn";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
@@ -32,12 +34,20 @@ const Root = () => {
               path="/"
               render={props => <Home {...props} locale={locale} setLocale={setLocale} />}
             />
-
+            <Route
+              path="/login"
+              render={props => <LogIn {...props} locale={locale} setLocale={setLocale} />}
+            />
+            <Route
+              path="/signup"
+              render={props => (
+                <SignUp {...props} locale={locale} setLocale={setLocale} />
+              )}
+            />
             <Route
               path="/edit/:userId/:projId"
               render={props => <Edit {...props} locale={locale} setLocale={setLocale} />}
             />
-
             <Route
               path="/audi/:invtCode"
               render={props => <InviteConnect {...props} />}
