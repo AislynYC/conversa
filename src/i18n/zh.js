@@ -11,6 +11,8 @@ const zh_TW = {
   "edit.multiple-choice": "單選題",
   "edit.heading-label": "標題 / 副標題",
   "home.logIn": "登入",
-  "home.signUp": "註冊"
+  "home.signUp": "註冊",
+  "Sign-up.welcome": "歡迎使用 Conversa",
+  "Sign-up.instruction": "建立您的帳戶開始使用本服務"
 };
 export default zh_TW;

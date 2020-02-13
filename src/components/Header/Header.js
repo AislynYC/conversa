@@ -14,7 +14,8 @@ const SignBtn = withStyles({
   root: {
     color: "white",
     margin: "0 0 0 10px",
-    letterSpacing: "3px"
+    letterSpacing: "3px",
+    fontSize: "1.1em"
   }
 })(Button);
 

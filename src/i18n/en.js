@@ -11,6 +11,8 @@ const en = {
   "edit.multiple-choice": "Multiple Choice",
   "edit.heading-label": "Heading / Sub Heading",
   "home.logIn": "Log In",
-  "home.signUp": "Sign Up"
+  "home.signUp": "Sign Up",
+  "Sign-up.welcome": "Welcome to Conversa",
+  "Sign-up.instruction": "Create an account to start"
 };
 export default en;
