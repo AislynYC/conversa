@@ -20,3 +20,11 @@
 .logo > img {
   width: 100%;
 }
+
+#my-presentation-btn {
+  background-color: #333333;
+  color: white;
+  letter-spacing: 5px;
+  margin: 0 25px;
+  font-size: 1.05em;
+}

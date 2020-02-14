@@ -22,6 +22,7 @@ const en = {
   "log-in.log-in": "Log In",
   "log-in.3rd-log-in": "or log In with",
   "log-in.go-to-signup": "Go to create an account",
-  "home.log-out": "Log Out"
+  "home.log-out": "Log Out",
+  "home.my-presentation": "My Presentations"
 };
 export default en;

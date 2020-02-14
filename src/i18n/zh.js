@@ -22,6 +22,7 @@ const zh_TW = {
   "log-in.log-in": "登入",
   "log-in.3rd-log-in": "或使用其他方式登入",
   "log-in.go-to-signup": "還沒有註冊帳戶嗎？",
-  "home.log-out": "登出"
+  "home.log-out": "登出",
+  "home.my-presentation": "我的簡報"
 };
 export default zh_TW;

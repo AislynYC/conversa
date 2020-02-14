@@ -17,7 +17,7 @@ const SignBtn = withStyles({
     color: "white",
     margin: "0 0 0 10px",
     letterSpacing: "3px",
-    fontSize: "1.1em"
+    fontSize: "1.03em"
   }
 })(Button);
 
@@ -53,9 +53,14 @@ const Header = props => {
     );
   } else {
     toolBar = (
-      <SignBtn onClick={logOut}>
-        <FormattedMessage id="home.log-out" />
-      </SignBtn>
+      <Fragment>
+        <Button variant="contained" id="my-presentation-btn">
+          <FormattedMessage id="home.my-presentation" />
+        </Button>
+        <SignBtn onClick={logOut}>
+          <FormattedMessage id="home.log-out" />
+        </SignBtn>
+      </Fragment>
     );
   }
 

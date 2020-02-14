@@ -42,15 +42,6 @@ const Home = props => {
       });
   }
 
-  // var user = firebase.auth().currentUser;
-
-  // if (user) {
-  //   // User is signed in.
-  //   console.log("user signed in");
-  // } else {
-  //   // No user is signed in.
-  //   console.log("No user");
-  // }
   return (
     <Fragment>
       <Header {...props} locale={props.locale} setLocale={props.setLocale} />
