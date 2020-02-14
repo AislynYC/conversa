@@ -41,7 +41,6 @@ let mapStateToProps = (state, props) => {
 let mapDispatchToProps = dispatch => {
   return {
     chooseOpt: e => dispatch(chooseOpt(e)),
-    switchWait: e => dispatch(switchWait(e)),
     getAudiId: () => dispatch(getAudiId())
   };
 };

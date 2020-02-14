@@ -12,7 +12,16 @@ const en = {
   "edit.heading-label": "Heading / Sub Heading",
   "home.logIn": "Log In",
   "home.signUp": "Sign Up",
-  "Sign-up.welcome": "Welcome to Conversa",
-  "Sign-up.instruction": "Create an account to start"
+  "sign-up.welcome": "Welcome to Conversa",
+  "sign-up.instruction": "Create an account to start",
+  "sign-up.3rd-sign-up": "or sign up with",
+  "sign-up.create-account": "Create Account",
+  "sign-up.go-to-login": "Already have an account?",
+  "log-in.welcome": "Welcome back to Conversa",
+  "log-in.instruction": "Log in to your account",
+  "log-in.log-in": "Log In",
+  "log-in.3rd-log-in": "or log In with",
+  "log-in.go-to-signup": "Go to create an account",
+  "home.log-out": "Log Out"
 };
 export default en;

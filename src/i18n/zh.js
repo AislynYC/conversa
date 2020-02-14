@@ -12,7 +12,16 @@ const zh_TW = {
   "edit.heading-label": "標題 / 副標題",
   "home.logIn": "登入",
   "home.signUp": "註冊",
-  "Sign-up.welcome": "歡迎使用 Conversa",
-  "Sign-up.instruction": "建立您的帳戶開始使用本服務"
+  "sign-up.welcome": "歡迎使用 Conversa",
+  "sign-up.instruction": "建立您的帳戶開始使用本服務",
+  "sign-up.3rd-sign-up": "使用其他方式建立帳戶",
+  "sign-up.create-account": "建立帳戶",
+  "sign-up.go-to-login": "已經有帳戶了？",
+  "log-in.welcome": "歡迎回到 Conversa",
+  "log-in.instruction": "登入您的帳戶繼續使用",
+  "log-in.log-in": "登入",
+  "log-in.3rd-log-in": "或使用其他方式登入",
+  "log-in.go-to-signup": "還沒有註冊帳戶嗎？",
+  "home.log-out": "登出"
 };
 export default zh_TW;

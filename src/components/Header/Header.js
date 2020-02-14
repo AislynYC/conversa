@@ -1,4 +1,5 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useEffect} from "react";
+import {connect} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {Link} from "react-router-dom";
 
@@ -9,6 +10,7 @@ import "./style.css";
 
 import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
+import firebase from "../../config/fbConfig";
 
 const SignBtn = withStyles({
   root: {
@@ -20,32 +22,67 @@ const SignBtn = withStyles({
 })(Button);
 
 const Header = props => {
-  console.log(props);
+  const logOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        console.log("signOut success");
+        props.history.push("/");
+      });
+  };
+
+  let toolBar = null;
+
+  if (props.auth.isLoaded === false) {
+  } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
+    toolBar = (
+      <Fragment>
+        <Link to="/login">
+          <SignBtn>
+            <FormattedMessage id="home.logIn" />
+          </SignBtn>
+        </Link>
+
+        <Link to="/signup">
+          <SignBtn>
+            <FormattedMessage id="home.signUp" />
+          </SignBtn>
+        </Link>
+      </Fragment>
+    );
+  } else {
+    toolBar = (
+      <SignBtn onClick={logOut}>
+        <FormattedMessage id="home.log-out" />
+      </SignBtn>
+    );
+  }
 
   return (
     <div className="header">
-      <div className="logo">
-        <img src={logo} alt="logo" />
+      <div className="logo-wrap">
+        <Link to="/">
+          <div className="logo">
+            <img src={logo} alt="logo" />
+          </div>
+        </Link>
       </div>
       <LangBtn locale={props.locale} setLocale={props.setLocale} />
       {props.match.url.includes("/edit") ? (
         <PresentBtn />
       ) : (
-        <Fragment>
-          <Link to="/login">
-            <SignBtn>
-              <FormattedMessage id="home.logIn" />
-            </SignBtn>
-          </Link>
-
-          <Link to="/signup">
-            <SignBtn>
-              <FormattedMessage id="home.signUp" />
-            </SignBtn>
-          </Link>
-        </Fragment>
+        <Fragment>{toolBar}</Fragment>
       )}
     </div>
   );
 };
-export default Header;
+
+let mapStateToProps = (state, props) => {
+  return {
+    firestore: state.firestore,
+    auth: state.firebase.auth
+  };
+};
+
+export default connect(mapStateToProps)(Header);

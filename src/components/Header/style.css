@@ -11,6 +11,9 @@
 .logo {
   width: 300px;
   height: 100px;
+}
+
+.logo-wrap {
   margin-right: auto;
 }
 

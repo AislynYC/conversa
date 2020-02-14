@@ -117,8 +117,9 @@
   width: 180px;
   height: 120px;
   padding: 10px;
-  font-size: 0.1em;
+  font-size: 0.05rem;
   margin-left: 30px;
+  overflow: hidden;
 }
 
 .sld-item-selected {
@@ -282,16 +283,54 @@ body,
 
 /* Sign up */
 .entry-page {
-  height: 100vh;
+  height: calc(100vh - 100px);
   background-color: rgb(123, 144, 133);
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 100px;
 }
-.sign-in-screen {
+.entry-screen {
   text-align: center;
 }
-.sign-in-screen > p {
-  margin-bottom: 50px;
+.entry-screen > p {
+  margin-bottom: 30px;
+}
+.entry-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#entry-btn {
+  color: white;
+  background-color: rgb(46, 54, 50);
+  margin: 20px auto;
+  padding: 10px 20px;
+}
+
+.entry-divider {
+  display: flex;
+  margin: 15px 0 35px;
+  justify-content: center;
+}
+.entry-divider > p {
+  font-size: 0.9em;
+  color: #444;
+  width: 310px;
+  letter-spacing: 1px;
+}
+.divider-line {
+  height: 1px;
+  width: 55%;
+  margin: 10px 0;
+  background-color: #999;
+}
+
+.switch-link {
+  font-size: 0.8em;
+  color: rgb(77, 117, 190);
+  padding: 0 0 20px;
+}
+
+.switch-link:hover {
+  transform: scale(1.1);
 }
