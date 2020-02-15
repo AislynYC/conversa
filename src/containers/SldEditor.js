@@ -12,6 +12,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {faLaughSquint} from "@fortawesome/free-regular-svg-icons";
 library.add(faLaughSquint);
+
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 const history = createBrowserHistory();

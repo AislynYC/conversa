@@ -3,8 +3,8 @@ import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 
 import AudiView from "./AudiView.js";
-import {chooseOpt} from "../ducks/audiViewReducers";
-import {getAudiId} from "../ducks/audiViewReducers";
+import {chooseOpt} from "../ducks/audiViewReducer";
+import {getAudiId} from "../ducks/audiViewReducer";
 
 let mapStateToProps = (state, props) => {
   let projDataArray = state.firestore.ordered[`${props.userId}-projects`];

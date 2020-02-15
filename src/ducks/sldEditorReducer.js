@@ -11,7 +11,7 @@ export function selectSld(selectedId) {
 
 const initState = {};
 // Reducer
-export function sldEditorReducers(state = initState, action) {
+export function sldEditorReducer(state = initState, action) {
   switch (action.type) {
     case "SELECT_SLD":
       if (action.selectedId !== state.currentSldId) {

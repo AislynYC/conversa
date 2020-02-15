@@ -18,7 +18,7 @@ export function getAudiId() {
 
 const initState = {};
 // Reducer
-export function audiViewReducers(state = initState, action) {
+export function audiViewReducer(state = initState, action) {
   switch (action.type) {
     case "CHOOSE_OPT":
       return {...state, selOptIndex: action.e.target.value};

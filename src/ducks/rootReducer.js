@@ -1,16 +1,16 @@
 import {combineReducers} from "redux";
 import {firebaseReducer} from "react-redux-firebase";
 import {firestoreReducer} from "redux-firestore";
-import {sldEditorReducers} from "./sldEditorReducers.js";
-import {audiViewReducers} from "./audiViewReducers";
-import {authReducer} from "./authReducer";
+import {sldEditorReducer} from "./sldEditorReducer.js";
+import {audiViewReducer} from "./audiViewReducer";
+import {projectsReducer} from "./projectsReducer";
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
   firestore: firestoreReducer,
-  auth: authReducer,
-  sldEditor: sldEditorReducers,
-  audiView: audiViewReducers
+  sldEditor: sldEditorReducer,
+  audiView: audiViewReducer,
+  projManager: projectsReducer
 });
 
 export default rootReducer;
