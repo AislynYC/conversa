@@ -18,6 +18,7 @@ import "./reset.css";
 import "./style.css";
 import SignUp from "./containers/SignUp";
 import LogIn from "./containers/LogIn";
+import ProjManager from "./projects";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
@@ -51,6 +52,12 @@ const Root = () => {
             <Route
               path="/audi/:invtCode"
               render={props => <InviteConnect {...props} />}
+            />
+            <Route
+              path="/pm/:userId"
+              render={props => (
+                <ProjManager {...props} locale={locale} setLocale={setLocale} />
+              )}
             />
           </Router>
         </ReactReduxFirebaseProvider>

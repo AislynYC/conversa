@@ -32,11 +32,11 @@ const Header = props => {
       });
   };
 
-  let toolBar = null;
+  let linkBtns = null;
 
   if (props.auth.isLoaded === false) {
   } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
-    toolBar = (
+    linkBtns = (
       <Fragment>
         <Link to="/login">
           <SignBtn>
@@ -52,16 +52,31 @@ const Header = props => {
       </Fragment>
     );
   } else {
-    toolBar = (
-      <Fragment>
-        <Button variant="contained" id="my-presentation-btn">
-          <FormattedMessage id="home.my-presentation" />
-        </Button>
+    if (props.match.url.includes("/edit")) {
+      linkBtns = <PresentBtn />;
+    } else if (props.match.url.includes("/pm")) {
+      linkBtns = (
         <SignBtn onClick={logOut}>
           <FormattedMessage id="home.log-out" />
         </SignBtn>
-      </Fragment>
-    );
+      );
+    } else {
+      linkBtns = (
+        <Fragment>
+          <Button
+            variant="contained"
+            id="my-presentation-btn"
+            onClick={() => {
+              props.history.push(`/pm/${props.auth.uid}`);
+            }}>
+            <FormattedMessage id="home.my-presentation" />
+          </Button>
+          <SignBtn onClick={logOut}>
+            <FormattedMessage id="home.log-out" />
+          </SignBtn>
+        </Fragment>
+      );
+    }
   }
 
   return (
@@ -74,11 +89,7 @@ const Header = props => {
         </Link>
       </div>
       <LangBtn locale={props.locale} setLocale={props.setLocale} />
-      {props.match.url.includes("/edit") ? (
-        <PresentBtn />
-      ) : (
-        <Fragment>{toolBar}</Fragment>
-      )}
+      <Fragment>{linkBtns}</Fragment>
     </div>
   );
 };
