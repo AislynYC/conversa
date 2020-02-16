@@ -237,13 +237,54 @@ const SldPageRoute = props => {
   let optsArray = props.slds[props.curSldIndex].opts;
   let resultArray = props.slds[props.curSldIndex].result;
   let optResult = null;
+  const colors = [
+    "#00b894",
+    "#ffeaa7",
+    "#fab1a0",
+    "#0984e3",
+    "#00cec9",
+    "#ff7675",
+    "#6c5ce7"
+  ];
+
   if (optsArray) {
     optResult = props.slds[props.curSldIndex].opts.map((opt, index) => {
-      return [`${opt}`, resultArray[index] !== "" ? resultArray[index] : 0];
+      let result = resultArray[index] !== "" ? resultArray[index] : 0;
+      return [`${opt}`, result, colors[index], result];
     });
   }
 
-  let data = [["Options", "Result"]].concat(optResult);
+  let data = [
+    [
+      "Options",
+      "Result",
+      {role: "style"},
+      {
+        sourceColumn: 0,
+        role: "annotation",
+        type: "string",
+        calc: "stringify"
+      }
+    ]
+  ].concat(optResult);
+  let options = {
+    legend: {position: "none"},
+    animation: {
+      duration: 1000,
+      easing: "out"
+    },
+    vAxis: {
+      gridlines: {count: 0},
+      minorGridlines: {count: 0},
+      ticks: []
+    },
+    annotations: {
+      textStyle: {
+        fontSize: 18,
+        bold: true
+      }
+    }
+  };
 
   return (
     <div className="center">
@@ -253,7 +294,13 @@ const SldPageRoute = props => {
             {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
               <Fragment>
                 <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
-                <Chart chartType="ColumnChart" width="100%" height="400px" data={data} />
+                <Chart
+                  chartType="ColumnChart"
+                  width="100%"
+                  height="400px"
+                  data={data}
+                  options={options}
+                />
               </Fragment>
             ) : (
               <div className="heading-render-container">
