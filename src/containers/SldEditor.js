@@ -3,8 +3,15 @@ import {Router, Switch, Route, Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
-import {isChrome, isFirefox, isSafari, isIE, isEdge, isOpera} from "../BrowserDetection";
-import testQrcode from "../img/conversa_test_qrcode.png";
+import {
+  isChrome,
+  isFirefox,
+  isSafari,
+  isIE,
+  isEdge,
+  isOpera
+} from "../lib/BrowserDetection";
+import QRCode from "qrcode.react";
 import "./style.css";
 
 // FontAwesome Setting
@@ -258,7 +265,10 @@ const SldPageRoute = props => {
                   {props.slds[props.curSldIndex].heading}
                 </div>
                 <div className="qr-code">
-                  <img src={testQrcode} alt="QR-Code" />
+                  <QRCode
+                    value={`https://conversa-a419b.firebaseapp.com/audi/${props.match.params.projId}`}
+                    size={250}
+                  />
                 </div>
                 <div className="reaction-icons">
                   <FontAwesomeIcon icon={["far", "laugh-squint"]} />
