@@ -3,6 +3,7 @@ import {Router, Switch, Route, Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
+import Chart from "react-google-charts";
 import {
   isChrome,
   isFirefox,
@@ -235,19 +236,14 @@ const SldPage = props => {
 const SldPageRoute = props => {
   let optsArray = props.slds[props.curSldIndex].opts;
   let resultArray = props.slds[props.curSldIndex].result;
-  let optionLi = null;
+  let optResult = null;
   if (optsArray) {
-    optionLi = props.slds[props.curSldIndex].opts.map((opt, index) => {
-      return (
-        <li key={index}>
-          {opt}
-          <span className="result">
-            {resultArray[index] !== "" ? resultArray[index] : 0}
-          </span>
-        </li>
-      );
+    optResult = props.slds[props.curSldIndex].opts.map((opt, index) => {
+      return [`${opt}`, resultArray[index] !== "" ? resultArray[index] : 0];
     });
   }
+
+  let data = [["Options", "Result"]].concat(optResult);
 
   return (
     <div className="center">
@@ -257,7 +253,7 @@ const SldPageRoute = props => {
             {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
               <Fragment>
                 <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
-                <ul className="opt-ul">{optionLi}</ul>
+                <Chart chartType="ColumnChart" width="100%" height="400px" data={data} />
               </Fragment>
             ) : (
               <div className="heading-render-container">
