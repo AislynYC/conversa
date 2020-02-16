@@ -18,3 +18,118 @@
   font-size: 3.3em;
   padding: 80px 200px;
 }
+
+.overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.overlay-show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.closeX {
+  cursor: pointer;
+}
+/* Project Management */
+.proj-wrap {
+  width: 90%;
+  margin: 0 auto;
+}
+
+#proj-list-card {
+  box-sizing: border-box;
+  margin-top: 30px;
+  padding: 0 30px;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  border-bottom: 1px solid #aaa;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.col-header {
+  font-weight: 800;
+}
+
+.project-name {
+  cursor: pointer;
+  font-weight: 700;
+  color: rgb(63, 87, 75);
+}
+
+.project-name:hover {
+  text-decoration: underline;
+  transform: scale(1.3);
+}
+
+.proj-list {
+  height: 60vh;
+  overflow-y: scroll;
+}
+
+.col {
+  width: 30%;
+}
+.proj-tool-col {
+  max-width: 60px;
+  margin-right: 50px;
+}
+
+.empty-col {
+  width: 130px;
+  height: 17px;
+}
+
+.trash-bin {
+  cursor: pointer;
+}
+
+.trash-bin:hover {
+  transform: scale(1.2) rotate(-15deg);
+}
+
+#new-proj-card {
+  box-sizing: border-box;
+  padding: 20px 30px;
+}
+
+.overlay-card-title {
+  min-width: 500px;
+  margin-bottom: 30px;
+  font-weight: 800;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 2px;
+  font-size: 1.1em;
+}
+
+#new-proj-form {
+  margin: 0 auto;
+}
+
+#new-proj-name-input {
+  width: 500px;
+}
+
+#create-proj-btns {
+  margin-top: 50px;
+}
+
+#new-proj-submit-btn {
+  margin-right: 30px;
+}

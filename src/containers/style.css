@@ -2,7 +2,7 @@
   display: flex;
   width: 100%;
   height: calc(100vh - 100px);
-  overflow: hidden;
+  /* overflow: hidden; */
   font-size: 15px;
   margin: 0 auto;
   background-color: rgb(123, 144, 133);

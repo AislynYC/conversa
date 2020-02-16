@@ -18,7 +18,7 @@ import "./reset.css";
 import "./style.css";
 import SignUp from "./containers/SignUp";
 import LogIn from "./containers/LogIn";
-import ProjManager from "./projects";
+import ProjectsConnect from "./containers/ProjectsConnect";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
@@ -49,14 +49,11 @@ const Root = () => {
               path="/edit/:userId/:projId"
               render={props => <Edit {...props} locale={locale} setLocale={setLocale} />}
             />
-            <Route
-              path="/audi/:invtCode"
-              render={props => <InviteConnect {...props} />}
-            />
+            <Route path="/audi/:projId" render={props => <InviteConnect {...props} />} />
             <Route
               path="/pm/:userId"
               render={props => (
-                <ProjManager {...props} locale={locale} setLocale={setLocale} />
+                <ProjectsConnect {...props} locale={locale} setLocale={setLocale} />
               )}
             />
           </Router>

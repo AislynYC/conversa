@@ -23,6 +23,20 @@ const zh_TW = {
   "log-in.3rd-log-in": "或使用其他方式登入",
   "log-in.go-to-signup": "還沒有註冊帳戶嗎？",
   "home.log-out": "登出",
-  "home.my-presentation": "我的簡報"
+  "home.my-presentation": "我的簡報",
+  "projects.add-presentation": "新增簡報",
+  "projects.create-project-btn": "創建新簡報",
+  "projects.cancel-new-project": "取消",
+  "projects.create-new-project": "創建一個新簡報",
+  "projects.new-project-label": "新簡報名稱",
+  "projects.days-ago": "天前",
+  "projects.hours-ago": "小時前",
+  "projects.mins-ago": "分鐘前",
+  "projects.presentation-name": "簡報名稱",
+  "projects.presentation-created": "創建日期",
+  "projects.presentation-last-edited": "上次編輯",
+  "projects.confirm-del-proj": "確定要刪除這個簡報?",
+  "projects.del-proj": "確定",
+  "projects.cancel-del-project": "取消"
 };
 export default zh_TW;

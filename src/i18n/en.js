@@ -23,6 +23,20 @@ const en = {
   "log-in.3rd-log-in": "or log In with",
   "log-in.go-to-signup": "Go to create an account",
   "home.log-out": "Log Out",
-  "home.my-presentation": "My Presentations"
+  "home.my-presentation": "My Presentations",
+  "projects.add-presentation": "New Presentation",
+  "projects.create-project-btn": "Create Presentation",
+  "projects.cancel-new-project": "Cancel",
+  "projects.create-new-project": "Create a new presentation",
+  "projects.new-project-label": "Name of your new presentation",
+  "projects.days-ago": " days ago",
+  "projects.hours-ago": " hours ago",
+  "projects.mins-ago": " minutes ago",
+  "projects.presentation-name": "Presentation Name",
+  "projects.presentation-created": "Created",
+  "projects.presentation-last-edited": "Last Edited",
+  "projects.confirm-del-proj": "Are you sure you want to delete this presentation?",
+  "projects.del-proj": "Delete",
+  "projects.cancel-del-project": "No"
 };
 export default en;

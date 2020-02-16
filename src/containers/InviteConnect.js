@@ -9,7 +9,7 @@ let mapStateToProps = (state, props) => {
 
   if (invitationArray !== undefined) {
     const inviteObj = invitationArray.find(item => {
-      return item.inviteCode === props.match.params.invtCode;
+      return item.id === props.match.params.projId;
     });
     if (inviteObj !== undefined) {
       return {
