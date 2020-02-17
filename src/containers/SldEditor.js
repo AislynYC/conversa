@@ -387,6 +387,34 @@ const SldPageRoute = props => {
     }
   };
 
+  if (props.isFullscreen === true) {
+    options = {
+      legend: {position: "none"},
+      chartArea: {width: "80%", height: "70%"},
+      bar: {groupWidth: "68%"},
+      animation: {
+        duration: 1000,
+        easing: "out"
+      },
+      vAxis: {
+        gridlines: {count: 0},
+        minorGridlines: {count: 0},
+        ticks: []
+      },
+      hAxis: {
+        textStyle: {
+          fontSize: 25
+        }
+      },
+      annotations: {
+        textStyle: {
+          fontSize: 20,
+          bold: true
+        }
+      }
+    };
+  }
+
   // To make sure the chart will be drawn only when there is an option exists
   let chart = null;
   if (optsArray !== "") {
