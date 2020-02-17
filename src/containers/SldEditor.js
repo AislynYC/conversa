@@ -32,9 +32,10 @@ const history = createBrowserHistory();
 
 const SldEditor = props => {
   const db = useFirestore();
-  console.log("sldEditor props", props);
+
   const userId = props.match.params.userId;
   const projId = props.match.params.projId;
+
   const keyDownHandler = e => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
       nextSld();
@@ -79,7 +80,6 @@ const SldEditor = props => {
 
   const lastSld = () => {
     if (props.curSldIndex > 0) {
-      console.log("last");
       db.collection("users")
         .doc(userId)
         .collection("projects")

@@ -6,7 +6,6 @@ import SldEditor from "./SldEditor.js";
 import {showOverlay, closeOverlay} from "../ducks/sldEditorReducer";
 
 let mapStateToProps = (state, props) => {
-  console.log("map", props);
   let projDataArray = state.firestore.ordered[`${props.userId}-projects`];
   let projInvitation = state.firestore.ordered.invitation;
 
@@ -15,11 +14,13 @@ let mapStateToProps = (state, props) => {
     projDataArray.length !== 0 &&
     projInvitation !== undefined
   ) {
+    let projData = projDataArray.find(proj => proj.id === props.projId);
+    console.log("projData", projData);
     const projResponded = projInvitation.find(item => item.id === props.projId);
     return {
       firestore: state.firestore,
-      curSldIndex: projDataArray[0].curSldIndex,
-      slds: projDataArray[0].slds,
+      curSldIndex: projData.curSldIndex,
+      slds: projData.slds,
       respondedAudi: projResponded.respondedAudi,
       reaction: projResponded.reaction,
       confirmDelOverlayClass: state.sldEditor.confirmDelOverlayClass,
