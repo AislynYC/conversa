@@ -170,6 +170,13 @@ body {
   display: none;
 }
 
+.sld-copy-btn {
+  cursor: pointer;
+}
+
+.sld-copy-btn:hover {
+  transform: scale(1.2) rotate(-15deg);
+}
 /* question form */
 .edit-panel {
   width: 25%;

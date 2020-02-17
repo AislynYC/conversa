@@ -40,7 +40,7 @@ const SldEditor = props => {
   const userId = props.userId;
   const projId = props.projId;
 
-  const keyDownHandler = e => {
+  const keydownHandler = e => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
       nextSld();
     } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
@@ -174,11 +174,11 @@ const SldEditor = props => {
   }, []);
 
   useEffect(() => {
-    document.addEventListener("keydown", keyDownHandler);
+    document.addEventListener("keydown", keydownHandler);
     return () => {
-      document.removeEventListener("keydown", keyDownHandler);
+      document.removeEventListener("keydown", keydownHandler);
     };
-  }, [keyDownHandler]);
+  }, [keydownHandler]);
 
   return (
     <Router basename={process.env.PUBLIC_URL} history={history}>
@@ -199,11 +199,22 @@ export default SldEditor;
 
 const SldsItems = props => {
   const db = useFirestore();
+  const userId = props.userId;
+  const projId = props.projId;
   let [hovered, setHovered] = useState(null);
 
   if (!props.slds) {
     return <div>Loading</div>;
   }
+
+  const copySld = index => {
+    props.slds.splice(index + 1, 0, props.slds[index]);
+    db.collection("users")
+      .doc(userId)
+      .collection("projects")
+      .doc(projId)
+      .update({slds: props.slds});
+  };
 
   return props.slds.map((item, index) => {
     let path = null;
@@ -241,7 +252,11 @@ const SldsItems = props => {
         onMouseLeave={() => setHovered(null)}>
         <div className="sld-item-title">
           <div>{index + 1}</div>
-          <FontAwesomeIcon icon={["fas", "copy"]} className={copyBtnClass} />
+          <FontAwesomeIcon
+            icon={["fas", "copy"]}
+            className={copyBtnClass}
+            onClick={() => copySld(index)}
+          />
           <FontAwesomeIcon
             icon={["fas", "trash-alt"]}
             className={delBtnClass}
