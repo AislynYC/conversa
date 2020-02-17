@@ -36,7 +36,10 @@ const zh_TW = {
   "projects.presentation-created": "創建日期",
   "projects.presentation-last-edited": "上次編輯",
   "projects.confirm-del-proj": "確定要刪除這個簡報?",
-  "projects.del-proj": "確定",
-  "projects.cancel-del-project": "取消"
+  "projects.del-proj": "確定刪除",
+  "projects.cancel-del-project": "取消",
+  "edit.confirm-del-sld": "確定要刪除投影片？所有的資料、結果都將消失無法恢復",
+  "edit.del-sld": "確定刪除",
+  "edit.cancel-del-sld": "取消"
 };
 export default zh_TW;

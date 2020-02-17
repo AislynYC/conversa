@@ -19,18 +19,23 @@ import "./style.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {faLaughSquint} from "@fortawesome/free-regular-svg-icons";
-library.add(faLaughSquint);
+import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import {faCopy} from "@fortawesome/free-solid-svg-icons";
+library.add(faLaughSquint, faTrashAlt, faCopy);
 
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CloseIcon from "@material-ui/icons/Close";
 const history = createBrowserHistory();
 
 const SldEditor = props => {
   const db = useFirestore();
+  console.log("sldEditor props", props);
   const userId = props.match.params.userId;
   const projId = props.match.params.projId;
   const keyDownHandler = e => {
-    console.log("test");
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
       nextSld();
     } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
@@ -58,7 +63,6 @@ const SldEditor = props => {
 
   const nextSld = () => {
     if (props.curSldIndex < props.slds.length - 1) {
-      console.log("next");
       return db
         .collection("users")
         .doc(userId)
@@ -155,12 +159,16 @@ const SldEditor = props => {
           <SldPage {...props} />
         </Switch>
       </div>
+      <DelSld {...props} selectSld={selectSld} />
     </Router>
   );
 };
 export default SldEditor;
 
 const SldsItems = props => {
+  const db = useFirestore();
+  let [hovered, setHovered] = useState(null);
+
   if (!props.slds) {
     return <div>Loading</div>;
   }
@@ -169,7 +177,10 @@ const SldsItems = props => {
     let path = null;
     let sldClass = null;
 
+    // Compose path according to slide index
     index === 0 ? (path = `${props.match.url}`) : (path = `${props.match.url}/${index}`);
+
+    // Highlight current selected slide by different class name according to db curSldIndex
     if (index === parseInt(props.curSldIndex)) {
       sldClass = "sld-item sld-item-selected";
     } else {
@@ -183,9 +194,29 @@ const SldsItems = props => {
       });
     }
 
+    let copyBtnClass = "sld-copy-btn hide-tool";
+    let delBtnClass = "trash-bin sld-item-del hide-tool";
+    if (index === hovered) {
+      copyBtnClass = "sld-copy-btn";
+      delBtnClass = "trash-bin sld-item-del";
+    }
+
     return (
-      <div className={sldClass} key={index}>
-        <div>{index + 1}</div>
+      <div
+        className={sldClass}
+        key={index}
+        onMouseOver={() => setHovered(index)}
+        onMouseLeave={() => setHovered(null)}>
+        <div className="sld-item-title">
+          <div>{index + 1}</div>
+          <FontAwesomeIcon icon={["fas", "copy"]} className={copyBtnClass} />
+          <FontAwesomeIcon
+            icon={["fas", "trash-alt"]}
+            className={delBtnClass}
+            onClick={() => props.showOverlay("confirmDel", index)}
+          />
+        </div>
+
         <Link to={path}>
           <div
             className="sld"
@@ -193,12 +224,12 @@ const SldsItems = props => {
               props.selectSld(index);
             }}>
             {item.sldType === "multiple-choice" ? (
-              <Fragment>
+              <div className="sld-item-content">
                 <div className="qus-div">{item.qContent}</div>
                 <ul className="opt-ul">{optionLi}</ul>
-              </Fragment>
+              </div>
             ) : (
-              <div className="heading-render-container">
+              <div className="sld-item-content heading-render-container">
                 <div className="heading-render">{item.heading}</div>
               </div>
             )}
@@ -244,14 +275,29 @@ const SldPageRoute = props => {
     "#0984e3",
     "#00cec9",
     "#ff7675",
-    "#6c5ce7"
+    "#6c5ce7",
+    "#b2bec3",
+    "#fd79a8",
+    "#badc58",
+    "#686de0",
+    "#f0932b",
+    "#22a6b3",
+    "#f8c291",
+    "#60a3bc",
+    "#b71540",
+    "#0a3d62",
+    "#D6A2E8",
+    "#1B9CFC",
+    "#EAB543"
   ];
 
-  if (optsArray) {
+  if (optsArray !== "") {
     optResult = props.slds[props.curSldIndex].opts.map((opt, index) => {
       let result = resultArray[index] !== "" ? resultArray[index] : 0;
       return [`${opt}`, result, colors[index], result];
     });
+  } else {
+    optResult = null;
   }
 
   let data = [
@@ -267,8 +313,11 @@ const SldPageRoute = props => {
       }
     ]
   ].concat(optResult);
+
   let options = {
     legend: {position: "none"},
+    chartArea: {width: "80%", height: "70%"},
+    bar: {groupWidth: "68%"},
     animation: {
       duration: 1000,
       easing: "out"
@@ -278,14 +327,32 @@ const SldPageRoute = props => {
       minorGridlines: {count: 0},
       ticks: []
     },
+    hAxis: {
+      textStyle: {
+        fontSize: 20
+      }
+    },
     annotations: {
       textStyle: {
-        fontSize: 18,
+        fontSize: 20,
         bold: true
       }
     }
   };
 
+  // To make sure the chart will be drawn only when there is an option exists
+  let chart = null;
+  if (optsArray !== "") {
+    chart = (
+      <Chart
+        chartType="ColumnChart"
+        width="100%"
+        height="100%"
+        data={data}
+        options={options}
+      />
+    );
+  }
   return (
     <div className="center">
       <div id="current-sld-container">
@@ -294,13 +361,7 @@ const SldPageRoute = props => {
             {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
               <Fragment>
                 <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
-                <Chart
-                  chartType="ColumnChart"
-                  width="100%"
-                  height="400px"
-                  data={data}
-                  options={options}
-                />
+                {chart}
               </Fragment>
             ) : (
               <div className="heading-render-container">
@@ -364,6 +425,59 @@ const AddSldBtn = props => {
     <button id="add-sld-btn" onClick={addSld}>
       <FormattedMessage id="edit.add-sld" />
     </button>
+  );
+};
+
+const DelSld = props => {
+  const db = useFirestore();
+
+  const deleteSld = index => {
+    props.slds.splice(index, 1);
+
+    db.collection("users")
+      .doc(props.userId)
+      .collection("projects")
+      .doc(props.projId)
+      .update({
+        lastEdited: Date.now(),
+        slds: props.slds
+      })
+      .then(() => {
+        props.closeOverlay("confirmDel");
+        props.selectSld(index - 1);
+      });
+  };
+  return (
+    <div className={props.confirmDelOverlayClass}>
+      <Card id="confirm-del">
+        <CardContent>
+          <div className="overlay-card-title">
+            <FormattedMessage id="edit.confirm-del-sld" />
+            <CloseIcon
+              className="closeX"
+              onClick={() => props.closeOverlay("confirmDel")}
+            />
+          </div>
+
+          <div className="confirm-del-btns">
+            <Button
+              value="true"
+              variant="contained"
+              id="del-btn"
+              onClick={() => deleteSld(props.delSldIndex)}>
+              <FormattedMessage id="edit.del-sld" />
+            </Button>
+            <Button
+              value="false"
+              variant="contained"
+              id="cancel-del-btn"
+              onClick={() => props.closeOverlay("confirmDel")}>
+              <FormattedMessage id="edit.cancel-del-sld" />
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

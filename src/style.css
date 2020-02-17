@@ -16,7 +16,7 @@
   width: 100%;
   background-color: white;
   font-size: 3.3em;
-  padding: 80px 200px;
+  padding: 100px 80px;
 }
 
 .overlay {
@@ -100,6 +100,10 @@
 
 .trash-bin:hover {
   transform: scale(1.2) rotate(-15deg);
+}
+
+#del-btn {
+  margin-right: 20px;
 }
 
 #new-proj-card {

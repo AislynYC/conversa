@@ -36,7 +36,11 @@ const en = {
   "projects.presentation-created": "Created",
   "projects.presentation-last-edited": "Last Edited",
   "projects.confirm-del-proj": "Are you sure you want to delete this presentation?",
-  "projects.del-proj": "Delete",
-  "projects.cancel-del-project": "No"
+  "projects.del-proj": "DELETE",
+  "projects.cancel-del-project": "No",
+  "edit.confirm-del-sld":
+    "Are you sure you want to DELETE this slide? Aii you data and result will be removed and cannot be recovered",
+  "edit.del-sld": "DELETE",
+  "edit.cancel-del-sld": "Cancel"
 };
 export default en;
