@@ -105,19 +105,39 @@ const SldEditor = props => {
     }
   };
 
+  // useEffect(() => {
+  //   console.log("fullscreen");
+  //   const ifFullscreen = () => {
+  //     console.log("fullscreen change");
+  //     if (document.fullscreenElement) {
+  //       document.addEventListener("click", fullScreenClicking);
+  //     } else {
+  //       document.removeEventListener("click", fullScreenClicking);
+  //     }
+  //   };
+
+  //   document.addEventListener("fullscreenchange", ifFullscreen);
+
+  //   return () => {
+  //     document.removeEventListener("fullscreenchange", ifFullscreen);
+  //     document.removeEventListener("click", fullScreenClicking);
+  //   };
+  // });
+
+  let [isFullscreen, setIsFullscreen] = useState(false);
   useEffect(() => {
-    const ifFullscreen = () => {
+    const monitorFullscreen = () => {
       if (document.fullscreenElement) {
-        document.addEventListener("click", fullScreenClicking);
+        setIsFullscreen(true);
       } else {
-        document.removeEventListener("click", fullScreenClicking);
+        setIsFullscreen(false);
       }
     };
-    document.addEventListener("fullscreenchange", ifFullscreen);
+
+    document.addEventListener("fullscreenchange", monitorFullscreen);
 
     return () => {
-      document.removeEventListener("fullscreenchange", ifFullscreen);
-      document.removeEventListener("click", fullScreenClicking);
+      document.removeEventListener("fullscreenchange", monitorFullscreen);
     };
   });
 
@@ -165,7 +185,7 @@ const SldEditor = props => {
           <AddSldBtn {...props} selectSld={selectSld} />
         </div>
         <Switch>
-          <SldPage {...props} />
+          <SldPage {...props} isFullscreen={isFullscreen} />
         </Switch>
       </div>
       <DelSld {...props} selectSld={selectSld} />
@@ -262,7 +282,7 @@ const SldPage = props => {
 
     return (
       <Route {...path} key={index}>
-        <SldPageRoute {...props} sld={sld} />
+        <SldPageRoute {...props} sld={sld} isFullscreen={props.isFullscreen} />
         {sld.sldType === "multiple-choice" ? (
           <QusForm {...props} sld={sld} sldIndex={index} />
         ) : (
@@ -367,13 +387,28 @@ const SldPageRoute = props => {
   if (props.slds[props.curSldIndex].hasQRCode) {
     QRCodeContainer = (
       <div className="qr-code">
-        <div>
-          <FormattedMessage id="edit.scan-to-join" />
-        </div>
-        <QRCode
-          value={`https://conversa-a419b.firebaseapp.com/audi/${props.projId}`}
-          size={250}
-        />
+        {/* different QRCode size depends on fullscreen or not */}
+        {props.isFullscreen === false ? (
+          <Fragment>
+            <div>
+              <FormattedMessage id="edit.scan-to-join" />
+            </div>
+            <QRCode
+              value={`https://conversa-a419b.firebaseapp.com/audi/${props.projId}`}
+              size={230}
+            />
+          </Fragment>
+        ) : (
+          <Fragment>
+            <div className="fullscreenFontSize">
+              <FormattedMessage id="edit.scan-to-join" />
+            </div>
+            <QRCode
+              value={`https://conversa-a419b.firebaseapp.com/audi/${props.projId}`}
+              size={500}
+            />
+          </Fragment>
+        )}
       </div>
     );
   }
@@ -953,13 +988,16 @@ const HeadingSldEditor = props => {
           }}
         />
       </label>
-      <SwitchBtn
-        checked={props.sld.hasQRCode === true}
-        onChange={switchQRCode}
-        value={props.sld.hasQRCode}
-        color="primary"
-        inputProps={{"aria-label": "primary checkbox"}}
-      />
+      <label htmlFor="QRCode-switch" id="hQRCode-switch-group">
+        <FormattedMessage id="edit.QRCode-switch-label" />
+        <SwitchBtn
+          checked={props.sld.hasQRCode === true}
+          onChange={switchQRCode}
+          value={props.sld.hasQRCode}
+          color="primary"
+          inputProps={{"aria-label": "primary checkbox"}}
+        />
+      </label>
     </div>
   );
 };

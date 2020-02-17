@@ -44,6 +44,7 @@ const en = {
     "Are you sure you want to DELETE this slide? All your data and result will be removed and cannot be recovered!",
   "edit.del-sld": "DELETE",
   "edit.cancel-del-sld": "Cancel",
-  "edit.scan-to-join": "Scan to join →"
+  "edit.scan-to-join": "Scan to join →",
+  "edit.QRCode-switch-label": "Show QRCode"
 };
 export default en;

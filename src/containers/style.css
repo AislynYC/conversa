@@ -67,6 +67,10 @@
   width: 100%;
 }
 
+.fullscreenFontSize {
+  font-size: 1.5em;
+}
+
 /* control panel */
 #control-panel {
   box-sizing: border-box;
