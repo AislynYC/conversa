@@ -1,7 +1,7 @@
 import React, {Fragment, useEffect} from "react";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
-
+import logo from "../img/conversa.png";
 import "./style.css";
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -99,6 +99,9 @@ const Poll = props => {
 
   return (
     <div className="poll">
+      <div className="logo">
+        <img src={logo} alt="logo" />
+      </div>
       {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
         props.slds[props.curSldIndex].opts !== "" ? (
           props.respondedAudi[props.slds[props.curSldIndex].id].includes(props.audiId) ? (

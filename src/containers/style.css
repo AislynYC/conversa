@@ -280,9 +280,19 @@ body,
   width: 100%;
   height: 100%;
   margin: auto;
-  background-color: rgba(189, 212, 200, 0.76);
-  padding: 60px 30px;
-  font-size: 1.8em;
+  background-color: rgba(185, 204, 194, 0.836);
+  padding: 30px 30px;
+  color: #333;
+  font-size: 1.6em;
+}
+
+.logo {
+  margin-bottom: 25px;
+}
+
+.logo > img {
+  border-radius: 20px;
+  box-shadow: 1px 2px 2px gray;
 }
 .res-group {
   display: flex;
