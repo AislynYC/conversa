@@ -43,6 +43,7 @@ const en = {
   "edit.confirm-del-sld":
     "Are you sure you want to DELETE this slide? All your data and result will be removed and cannot be recovered!",
   "edit.del-sld": "DELETE",
-  "edit.cancel-del-sld": "Cancel"
+  "edit.cancel-del-sld": "Cancel",
+  "edit.scan-to-join": "Scan to join →"
 };
 export default en;

@@ -59,7 +59,9 @@
 }
 
 .qr-code {
-  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .qr-code > img {
   width: 100%;
@@ -223,7 +225,7 @@
 .heading-render-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   height: 100%;

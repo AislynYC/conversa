@@ -171,6 +171,7 @@ const NewProj = props => {
           slds: [
             {
               heading: "",
+              hasQRCode: true,
               id: Date.now(),
               opts: "",
               qContent: "",

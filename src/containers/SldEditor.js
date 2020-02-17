@@ -28,11 +28,12 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CloseIcon from "@material-ui/icons/Close";
+import SwitchBtn from "@material-ui/core/Switch";
 const history = createBrowserHistory();
 
 const SldEditor = props => {
   const db = useFirestore();
-
+  console.log("high", props);
   const userId = props.userId;
   const projId = props.projId;
 
@@ -121,11 +122,12 @@ const SldEditor = props => {
   });
 
   useEffect(() => {
-    let url = props.match.url;
+    let url = props.location.pathname;
     // Each time enter this page, the UseEffect function will check the URL path
-
+    console.log(url, /^[/]\d$/.test(url.substr(url.length - 2, 2)));
     if (/^[/]\d$/.test(url.substr(url.length - 2, 2))) {
       // if the URL path contained page number info, this will update the curSldIndex according to the URL path
+      console.log("ya");
       history.push(`${props.match.url}/${parseInt(url.charAt(url.length - 1))}`);
       db.collection("users")
         .doc(userId)
@@ -136,6 +138,7 @@ const SldEditor = props => {
         });
     } else {
       // if the URL path does not contained page number info, this will update the curSldIndex to 0 (i.e. the first page)
+      console.log("no");
       history.push(`${props.match.url}`);
       db.collection("users")
         .doc(userId)
@@ -263,7 +266,7 @@ const SldPage = props => {
         {sld.sldType === "multiple-choice" ? (
           <QusForm {...props} sld={sld} sldIndex={index} />
         ) : (
-          <HeadingSld {...props} sld={sld} sldIndex={index} />
+          <HeadingSldEditor {...props} sld={sld} sldIndex={index} />
         )}
       </Route>
     );
@@ -359,6 +362,21 @@ const SldPageRoute = props => {
       />
     );
   }
+
+  let QRCodeContainer = null;
+  if (props.slds[props.curSldIndex].hasQRCode) {
+    QRCodeContainer = (
+      <div className="qr-code">
+        <div>
+          <FormattedMessage id="edit.scan-to-join" />
+        </div>
+        <QRCode
+          value={`https://conversa-a419b.firebaseapp.com/audi/${props.projId}`}
+          size={250}
+        />
+      </div>
+    );
+  }
   return (
     <div className="center">
       <div id="current-sld-container">
@@ -374,12 +392,7 @@ const SldPageRoute = props => {
                 <div className="heading-render">
                   {props.slds[props.curSldIndex].heading}
                 </div>
-                <div className="qr-code">
-                  <QRCode
-                    value={`https://conversa-a419b.firebaseapp.com/audi/${props.projId}`}
-                    size={250}
-                  />
-                </div>
+                <Fragment>{QRCodeContainer}</Fragment>
                 <div className="reaction-icons">
                   <FontAwesomeIcon icon={["far", "laugh-squint"]} />
                   <span className="reaction-count">{props.reaction.laugh}</span>
@@ -411,11 +424,12 @@ const AddSldBtn = props => {
           {
             id: t,
             qContent: "",
-            sldType: "",
+            sldType: "heading-page",
             opts: "",
             resType: "",
             result: "",
-            heading: ""
+            heading: "",
+            hasQRCode: true
           }
         ]
       })
@@ -873,7 +887,7 @@ const ControlPanel = props => {
   );
 };
 
-const HeadingSld = props => {
+const HeadingSldEditor = props => {
   const db = useFirestore();
   const userId = props.userId;
   const projId = props.projId;
@@ -900,6 +914,30 @@ const HeadingSld = props => {
         slds: newSlds
       });
   };
+
+  const switchQRCode = () => {
+    let newSlds = props.slds.map((sld, index) => {
+      if (index === props.sldIndex) {
+        sld.lastEdited = Date.now();
+        if (sld.hasQRCode) {
+          sld.hasQRCode = false;
+        } else {
+          sld.hasQRCode = true;
+        }
+      }
+      return sld;
+    });
+
+    db.collection("users")
+      .doc(userId)
+      .collection("projects")
+      .doc(projId)
+      .update({
+        lastEdited: Date.now(),
+        slds: newSlds
+      });
+  };
+
   return (
     <div className="edit-panel">
       <label htmlFor="heading-input" id="heading-input-group">
@@ -915,6 +953,13 @@ const HeadingSld = props => {
           }}
         />
       </label>
+      <SwitchBtn
+        checked={props.sld.hasQRCode === true}
+        onChange={switchQRCode}
+        value={props.sld.hasQRCode}
+        color="primary"
+        inputProps={{"aria-label": "primary checkbox"}}
+      />
     </div>
   );
 };
