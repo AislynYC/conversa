@@ -120,17 +120,24 @@ const SldEditor = props => {
     };
   });
 
+  console.log("curSldIndex out", props);
   useEffect(() => {
-    let historyPath = history.location.pathname;
-    if (/^[/]\d$/.test(historyPath.substr(historyPath.length - 2, 2))) {
+    let url = props.match.url;
+    // Each time enter this page, the UseEffect function will check the URL path
+
+    if (/^[/]\d$/.test(url.substr(url.length - 2, 2))) {
+      // if the URL path contained page number info, this will update the curSldIndex according to the URL path
+      console.log("curSldIndex align with URL", historyPath, history);
       db.collection("users")
         .doc(userId)
         .collection("projects")
         .doc(projId)
         .update({
-          curSldIndex: parseInt(historyPath.charAt(historyPath.length - 1))
+          curSldIndex: parseInt(url.charAt(url.length - 1))
         });
     } else {
+      // if the URL path does not contained page number info, this will update the curSldIndex to 0 (i.e. the first page)
+      console.log("reset curSldIndex to 0");
       db.collection("users")
         .doc(userId)
         .collection("projects")
@@ -414,7 +421,9 @@ const AddSldBtn = props => {
         ]
       })
       .then(() => {
+        // change selection focus to the new created slide
         props.selectSld(props.slds.length);
+        // Add a responded audi container to the new slide
         props.respondedAudi[t] = [];
         db.collection("invitation")
           .doc(projId)
@@ -444,6 +453,7 @@ const DelSld = props => {
       })
       .then(() => {
         props.closeOverlay("confirmDel");
+        // change selection focus to the last slide of the removed slide
         props.selectSld(index - 1);
       });
   };

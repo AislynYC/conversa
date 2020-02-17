@@ -21,8 +21,6 @@ import "./reset.css";
 import "./style.css";
 
 const ProjManager = props => {
-  console.log(props);
-
   if (props.auth === undefined) {
     return <div>Loading</div>;
   }
