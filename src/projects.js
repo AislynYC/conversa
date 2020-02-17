@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useState, useEffect} from "react";
 import {FormattedMessage} from "react-intl";
 import {useFirestore} from "react-redux-firebase";
 import {Link} from "react-router-dom";
@@ -188,7 +188,8 @@ const NewProj = props => {
               owner: props.auth.uid,
               projId: res.id,
               reaction: {laugh: 0},
-              respondedAudi: {}
+              respondedAudi: {},
+              involvedAudi: []
             })
             .then(() => props.closeOverlay("newProj"));
         });
@@ -265,11 +266,19 @@ const DelProj = props => {
       });
   };
 
-  let deletingProjName = null;
-  if (props.delProjId !== undefined) {
-    let deletingProj = props.projects.find(proj => proj.id === props.delProjId);
-    deletingProjName = deletingProj.name;
-  }
+  let [deletingProjName, setDeletingProjName] = useState(null);
+
+  useEffect(() => {
+    console.log("useEffect", deletingProjName);
+    if (props.delProjId !== undefined && props.projects !== undefined) {
+      let deletingProj = props.projects.find(proj => proj.id === props.delProjId);
+      if (deletingProj !== undefined) {
+        setDeletingProjName(deletingProj.name);
+        console.log("if", deletingProjName);
+      }
+    }
+  }, [props.delProjId]);
+  console.log(deletingProjName);
 
   return (
     <div className={props.confirmDelOverlayClass}>
