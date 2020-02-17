@@ -33,8 +33,8 @@ const history = createBrowserHistory();
 const SldEditor = props => {
   const db = useFirestore();
 
-  const userId = props.match.params.userId;
-  const projId = props.match.params.projId;
+  const userId = props.userId;
+  const projId = props.projId;
 
   const keyDownHandler = e => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
@@ -374,7 +374,7 @@ const SldPageRoute = props => {
                 </div>
                 <div className="qr-code">
                   <QRCode
-                    value={`https://conversa-a419b.firebaseapp.com/audi/${props.match.params.projId}`}
+                    value={`https://conversa-a419b.firebaseapp.com/audi/${props.projId}`}
                     size={250}
                   />
                 </div>
@@ -394,8 +394,8 @@ const SldPageRoute = props => {
 
 const AddSldBtn = props => {
   const db = useFirestore();
-  const userId = props.match.params.userId;
-  const projId = props.match.params.projId;
+  const userId = props.userId;
+  const projId = props.projId;
   const addSld = () => {
     const t = Date.now();
     db.collection("users")
@@ -515,8 +515,8 @@ const QusForm = props => {
 
 const QusInput = props => {
   const db = useFirestore();
-  const userId = props.match.params.userId;
-  const projId = props.match.params.projId;
+  const userId = props.userId;
+  const projId = props.projId;
   const [inputValue, setInputValue] = useState("");
   const [isOnComposition, setIsOnComposition] = useState(false);
   const [isInnerChangeFromOnChange, setIsInnerChangeFromOnChange] = useState(false);
@@ -545,15 +545,6 @@ const QusInput = props => {
   };
 
   const handleChange = e => {
-    console.log(
-      "change type ",
-      e.type,
-      ", target ",
-      e.target,
-      ", target.value ",
-      e.target.value
-    );
-
     // Flow check
     if (!(e.target instanceof HTMLInputElement)) return;
 
@@ -575,17 +566,6 @@ const QusInput = props => {
   };
 
   const handleComposition = e => {
-    console.log(
-      "type ",
-      e.type,
-      ", target ",
-      e.target,
-      ",target.value ",
-      e.target.value,
-      ", data",
-      e.data
-    );
-
     // Flow check
     if (!(e.target instanceof HTMLInputElement)) return;
 
@@ -635,8 +615,8 @@ const QusInput = props => {
 
 const OptInputs = props => {
   const db = useFirestore();
-  const userId = props.match.params.userId;
-  const projId = props.match.params.projId;
+  const userId = props.userId;
+  const projId = props.projId;
   const editOpt = (e, optIndex) => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
@@ -670,8 +650,8 @@ const OptInputs = props => {
 
 const OptInput = props => {
   const db = useFirestore();
-  const userId = props.match.params.userId;
-  const projId = props.match.params.projId;
+  const userId = props.userId;
+  const projId = props.projId;
   const [inputValue, setInputValue] = useState("");
   const [isOnComposition, setIsOnComposition] = useState(false);
   const [isInnerChangeFromOnChange, setIsInnerChangeFromOnChange] = useState(false);
@@ -700,15 +680,6 @@ const OptInput = props => {
   };
 
   const handleChange = e => {
-    console.log(
-      "change type ",
-      e.type,
-      ", target ",
-      e.target,
-      ", target.value ",
-      e.target.value
-    );
-
     // Flow check
     if (!(e.target instanceof HTMLInputElement)) return;
 
@@ -730,17 +701,6 @@ const OptInput = props => {
   };
 
   const handleComposition = e => {
-    console.log(
-      "type ",
-      e.type,
-      ", target ",
-      e.target,
-      ",target.value ",
-      e.target.value,
-      ", data",
-      e.data
-    );
-
     // Flow check
     if (!(e.target instanceof HTMLInputElement)) return;
 
@@ -787,8 +747,8 @@ const OptInput = props => {
 
 const DelOptBtn = props => {
   const db = useFirestore();
-  const userId = props.match.params.userId;
-  const projId = props.match.params.projId;
+  const userId = props.userId;
+  const projId = props.projId;
   const deleteOpt = () => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
@@ -817,8 +777,8 @@ const DelOptBtn = props => {
 
 const AddOptBtn = props => {
   const db = useFirestore();
-  const userId = props.match.params.userId;
-  const projId = props.match.params.projId;
+  const userId = props.userId;
+  const projId = props.projId;
   const addOption = e => {
     e.preventDefault();
 
@@ -855,8 +815,8 @@ const AddOptBtn = props => {
 
 const ControlPanel = props => {
   const db = useFirestore();
-  const userId = props.match.params.userId;
-  const projId = props.match.params.projId;
+  const userId = props.userId;
+  const projId = props.projId;
   const changeSldType = e => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.curSldIndex) {
@@ -913,8 +873,8 @@ const ControlPanel = props => {
 
 const HeadingSld = props => {
   const db = useFirestore();
-  const userId = props.match.params.userId;
-  const projId = props.match.params.projId;
+  const userId = props.userId;
+  const projId = props.projId;
   const [inputRefHeading, setInputHeadingFocus] = UseFocus();
   useEffect(() => {
     setInputHeadingFocus();
