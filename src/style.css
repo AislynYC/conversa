@@ -47,6 +47,17 @@
   margin: 0 auto;
 }
 
+#add-project-btn {
+  letter-spacing: 5px;
+  font-size: 1.05em;
+  font-weight: 800;
+  height: 48px;
+}
+
+#add-project-icon {
+  margin-right: 10px;
+}
+
 #proj-list-card {
   box-sizing: border-box;
   margin-top: 30px;
@@ -68,7 +79,13 @@
 .project-name {
   cursor: pointer;
   font-weight: 700;
-  color: rgb(63, 87, 75);
+  color: rgb(30, 57, 43);
+}
+
+.project-name:visited,
+.project-name:hover,
+.project-name:focus {
+  color: rgb(30, 57, 43);
 }
 
 .project-name:hover {
@@ -102,6 +119,20 @@
   transform: scale(1.2) rotate(-15deg);
 }
 
+#confirm-del-card {
+  box-sizing: border-box;
+  padding: 20px 30px;
+}
+
+.deleting-proj-alert {
+  margin-bottom: 40px;
+}
+
+.deleting-proj-name {
+  color: red;
+  font-weight: bold;
+}
+
 #del-btn {
   margin-right: 20px;
 }
@@ -112,7 +143,7 @@
 }
 
 .overlay-card-title {
-  min-width: 500px;
+  min-width: 600px;
   margin-bottom: 30px;
   font-weight: 800;
   padding: 10px 0;

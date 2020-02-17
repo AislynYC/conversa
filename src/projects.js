@@ -54,8 +54,8 @@ const ToolBar = props => {
 
   return (
     <div className="tool-bar">
-      <Button variant="contained" onClick={newProjName}>
-        <AddIcon />
+      <Button variant="contained" onClick={newProjName} id="add-project-btn">
+        <AddIcon id="add-project-icon" />
         <FormattedMessage id="projects.add-presentation" />
       </Button>
     </div>
@@ -263,9 +263,16 @@ const DelProj = props => {
           });
       });
   };
+
+  let deletingProjName = null;
+  if (props.delProjId !== undefined) {
+    let deletingProj = props.projects.find(proj => proj.id === props.delProjId);
+    deletingProjName = deletingProj.name;
+  }
+
   return (
     <div className={props.confirmDelOverlayClass}>
-      <Card id="confirm-del">
+      <Card id="confirm-del-card">
         <CardContent>
           <div className="overlay-card-title">
             <FormattedMessage id="projects.confirm-del-proj" />
@@ -274,13 +281,23 @@ const DelProj = props => {
               onClick={() => props.closeOverlay("confirmDel")}
             />
           </div>
+          {props.delProjId !== undefined ? (
+            <div className="deleting-proj-alert">
+              <span>
+                <FormattedMessage id="projects.del-proj-name" />
+              </span>
+              <span className="deleting-proj-name">{deletingProjName}</span>
+            </div>
+          ) : (
+            <Fragment></Fragment>
+          )}
 
           <div id="confirm-del-btns">
             <Button
               value="true"
               variant="contained"
               id="del-btn"
-              onClick={e => deleteProj(e)}>
+              onClick={() => deleteProj()}>
               <FormattedMessage id="projects.del-proj" />
             </Button>
             <Button

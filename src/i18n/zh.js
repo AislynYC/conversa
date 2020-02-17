@@ -25,7 +25,7 @@ const zh_TW = {
   "home.log-out": "登出",
   "home.my-presentation": "我的簡報",
   "projects.add-presentation": "新增簡報",
-  "projects.create-project-btn": "創建新簡報",
+  "projects.create-project-btn": "創建",
   "projects.cancel-new-project": "取消",
   "projects.create-new-project": "創建一個新簡報",
   "projects.new-project-label": "新簡報名稱",
@@ -35,10 +35,12 @@ const zh_TW = {
   "projects.presentation-name": "簡報名稱",
   "projects.presentation-created": "創建日期",
   "projects.presentation-last-edited": "上次編輯",
-  "projects.confirm-del-proj": "確定要刪除這個簡報?",
+  "projects.confirm-del-proj":
+    "確定要刪除這個簡報?所有的資料、聽眾結果都將被刪除且無法恢復",
+  "projects.del-proj-name": "正在刪除：",
   "projects.del-proj": "確定刪除",
   "projects.cancel-del-project": "取消",
-  "edit.confirm-del-sld": "確定要刪除投影片？所有的資料、結果都將消失無法恢復",
+  "edit.confirm-del-sld": "確定要刪除投影片？所有的資料、聽眾結果都將被刪除且無法恢復",
   "edit.del-sld": "確定刪除",
   "edit.cancel-del-sld": "取消"
 };

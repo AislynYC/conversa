@@ -120,14 +120,12 @@ const SldEditor = props => {
     };
   });
 
-  console.log("curSldIndex out", props);
   useEffect(() => {
     let url = props.match.url;
     // Each time enter this page, the UseEffect function will check the URL path
 
     if (/^[/]\d$/.test(url.substr(url.length - 2, 2))) {
       // if the URL path contained page number info, this will update the curSldIndex according to the URL path
-      console.log("curSldIndex align with URL", historyPath, history);
       db.collection("users")
         .doc(userId)
         .collection("projects")
@@ -137,7 +135,6 @@ const SldEditor = props => {
         });
     } else {
       // if the URL path does not contained page number info, this will update the curSldIndex to 0 (i.e. the first page)
-      console.log("reset curSldIndex to 0");
       db.collection("users")
         .doc(userId)
         .collection("projects")

@@ -25,7 +25,7 @@ const en = {
   "home.log-out": "Log Out",
   "home.my-presentation": "My Presentations",
   "projects.add-presentation": "New Presentation",
-  "projects.create-project-btn": "Create Presentation",
+  "projects.create-project-btn": "Create",
   "projects.cancel-new-project": "Cancel",
   "projects.create-new-project": "Create a new presentation",
   "projects.new-project-label": "Name of your new presentation",
@@ -35,11 +35,13 @@ const en = {
   "projects.presentation-name": "Presentation Name",
   "projects.presentation-created": "Created",
   "projects.presentation-last-edited": "Last Edited",
-  "projects.confirm-del-proj": "Are you sure you want to delete this presentation?",
+  "projects.confirm-del-proj":
+    "Are you sure you want to DELETE this presentation?  All your data and result will be removed and cannot be recovered!",
+  "projects.del-proj-name": "You are deleting: ",
   "projects.del-proj": "DELETE",
   "projects.cancel-del-project": "No",
   "edit.confirm-del-sld":
-    "Are you sure you want to DELETE this slide? Aii you data and result will be removed and cannot be recovered",
+    "Are you sure you want to DELETE this slide? All your data and result will be removed and cannot be recovered!",
   "edit.del-sld": "DELETE",
   "edit.cancel-del-sld": "Cancel"
 };
