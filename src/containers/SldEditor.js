@@ -126,6 +126,7 @@ const SldEditor = props => {
 
     if (/^[/]\d$/.test(url.substr(url.length - 2, 2))) {
       // if the URL path contained page number info, this will update the curSldIndex according to the URL path
+      history.push(`${props.match.url}/${parseInt(url.charAt(url.length - 1))}`);
       db.collection("users")
         .doc(userId)
         .collection("projects")
@@ -135,6 +136,7 @@ const SldEditor = props => {
         });
     } else {
       // if the URL path does not contained page number info, this will update the curSldIndex to 0 (i.e. the first page)
+      history.push(`${props.match.url}`);
       db.collection("users")
         .doc(userId)
         .collection("projects")
