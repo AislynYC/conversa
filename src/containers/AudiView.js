@@ -99,7 +99,7 @@ const Poll = props => {
 
   return (
     <div className="poll">
-      <div className="logo">
+      <div className="poll-logo">
         <img src={logo} alt="logo" />
       </div>
       {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
