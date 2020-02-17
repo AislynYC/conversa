@@ -24,6 +24,7 @@ const GreenRadio = withStyles({
 
 const AudiView = props => {
   console.log(props);
+  const db = useFirestore();
   //get uuid
   const _uuid = () => {
     let d = Date.now();
@@ -44,6 +45,14 @@ const AudiView = props => {
     props.getAudiId();
   }, []);
 
+  if (props.involvedAudi !== undefined && props.audiId !== undefined) {
+    if (!props.involvedAudi.includes(props.audiId)) {
+      props.involvedAudi.push(props.audiId);
+      db.collection("invitation")
+        .doc(props.projId)
+        .update({involvedAudi: props.involvedAudi});
+    }
+  }
   return (
     <Fragment>
       {props.curSldIndex === undefined ? <span>Loading</span> : <Poll {...props} />}
@@ -53,40 +62,15 @@ const AudiView = props => {
 export default AudiView;
 
 const Poll = props => {
-  console.log(props.respondedAudi, props.slds, props.curSldIndex);
   const db = useFirestore();
-
-  // useEffect(() => {
-  // if (!props.respondedAudi) {
-  //   console.log("ya");
-  //   let newResObj = {};
-  //   let sldsIdArray = props.slds.map(sld => sld.id);
-  //   for (i = 0; i < sldsIdArray.length; i++) {
-  //     return (newResObj.sldsIdArray[i] = []);
-  //   }
-  //   db.collection("invitation")
-  //     .doc(props.projId)
-  //     .update({respondedAudi: newResObj});
-  // }
-  //   if (props.respondedAudi[props.slds[props.curSldIndex].id] === undefined) {
-  //     console.log("yo");
-  //     props.respondedAudi[props.slds[props.curSldIndex].id] = [];
-  //     db.collection("invitation")
-  //       .doc(props.projId)
-  //       .update({respondedAudi: props.respondedAudi});
-  //   }
-  // });
 
   const respondPoll = e => {
     e.preventDefault();
-    console.log("respond", e);
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.curSldIndex) {
         if (sld.result[props.selOptIndex] === "") {
-          console.log("result for 0");
           sld.result[props.selOptIndex] = 1;
         } else {
-          console.log("result if not 0", sld.result[props.selOptIndex]);
           sld.result[props.selOptIndex]++;
         }
       }

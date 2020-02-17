@@ -21,14 +21,17 @@ import {library} from "@fortawesome/fontawesome-svg-core";
 import {faLaughSquint} from "@fortawesome/free-regular-svg-icons";
 import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import {faCopy} from "@fortawesome/free-solid-svg-icons";
-library.add(faLaughSquint, faTrashAlt, faCopy);
-
+import {faUser} from "@fortawesome/free-solid-svg-icons";
+import {faHandPointRight} from "@fortawesome/free-regular-svg-icons";
+library.add(faLaughSquint, faTrashAlt, faCopy, faUser, faHandPointRight);
+// Material UI
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CloseIcon from "@material-ui/icons/Close";
 import SwitchBtn from "@material-ui/core/Switch";
+
 const history = createBrowserHistory();
 
 const SldEditor = props => {
@@ -390,8 +393,9 @@ const SldPageRoute = props => {
         {/* different QRCode size depends on fullscreen or not */}
         {props.isFullscreen === false ? (
           <Fragment>
-            <div>
+            <div className="scan-to-join">
               <FormattedMessage id="edit.scan-to-join" />
+              <FontAwesomeIcon icon={["far", "hand-point-right"]} size="lg" />
             </div>
             <QRCode
               value={`https://conversa-a419b.firebaseapp.com/audi/${props.projId}`}
@@ -400,8 +404,9 @@ const SldPageRoute = props => {
           </Fragment>
         ) : (
           <Fragment>
-            <div className="fullscreenFontSize">
+            <div className="fullscreenFontSize scan-to-join">
               <FormattedMessage id="edit.scan-to-join" />
+              <FontAwesomeIcon icon={["far", "hand-point-right"]} size="lg" />
             </div>
             <QRCode
               value={`https://conversa-a419b.firebaseapp.com/audi/${props.projId}`}
@@ -434,6 +439,10 @@ const SldPageRoute = props => {
                 </div>
               </div>
             )}
+            <div className="member-info">
+              <FontAwesomeIcon icon={["fas", "user"]} />
+              {props.involvedAudi.length}
+            </div>
           </div>
         </div>
       </div>
@@ -479,9 +488,10 @@ const AddSldBtn = props => {
       });
   };
   return (
-    <button id="add-sld-btn" onClick={addSld}>
+    <Button variant="contained" id="add-sld-btn" onClick={addSld}>
+      <AddIcon />
       <FormattedMessage id="edit.add-sld" />
-    </button>
+    </Button>
   );
 };
 

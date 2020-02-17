@@ -23,7 +23,8 @@ let mapStateToProps = (state, props) => {
       selOptIndex: state.audiView.selOptIndex,
       audiId: state.audiView.audiId,
       respondedAudi: projResponded.respondedAudi,
-      reaction: projResponded.reaction
+      reaction: projResponded.reaction,
+      involvedAudi: projResponded.involvedAudi
     };
   } else {
     return {
@@ -33,7 +34,8 @@ let mapStateToProps = (state, props) => {
       selOptIndex: undefined,
       audiId: undefined,
       respondedAudi: undefined,
-      reaction: undefined
+      reaction: undefined,
+      involvedAudi: undefined
     };
   }
 };

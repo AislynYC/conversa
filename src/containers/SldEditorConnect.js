@@ -23,6 +23,7 @@ let mapStateToProps = (state, props) => {
       slds: projData.slds,
       respondedAudi: projResponded.respondedAudi,
       reaction: projResponded.reaction,
+      involvedAudi: projResponded.involvedAudi,
       confirmDelOverlayClass: state.sldEditor.confirmDelOverlayClass,
       delSldIndex: state.sldEditor.delSldIndex
     };
@@ -33,6 +34,7 @@ let mapStateToProps = (state, props) => {
       slds: undefined,
       respondedAudi: undefined,
       reaction: undefined,
+      involvedAudi: undefined,
       confirmDelOverlayClass: state.sldEditor.confirmDelOverlayClass,
       delSldIndex: state.sldEditor.delSldIndex
     };

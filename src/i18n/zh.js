@@ -43,7 +43,7 @@ const zh_TW = {
   "edit.confirm-del-sld": "確定要刪除投影片？所有的資料、聽眾結果都將被刪除且無法恢復",
   "edit.del-sld": "確定刪除",
   "edit.cancel-del-sld": "取消",
-  "edit.scan-to-join": "掃描加入 →",
+  "edit.scan-to-join": "掃描加入 ",
   "edit.QRCode-switch-label": "顯示二維條碼"
 };
 export default zh_TW;
