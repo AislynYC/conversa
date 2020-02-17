@@ -170,7 +170,17 @@ const NewProj = props => {
           created: Date.now(),
           lastEdited: Date.now(),
           curSldIndex: 0,
-          slds: []
+          slds: [
+            {
+              heading: "",
+              id: Date.now(),
+              opts: "",
+              qContent: "",
+              resType: "",
+              result: "",
+              sldType: "heading-page"
+            }
+          ]
         })
         .then(res => {
           db.collection("invitation")
