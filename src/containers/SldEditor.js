@@ -36,7 +36,7 @@ const history = createBrowserHistory();
 
 const SldEditor = props => {
   const db = useFirestore();
-  console.log("high", props);
+  console.log("SldEditor props", props);
   const userId = props.userId;
   const projId = props.projId;
 
@@ -443,6 +443,15 @@ const SldPageRoute = props => {
             <QRCode
               value={`https://conversa-a419b.firebaseapp.com/audi/${props.projId}`}
               size={230}
+              imageSettings={{
+                src:
+                  "https://lh3.googleusercontent.com/ZgZLV4rnkakeFPtT14X_lz3BdDpv8kEQ6bzWvXgHw-Wj_WYqiPNSqkq2oUBBRMQiQePrmDmO6WBrRq7_bqFsQBvnTd1_vh4BVg7opHZRsvYUTRrgoL59qyzcflYMnmHy0NzjtngT4A=w400",
+                x: null,
+                y: null,
+                height: 45,
+                width: 45,
+                excavate: true
+              }}
             />
           </Fragment>
         ) : (
@@ -454,6 +463,15 @@ const SldPageRoute = props => {
             <QRCode
               value={`https://conversa-a419b.firebaseapp.com/audi/${props.projId}`}
               size={500}
+              imageSettings={{
+                src:
+                  "https://lh3.googleusercontent.com/ZgZLV4rnkakeFPtT14X_lz3BdDpv8kEQ6bzWvXgHw-Wj_WYqiPNSqkq2oUBBRMQiQePrmDmO6WBrRq7_bqFsQBvnTd1_vh4BVg7opHZRsvYUTRrgoL59qyzcflYMnmHy0NzjtngT4A=w400",
+                x: null,
+                y: null,
+                height: 100,
+                width: 100,
+                excavate: true
+              }}
             />
           </Fragment>
         )}
@@ -483,7 +501,7 @@ const SldPageRoute = props => {
               </div>
             )}
             <div className="member-info">
-              <FontAwesomeIcon icon={["fas", "user"]} />
+              <FontAwesomeIcon icon={["fas", "user"]} id="member-icon" />
               {props.involvedAudi.length}
             </div>
           </div>
@@ -834,16 +852,21 @@ const OptInput = props => {
   };
   return (
     <div className="opt-input-group">
-      <input
-        type="text"
-        id={"opt-input" + props.optIndex}
-        className="opt-input input"
-        value={inputValue}
-        onChange={e => handleChange(e)}
-        onCompositionUpdate={e => handleComposition(e)}
-        onCompositionEnd={e => handleComposition(e)}
-        onCompositionStart={e => handleComposition(e)}
-      />
+      <FormattedMessage id="edit.option-placeholder" defaultMessage="option">
+        {placeholder => (
+          <input
+            type="text"
+            id={"opt-input" + props.optIndex}
+            className="opt-input input"
+            value={inputValue}
+            placeholder={`${placeholder} ${props.optIndex + 1}`}
+            onChange={e => handleChange(e)}
+            onCompositionUpdate={e => handleComposition(e)}
+            onCompositionEnd={e => handleComposition(e)}
+            onCompositionStart={e => handleComposition(e)}
+          />
+        )}
+      </FormattedMessage>
       <DelOptBtn {...props} optIndex={props.optIndex} />
     </div>
   );

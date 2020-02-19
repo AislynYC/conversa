@@ -16,7 +16,7 @@
   width: 100%;
   background-color: white;
   font-size: 3.3em;
-  padding: 100px 80px;
+  padding: 80px 70px;
 }
 
 .overlay {
@@ -41,6 +41,22 @@
 .closeX {
   cursor: pointer;
 }
+
+/* Scroll bar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  margin: 0 0 5px 0;
+}
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  background: rgb(219, 219, 219);
+}
+
 /* Project Management */
 .proj-wrap {
   width: 90%;
@@ -67,9 +83,19 @@
 
 .row {
   display: flex;
+  align-items: center;
   border-bottom: 1px solid #aaa;
   justify-content: space-between;
   padding: 20px 0;
+  padding-left: 10px;
+}
+
+.row:hover {
+  background-color: rgba(123, 144, 133, 0.11);
+}
+
+.row-header:hover {
+  background-color: transparent;
 }
 
 .col-header {
@@ -78,7 +104,7 @@
 
 .project-name {
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 800;
   color: rgb(30, 57, 43);
 }
 
@@ -98,8 +124,11 @@
   overflow-y: scroll;
 }
 
+.col-name {
+  width: 40%;
+}
 .col {
-  width: 30%;
+  width: 20%;
 }
 .proj-tool-col {
   max-width: 60px;
@@ -113,10 +142,34 @@
 
 .trash-bin {
   cursor: pointer;
+  color: #444;
 }
 
-.trash-bin:hover {
+.trash-bin:hover,
+.edit-icon:hover {
   transform: scale(1.2) rotate(-15deg);
+}
+
+.edit-icon,
+.check-icon,
+.cancel-icon {
+  cursor: pointer;
+  margin-left: 10px;
+  color: #444;
+  font-size: 1em;
+}
+
+.check-icon {
+  color: green;
+}
+
+.cancel-icon {
+  color: red;
+}
+
+.check-icon:hover,
+.cancel-icon:hover {
+  transform: scale(1.2);
 }
 
 #confirm-del-card {

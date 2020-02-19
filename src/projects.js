@@ -1,5 +1,5 @@
 import React, {Fragment, useState, useEffect} from "react";
-import {FormattedMessage} from "react-intl";
+import {FormattedMessage, injectIntl} from "react-intl";
 import {useFirestore} from "react-redux-firebase";
 import {Link} from "react-router-dom";
 
@@ -10,12 +10,18 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import CloseIcon from "@material-ui/icons/Close";
+import Input from "@material-ui/core/Input";
+import {withStyles} from "@material-ui/core/styles";
+import ProjNameEditor from "./components/ProjNameEditor/ProjNameEditor";
 
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
-library.add(faTrashAlt);
+import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
+import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
+library.add(faTrashAlt, faPencilAlt, faCheck, faTimes);
 
 import "./reset.css";
 import "./style.css";
@@ -63,6 +69,7 @@ const ToolBar = props => {
 };
 
 const ProjList = props => {
+  const db = useFirestore();
   const handleEditTimeDesc = lastEdited => {
     const curTime = new Date();
     const editTime = new Date(lastEdited);
@@ -110,10 +117,8 @@ const ProjList = props => {
     let lastEditedDate = handleEditTimeDesc(proj.lastEdited);
     return (
       <div className="row" key={proj.id}>
-        <div className="col">
-          <Link to={`/edit/${props.auth.uid}/${proj.id}`} className="project-name">
-            {proj.name}
-          </Link>
+        <div className="col-name">
+          <ProjNameEditor {...props} proj={proj} />
         </div>
         <div className="col">{createdDate}</div>
         <div className="col">{lastEditedDate}</div>
@@ -131,8 +136,8 @@ const ProjList = props => {
   return (
     <Card id="proj-list-card">
       <CardContent>
-        <div className="row">
-          <div className="col col-header">
+        <div className="row row-header">
+          <div className="col-name col-header">
             <FormattedMessage id="projects.presentation-name" />
           </div>
           <div className="col col-header">

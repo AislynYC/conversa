@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 
 import LangBtn from "../LangBtn/LangBtn.js";
 import PresentBtn from "../PresentBtn/PresentBtn.js";
+import ProjNameEditor from "../ProjNameEditor/ProjNameEditor";
 import logo from "../../img/conversa.png";
 import "./style.css";
 
@@ -22,6 +23,7 @@ const SignBtn = withStyles({
 })(Button);
 
 const Header = props => {
+  console.log("header", props);
   const logOut = () => {
     firebase
       .auth()
@@ -33,6 +35,7 @@ const Header = props => {
   };
 
   let linkBtns = null;
+  let editProjName = null;
 
   if (props.auth.isLoaded === false) {
   } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
@@ -52,9 +55,11 @@ const Header = props => {
       </Fragment>
     );
   } else {
-    if (props.match.url.includes("/edit")) {
+    if (props.match.url.includes("/edit/")) {
       linkBtns = <PresentBtn />;
-    } else if (props.match.url.includes("/pm")) {
+      if (props.editProj !== undefined)
+        editProjName = <ProjNameEditor {...props} proj={props.editProj} />;
+    } else if (props.match.url.includes("/pm/")) {
       linkBtns = (
         <SignBtn onClick={logOut}>
           <FormattedMessage id="home.log-out" />
@@ -87,7 +92,9 @@ const Header = props => {
             <img src={logo} alt="logo" />
           </div>
         </Link>
+        {editProjName}
       </div>
+
       <LangBtn locale={props.locale} setLocale={props.setLocale} />
       <Fragment>{linkBtns}</Fragment>
     </div>
@@ -95,10 +102,21 @@ const Header = props => {
 };
 
 let mapStateToProps = (state, props) => {
-  return {
-    firestore: state.firestore,
-    auth: state.firebase.auth
-  };
+  let projDataArray = state.firestore.ordered[`${props.match.params.userId}-projects`];
+  if (projDataArray !== undefined && projDataArray.length !== 0) {
+    let projObj = projDataArray.find(proj => proj.id === props.match.params.projId);
+    return {
+      firestore: state.firestore,
+      auth: state.firebase.auth,
+      editProj: projObj
+    };
+  } else {
+    return {
+      firestore: state.firestore,
+      auth: state.firebase.auth,
+      editProj: undefined
+    };
+  }
 };
 
 export default connect(mapStateToProps)(Header);

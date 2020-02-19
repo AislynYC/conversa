@@ -14,7 +14,6 @@ body {
 
 .center {
   width: 57%;
-
   height: 100%;
 }
 
@@ -84,6 +83,10 @@ body {
 
 .fullscreenFontSize {
   font-size: 1.5em;
+}
+
+#member-icon {
+  margin-right: 5px;
 }
 
 /* control panel */

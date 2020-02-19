@@ -45,6 +45,8 @@ const en = {
   "edit.del-sld": "DELETE",
   "edit.cancel-del-sld": "Cancel",
   "edit.scan-to-join": "Scan to join ",
-  "edit.QRCode-switch-label": "Show QRCode"
+  "edit.QRCode-switch-label": "Show QRCode",
+  "projects.edit-proj-name": "Enter your new project name here",
+  "edit.option-placeholder": "Option"
 };
 export default en;

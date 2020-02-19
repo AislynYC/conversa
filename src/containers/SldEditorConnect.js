@@ -15,7 +15,6 @@ let mapStateToProps = (state, props) => {
     projInvitation !== undefined
   ) {
     let projData = projDataArray.find(proj => proj.id === props.projId);
-    console.log("projData", projData);
     const projResponded = projInvitation.find(item => item.id === props.projId);
     return {
       firestore: state.firestore,
