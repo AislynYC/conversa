@@ -42,10 +42,12 @@ const SldEditor = props => {
   const projId = props.projId;
 
   const keydownHandler = e => {
-    if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-      nextSld();
-    } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-      lastSld();
+    if (e.target.tagName !== "INPUT") {
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        nextSld();
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        lastSld();
+      }
     }
   };
 
@@ -626,14 +628,14 @@ const DelSld = props => {
 };
 
 // Geneal Focus Back setting
-const UseFocus = () => {
-  const htmlElRef = useRef(null);
-  const setFocus = () => {
-    htmlElRef.current.focus();
-  };
+// const UseFocus = () => {
+//   const htmlElRef = useRef(null);
+//   const setFocus = () => {
+//     htmlElRef.current.focus();
+//   };
 
-  return [htmlElRef, setFocus];
-};
+//   return [htmlElRef, setFocus];
+// };
 
 const QusForm = props => {
   return (
@@ -1017,10 +1019,10 @@ const HeadingSldEditor = props => {
   const db = useFirestore();
   const userId = props.userId;
   const projId = props.projId;
-  const [inputRefHeading, setInputHeadingFocus] = UseFocus();
-  useEffect(() => {
-    setInputHeadingFocus();
-  }, [props.sld.heading]);
+  // const [inputRefHeading, setInputHeadingFocus] = UseFocus();
+  // useEffect(() => {
+  //   setInputHeadingFocus();
+  // }, [props.sld.heading]);
 
   const editHeading = (e, props) => {
     let newSlds = props.slds.map((sld, index) => {
@@ -1072,7 +1074,7 @@ const HeadingSldEditor = props => {
           type="text"
           id="heading-input"
           className="input"
-          ref={inputRefHeading}
+          // ref={inputRefHeading}
           value={props.sld.heading}
           onChange={e => {
             editHeading(e, props);
