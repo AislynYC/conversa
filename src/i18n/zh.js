@@ -46,6 +46,8 @@ const zh_TW = {
   "edit.scan-to-join": "掃描加入 ",
   "edit.QRCode-switch-label": "顯示二維條碼",
   "projects.edit-proj-name": "輸入新專案名稱",
-  "edit.option-placeholder": "選項"
+  "edit.option-placeholder": "選項",
+  "edit.multiple-selection": "選 擇 題",
+  "edit.heading-page": "標 題 / 副 標 題"
 };
 export default zh_TW;

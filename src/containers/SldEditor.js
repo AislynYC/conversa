@@ -23,7 +23,8 @@ import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import {faCopy} from "@fortawesome/free-solid-svg-icons";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {faHandPointRight} from "@fortawesome/free-regular-svg-icons";
-library.add(faLaughSquint, faTrashAlt, faCopy, faUser, faHandPointRight);
+import {faChartBar} from "@fortawesome/free-regular-svg-icons";
+library.add(faLaughSquint, faTrashAlt, faCopy, faUser, faHandPointRight, faChartBar);
 // Material UI
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
@@ -272,12 +273,24 @@ const SldsItems = props => {
             }}>
             {item.sldType === "multiple-choice" ? (
               <div className="sld-item-content">
-                <div className="qus-div">{item.qContent}</div>
-                <ul className="opt-ul">{optionLi}</ul>
+                <div className="sld-item-header">{item.qContent}</div>
+                <div>
+                  <FontAwesomeIcon
+                    icon={["far", "chart-bar"]}
+                    className="sld-item-icon"
+                    size="lg"
+                  />
+                  <div className="sld-item-text">
+                    <FormattedMessage id="edit.multiple-selection" />
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="sld-item-content heading-render-container">
-                <div className="heading-render">{item.heading}</div>
+                <div className="sld-item-header">{item.heading}</div>
+                <div className="sld-item-text">
+                  <FormattedMessage id="edit.heading-page" />
+                </div>
               </div>
             )}
           </div>
@@ -479,35 +492,37 @@ const SldPageRoute = props => {
     );
   }
   return (
-    <div className="center">
-      <div id="current-sld-container">
-        <div id="current-sld-border">
-          <div id="current-sld">
-            {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
-              <Fragment>
-                <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
-                {chart}
-              </Fragment>
-            ) : (
-              <div className="heading-render-container">
-                <div className="heading-render">
-                  {props.slds[props.curSldIndex].heading}
+    <div className="center-wrap">
+      <div className="center">
+        <div id="current-sld-container">
+          <div id="current-sld-border">
+            <div id="current-sld">
+              {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
+                <Fragment>
+                  <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
+                  {chart}
+                </Fragment>
+              ) : (
+                <div className="heading-render-container">
+                  <div className="heading-render">
+                    {props.slds[props.curSldIndex].heading}
+                  </div>
+                  <Fragment>{QRCodeContainer}</Fragment>
+                  <div className="reaction-icons">
+                    <FontAwesomeIcon icon={["far", "laugh-squint"]} />
+                    <span className="reaction-count">{props.reaction.laugh}</span>
+                  </div>
                 </div>
-                <Fragment>{QRCodeContainer}</Fragment>
-                <div className="reaction-icons">
-                  <FontAwesomeIcon icon={["far", "laugh-squint"]} />
-                  <span className="reaction-count">{props.reaction.laugh}</span>
-                </div>
+              )}
+              <div className="member-info">
+                <FontAwesomeIcon icon={["fas", "user"]} id="member-icon" />
+                {props.involvedAudi.length}
               </div>
-            )}
-            <div className="member-info">
-              <FontAwesomeIcon icon={["fas", "user"]} id="member-icon" />
-              {props.involvedAudi.length}
             </div>
           </div>
         </div>
+        <ControlPanel {...props} />
       </div>
-      <ControlPanel {...props} />
     </div>
   );
 };

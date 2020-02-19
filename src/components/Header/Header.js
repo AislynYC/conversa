@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 import LangBtn from "../LangBtn/LangBtn.js";
 import PresentBtn from "../PresentBtn/PresentBtn.js";
 import ProjNameEditor from "../ProjNameEditor/ProjNameEditor";
-import logo from "../../img/conversa.png";
+import logo from "../../img/conversa-s.png";
 import "./style.css";
 
 import Button from "@material-ui/core/Button";

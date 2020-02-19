@@ -47,6 +47,8 @@ const en = {
   "edit.scan-to-join": "Scan to join ",
   "edit.QRCode-switch-label": "Show QRCode",
   "projects.edit-proj-name": "Enter your new project name here",
-  "edit.option-placeholder": "Option"
+  "edit.option-placeholder": "Option",
+  "edit.multiple-selection": "MULTIPLE SELECTION",
+  "edit.heading-page": "HEADING/SUBHEADING"
 };
 export default en;

@@ -12,21 +12,27 @@ body {
   color: #444;
 }
 
+.center-wrap {
+  margin: 0 20px;
+  width: 100%;
+}
+
 .center {
-  width: 57%;
+  width: 100%;
   height: 100%;
 }
 
 /* current slide */
 #current-sld-container {
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
 }
 #current-sld-border {
   width: 100%;
   margin: 0 auto;
-  border: 1px solid #aaa;
-  border-radius: 5px;
+  border-radius: 4px;
+  /* prettier-ignore */
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   padding-top: 56.25%;
   position: relative;
 }
@@ -36,6 +42,7 @@ body {
   padding: 40px;
   font-size: 1.6em;
   background-color: white;
+  color: black;
   position: absolute;
   top: 0;
   left: 0;
@@ -92,10 +99,11 @@ body {
 /* control panel */
 #control-panel {
   box-sizing: border-box;
-  border: 1px solid #aaa;
-  border-radius: 15px;
+  border-radius: 4px;
+  /* prettier-ignore */
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   height: 35%;
-  width: 90%;
+  width: 100%;
   margin: 20px auto 0;
   background-color: white;
   padding: 20px;
@@ -115,13 +123,15 @@ body {
 
 /* slide selector */
 #sld-selector {
-  background-color: rgb(239, 248, 231);
-  border: 1px solid #aaa;
-  border-radius: 15px;
-  width: 18%;
+  background-color: rgb(248, 250, 246);
+  border-radius: 4px;
+  /* prettier-ignore */
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+     0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  width: 30%;
   height: 100%;
   overflow-y: scroll;
-  overflow-x: none;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -131,22 +141,55 @@ body {
   height: 150px;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 10px 10px 10px 0;
+}
+.sld-item > a {
+  width: 80%;
+  padding-bottom: 55%;
+  position: relative;
 }
 
 .sld {
   box-sizing: border-box;
   background-color: white;
   border: 1px solid #aaa;
-  width: 180px;
-  height: 120px;
-  font-size: 0.05rem;
+  font-size: 0.7rem;
   overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
 }
 
 .sld-item-content {
   box-sizing: border-box;
   padding: 10px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.sld-item-header {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+.sld-item-text {
+  text-align: center;
+  color: #666;
+  font-weight: 500;
+}
+
+.sld-item-icon {
+  color: #666;
+  font-size: 3.4rem;
 }
 
 .sld-item-selected {
@@ -161,7 +204,7 @@ body {
 
 .sld-item-title {
   position: relative;
-  width: 100%;
+  width: 20%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -182,10 +225,11 @@ body {
 }
 /* question form */
 .edit-panel {
-  width: 25%;
+  width: 40%;
   height: 95%;
-  border: 1px solid #aaa;
-  border-radius: 15px;
+  border-radius: 4px;
+  /* prettier-ignore */
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   background-color: white;
   overflow-y: scroll;
   padding: 20px;
@@ -230,7 +274,7 @@ body {
     border: 1px solid #333;
   }
   to {
-    border: 1.5px solid rgba(75, 143, 107, 0.692);
+    border: 1.5px solid rgba(75, 143, 107, 0.726);
   }
 }
 .delete-opt-btn {
@@ -239,7 +283,20 @@ body {
   cursor: pointer;
   align-self: center;
   padding: 0 8px;
-  color: rgba(15, 99, 51, 0.708);
+  color: rgba(15, 99, 51, 0.473);
+}
+.delete-opt-btn:hover {
+  animation-name: rotate;
+  animation-duration: 0.3s;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
 }
 
 #add-opt-btn {

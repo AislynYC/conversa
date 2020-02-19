@@ -42,6 +42,11 @@
   cursor: pointer;
 }
 
+.closeX:hover {
+  animation-name: rotate;
+  animation-duration: 0.3s;
+}
+
 /* Scroll bar */
 ::-webkit-scrollbar {
   width: 5px;

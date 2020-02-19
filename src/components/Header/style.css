@@ -9,7 +9,7 @@
 }
 
 .logo {
-  width: 300px;
+  width: 240px;
   height: 100px;
 }
 
@@ -22,6 +22,7 @@
 
 .logo > img {
   width: 100%;
+  padding: 20px 0;
 }
 
 #my-presentation-btn {
@@ -32,11 +33,14 @@
   font-size: 1.05em;
 }
 .sldEditor-proj-name {
-  font-size: 20px;
-  color: #222;
+  font-size: 25px;
+  color: rgb(248, 250, 246);
+  font-weight: 400;
+  margin: 0 5px 0 20px;
 }
 .logo-wrap > .proj-name-edit-wrap {
   font-size: 1.3em;
   display: flex;
+  align-items: center;
   width: 100%;
 }
