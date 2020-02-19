@@ -216,7 +216,14 @@ const SldsItems = props => {
       .doc(userId)
       .collection("projects")
       .doc(projId)
-      .update({slds: props.slds});
+      .update({slds: props.slds})
+      .then(() => {
+        // Add a responded audi container to the new slide
+        props.respondedAudi[Date.now()] = [];
+        db.collection("invitation")
+          .doc(projId)
+          .update({respondedAudi: props.respondedAudi});
+      });
   };
 
   return props.slds.map((item, index) => {
@@ -276,7 +283,7 @@ const SldsItems = props => {
             {item.sldType === "multiple-choice" ? (
               <div className="sld-item-content">
                 <div className="sld-item-header">{item.qContent}</div>
-                <div>
+                <div className="sld-item-type">
                   <FontAwesomeIcon
                     icon={["far", "chart-bar"]}
                     className="sld-item-icon"

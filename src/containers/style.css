@@ -181,6 +181,13 @@ body {
   overflow: hidden;
 }
 
+.sld-item-type {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .sld-item-text {
   text-align: center;
   color: #666;
