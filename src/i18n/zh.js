@@ -1,6 +1,6 @@
 const zh_TW = {
   "edit.present": "開始投影",
-  "edit.qus-label": "問題:",
+  "edit.qus-label": "問題",
   "edit.opt-label": "選項",
   "edit.add-opt": "新增選項",
   "edit.add-sld": "新增投影片",
@@ -8,7 +8,7 @@ const zh_TW = {
   "audi.wait": "請等候講者切換下一張投影片...",
   "edit.sld-type": "投影片類型",
   "edit.heading-page": "標題",
-  "edit.multiple-choice": "單選題",
+  "edit.multiple-choice": "選 擇 題",
   "edit.heading-label": "標題 / 副標題",
   "home.logIn": "登入",
   "home.signUp": "註冊",
@@ -48,6 +48,9 @@ const zh_TW = {
   "projects.edit-proj-name": "輸入新專案名稱",
   "edit.option-placeholder": "選項",
   "edit.multiple-selection": "選 擇 題",
-  "edit.heading-page": "標 題 / 副 標 題"
+  "edit.heading-page": "標 題 / 副 標 題",
+  "edit.diagram-type": "圖表類型",
+  "edit.bar-chart": "長 條 圖",
+  "edit.pie-chart": "圓 餅 圖"
 };
 export default zh_TW;

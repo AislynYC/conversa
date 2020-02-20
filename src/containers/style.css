@@ -64,12 +64,12 @@ body {
 .opt-ul > li {
   padding: 0.5em 0;
 }
-
+/* 
 .result {
   margin-left: 20px;
   font-weight: 900;
   color: rgb(238, 128, 25);
-}
+} */
 
 .reaction-count {
   margin-left: 10px;
@@ -97,7 +97,7 @@ body {
 }
 
 /* control panel */
-#control-panel {
+.control-panel {
   box-sizing: border-box;
   border-radius: 4px;
   /* prettier-ignore */
@@ -109,16 +109,55 @@ body {
   padding: 20px;
 }
 
-#control-panel > form > label {
-  padding: 10px;
+#sld-type-form {
+  display: flex;
 }
 
-#control-panel > form > label > input {
-  margin-right: 10px;
+.control-panel > form > label {
+  margin-right: 20px;
+  width: 20%;
 }
-.control-label {
-  margin-bottom: 20px;
+
+.control-panel > form > label > input {
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+
+.control-panel > form > label > input + div {
+  /* DIV STYLES */
+  cursor: pointer;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  width: 100%;
+  padding-bottom: 25%;
+  padding-top: 25%;
+  text-align: center;
+}
+
+#sld-type-w-chart {
+  padding-bottom: 14%;
+  padding-top: 14%;
+}
+
+.sld-type-icon {
+  font-size: 30px;
+}
+
+.control-panel > form > label > input:checked + div {
+  /* (RADIO CHECKED) DIV STYLES */
+  display: block;
+  background-color: rgba(239, 245, 234, 0.514);
+  border: 2px solid #5a9179a6;
+  width: 100%;
+  text-align: center;
+  color: #5a9179;
+}
+
+.control-label,
+.diagram-label {
   font-weight: 600;
+  margin-bottom: 16px;
+  font-size: 1.1em;
 }
 
 /* slide selector */
@@ -141,7 +180,7 @@ body {
   height: 150px;
   justify-content: center;
   align-items: center;
-  padding: 10px 10px 10px 0;
+  padding: 10px 18px 10px 0;
 }
 .sld-item > a {
   width: 80%;
@@ -196,7 +235,7 @@ body {
 
 .sld-item-icon {
   color: #666;
-  font-size: 3.4rem;
+  font-size: 3.2rem;
 }
 
 .sld-item-selected {
@@ -230,7 +269,7 @@ body {
 .sld-copy-btn:hover {
   transform: scale(1.2) rotate(-15deg);
 }
-/* question form */
+/* Edit Panel */
 .edit-panel {
   width: 40%;
   height: 95%;
@@ -242,6 +281,49 @@ body {
   padding: 20px;
 }
 
+#diagram-type-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.diagram-type-selector > form > label {
+  width: 50%;
+}
+
+.diagram-type-selector > form > label:nth-child(1) {
+  margin-right: 20px;
+}
+
+.diagram-type-selector > form > label > input {
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+
+.diagram-type-selector > form > label > input + div {
+  /* DIV STYLES */
+  cursor: pointer;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  width: 100%;
+  padding-bottom: 14%;
+  padding-top: 14%;
+  text-align: center;
+}
+
+.diagram-type-icon {
+  font-size: 30px;
+}
+
+.diagram-type-selector > form > label > input:checked + div {
+  /* (RADIO CHECKED) DIV STYLES */
+  display: block;
+  background-color: rgba(239, 245, 234, 0.514);
+  border: 2px solid #5a9179a6;
+  width: 100%;
+  text-align: center;
+  color: #5a9179;
+}
+
 .input-group {
   margin-bottom: 10px;
 }
@@ -251,6 +333,12 @@ body {
   flex-direction: column;
 }
 
+.qus-label,
+.opt-label {
+  font-weight: 500;
+  margin: 14px 0 5px;
+  font-size: 1.1em;
+}
 .opt-input-group {
   display: flex;
 }

@@ -18,13 +18,21 @@ import "./style.css";
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
-import {faLaughSquint} from "@fortawesome/free-regular-svg-icons";
-import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
-import {faCopy} from "@fortawesome/free-solid-svg-icons";
-import {faUser} from "@fortawesome/free-solid-svg-icons";
-import {faHandPointRight} from "@fortawesome/free-regular-svg-icons";
-import {faChartBar} from "@fortawesome/free-regular-svg-icons";
-library.add(faLaughSquint, faTrashAlt, faCopy, faUser, faHandPointRight, faChartBar);
+import {
+  faLaughSquint,
+  faHandPointRight,
+  faChartBar
+} from "@fortawesome/free-regular-svg-icons";
+import {faTrashAlt, faCopy, faUser, faChartPie} from "@fortawesome/free-solid-svg-icons";
+library.add(
+  faLaughSquint,
+  faTrashAlt,
+  faCopy,
+  faUser,
+  faHandPointRight,
+  faChartBar,
+  faChartPie
+);
 // Material UI
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
@@ -324,7 +332,7 @@ const SldPage = props => {
       <Route {...path} key={index}>
         <SldPageRoute {...props} sld={sld} isFullscreen={props.isFullscreen} />
         {sld.sldType === "multiple-choice" ? (
-          <QusForm {...props} sld={sld} sldIndex={index} />
+          <MultiSelEditor {...props} sld={sld} sldIndex={index} />
         ) : (
           <HeadingSldEditor {...props} sld={sld} sldIndex={index} />
         )}
@@ -336,6 +344,7 @@ const SldPage = props => {
 const SldPageRoute = props => {
   let optsArray = props.slds[props.curSldIndex].opts;
   let resultArray = props.slds[props.curSldIndex].result;
+  let resultType = props.slds[props.curSldIndex].resType;
   let optResult = null;
   const colors = [
     "#00b894",
@@ -360,6 +369,13 @@ const SldPageRoute = props => {
     "#EAB543"
   ];
 
+  let pieColors = null;
+  if (optsArray !== "") {
+    pieColors = props.slds[props.curSldIndex].opts.map((opt, index) => {
+      return {color: colors[index]};
+    });
+  }
+
   if (optsArray !== "") {
     optResult = props.slds[props.curSldIndex].opts.map((opt, index) => {
       let result = resultArray[index] !== "" ? resultArray[index] : 0;
@@ -383,13 +399,14 @@ const SldPageRoute = props => {
     ]
   ].concat(optResult);
 
-  let options = {
+  let barOptions = {
     legend: {position: "none"},
     chartArea: {width: "80%", height: "70%"},
     bar: {groupWidth: "68%"},
     animation: {
       duration: 1000,
-      easing: "out"
+      easing: "out",
+      startup: true
     },
     vAxis: {
       gridlines: {count: 0},
@@ -409,14 +426,37 @@ const SldPageRoute = props => {
     }
   };
 
+  let pieOptions = {
+    slices: pieColors,
+    animation: {
+      duration: 1000,
+      easing: "out",
+      startup: true
+    },
+    is3D: false,
+    pieHole: 0,
+    legend: {
+      position: "labeled",
+      textStyle: {
+        fontSize: 16
+      }
+    },
+    pieSliceText: "value",
+    pieSliceTextStyle: {
+      color: "#333",
+      fontSize: 16
+    }
+  };
+
   if (props.isFullscreen === true) {
-    options = {
+    barOptions = {
       legend: {position: "none"},
       chartArea: {width: "80%", height: "70%"},
       bar: {groupWidth: "68%"},
       animation: {
         duration: 1000,
-        easing: "out"
+        easing: "out",
+        startup: true
       },
       vAxis: {
         gridlines: {count: 0},
@@ -425,14 +465,35 @@ const SldPageRoute = props => {
       },
       hAxis: {
         textStyle: {
-          fontSize: 25
+          fontSize: 28
         }
       },
       annotations: {
         textStyle: {
-          fontSize: 20,
+          fontSize: 28,
           bold: true
         }
+      }
+    };
+    pieOptions = {
+      slices: pieColors,
+      animation: {
+        duration: 1000,
+        easing: "out",
+        startup: true
+      },
+      is3D: false,
+      pieHole: 0,
+      legend: {
+        position: "labeled",
+        textStyle: {
+          fontSize: 28
+        }
+      },
+      pieSliceText: "value",
+      pieSliceTextStyle: {
+        color: "#333",
+        fontSize: 28
       }
     };
   }
@@ -440,15 +501,28 @@ const SldPageRoute = props => {
   // To make sure the chart will be drawn only when there is an option exists
   let chart = null;
   if (optsArray !== "") {
-    chart = (
-      <Chart
-        chartType="ColumnChart"
-        width="100%"
-        height="100%"
-        data={data}
-        options={options}
-      />
-    );
+    if (resultType === "bar-chart") {
+      chart = (
+        <Chart
+          chartType="ColumnChart"
+          width="100%"
+          height="100%"
+          data={data}
+          options={barOptions}
+        />
+      );
+    } else if (resultType === "pie-chart") {
+      chart = (
+        <Chart
+          width="100%"
+          height="100%"
+          chartType="PieChart"
+          loader={<div>Loading Chart</div>}
+          data={data}
+          options={pieOptions}
+        />
+      );
+    }
   }
 
   let QRCodeContainer = null;
@@ -644,18 +718,87 @@ const DelSld = props => {
 //   return [htmlElRef, setFocus];
 // };
 
-const QusForm = props => {
+const MultiSelEditor = props => {
+  const db = useFirestore();
+  const userId = props.userId;
+  const projId = props.projId;
+
+  const changeDiagramType = e => {
+    let newSlds = props.slds.map((sld, index) => {
+      if (index === props.curSldIndex) {
+        sld.lastEdited = Date.now();
+        sld.resType = e.target.value;
+      }
+      return sld;
+    });
+
+    db.collection("users")
+      .doc(userId)
+      .collection("projects")
+      .doc(projId)
+      .update({
+        lastEdited: Date.now(),
+        slds: newSlds
+      });
+  };
   return (
-    <form id="qus-form" className="edit-panel">
+    <div className="edit-panel">
+      <div className="diagram-type-selector">
+        <div className="diagram-label">
+          <FormattedMessage id="edit.diagram-type" />
+        </div>
+        <form name="diagram-type-form" id="diagram-type-form">
+          <label className="diagram-type-group">
+            <input
+              type="radio"
+              name="diagram-type-group"
+              value="bar-chart"
+              checked={props.sld.resType === "bar-chart"}
+              onChange={e => {
+                changeDiagramType(e);
+              }}
+            />
+            <div>
+              <FontAwesomeIcon
+                icon={["far", "chart-bar"]}
+                className="diagram-type-icon"
+              />
+              <div>
+                <FormattedMessage id="edit.bar-chart" />
+              </div>
+            </div>
+          </label>
+          <label className="diagram-type-group">
+            <input
+              type="radio"
+              name="diagram-type-group"
+              value="pie-chart"
+              checked={props.sld.resType === "pie-chart"}
+              onChange={e => {
+                changeDiagramType(e);
+              }}
+            />
+            <div>
+              <FontAwesomeIcon
+                icon={["fas", "chart-pie"]}
+                className="diagram-type-icon"
+              />
+              <div>
+                <FormattedMessage id="edit.pie-chart" />
+              </div>
+            </div>
+          </label>
+        </form>
+      </div>
       <QusInput {...props} />
-      <label htmlFor="opt-input">
+      <label htmlFor="opt-input" className="opt-label">
         <FormattedMessage id="edit.opt-label" />
       </label>
       <div className="input-group">
         <OptInputs {...props} />
       </div>
       <AddOptBtn {...props} />
-    </form>
+    </div>
   );
 };
 
@@ -743,7 +886,9 @@ const QusInput = props => {
   return (
     <div className="input-group">
       <label htmlFor="qus-input" id="qus-input-group">
-        <FormattedMessage id="edit.qus-label" />
+        <div className="qus-label">
+          <FormattedMessage id="edit.qus-label" />
+        </div>
         <input
           type="text"
           id="qus-input"
@@ -988,7 +1133,7 @@ const ControlPanel = props => {
   };
 
   return (
-    <div id="control-panel">
+    <div className="control-panel">
       <div className="control-label">
         <FormattedMessage id="edit.sld-type" />
       </div>
@@ -1003,7 +1148,9 @@ const ControlPanel = props => {
               changeSldType(e);
             }}
           />
-          <FormattedMessage id="edit.heading-page" />
+          <div>
+            <FormattedMessage id="edit.heading-label" />
+          </div>
         </label>
         <label className="sld-type-group">
           <input
@@ -1015,7 +1162,12 @@ const ControlPanel = props => {
               changeSldType(e);
             }}
           />
-          <FormattedMessage id="edit.multiple-choice" />
+          <div id="sld-type-w-chart">
+            <FontAwesomeIcon icon={["far", "chart-bar"]} className="sld-type-icon" />
+            <div>
+              <FormattedMessage id="edit.multiple-choice" />
+            </div>
+          </div>
         </label>
       </form>
     </div>

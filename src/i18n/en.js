@@ -9,7 +9,7 @@ const en = {
   "edit.sld-type": "Slide Type",
   "edit.heading-page": "Heading",
   "edit.multiple-choice": "Multiple Choice",
-  "edit.heading-label": "Heading / Sub Heading",
+  "edit.heading-label": "Heading",
   "home.logIn": "Log In",
   "home.signUp": "Sign Up",
   "sign-up.welcome": "Welcome to Conversa",
@@ -49,6 +49,9 @@ const en = {
   "projects.edit-proj-name": "Enter your new project name here",
   "edit.option-placeholder": "Option",
   "edit.multiple-selection": "MULTIPLE SELECTION",
-  "edit.heading-page": "HEADING/SUBHEADING"
+  "edit.heading-page": "HEADING",
+  "edit.diagram-type": "Diagram Type",
+  "edit.bar-chart": "Bar Chart",
+  "edit.pie-chart": "Pie Chart"
 };
 export default en;
