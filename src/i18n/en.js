@@ -3,7 +3,7 @@ const en = {
   "edit.qus-label": "Question",
   "edit.opt-label": "Options",
   "edit.add-opt": "Add Option",
-  "edit.add-sld": "Add Slide",
+  "edit.add-sld": "Add",
   "audi.submit": "Submit",
   "audi.wait": "Please wait for the presenter to show the next slide...",
   "edit.sld-type": "Slide Type",
@@ -54,6 +54,29 @@ const en = {
   "edit.diagram-type": "Diagram Type",
   "edit.bar-chart": "Bar Chart",
   "edit.pie-chart": "Pie Chart",
-  "edit.qus-input-placeholder": "Enter your question here"
+  "edit.qus-input-placeholder": "Enter your question here",
+  "home.main-title": "Connect you and your audience",
+  "home.get-started": "Get Started",
+  "home.sec2-box1-title": "Interactive Presentation Tool",
+  "home.sec2-box2-title": "Interact with Audience",
+  "home.sec2-box3-title": "Hear from Audience",
+  "home.sec2-box4-title": "Quick Integration of Responses",
+  "home.sec2-box1-detail":
+    "Simple and easily slides editing tool, makes it easy to add polls and live charts to your presentation.",
+  "home.sec2-box2-detail":
+    "Simple interface for your audience, audiences can easily connect to presenter with their personal mobile device.",
+  "home.sec2-box3-detail":
+    "Make you hear all feedbacks from audience and measure the progress of your audience in a short time.",
+  "home.sec2-box4-detail":
+    "Automatically visualize audience responses in real-time to create a fun and interactive experience.",
+  "home.how-it-work": "How does Conversa work",
+  "home.step1-title": "Ask a Question",
+  "home.step1-detail": "Create slides and write the questions you would like to ask",
+  "home.step2-title": "Audience Respond",
+  "home.step2-detail":
+    "Audiences scan the QR code to join the poll and cast their votes. They can also send live reactions.",
+  "home.step3-title": "Result Update Live",
+  "home.step3-detail":
+    "When the audience submit their votes, the results are instantly displayed on your slides with selected visual aids."
 };
 export default en;

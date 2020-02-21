@@ -3,7 +3,7 @@ const zh_TW = {
   "edit.qus-label": "問題",
   "edit.opt-label": "選項",
   "edit.add-opt": "新增選項",
-  "edit.add-sld": "新增投影片",
+  "edit.add-sld": "新增",
   "audi.submit": "送出",
   "audi.wait": "請等候講者切換下一張投影片...",
   "edit.sld-type": "投影片類型",
@@ -53,6 +53,27 @@ const zh_TW = {
   "edit.diagram-type": "圖表類型",
   "edit.bar-chart": "長 條 圖",
   "edit.pie-chart": "圓 餅 圖",
-  "edit.qus-input-placeholder": "請輸入題目"
+  "edit.qus-input-placeholder": "請輸入題目",
+  "home.main-title": "Conversa 連結你與你的聽眾",
+  "home.get-started": "開始使用",
+  "home.sec2-box1-title": "簡易簡報編輯器",
+  "home.sec2-box2-title": "與聽眾互動",
+  "home.sec2-box3-title": "聽見台下的聲音",
+  "home.sec2-box4-title": "快速統整聽眾想法",
+  "home.sec2-box1-detail":
+    "簡單容易上手的簡報編輯介面，使你能輕鬆在你的簡報中加入意見調查及即時圖表",
+  "home.sec2-box2-detail":
+    "簡單的聽眾操作介面，聽眾只要使用個人移動裝置便能輕易的與講者建立連結",
+  "home.sec2-box3-detail": "使你即時聽見台下的所有回饋，快速了解聽眾的想法",
+  "home.sec2-box4-detail":
+    "自動的圖表工具，使你的聽眾回饋迅速統整為圖表投放，建立一個有趣的互動體驗",
+  "home.how-it-work": "如何使用 Conversa",
+  "home.step1-title": "講者提問",
+  "home.step1-detail": "建立簡報投影片並寫下你想問的問題。",
+  "home.step2-title": " 聽眾回答",
+  "home.step2-detail":
+    "聽眾使用自有裝置掃描QRCode參加意見調查，聽眾可以參與投票或表達心情。",
+  "home.step3-title": "即時圖表呈現",
+  "home.step3-detail": "當聽眾完成投票, 投票結果會立刻組織成圖表顯示在你的投影片中。"
 };
 export default zh_TW;

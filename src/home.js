@@ -1,8 +1,22 @@
 import React, {Fragment} from "react";
 import {connect} from "react-redux";
+import {FormattedMessage} from "react-intl";
 
 import Header from "./components/Header/Header";
 import firebase from "./config/fbConfig";
+import mainImg from "./img/main_img.png";
+import logoLeaf from "./img/logo.png";
+import Button from "@material-ui/core/Button";
+import step1Img from "./img/ask.png";
+import step2Img from "./img/response.png";
+import step3Img from "./img/visual-data.png";
+
+// FontAwesome Setting
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {library} from "@fortawesome/fontawesome-svg-core";
+import {faComments, faChartBar} from "@fortawesome/free-regular-svg-icons";
+import {faHeart, faFileAlt} from "@fortawesome/free-solid-svg-icons";
+library.add(faComments, faHeart, faChartBar, faFileAlt);
 
 const Home = props => {
   console.log("Auth", props.auth);
@@ -51,7 +65,172 @@ const Home = props => {
   return (
     <Fragment>
       <Header {...props} locale={props.locale} setLocale={props.setLocale} />
-      <div>Home Page</div>
+      <div className="sec sec1">
+        <div className="circle1"></div>
+        <div className="circle2"></div>
+        <div className="sec1-desc">
+          <div className="desc-text">
+            <FormattedMessage id="home.main-title" />
+          </div>
+          <Button variant="contained" id="get-started-btn">
+            <div className="logo-leaf">
+              <img src={logoLeaf} alt="logo-leaf" />
+            </div>
+            <FormattedMessage id="home.get-started" />
+          </Button>
+        </div>
+        <div className="main-img">
+          <img src={mainImg} alt="main-img" />
+        </div>
+      </div>
+      <div className="sec sec2">
+        <div className="boxes">
+          <div className="box">
+            <div className="box-circle"></div>
+            <FontAwesomeIcon className="sec2-icon" icon={["fas", "file-alt"]} />
+            <div className="sec2-box-title">
+              <FormattedMessage id="home.sec2-box1-title" />
+            </div>
+            <div className="sec2-box-text">
+              <FormattedMessage id="home.sec2-box1-detail" />
+            </div>
+          </div>
+          <div className="box">
+            <div className="box-circle"></div>
+            <FontAwesomeIcon className="sec2-icon" icon={["far", "comments"]} />
+            <div className="sec2-box-title">
+              <FormattedMessage id="home.sec2-box2-title" />
+            </div>
+            <div className="sec2-box-text">
+              <FormattedMessage id="home.sec2-box2-detail" />
+            </div>
+          </div>
+          <div className="box">
+            <div className="box-circle"></div>
+            <FontAwesomeIcon className="sec2-icon" icon={["fas", "heart"]} />
+            <div className="sec2-box-title">
+              <FormattedMessage id="home.sec2-box3-title" />
+            </div>
+            <div className="sec2-box-text">
+              <FormattedMessage id="home.sec2-box3-detail" />
+            </div>
+          </div>
+          <div className="box">
+            <div className="box-circle"></div>
+            <FontAwesomeIcon className="sec2-icon" icon={["far", "chart-bar"]} />
+            <div className="sec2-box-title">
+              <FormattedMessage id="home.sec2-box4-title" />
+            </div>
+            <div className="sec2-box-text">
+              <FormattedMessage id="home.sec2-box4-detail" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="sec sec3">
+        <div className="sec3-title">
+          {" "}
+          <FormattedMessage id="home.how-it-work" />
+        </div>
+        <div className="steps step1">
+          <div className="step-left">
+            <div className="step1-img step-img">
+              <img src={step1Img} alt="step1-img" />
+            </div>
+          </div>
+          <div className="step-right">
+            <div className="step-desc">
+              <div className="step-num num01">01</div>
+              <div className="step-title">
+                <FormattedMessage id="home.step1-title" />
+              </div>
+              <div>
+                <FormattedMessage id="home.step1-detail" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="steps step2">
+          <div className="step-left">
+            <div className="step-desc">
+              <div className="step-num num02">02</div>
+              <div className="step-title">
+                <FormattedMessage id="home.step2-title" />
+              </div>
+              <div>
+                <FormattedMessage id="home.step2-detail" />
+              </div>
+            </div>
+          </div>
+          <div className="step-right">
+            <div className="step2-img step-img">
+              <img src={step2Img} alt="step2-img" />
+            </div>
+          </div>
+        </div>
+        <div className="steps step3">
+          <div className="step-left">
+            <div className="step3-img step-img">
+              <img src={step3Img} alt="step3-img" />
+            </div>
+          </div>
+          <div className="step-right">
+            <div className="step-desc">
+              <div className="step-num num03">03</div>
+              <div className="step-title">
+                <FormattedMessage id="home.step3-title" />
+              </div>
+              <div>
+                <FormattedMessage id="home.step3-detail" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <div className="sec sec4">
+        <div className="usage-row">
+          <div className="usage">
+            <div className="usage-img">
+              <img src={usageImgMeeting} alt="usage-meeting" />
+            </div>
+          </div>
+          <div className="usage">
+            <div className="usage-img">
+              <img src={usageImgEdu} alt="usage-education" />
+            </div>
+          </div>
+          <div className="usage">
+            <div className="usage-img">
+              <img src={usageImgBrain} alt="usage-brain-storming" />
+            </div>
+          </div>
+        </div>
+        <div className="usage-row">
+          <div className="usage">
+            <div className="usage-img">
+              <img src={usageImgWorkshop} alt="usage-workshop" />
+            </div>
+          </div>
+          <div className="usage">
+            <div className="usage-img">
+              <img src={usageImgVote} alt="usage-vote" />
+            </div>
+          </div>
+          <div className="usage">
+            <div className="usage-img">
+              <img src={usageImgGame} alt="usage-game" />
+            </div>
+          </div>
+        </div>
+      </div> */}
+      <div className="footer">
+        <div>
+          © 2020 Conversa powered by Aislyn YC. Icon credit to fontawesome.com.
+          Illustration credit to undraw.co.
+        </div>
+
+        <div>Contact me via chuang.yuchun@gmail.com</div>
+      </div>
     </Fragment>
   );
 };

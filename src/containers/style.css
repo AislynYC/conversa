@@ -1,7 +1,7 @@
 .container {
   display: flex;
   width: 100%;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 90px);
   overflow: hidden;
   font-size: 15px;
   margin: 0 auto;
