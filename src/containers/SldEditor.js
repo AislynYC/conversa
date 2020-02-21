@@ -1159,7 +1159,7 @@ const ControlPanel = props => {
               changeSldType(e);
             }}
           />
-          <div>
+          <div className="heading-type-text">
             <FormattedMessage id="edit.heading-label" />
           </div>
         </label>
