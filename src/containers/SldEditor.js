@@ -525,9 +525,9 @@ const SldPageRoute = props => {
     }
   }
 
-  let QRCodeContainer = null;
+  let detailContainer = null;
   if (props.slds[props.curSldIndex].hasQRCode) {
-    QRCodeContainer = (
+    detailContainer = (
       <div className="qr-code">
         {/* different QRCode size depends on fullscreen or not */}
         {props.isFullscreen === false ? (
@@ -573,7 +573,12 @@ const SldPageRoute = props => {
         )}
       </div>
     );
+  } else {
+    detailContainer = (
+      <div className="sub-heading-render">{props.slds[props.curSldIndex].subHeading}</div>
+    );
   }
+
   return (
     <div className="center-wrap">
       <div className="center">
@@ -590,7 +595,7 @@ const SldPageRoute = props => {
                   <div className="heading-render">
                     {props.slds[props.curSldIndex].heading}
                   </div>
-                  <Fragment>{QRCodeContainer}</Fragment>
+                  <Fragment>{detailContainer}</Fragment>
                   <div className="reaction-icons">
                     <FontAwesomeIcon icon={["far", "laugh-squint"]} />
                     <span className="reaction-count">{props.reaction.laugh}</span>
@@ -629,9 +634,10 @@ const AddSldBtn = props => {
             qContent: "",
             sldType: "heading-page",
             opts: "",
-            resType: "",
+            resType: "bar-chart",
             result: "",
             heading: "",
+            subHeading: "",
             hasQRCode: true
           }
         ]
@@ -791,7 +797,7 @@ const MultiSelEditor = props => {
         </form>
       </div>
       <QusInput {...props} />
-      <label htmlFor="opt-input" className="opt-label">
+      <label htmlFor="opt-input" className="edit-panel-label">
         <FormattedMessage id="edit.opt-label" />
       </label>
       <div className="input-group">
@@ -886,19 +892,24 @@ const QusInput = props => {
   return (
     <div className="input-group">
       <label htmlFor="qus-input" id="qus-input-group">
-        <div className="qus-label">
+        <div className="edit-panel-label">
           <FormattedMessage id="edit.qus-label" />
         </div>
-        <input
-          type="text"
-          id="qus-input"
-          className="input"
-          value={inputValue}
-          onChange={e => handleChange(e)}
-          onCompositionUpdate={e => handleComposition(e)}
-          onCompositionEnd={e => handleComposition(e)}
-          onCompositionStart={e => handleComposition(e)}
-        />
+        <FormattedMessage id="edit.qus-input-placeholder" defaultMessage="Question">
+          {placeholder => (
+            <input
+              type="text"
+              id="qus-input"
+              className="input"
+              value={inputValue}
+              placeholder={placeholder}
+              onChange={e => handleChange(e)}
+              onCompositionUpdate={e => handleComposition(e)}
+              onCompositionEnd={e => handleComposition(e)}
+              onCompositionStart={e => handleComposition(e)}
+            />
+          )}
+        </FormattedMessage>
       </label>
     </div>
   );
@@ -1202,6 +1213,25 @@ const HeadingSldEditor = props => {
       });
   };
 
+  const editSubHeading = (e, props) => {
+    let newSlds = props.slds.map((sld, index) => {
+      if (index === props.sldIndex) {
+        sld.lastEdited = Date.now();
+        sld.subHeading = e.target.value;
+      }
+      return sld;
+    });
+
+    db.collection("users")
+      .doc(userId)
+      .collection("projects")
+      .doc(projId)
+      .update({
+        lastEdited: Date.now(),
+        slds: newSlds
+      });
+  };
+
   const switchQRCode = () => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
@@ -1228,7 +1258,9 @@ const HeadingSldEditor = props => {
   return (
     <div className="edit-panel">
       <label htmlFor="heading-input" id="heading-input-group">
-        <FormattedMessage id="edit.heading-label" />
+        <div className="heading-label">
+          <FormattedMessage id="edit.heading-label" />
+        </div>
         <input
           type="text"
           id="heading-input"
@@ -1241,13 +1273,29 @@ const HeadingSldEditor = props => {
         />
       </label>
       <label htmlFor="QRCode-switch" id="hQRCode-switch-group">
-        <FormattedMessage id="edit.QRCode-switch-label" />
+        <div className="edit-panel-label">
+          <FormattedMessage id="edit.QRCode-switch-label" />
+        </div>
         <SwitchBtn
           checked={props.sld.hasQRCode === true}
           onChange={switchQRCode}
           value={props.sld.hasQRCode}
           color="primary"
           inputProps={{"aria-label": "primary checkbox"}}
+        />
+      </label>
+      <label htmlFor="heading-input" id="heading-input-group">
+        <div className="edit-panel-label">
+          <FormattedMessage id="edit.sub-heading-label" />
+        </div>
+        <input
+          type="text"
+          id="sub-heading-input"
+          className="input"
+          value={props.sld.subHeading}
+          onChange={e => {
+            editSubHeading(e, props);
+          }}
         />
       </label>
     </div>

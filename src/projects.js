@@ -176,11 +176,12 @@ const NewProj = props => {
           slds: [
             {
               heading: "",
+              subHeading: "",
               hasQRCode: true,
               id: Date.now(),
               opts: "",
               qContent: "",
-              resType: "",
+              resType: "bar-chart",
               result: "",
               sldType: "heading-page"
             }

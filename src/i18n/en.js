@@ -10,6 +10,7 @@ const en = {
   "edit.heading-page": "Heading",
   "edit.multiple-choice": "Multiple Choice",
   "edit.heading-label": "Heading",
+  "edit.sub-heading-label": "Sub-Heading",
   "home.logIn": "Log In",
   "home.signUp": "Sign Up",
   "sign-up.welcome": "Welcome to Conversa",
@@ -52,6 +53,7 @@ const en = {
   "edit.heading-page": "HEADING",
   "edit.diagram-type": "Diagram Type",
   "edit.bar-chart": "Bar Chart",
-  "edit.pie-chart": "Pie Chart"
+  "edit.pie-chart": "Pie Chart",
+  "edit.qus-input-placeholder": "Enter your question here"
 };
 export default en;

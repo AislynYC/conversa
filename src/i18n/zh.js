@@ -9,7 +9,8 @@ const zh_TW = {
   "edit.sld-type": "投影片類型",
   "edit.heading-page": "標題",
   "edit.multiple-choice": "選 擇 題",
-  "edit.heading-label": "標題 / 副標題",
+  "edit.heading-label": "標題",
+  "edit.sub-heading-label": "副標題",
   "home.logIn": "登入",
   "home.signUp": "註冊",
   "sign-up.welcome": "歡迎使用 Conversa",
@@ -51,6 +52,7 @@ const zh_TW = {
   "edit.heading-page": "標 題 / 副 標 題",
   "edit.diagram-type": "圖表類型",
   "edit.bar-chart": "長 條 圖",
-  "edit.pie-chart": "圓 餅 圖"
+  "edit.pie-chart": "圓 餅 圖",
+  "edit.qus-input-placeholder": "請輸入題目"
 };
 export default zh_TW;
