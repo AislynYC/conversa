@@ -65,6 +65,10 @@ const Poll = props => {
   const db = useFirestore();
   const [selOptIndex, setSelOptIndex] = useState(null);
 
+  useEffect(() => {
+    setSelOptIndex(null);
+  }, [props.curSldIndex]);
+
   const respondPoll = e => {
     e.preventDefault();
     const projDocRef = db
