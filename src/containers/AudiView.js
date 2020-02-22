@@ -102,13 +102,14 @@ const Poll = props => {
             }
             return sld;
           });
+
           // Update transaction for respondedAudi in collection invitation
-          transaction.update(sfDocRef, {slds: newSlds});
+          transaction.update(projDocRef, {slds: newSlds});
           // Push current audi ID to invtData which was gotten from transaction
-          invtData.respondedAudi[sf.slds[props.curSldIndex].id].push(props.audiId);
+          invtData.respondedAudi[projData.slds[props.curSldIndex].id].push(props.audiId);
           // Update transaction for respondedAudi in collection invitation
           transaction.update(invtDocRef, {
-            respondedAudi: invt.respondedAudi
+            respondedAudi: invtData.respondedAudi
           });
         });
       })
