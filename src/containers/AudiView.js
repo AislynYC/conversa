@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
 import logo from "../img/conversa.png";
@@ -63,6 +63,7 @@ export default AudiView;
 
 const Poll = props => {
   const db = useFirestore();
+  const [selOptIndex, setSelOptIndex] = useState(null);
 
   const respondPoll = e => {
     e.preventDefault();
@@ -94,10 +95,10 @@ const Poll = props => {
           // Plus 1 vote to sld.rsult of projData which was gotten from transaction
           let newSlds = projData.slds.map((sld, index) => {
             if (index === props.curSldIndex) {
-              if (sld.result[props.selOptIndex] === "") {
-                sld.result[props.selOptIndex] = 1;
+              if (sld.result[selOptIndex] === "") {
+                sld.result[selOptIndex] = 1;
               } else {
-                sld.result[props.selOptIndex]++;
+                sld.result[selOptIndex]++;
               }
             }
             return sld;
@@ -168,8 +169,8 @@ const Poll = props => {
                       type="radio"
                       name="res-group"
                       value={index}
-                      checked={props.selOptIndex == index}
-                      onChange={e => props.chooseOpt(e)}
+                      checked={selOptIndex === index}
+                      onChange={() => setSelOptIndex(index)}
                       inputProps={{"aria-label": index}}
                     />
                     <div className="opts"> {item} </div>
