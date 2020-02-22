@@ -2,7 +2,7 @@ import React, {Fragment, useEffect, useState} from "react";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
 import logo from "../img/conversa.png";
-import "./style.css";
+import "./audiView.css";
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
@@ -54,9 +54,9 @@ const AudiView = props => {
     }
   }
   return (
-    <Fragment>
+    <div className="audi-container">
       {props.curSldIndex === undefined ? <span>Loading</span> : <Poll {...props} />}
-    </Fragment>
+    </div>
   );
 };
 export default AudiView;
@@ -208,7 +208,7 @@ const Poll = props => {
 
 const Wait = props => {
   return (
-    <div className="wait">
+    <div className="poll-container">
       <FormattedMessage id="audi.wait" />
     </div>
   );
