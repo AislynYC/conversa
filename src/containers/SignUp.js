@@ -27,32 +27,47 @@ const SignInScreen = props => {
   const db = useFirestore();
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [pwConfirm, setPwConfirm] = useState("");
+  const [errMsg, setErrMsg] = useState(null);
 
   const handleChange = (e, type) => {
     if (type === "email") {
       setUserEmail(e.target.value);
     } else if (type === "password") {
       setUserPassword(e.target.value);
+    } else if (type === "confirmPw") {
+      setPwConfirm(e.target.value);
     }
   };
   const handleSubmit = e => {
     e.preventDefault();
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(userEmail, userPassword)
-      .then(res => {
-        return db
-          .collection("users")
-          .doc(res.user.uid)
-          .set({createdTime: Date.now()});
-      })
-      .then(() => {
-        console.log("signUp success");
-        props.history.push("/");
-      })
-      .catch(error => {
-        console.log("signUp error", error.code, error.message);
-      });
+    if (userPassword === pwConfirm) {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(userEmail, userPassword)
+        .then(res => {
+          return db
+            .collection("users")
+            .doc(res.user.uid)
+            .set({createdTime: Date.now()});
+        })
+        .then(() => {
+          console.log("signUp success");
+          props.history.push(`/pm/${res.user.uid}`);
+        })
+        .catch(error => {
+          console.log("signUp error", error.code, error.message);
+          if (error.code === "auth/invalid-email") {
+            setErrMsg(<FormattedMessage id="sign-up.invalid-email" />);
+          } else if (error.code === "auth/weak-password") {
+            setErrMsg(<FormattedMessage id="sign-up.weak-password" />);
+          } else if (error.code === "auth/email-already-in-use") {
+            setErrMsg(<FormattedMessage id="sign-up.email-already-in-use" />);
+          }
+        });
+    } else {
+      setErrMsg(<FormattedMessage id="sign-up.password-diff" />);
+    }
   };
 
   return (
@@ -72,6 +87,7 @@ const SignInScreen = props => {
           value={userEmail}
           onChange={e => handleChange(e, "email")}
         />
+        <div className="empty-divider"></div>
         <TextField
           required
           id="password-input"
@@ -80,6 +96,16 @@ const SignInScreen = props => {
           value={userPassword}
           onChange={e => handleChange(e, "password")}
         />
+        <div className="empty-divider"></div>
+        <TextField
+          required
+          id="confirm-pw-input"
+          label="Confirm Password"
+          type="password"
+          value={pwConfirm}
+          onChange={e => handleChange(e, "confirmPw")}
+        />
+        <div className="err-msg">{errMsg}</div>
         <Button
           type="submit"
           variant="contained"
@@ -110,7 +136,7 @@ const SignUp = props => {
   const useStyles = makeStyles({
     root: {
       minWidth: 400,
-      padding: "30px"
+      padding: "10px 25px"
     }
   });
   const classes = useStyles();

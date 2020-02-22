@@ -23,6 +23,16 @@ const en = {
   "log-in.log-in": "Log In",
   "log-in.3rd-log-in": "or log In with",
   "log-in.go-to-signup": "Go to create an account",
+  "log-in.invalid-email": "The email address is badly formatted.",
+  "log-in.wrong-password":
+    "The password is invalid or the user does not have a password.",
+  "log-in.user-not-found":
+    "There is no user record corresponding to this identifier.The user may have been deleted.",
+  "sign-up.password-diff": "Inconsistent password. Please repeat your password.",
+  "sign-up.weak-password": "Password should be at least 6 characters",
+  "sign-up.invalid-email": "The email address is badly formatted.",
+  "sign-up.email-already-in-use":
+    "The email address is already in use by another account.",
   "home.log-out": "Log Out",
   "home.my-presentation": "My Presentations",
   "projects.add-presentation": "New Presentation",

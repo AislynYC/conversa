@@ -495,9 +495,9 @@ body,
   background-color: rgb(255, 255, 255);
 }
 
-/* Sign up */
+/* Sign up / log in */
 .entry-page {
-  height: calc(100vh - 100px);
+  height: calc(100vh - 90px);
   background-color: rgb(123, 144, 133);
   display: flex;
   justify-content: center;
@@ -507,17 +507,26 @@ body,
   text-align: center;
 }
 .entry-screen > p {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 .entry-form {
   display: flex;
   flex-direction: column;
 }
+.empty-divider {
+  height: 10px;
+  width: 1px;
+}
 
+.err-msg {
+  color: red;
+  font-size: 0.9em;
+  text-align: left;
+}
 #entry-btn {
   color: white;
   background-color: rgb(46, 54, 50);
-  margin: 20px auto;
+  margin: 30px auto;
   padding: 10px 20px;
 }
 

@@ -25,6 +25,8 @@ const uiConfig = {
 const LogInScreen = props => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [errMsg, setErrMsg] = useState(null);
+  // let errMsg = null;
 
   const handleChange = (e, type) => {
     if (type === "email") {
@@ -40,10 +42,17 @@ const LogInScreen = props => {
       .signInWithEmailAndPassword(userEmail, userPassword)
       .then(() => {
         console.log("login success");
-        props.history.push("/");
+        props.history.push(`/pm/${res.user.uid}`);
       })
       .catch(function(error) {
         console.log("login error", error.code, error.message);
+        if (error.code === "auth/invalid-email") {
+          setErrMsg(<FormattedMessage id="log-in.invalid-email" />);
+        } else if (error.code === "auth/wrong-password") {
+          setErrMsg(<FormattedMessage id="log-in.wrong-password" />);
+        } else if (error.code === "auth/user-not-found") {
+          setErrMsg(<FormattedMessage id="log-in.user-not-found" />);
+        }
       });
   };
 
@@ -64,6 +73,7 @@ const LogInScreen = props => {
           value={userEmail}
           onChange={e => handleChange(e, "email")}
         />
+        <div className="empty-divider"></div>
         <TextField
           required
           id="password-input"
@@ -72,6 +82,7 @@ const LogInScreen = props => {
           value={userPassword}
           onChange={e => handleChange(e, "password")}
         />
+        <div className="err-msg">{errMsg}</div>
         <Button
           type="submit"
           variant="contained"
@@ -102,7 +113,7 @@ const LogIn = props => {
   const useStyles = makeStyles({
     root: {
       minWidth: 400,
-      padding: "30px"
+      padding: "25px"
     }
   });
   const classes = useStyles();
