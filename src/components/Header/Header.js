@@ -30,7 +30,7 @@ const Header = props => {
       .signOut()
       .then(() => {
         console.log("signOut success");
-        props.history.push("/");
+        props.history.push("/login");
       });
   };
 
