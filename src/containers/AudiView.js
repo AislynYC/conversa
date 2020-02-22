@@ -66,35 +66,82 @@ const Poll = props => {
 
   const respondPoll = e => {
     e.preventDefault();
-    let newSlds = props.slds.map((sld, index) => {
-      if (index === props.curSldIndex) {
-        if (sld.result[props.selOptIndex] === "") {
-          sld.result[props.selOptIndex] = 1;
-        } else {
-          sld.result[props.selOptIndex]++;
-        }
-      }
-      return sld;
-    });
-
-    db.collection("users")
+    const projDocRef = db
+      .collection("users")
       .doc(props.userId)
       .collection("projects")
-      .doc(props.projId)
-      .update({slds: newSlds});
+      .doc(props.projId);
 
-    props.respondedAudi[props.slds[props.curSldIndex].id].push(props.audiId);
+    const invtDocRef = db.collection("invitation").doc(props.projId);
+    return db
+      .runTransaction(function(transaction) {
+        // This code may get re-run multiple times if there are conflicts.
+        // If conflicts, below transaction.get will re-run and get newest data from db
+        return Promise.all([
+          transaction.get(projDocRef),
+          transaction.get(invtDocRef)
+        ]).then(function(docs) {
+          // Promise.all return an array includes documents from transaction.get
+          let projDoc = docs[0];
+          let invtDoc = docs[1];
 
-    db.collection("invitation")
-      .doc(props.projId)
-      .update({respondedAudi: props.respondedAudi});
+          if (!projDoc.exists || !invtDoc.exists) {
+            throw "Document does not exist!";
+          }
+
+          let projData = projDoc.data();
+          let invtData = invtDoc.data();
+          // Plus 1 vote to sld.rsult of projData which was gotten from transaction
+          let newSlds = projData.slds.map((sld, index) => {
+            if (index === props.curSldIndex) {
+              if (sld.result[props.selOptIndex] === "") {
+                sld.result[props.selOptIndex] = 1;
+              } else {
+                sld.result[props.selOptIndex]++;
+              }
+            }
+            return sld;
+          });
+
+          // Update transaction for respondedAudi in collection invitation
+          transaction.update(projDocRef, {slds: newSlds});
+          // Push current audi ID to invtData which was gotten from transaction
+          invtData.respondedAudi[projData.slds[props.curSldIndex].id].push(props.audiId);
+          // Update transaction for respondedAudi in collection invitation
+          transaction.update(invtDocRef, {
+            respondedAudi: invtData.respondedAudi
+          });
+        });
+      })
+      .then(function() {
+        console.log("Transaction successfully committed!");
+      })
+      .catch(function(error) {
+        console.log("Transaction failed: ", error);
+      });
   };
 
   const addReaction = type => {
-    props.reaction[type]++;
-    db.collection("invitation")
-      .doc(props.projId)
-      .update({reaction: props.reaction});
+    var invtDocRef = db.collection("invitation").doc(props.projId);
+
+    return db
+      .runTransaction(function(transaction) {
+        // This code may get re-run multiple times if there are conflicts.
+        return transaction.get(invtDocRef).then(function(invtDoc) {
+          if (!invtDoc.exists) {
+            throw "Document does not exist!";
+          }
+          let invtData = invtDoc.data();
+          invtData.reaction[type]++;
+          transaction.update(invtDocRef, {reaction: invtData.reaction});
+        });
+      })
+      .then(function() {
+        console.log("Transaction successfully committed!");
+      })
+      .catch(function(error) {
+        console.log("Transaction failed: ", error);
+      });
   };
 
   return (
