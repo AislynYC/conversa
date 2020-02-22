@@ -174,7 +174,7 @@ const Poll = props => {
                     <div className="opts"> {item} </div>
                   </label>
                 ))}
-                <Button variant="contained" className="submit-btn" type="submit">
+                <Button variant="contained" id="submit-btn" type="submit">
                   <FormattedMessage id="audi.submit" />
                 </Button>
               </form>
