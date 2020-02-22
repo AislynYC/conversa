@@ -3,7 +3,6 @@ import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 
 import AudiView from "./AudiView.js";
-import {chooseOpt} from "../ducks/audiViewReducer";
 import {getAudiId} from "../ducks/audiViewReducer";
 
 let mapStateToProps = (state, props) => {
@@ -20,7 +19,6 @@ let mapStateToProps = (state, props) => {
       firestore: state.firestore,
       curSldIndex: projData.curSldIndex,
       slds: projData.slds,
-      selOptIndex: state.audiView.selOptIndex,
       audiId: state.audiView.audiId,
       respondedAudi: projResponded.respondedAudi,
       reaction: projResponded.reaction,
@@ -31,7 +29,6 @@ let mapStateToProps = (state, props) => {
       firestore: undefined,
       curSldIndex: undefined,
       slds: undefined,
-      selOptIndex: undefined,
       audiId: undefined,
       respondedAudi: undefined,
       reaction: undefined,
@@ -42,7 +39,6 @@ let mapStateToProps = (state, props) => {
 
 let mapDispatchToProps = dispatch => {
   return {
-    chooseOpt: e => dispatch(chooseOpt(e)),
     getAudiId: () => dispatch(getAudiId())
   };
 };
