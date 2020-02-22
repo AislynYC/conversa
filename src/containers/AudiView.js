@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
 import logo from "../img/conversa.png";
@@ -63,6 +63,11 @@ export default AudiView;
 
 const Poll = props => {
   const db = useFirestore();
+  const [selOptIndex, setSelOptIndex] = useState(null);
+
+  useEffect(() => {
+    setSelOptIndex(null);
+  }, [props.curSldIndex]);
 
   const respondPoll = e => {
     e.preventDefault();
@@ -168,14 +173,14 @@ const Poll = props => {
                       type="radio"
                       name="res-group"
                       value={index}
-                      checked={props.selOptIndex == index}
-                      onChange={e => props.chooseOpt(e)}
+                      checked={selOptIndex === index}
+                      onChange={() => setSelOptIndex(index)}
                       inputProps={{"aria-label": index}}
                     />
                     <div className="opts"> {item} </div>
                   </label>
                 ))}
-                <Button variant="contained" className="submit-btn" type="submit">
+                <Button variant="contained" id="submit-btn" type="submit">
                   <FormattedMessage id="audi.submit" />
                 </Button>
               </form>

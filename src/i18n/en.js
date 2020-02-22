@@ -81,7 +81,7 @@ const en = {
     "Automatically visualize audience responses in real-time to create a fun and interactive experience.",
   "home.how-it-work": "How does Conversa work",
   "home.step1-title": "Ask a Question",
-  "home.step1-detail": "Create slides and write the questions you would like to ask",
+  "home.step1-detail": "Create slides and write the questions you would like to ask.",
   "home.step2-title": "Audience Respond",
   "home.step2-detail":
     "Audiences scan the QR code to join the poll and cast their votes. They can also send live reactions.",
