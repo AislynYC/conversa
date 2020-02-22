@@ -80,6 +80,11 @@ body,
   font-size: 1.3rem;
 }
 
+.wait-msg {
+  text-align: center;
+  margin: 0 auto;
+}
+
 @media (min-width: 768px) {
   .poll {
     width: 600px;

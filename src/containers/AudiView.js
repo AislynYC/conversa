@@ -55,7 +55,12 @@ const AudiView = props => {
   }
   return (
     <div className="audi-container">
-      {props.curSldIndex === undefined ? <span>Loading</span> : <Poll {...props} />}
+      <div className="poll">
+        <div className="poll-logo">
+          <img src={logo} alt="logo" />
+        </div>
+        {props.curSldIndex === undefined ? <span>Loading</span> : <Poll {...props} />}
+      </div>
     </div>
   );
 };
@@ -150,10 +155,7 @@ const Poll = props => {
   };
 
   return (
-    <div className="poll">
-      <div className="poll-logo">
-        <img src={logo} alt="logo" />
-      </div>
+    <Fragment>
       {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
         props.slds[props.curSldIndex].opts !== "" ? (
           props.respondedAudi[props.slds[props.curSldIndex].id].includes(props.audiId) ? (
@@ -202,14 +204,16 @@ const Poll = props => {
           </Button>
         </div>
       )}
-    </div>
+    </Fragment>
   );
 };
 
 const Wait = props => {
   return (
     <div className="poll-container">
-      <FormattedMessage id="audi.wait" />
+      <div className="wait-msg">
+        <FormattedMessage id="audi.wait" />
+      </div>
     </div>
   );
 };
