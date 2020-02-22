@@ -121,10 +121,26 @@ const Poll = props => {
   };
 
   const addReaction = type => {
-    props.reaction[type]++;
-    db.collection("invitation")
-      .doc(props.projId)
-      .update({reaction: props.reaction});
+    var invtDocRef = db.collection("invitation").doc(props.projId);
+
+    return db
+      .runTransaction(function(transaction) {
+        // This code may get re-run multiple times if there are conflicts.
+        return transaction.get(invtDocRef).then(function(invtDoc) {
+          if (!invtDoc.exists) {
+            throw "Document does not exist!";
+          }
+          let invtData = invtDoc.data();
+          invtData.reaction[type]++;
+          transaction.update(invtDocRef, {reaction: invtData.reaction});
+        });
+      })
+      .then(function() {
+        console.log("Transaction successfully committed!");
+      })
+      .catch(function(error) {
+        console.log("Transaction failed: ", error);
+      });
   };
 
   return (
