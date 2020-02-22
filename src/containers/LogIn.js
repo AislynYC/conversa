@@ -40,7 +40,7 @@ const LogInScreen = props => {
     firebase
       .auth()
       .signInWithEmailAndPassword(userEmail, userPassword)
-      .then(() => {
+      .then(res => {
         console.log("login success");
         props.history.push(`/pm/${res.user.uid}`);
       })
