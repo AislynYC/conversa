@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import step1Img from "./img/ask.png";
 import step2Img from "./img/response.png";
 import step3Img from "./img/visual-data.png";
+import "./home.css";
 
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
