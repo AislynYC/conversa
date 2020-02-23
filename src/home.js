@@ -4,7 +4,7 @@ import {FormattedMessage} from "react-intl";
 
 import Header from "./components/Header/Header";
 import firebase from "./config/fbConfig";
-import mainImg from "./img/main_img.png";
+import MainImg from "./img/main_img.svg";
 import logoLeaf from "./img/logo.png";
 import Button from "@material-ui/core/Button";
 import step1Img from "./img/ask.png";
@@ -81,7 +81,7 @@ const Home = props => {
           </Button>
         </div>
         <div className="main-img">
-          <img src={mainImg} alt="main-img" />
+          <MainImg viewBox="0 0 800 800" id="main-img-svg" />
         </div>
       </div>
       <div className="sec sec2">
@@ -225,11 +225,8 @@ const Home = props => {
         </div>
       </div> */}
       <div className="footer">
-        <div>
-          © 2020 Conversa powered by Aislyn YC. Icon credit to fontawesome.com.
-          Illustration credit to undraw.co.
-        </div>
-
+        <div>© 2020 Conversa powered by Aislyn Y.C.</div>
+        <div>Icon credit to fontawesome.com. Illustration credit to undraw.co.</div>
         <div>Contact me via chuang.yuchun@gmail.com</div>
       </div>
     </Fragment>

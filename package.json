@@ -39,6 +39,7 @@
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.17.0",
     "file-loader": "^5.0.2",
+    "react-svg-loader": "^3.0.3",
     "style-loader": "^1.1.2",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
