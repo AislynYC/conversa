@@ -2,6 +2,7 @@ import React, {Fragment, useEffect, useState} from "react";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
 import logo from "../img/conversa.png";
+import logoC from "../img/logoC_nb.png";
 import "./audiView.css";
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -211,6 +212,9 @@ const Poll = props => {
 const Wait = props => {
   return (
     <div className="poll-container">
+      <div className="wait-img">
+        <img src={logoC} />
+      </div>
       <div className="wait-msg">
         <FormattedMessage id="audi.wait" />
       </div>

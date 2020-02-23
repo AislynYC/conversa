@@ -85,6 +85,31 @@ body,
   margin: 0 auto;
 }
 
+.wait-img {
+  width: 180px;
+  margin: 0 auto 50px;
+  position: relative;
+  height: 200px;
+}
+
+.wait-img > img {
+  position: absolute;
+  width: 100%;
+  animation-name: wait-move;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+}
+@keyframes wait-move {
+  0% {
+    top: 0px;
+  }
+  40% {
+    top: -10px;
+  }
+  100% {
+    top: 0px;
+  }
+}
 @media (min-width: 768px) {
   .poll {
     width: 600px;
