@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from "react";
+import React, {Fragment, useState} from "react";
 import {connect} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {Link} from "react-router-dom";
@@ -9,6 +9,11 @@ import ProjNameEditor from "../ProjNameEditor/ProjNameEditor";
 import logo from "../../img/conversa-s.png";
 import "./style.css";
 
+// FontAwesome Setting
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {library} from "@fortawesome/fontawesome-svg-core";
+import {faBars} from "@fortawesome/free-solid-svg-icons";
+library.add(faBars);
 import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
 import firebase from "../../config/fbConfig";
@@ -34,7 +39,18 @@ const Header = props => {
       });
   };
 
+  const [menuClass, setMenuClass] = useState("menu");
+
+  const toggleMenu = () => {
+    if (menuClass === "menu") {
+      setMenuClass("menu show");
+    } else {
+      setMenuClass("menu");
+    }
+  };
+
   let linkBtns = null;
+  let menuBtns = null;
   let editProjName = null;
 
   if (props.auth.isLoaded === false) {
@@ -54,6 +70,7 @@ const Header = props => {
         </Link>
       </Fragment>
     );
+    menuBtns = linkBtns;
   } else {
     if (props.match.url.includes("/edit/")) {
       linkBtns = (
@@ -93,23 +110,47 @@ const Header = props => {
           </SignBtn>
         </Fragment>
       );
+
+      menuBtns = (
+        <Fragment>
+          <SignBtn
+            onClick={() => {
+              props.history.push(`/pm/${props.auth.uid}`);
+            }}>
+            <FormattedMessage id="home.my-presentation" />
+          </SignBtn>
+          <SignBtn onClick={logOut}>
+            <FormattedMessage id="home.log-out" />
+          </SignBtn>
+        </Fragment>
+      );
     }
   }
 
   return (
-    <div className="header">
-      <div className="logo-wrap">
-        <Link to="/">
-          <div className="logo">
-            <img src={logo} alt="logo" />
-          </div>
-        </Link>
-        {editProjName}
+    <Fragment>
+      <div className="header">
+        <div className="logo-wrap">
+          <Link to="/">
+            <div className="logo">
+              <img src={logo} alt="logo" />
+            </div>
+          </Link>
+          {editProjName}
+        </div>
+        <div className="header-tools">
+          <LangBtn locale={props.locale} setLocale={props.setLocale} />
+          <div>{linkBtns}</div>
+        </div>
+        <div className="menu-btn" onClick={toggleMenu}>
+          <FontAwesomeIcon icon={["fas", "bars"]} />
+        </div>
       </div>
-
-      <LangBtn locale={props.locale} setLocale={props.setLocale} />
-      <Fragment>{linkBtns}</Fragment>
-    </div>
+      <div className={menuClass}>
+        <LangBtn locale={props.locale} setLocale={props.setLocale} />
+        <div className="menu-links">{menuBtns}</div>
+      </div>
+    </Fragment>
   );
 };
 
