@@ -56,7 +56,19 @@ const Header = props => {
     );
   } else {
     if (props.match.url.includes("/edit/")) {
-      linkBtns = <PresentBtn />;
+      linkBtns = (
+        <Fragment>
+          <Button
+            variant="contained"
+            id="my-presentation-btn"
+            onClick={() => {
+              props.history.push(`/pm/${props.auth.uid}`);
+            }}>
+            <FormattedMessage id="home.my-presentation" />
+          </Button>
+          <PresentBtn />
+        </Fragment>
+      );
       if (props.editProj !== undefined)
         editProjName = <ProjNameEditor {...props} proj={props.editProj} />;
     } else if (props.match.url.includes("/pm/")) {
