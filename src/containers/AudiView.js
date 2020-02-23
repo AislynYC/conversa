@@ -1,6 +1,7 @@
 import React, {Fragment, useEffect, useState} from "react";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
+import {Link} from "react-router-dom";
 import logo from "../img/conversa.png";
 import logoC from "../img/logoC_nb.png";
 import "./audiView.css";
@@ -8,7 +9,8 @@ import "./audiView.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {faLaughSquint} from "@fortawesome/free-regular-svg-icons";
-library.add(faLaughSquint);
+import {faHeart} from "@fortawesome/free-solid-svg-icons";
+library.add(faLaughSquint, faHeart);
 
 import Button from "@material-ui/core/Button";
 import Radio from "@material-ui/core/Radio";
@@ -160,7 +162,11 @@ const Poll = props => {
       {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
         props.slds[props.curSldIndex].opts !== "" ? (
           props.respondedAudi[props.slds[props.curSldIndex].id].includes(props.audiId) ? (
-            <Wait {...props} />
+            props.curSldIndex === props.slds.length - 1 ? (
+              <Ending {...props} />
+            ) : (
+              <Wait {...props} />
+            )
           ) : (
             <Fragment>
               <div>{props.slds[props.curSldIndex].qContent}</div>
@@ -218,6 +224,26 @@ const Wait = props => {
       <div className="wait-msg">
         <FormattedMessage id="audi.wait" />
       </div>
+    </div>
+  );
+};
+
+const Ending = props => {
+  return (
+    <div className="poll-container">
+      <div className="wait-img">
+        <div className="end-circle">
+          <FontAwesomeIcon icon={["fas", "heart"]} size="2x" />
+        </div>
+      </div>
+      <div className="wait-msg">
+        <FormattedMessage id="audi.ending" />
+      </div>
+      <Link to="/">
+        <Button variant="contained" id="go-to-home">
+          <FormattedMessage id="audi.go-to-home" />
+        </Button>
+      </Link>
     </div>
   );
 };

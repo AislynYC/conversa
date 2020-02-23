@@ -6,6 +6,8 @@ const zh_TW = {
   "edit.add-sld": "新增",
   "audi.submit": "送出",
   "audi.wait": "請等候講者切換下一張投影片...",
+  "audi.ending": "感謝您的參與！",
+  "audi.go-to-home": "註冊 Conversa 帳戶",
   "edit.sld-type": "投影片類型",
   "edit.heading-page": "標題",
   "edit.multiple-choice": "選 擇 題",

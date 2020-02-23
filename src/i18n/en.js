@@ -6,6 +6,8 @@ const en = {
   "edit.add-sld": "Add",
   "audi.submit": "Submit",
   "audi.wait": "Please wait for the presenter to show the next slide...",
+  "audi.ending": "Thank you for your participation!",
+  "audi.go-to-home": "Sign up for Conversa",
   "edit.sld-type": "Slide Type",
   "edit.heading-page": "Heading",
   "edit.multiple-choice": "Multiple Choice",
