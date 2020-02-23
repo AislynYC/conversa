@@ -960,7 +960,7 @@ const OptInput = props => {
 
   useEffect(() => {
     setInputValue(props.opt);
-  }, []);
+  }, [props.opt]);
 
   const setInnerValue = (value, props) => {
     let newSlds = props.slds.map((sld, index) => {
