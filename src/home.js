@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import {connect} from "react-redux";
 import {FormattedMessage} from "react-intl";
+import {Link} from "react-router-dom";
 
 import Header from "./components/Header/Header";
 import firebase from "./config/fbConfig";
@@ -20,16 +21,19 @@ import {faHeart, faFileAlt} from "@fortawesome/free-solid-svg-icons";
 library.add(faComments, faHeart, faChartBar, faFileAlt);
 
 const Home = props => {
+  let path = "/signUp";
   console.log("Auth", props.auth);
   if (props.auth.isLoaded === false) {
   } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
     console.log("No user", props.auth);
+    path = "/signUp";
   } else {
     if (firebase.auth().currentUser === null) {
       // After user signed out and redirect to this page, auth.isLoaded & auth.isEmpty are still remain sign in status for a while
       // so currentUser need to be confirmed first before loading this page
       console.log("user is signed out", props.auth);
     } else {
+      path = `/pm/${props.auth.uid}`;
       // User is signed in.
       var displayName = props.auth.displayName;
       var email = props.auth.email;
@@ -73,12 +77,14 @@ const Home = props => {
           <div className="desc-text">
             <FormattedMessage id="home.main-title" />
           </div>
-          <Button variant="contained" id="get-started-btn">
-            <div className="logo-leaf">
-              <img src={logoLeaf} alt="logo-leaf" />
-            </div>
-            <FormattedMessage id="home.get-started" />
-          </Button>
+          <Link to={path}>
+            <Button variant="contained" id="get-started-btn">
+              <div className="logo-leaf">
+                <img src={logoLeaf} alt="logo-leaf" />
+              </div>
+              <FormattedMessage id="home.get-started" />
+            </Button>
+          </Link>
         </div>
         <div className="main-img">
           <MainImg viewBox="0 0 800 800" id="main-img-svg" />
