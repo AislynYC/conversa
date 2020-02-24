@@ -4,16 +4,10 @@ import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
 import Chart from "react-google-charts";
-import {
-  isChrome,
-  isFirefox,
-  isSafari,
-  isIE,
-  isEdge,
-  isOpera
-} from "../lib/BrowserDetection";
+
 import QRCode from "qrcode.react";
 import "./sldEditor.css";
+import ZhInput from "../components/ZhInput/ZhInput";
 
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -52,7 +46,6 @@ const history = createBrowserHistory();
 
 const SldEditor = props => {
   const db = useFirestore();
-  console.log("SldEditor props", props);
   const userId = props.userId;
   const projId = props.projId;
 
@@ -131,7 +124,6 @@ const SldEditor = props => {
     const monitorFullscreen = () => {
       if (document.fullscreenElement) {
         setIsFullscreen(true);
-        console.log("Mount");
         // document.addEventListener("click", fullScreenClicking);
       } else {
         setIsFullscreen(false);
@@ -141,7 +133,6 @@ const SldEditor = props => {
     document.addEventListener("fullscreenchange", monitorFullscreen);
 
     return () => {
-      console.log("Unmount");
       document.removeEventListener("fullscreenchange", monitorFullscreen);
       // document.removeEventListener("click", fullScreenClicking);
     };
@@ -834,7 +825,7 @@ const QusInput = props => {
   const userId = props.userId;
   const projId = props.projId;
 
-  const useInnerValue = (value, props) => {
+  const editQus = (value, props) => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
         sld.lastEdited = Date.now();
@@ -862,10 +853,11 @@ const QusInput = props => {
         <FormattedMessage id="edit.qus-input-placeholder" defaultMessage="Question">
           {placeholder => (
             <ZhInput
+              {...props}
               id="qus-input"
               placeholder={placeholder}
-              curValue={props.opt}
-              useInnerValue={useInnerValue}
+              curValue={props.sld.qContent}
+              useInnerValue={editQus}
             />
           )}
         </FormattedMessage>
@@ -878,30 +870,33 @@ const OptInputs = props => {
   const db = useFirestore();
   const userId = props.userId;
   const projId = props.projId;
-  const editOpt = (e, optIndex) => {
-    let newSlds = props.slds.map((sld, index) => {
-      if (index === props.sldIndex) {
-        sld.lastEdited = Date.now();
-        sld.opts[optIndex] = e.target.value;
-      }
-      return sld;
-    });
+  // Get current rendering length
+  const optsLength = useRef(props.sld.opts.length);
+  const [forceUpdate, setForceUpdate] = useState(false);
 
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: newSlds
-      });
-  };
+  useEffect(() => {
+    // If current rendering length is different with the length in db
+    // then force input value update
+    if (optsLength.current !== props.sld.opts.length) {
+      setForceUpdate(true);
+      // after force update, set the current rendering length with db length
+      optsLength.current = props.sld.opts.length;
+    } else {
+      setForceUpdate(false);
+    }
+  });
 
   let optInputs = null;
   if (props.sld.opts !== "") {
     optInputs = props.sld.opts.map((opt, index) => {
       return (
-        <OptInput {...props} key={index} opt={opt} optIndex={index} editOpt={editOpt} />
+        <OptInput
+          {...props}
+          key={index}
+          opt={opt}
+          optIndex={index}
+          forceUpdate={forceUpdate}
+        />
       );
     });
   }
@@ -914,7 +909,7 @@ const OptInput = props => {
   const userId = props.userId;
   const projId = props.projId;
 
-  const useInnerValue = (value, props) => {
+  const editOpt = (value, props) => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
         sld.lastEdited = Date.now();
@@ -938,10 +933,11 @@ const OptInput = props => {
       <FormattedMessage id="edit.option-placeholder" defaultMessage="option">
         {placeholder => (
           <ZhInput
+            {...props}
             id={"opt-input" + props.optIndex}
             placeholder={`${placeholder} ${props.optIndex + 1}`}
             curValue={props.opt}
-            useInnerValue={useInnerValue}
+            useInnerValue={editOpt}
           />
         )}
       </FormattedMessage>
@@ -1090,16 +1086,12 @@ const HeadingSldEditor = props => {
   const db = useFirestore();
   const userId = props.userId;
   const projId = props.projId;
-  // const [inputRefHeading, setInputHeadingFocus] = UseFocus();
-  // useEffect(() => {
-  //   setInputHeadingFocus();
-  // }, [props.sld.heading]);
 
-  const editHeading = (e, props) => {
+  const editHeading = (value, props) => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
         sld.lastEdited = Date.now();
-        sld.heading = e.target.value;
+        sld.heading = value;
       }
       return sld;
     });
@@ -1114,11 +1106,11 @@ const HeadingSldEditor = props => {
       });
   };
 
-  const editSubHeading = (e, props) => {
+  const editSubHeading = (value, props) => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
         sld.lastEdited = Date.now();
-        sld.subHeading = e.target.value;
+        sld.subHeading = value;
       }
       return sld;
     });
@@ -1162,15 +1154,11 @@ const HeadingSldEditor = props => {
         <div className="heading-label">
           <FormattedMessage id="edit.heading-label" />
         </div>
-        <input
-          type="text"
+        <ZhInput
+          {...props}
           id="heading-input"
-          className="input"
-          // ref={inputRefHeading}
-          value={props.sld.heading}
-          onChange={e => {
-            editHeading(e, props);
-          }}
+          curValue={props.sld.heading}
+          useInnerValue={editHeading}
         />
       </label>
       <label htmlFor="QRCode-switch" id="hQRCode-switch-group">
@@ -1189,87 +1177,13 @@ const HeadingSldEditor = props => {
         <div className="edit-panel-label">
           <FormattedMessage id="edit.sub-heading-label" />
         </div>
-        <input
-          type="text"
+        <ZhInput
+          {...props}
           id="sub-heading-input"
-          className="input"
-          value={props.sld.subHeading}
-          onChange={e => {
-            editSubHeading(e, props);
-          }}
+          curValue={props.sld.subHeading}
+          useInnerValue={editSubHeading}
         />
       </label>
     </div>
-  );
-};
-
-const ZhInput = props => {
-  const [inputValue, setInputValue] = useState("");
-  const [isOnComposition, setIsOnComposition] = useState(false);
-  const [isInnerChangeFromOnChange, setIsInnerChangeFromOnChange] = useState(false);
-
-  useEffect(() => {
-    setInputValue(props.curValue);
-  }, [props.curValue]);
-
-  const handleChange = e => {
-    // Flow check
-    if (!(e.target instanceof HTMLInputElement)) return;
-
-    if (isInnerChangeFromOnChange) {
-      setInputValue(e.target.value);
-      props.useInnerValue(e.target.value, props);
-      setIsInnerChangeFromOnChange(false);
-      return;
-    }
-
-    // when is on composition, change inputValue only
-    // when not in composition change inputValue and innerValue both
-    if (!isOnComposition) {
-      setInputValue(e.target.value);
-      props.useInnerValue(e.target.value, props);
-    } else {
-      setInputValue(e.target.value);
-    }
-  };
-
-  const handleComposition = e => {
-    // Flow check
-    if (!(e.target instanceof HTMLInputElement)) return;
-
-    if (e.type === "compositionend") {
-      // Chrome is ok for only setState innerValue
-      // Opera, IE and Edge is like Chrome
-      if (isChrome || isIE || isEdge || isOpera) {
-        props.useInnerValue(e.target.value, props);
-      }
-
-      // Firefox need to setState inputValue again...
-      if (isFirefox) {
-        setInputValue(e.target.value);
-        props.useInnerValue(e.target.value, props);
-      }
-
-      // Safari think e.target.value in composition event is keyboard char,
-      //  but it will fired another change after compositionend
-      if (isSafari) {
-        // do change in the next change event
-        setIsInnerChangeFromOnChange(true);
-      }
-      setIsOnComposition(false);
-    } else {
-      setIsOnComposition(false);
-    }
-  };
-  return (
-    <input
-      type="text"
-      className="input"
-      value={inputValue}
-      onChange={e => handleChange(e)}
-      onCompositionUpdate={e => handleComposition(e)}
-      onCompositionEnd={e => handleComposition(e)}
-      onCompositionStart={e => handleComposition(e)}
-    />
   );
 };
