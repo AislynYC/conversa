@@ -23,7 +23,13 @@ import {
   faHandPointRight,
   faChartBar
 } from "@fortawesome/free-regular-svg-icons";
-import {faTrashAlt, faCopy, faUser, faChartPie} from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrashAlt,
+  faCopy,
+  faUser,
+  faChartPie,
+  faQrcode
+} from "@fortawesome/free-solid-svg-icons";
 library.add(
   faLaughSquint,
   faTrashAlt,
@@ -31,7 +37,8 @@ library.add(
   faUser,
   faHandPointRight,
   faChartBar,
-  faChartPie
+  faChartPie,
+  faQrcode
 );
 // Material UI
 import AddIcon from "@material-ui/icons/Add";
@@ -316,6 +323,9 @@ const SldsItems = props => {
             ) : (
               <div className="sld-item-content heading-render-container">
                 <div className="sld-item-header">{item.heading}</div>
+                {item.hasQRCode ? (
+                  <FontAwesomeIcon icon={["fas", "qrcode"]} className="sld-item-icon" />
+                ) : null}
                 <div className="sld-item-text">
                   <FormattedMessage id="edit.heading-page" />
                 </div>
@@ -649,7 +659,7 @@ const AddSldBtn = props => {
             result: "",
             heading: "",
             subHeading: "",
-            hasQRCode: true
+            hasQRCode: false
           }
         ]
       })
