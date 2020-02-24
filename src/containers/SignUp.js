@@ -49,11 +49,11 @@ const SignInScreen = props => {
           return db
             .collection("users")
             .doc(res.user.uid)
-            .set({createdTime: Date.now()});
-        })
-        .then(() => {
-          console.log("signUp success");
-          props.history.push(`/pm/${res.user.uid}`);
+            .set({createdTime: Date.now()})
+            .then(() => {
+              console.log("signUp success");
+              props.history.push(`/pm/${res.user.uid}`);
+            });
         })
         .catch(error => {
           console.log("signUp error", error.code, error.message);

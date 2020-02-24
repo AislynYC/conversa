@@ -93,6 +93,13 @@ const Header = props => {
           <FormattedMessage id="home.log-out" />
         </SignBtn>
       );
+      menuBtns = (
+        <Fragment>
+          <SignBtn onClick={logOut}>
+            <FormattedMessage id="home.log-out" />
+          </SignBtn>
+        </Fragment>
+      );
     } else {
       linkBtns = (
         <Fragment>
