@@ -161,6 +161,7 @@ const Poll = props => {
 
   useEffect(() => {
     setIsSubmitDisabled(false);
+    setIsRadioDisabled(false);
   }, [props.curSldIndex]);
 
   useEffect(() => {
