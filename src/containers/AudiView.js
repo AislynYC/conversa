@@ -77,8 +77,8 @@ const Poll = props => {
     setSelOptIndex(null);
   }, [props.curSldIndex]);
 
-  const respondPoll = e => {
-    e.preventDefault();
+  const respondPoll = () => {
+    // e.preventDefault();
     const projDocRef = db
       .collection("users")
       .doc(props.userId)
@@ -156,6 +156,26 @@ const Poll = props => {
         console.log("Transaction failed: ", error);
       });
   };
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  const [isRadioDisabled, setIsRadioDisabled] = useState(false);
+
+  useEffect(() => {
+    setIsSubmitDisabled(false);
+  }, [props.curSldIndex]);
+
+  useEffect(() => {
+    if (selOptIndex === null) {
+      setIsSubmitDisabled(true);
+    } else {
+      setIsSubmitDisabled(false);
+    }
+  }, [selOptIndex]);
+
+  const submit = () => {
+    setIsSubmitDisabled(true);
+    setIsRadioDisabled(true);
+    respondPoll();
+  };
 
   return (
     <Fragment>
@@ -170,18 +190,14 @@ const Poll = props => {
           ) : (
             <Fragment>
               <div>{props.slds[props.curSldIndex].qContent}</div>
-              <form
-                name="poll-form"
-                id="poll-form"
-                onSubmit={e => {
-                  respondPoll(e);
-                }}>
+              <form name="poll-form" id="poll-form">
                 {props.slds[props.curSldIndex].opts.map((item, index) => (
                   <label className="res-group" key={index}>
                     <GreenRadio
                       type="radio"
                       name="res-group"
                       value={index}
+                      disabled={isRadioDisabled}
                       checked={selOptIndex === index}
                       onChange={() => setSelOptIndex(index)}
                       inputProps={{"aria-label": index}}
@@ -189,7 +205,11 @@ const Poll = props => {
                     <div className="opts"> {item} </div>
                   </label>
                 ))}
-                <Button variant="contained" id="submit-btn" type="submit">
+                <Button
+                  variant="contained"
+                  id="submit-btn"
+                  disabled={isSubmitDisabled}
+                  onClick={submit}>
                   <FormattedMessage id="audi.submit" />
                 </Button>
               </form>
