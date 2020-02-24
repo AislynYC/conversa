@@ -4,7 +4,6 @@ import Header from "./components/Header/Header";
 import SldEditorConnect from "./containers/SldEditorConnect";
 
 const Edit = props => {
-  console.log("edit", props);
   let userId = props.match.params.userId;
   let projId = props.match.params.projId;
 

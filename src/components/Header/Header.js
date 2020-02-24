@@ -28,7 +28,6 @@ const SignBtn = withStyles({
 })(Button);
 
 const Header = props => {
-  console.log("header", props);
   const logOut = () => {
     firebase
       .auth()

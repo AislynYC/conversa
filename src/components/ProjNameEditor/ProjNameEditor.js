@@ -63,7 +63,6 @@ const ProjNameEditor = props => {
 
   let projName = null;
 
-  console.log(props.proj);
   if (props.match.url.includes("/pm/")) {
     projName = (
       <Link to={`/edit/${props.auth.uid}/${props.proj.id}`} className="project-name">
