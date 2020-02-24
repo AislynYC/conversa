@@ -107,10 +107,10 @@ const Poll = props => {
           // Plus 1 vote to sld.rsult of projData which was gotten from transaction
           let newSlds = projData.slds.map((sld, index) => {
             if (index === props.curSldIndex) {
-              if (sld.result[props.selOptIndex] === "") {
-                sld.result[props.selOptIndex] = 1;
+              if (sld.result[selOptIndex] === "") {
+                sld.result[selOptIndex] = 1;
               } else {
-                sld.result[props.selOptIndex]++;
+                sld.result[selOptIndex]++;
               }
             }
             return sld;
