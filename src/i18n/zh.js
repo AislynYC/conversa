@@ -9,7 +9,7 @@ const zh_TW = {
   "audi.ending": "感謝您的參與！",
   "audi.go-to-home": "註冊 Conversa 帳戶",
   "edit.sld-type": "投影片類型",
-  "edit.heading-page": "標題",
+  "edit.heading-page": "標 題",
   "edit.multiple-choice": "選 擇 題",
   "edit.heading-label": "標題",
   "edit.sub-heading-label": "副標題",

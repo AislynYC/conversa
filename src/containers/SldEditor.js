@@ -119,37 +119,20 @@ const SldEditor = props => {
     }
   };
 
-  const fullScreenClicking = () => {
-    console.log("fullscreen Clicking", props.slds, props.curSldIndex);
-    if (props.slds !== undefined && props.curSldIndex !== undefined) {
-      nextSld();
-    }
-  };
-
-  // useEffect(() => {
-  //   console.log("fullscreen");
-  //   const ifFullscreen = () => {
-  //     console.log("fullscreen change");
-  //     if (document.fullscreenElement) {
-  //       document.addEventListener("click", fullScreenClicking);
-  //     } else {
-  //       document.removeEventListener("click", fullScreenClicking);
-  //     }
-  //   };
-
-  //   document.addEventListener("fullscreenchange", ifFullscreen);
-
-  //   return () => {
-  //     document.removeEventListener("fullscreenchange", ifFullscreen);
-  //     document.removeEventListener("click", fullScreenClicking);
-  //   };
-  // });
+  // const fullScreenClicking = () => {
+  //   console.log("fullscreen Clicking", props.slds, props.curSldIndex);
+  //   if (props.slds !== undefined && props.curSldIndex !== undefined) {
+  //     nextSld();
+  //   }
+  // };
 
   let [isFullscreen, setIsFullscreen] = useState(false);
   useEffect(() => {
     const monitorFullscreen = () => {
       if (document.fullscreenElement) {
         setIsFullscreen(true);
+        console.log("Mount");
+        // document.addEventListener("click", fullScreenClicking);
       } else {
         setIsFullscreen(false);
       }
@@ -158,7 +141,9 @@ const SldEditor = props => {
     document.addEventListener("fullscreenchange", monitorFullscreen);
 
     return () => {
+      console.log("Unmount");
       document.removeEventListener("fullscreenchange", monitorFullscreen);
+      // document.removeEventListener("click", fullScreenClicking);
     };
   });
 
@@ -204,7 +189,7 @@ const SldEditor = props => {
           <AddSldBtn {...props} selectSld={selectSld} />
         </div>
         <Switch>
-          <SldPage {...props} isFullscreen={isFullscreen} />
+          <SldPage {...props} isFullscreen={isFullscreen} nextSld={nextSld} />
         </Switch>
       </div>
       <DelSld {...props} selectSld={selectSld} />
@@ -351,7 +336,12 @@ const SldPage = props => {
 
     return (
       <Route {...path} key={index}>
-        <SldPageRoute {...props} sld={sld} isFullscreen={props.isFullscreen} />
+        <SldPageRoute
+          {...props}
+          sld={sld}
+          isFullscreen={props.isFullscreen}
+          nextSld={props.nextSld}
+        />
         {sld.sldType === "multiple-choice" ? (
           <MultiSelEditor {...props} sld={sld} sldIndex={index} />
         ) : (
@@ -600,12 +590,22 @@ const SldPageRoute = props => {
     );
   }
 
+  const clickFullscreen = () => {
+    if (
+      props.isFullscreen === true &&
+      props.slds !== undefined &&
+      props.curSldIndex !== undefined
+    ) {
+      props.nextSld();
+    }
+  };
+
   return (
     <div className="center-wrap">
       <div className="center">
         <div id="current-sld-container">
           <div id="current-sld-border">
-            <div id="current-sld">
+            <div id="current-sld" onClick={clickFullscreen}>
               {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
                 <Fragment>
                   <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
@@ -1180,9 +1180,11 @@ const ControlPanel = props => {
               changeSldType(e);
             }}
           />
-          <div className="heading-type-text">
-            <div className="heading-empty"> </div>
-            <FormattedMessage id="edit.heading-label" />
+          <div className="sld-type-w-chart">
+            <FontAwesomeIcon icon={["fas", "qrcode"]} className="sld-type-icon" />
+            <div>
+              <FormattedMessage id="edit.heading-label" />
+            </div>
           </div>
         </label>
         <label className="sld-type-group">
@@ -1195,7 +1197,7 @@ const ControlPanel = props => {
               changeSldType(e);
             }}
           />
-          <div id="sld-type-w-chart">
+          <div className="sld-type-w-chart">
             <FontAwesomeIcon icon={["far", "chart-bar"]} className="sld-type-icon" />
             <div>
               <FormattedMessage id="edit.multiple-choice" />

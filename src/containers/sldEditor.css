@@ -3,7 +3,7 @@
   width: 100%;
   height: calc(100vh - 90px);
   overflow: hidden;
-  font-size: 20px;
+  font-size: 1rem;
   margin: 0 auto;
   background-color: rgb(123, 144, 133);
   color: #444;
@@ -99,7 +99,7 @@
   border-radius: 4px;
   /* prettier-ignore */
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-  height: 35%;
+  height: 28.3%;
   width: 100%;
   margin: 20px auto 0;
   background-color: white;
@@ -131,10 +131,7 @@
   text-align: center;
 }
 
-.heading-type-text {
-  line-height: 45px;
-}
-#sld-type-w-chart {
+.sld-type-w-chart {
   padding-bottom: 15%;
   padding-top: 15%;
 }
@@ -142,10 +139,7 @@
 .sld-type-icon {
   font-size: 30px;
 }
-.heading-empty {
-  height: 7px;
-  width: 1px;
-}
+
 .control-panel > form > label > input:checked + div {
   /* (RADIO CHECKED) DIV STYLES */
   display: block;
@@ -161,7 +155,11 @@
 .heading-label {
   font-weight: 500;
   margin-bottom: 16px;
-  font-size: 1.1em;
+  font-size: 1.2rem;
+}
+
+.control-label {
+  margin-bottom: 23px;
 }
 
 /* slide selector */
@@ -172,7 +170,7 @@
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
      0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   width: 30%;
-  height: 100%;
+  height: 99%;
   overflow-y: scroll;
   overflow-x: hidden;
   display: flex;
@@ -276,7 +274,7 @@
 /* Edit Panel */
 .edit-panel {
   width: 40%;
-  height: 95%;
+  height: 99%;
   border-radius: 4px;
   /* prettier-ignore */
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
