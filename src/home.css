@@ -1,5 +1,9 @@
 /* Home Page */
 
+html {
+  font-size: 20px;
+}
+
 .sec1 {
   height: 650px;
   background-color: white;
@@ -50,7 +54,7 @@
 .sec1 > .sec1-desc > .desc-text {
   color: rgb(44, 39, 61);
   position: relative;
-  font-size: 2em;
+  font-size: 2.3rem;
   font-weight: 600;
   z-index: 5;
   letter-spacing: 5px;
@@ -59,7 +63,7 @@
 #get-started-btn {
   position: relative;
   z-index: 3;
-  font-size: 1em;
+  font-size: 1rem;
   height: 45px;
   margin-top: 30px;
   background-color: #333;
@@ -77,7 +81,7 @@
 }
 .sec2 {
   background-color: rgb(165, 182, 173);
-  padding: 30px 0;
+  padding: 50px 0;
 }
 
 .sec2 > .boxes {
@@ -98,8 +102,8 @@
 }
 
 .box-circle {
-  width: 110%;
-  padding-bottom: 110%;
+  width: 100%;
+  padding-bottom: 100%;
   border-radius: 99em;
   background-color: white;
   opacity: 0.5;
@@ -115,7 +119,7 @@
 }
 
 .sec2-box-title {
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: 4px;
   color: #222;
@@ -126,11 +130,12 @@
 }
 
 .sec2-box-text {
+  font-size: 1rem;
   color: #222;
   text-align: center;
   position: relative;
   z-index: 1;
-  line-height: 1.5em;
+  line-height: 1.7rem;
 }
 
 .sec3 {
@@ -140,7 +145,7 @@
 }
 
 .sec3-title {
-  font-size: 1.8em;
+  font-size: 2rem;
   font-weight: 600;
   color: #333;
   text-align: center;
@@ -168,6 +173,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-size: 1.2rem;
 }
 
 .step-num {
@@ -190,7 +196,7 @@
 }
 
 .step-title {
-  font-size: 1.3em;
+  font-size: 1.7rem;
   font-weight: 500;
   margin-bottom: 10px;
 }
@@ -219,6 +225,12 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
+}
+
+@media (max-width: 1800px) {
+  html {
+    font-size: 15px;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -263,7 +275,7 @@
   }
 
   .sec1 > .sec1-desc > .desc-text {
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
   .sec1 > .circle1 {
     width: 100%;

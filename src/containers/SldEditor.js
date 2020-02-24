@@ -508,13 +508,13 @@ const SldPageRoute = props => {
       legend: {
         position: "labeled",
         textStyle: {
-          fontSize: 28
+          fontSize: 36
         }
       },
       pieSliceText: "value",
       pieSliceTextStyle: {
         color: "#333",
-        fontSize: 28
+        fontSize: 36
       }
     };
   }
