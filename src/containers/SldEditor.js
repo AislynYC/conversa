@@ -486,12 +486,12 @@ const SldPageRoute = props => {
       },
       hAxis: {
         textStyle: {
-          fontSize: 28
+          fontSize: 36
         }
       },
       annotations: {
         textStyle: {
-          fontSize: 28,
+          fontSize: 36,
           bold: true
         }
       }
