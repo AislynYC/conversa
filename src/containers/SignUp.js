@@ -8,7 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Header from "../components/Header/Header";
-import "./style.css";
+import "./sign.css";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "../config/fbConfig";
 import {connect} from "react-redux";

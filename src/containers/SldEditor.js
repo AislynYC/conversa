@@ -13,7 +13,7 @@ import {
   isOpera
 } from "../lib/BrowserDetection";
 import QRCode from "qrcode.react";
-import "./style.css";
+import "./sldEditor.css";
 
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -1181,6 +1181,7 @@ const ControlPanel = props => {
             }}
           />
           <div className="heading-type-text">
+            <div className="heading-empty"> </div>
             <FormattedMessage id="edit.heading-label" />
           </div>
         </label>

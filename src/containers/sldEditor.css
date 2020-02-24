@@ -3,7 +3,7 @@
   width: 100%;
   height: calc(100vh - 90px);
   overflow: hidden;
-  font-size: 15px;
+  font-size: 20px;
   margin: 0 auto;
   background-color: rgb(123, 144, 133);
   color: #444;
@@ -142,7 +142,10 @@
 .sld-type-icon {
   font-size: 30px;
 }
-
+.heading-empty {
+  height: 7px;
+  width: 1px;
+}
 .control-panel > form > label > input:checked + div {
   /* (RADIO CHECKED) DIV STYLES */
   display: block;
@@ -178,7 +181,7 @@
 
 .sld-item {
   display: flex;
-  height: 150px;
+
   justify-content: center;
   align-items: center;
   padding: 20px 18px 20px 0;
@@ -423,65 +426,12 @@
   word-break: break-all;
 }
 
-/* Sign up / log in */
-.entry-page {
-  height: calc(100vh - 90px);
-  background-color: rgb(123, 144, 133);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+@media (max-width: 1200px) {
+  .container {
+    font-size: 15px;
+  }
 }
-.entry-screen {
-  text-align: center;
+@media (max-width: 820px) {
 }
-.entry-screen > p {
-  margin-bottom: 20px;
-}
-.entry-form {
-  display: flex;
-  flex-direction: column;
-}
-.empty-divider {
-  height: 10px;
-  width: 1px;
-}
-
-.err-msg {
-  color: red;
-  font-size: 0.9em;
-  text-align: left;
-}
-#entry-btn {
-  color: white;
-  background-color: rgb(46, 54, 50);
-  margin: 30px auto;
-  padding: 10px 20px;
-}
-
-.entry-divider {
-  display: flex;
-  margin: 15px 0 35px;
-  justify-content: center;
-}
-.entry-divider > p {
-  font-size: 0.9em;
-  color: #444;
-  width: 310px;
-  letter-spacing: 1px;
-}
-.divider-line {
-  height: 1px;
-  width: 55%;
-  margin: 10px 0;
-  background-color: #999;
-}
-
-.switch-link {
-  font-size: 0.8em;
-  color: rgb(77, 117, 190);
-  padding: 0 0 20px;
-}
-
-.switch-link:hover {
-  transform: scale(1.1);
+@media (max-width: 490px) {
 }
