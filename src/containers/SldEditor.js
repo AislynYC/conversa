@@ -217,15 +217,28 @@ const SldsItems = props => {
   }
 
   const copySld = index => {
-    props.slds.splice(index + 1, 0, props.slds[index]);
+    let newSld = {...props.slds[index]};
+    let t = Date.now();
+    newSld.id = t;
+    newSld.lastEdited = t;
+    newSld.result = props.slds[index].result.map(item => {
+      if (item !== "") {
+        item = "";
+      }
+      return item;
+    });
+    props.slds.splice(index + 1, 0, newSld);
+    console.log(newSld, props.slds);
+
+    // console.log(props.slds[index], props.slds[index + 1]);
     db.collection("users")
       .doc(userId)
       .collection("projects")
       .doc(projId)
-      .update({slds: props.slds})
+      .update({lastEdited: t, slds: props.slds})
       .then(() => {
         // Add a responded audi container to the new slide
-        props.respondedAudi[Date.now()] = [];
+        props.respondedAudi[t] = [];
         db.collection("invitation")
           .doc(projId)
           .update({respondedAudi: props.respondedAudi});
