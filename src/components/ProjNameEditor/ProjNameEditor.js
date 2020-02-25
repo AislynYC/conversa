@@ -2,6 +2,7 @@ import React, {Fragment, useState} from "react";
 import {FormattedMessage} from "react-intl";
 import {Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
+import "./projNameEditor.css";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
@@ -62,6 +63,7 @@ const ProjNameEditor = props => {
   };
 
   let projName = null;
+  let editInputId = null;
 
   if (props.match.url.includes("/pm/")) {
     projName = (
@@ -69,8 +71,11 @@ const ProjNameEditor = props => {
         {props.proj.name}
       </Link>
     );
+
+    editInputId = "pm-name-edit-input";
   } else {
     projName = <div className="sldEditor-proj-name">{props.proj.name}</div>;
+    editInputId = "sldEditor-name-edit-input";
   }
 
   return (
@@ -80,7 +85,7 @@ const ProjNameEditor = props => {
           <FormattedMessage id="projects.edit-proj-name">
             {placeholder => (
               <EditInput
-                id="edit-input"
+                id={editInputId}
                 value={editInput}
                 placeholder={placeholder}
                 inputProps={{"aria-label": "description"}}

@@ -76,24 +76,6 @@
   margin: 0 25px;
   font-size: 1.05em;
 }
-.sldEditor-proj-name {
-  font-size: 1.3em;
-  color: rgb(248, 250, 246);
-  font-weight: 400;
-  margin: 0 5px 0 0;
-}
-.logo-wrap > .proj-name-edit-wrap {
-  display: flex;
-  align-items: center;
-  width: 80%;
-  margin-left: 20px;
-  margin-top: 10px;
-}
-
-#edit-input {
-  font-size: 1.3em;
-  color: rgb(248, 250, 246);
-}
 
 @media (max-width: 820px) {
   .header-tools {
