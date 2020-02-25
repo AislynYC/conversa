@@ -26,6 +26,26 @@ const GreenRadio = withStyles({
   checked: {}
 })(props => <Radio color="default" {...props} />);
 
+const ResInput = withStyles({
+  root: {
+    width: "100%",
+    margin: "5% 0",
+    "& label.Mui-focused": {
+      color: "#dcf3e7",
+      fontSize: "1.5rem"
+    },
+    "& .MuiOutlinedInput-root": {
+      fontSize: "1.5rem",
+      "& fieldset": {
+        borderColor: "#dcf3e7"
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#dcf3e7"
+      }
+    }
+  }
+})(TextField);
+
 const AudiView = props => {
   const db = useFirestore();
   //get uuid
@@ -332,18 +352,27 @@ const OpenEndedInput = props => {
 
   return (
     <Fragment>
-      <div>{props.slds[props.curSldIndex].qContent}</div>
+      <div className="q-content">{props.slds[props.curSldIndex].qContent}</div>
       <form name="poll-form" id="poll-form">
-        <TextField
-          label="Please Enter your answer here"
-          value={resInputValue}
-          multiline
-          rows="4"
-          variant="outlined"
-          onChange={e => {
-            setResInputValue(e.target.value);
-          }}
-        />
+        <FormattedMessage
+          id="audi.open-ended-input"
+          defaultMessage="Please insert your response here">
+          {label => (
+            <ResInput
+              label={label}
+              id="res-input"
+              value={resInputValue}
+              multiline
+              rows="10"
+              variant="outlined"
+              placeholder="test"
+              onChange={e => {
+                setResInputValue(e.target.value);
+              }}
+            />
+          )}
+        </FormattedMessage>
+
         <Button
           variant="contained"
           id="submit-btn"

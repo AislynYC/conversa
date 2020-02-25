@@ -86,6 +86,11 @@ body,
   font-size: 1.3rem;
 }
 
+/* open-ended */
+.q-content {
+  padding-bottom: 20px;
+}
+/* Wait Page */
 .wait-msg {
   text-align: center;
   margin: 0 auto;
@@ -107,6 +112,7 @@ body,
   animation-iteration-count: infinite;
 }
 
+/* End Page */
 .end-circle {
   background-color: #333;
   display: flex;

@@ -8,6 +8,7 @@ const zh_TW = {
   "audi.wait": "請等候講者切換下一張投影片...",
   "audi.ending": "感謝您的參與！",
   "audi.go-to-home": "註冊 Conversa 帳戶",
+  "audi.open-ended-input": "請在此輸入您的回答",
   "edit.sld-type": "投影片類型",
   "edit.heading-page": "標 題",
   "edit.multiple-choice": "選 擇 題",
