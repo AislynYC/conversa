@@ -62,12 +62,6 @@
 .opt-ul > li {
   padding: 0.5em 0;
 }
-/* 
-.result {
-  margin-left: 20px;
-  font-weight: 900;
-  color: rgb(238, 128, 25);
-} */
 
 .reaction-count {
   margin-left: 10px;
@@ -94,6 +88,7 @@
   margin-right: 5px;
 }
 
+/* Open Ended */
 #open-sld-content {
   height: 90%;
   overflow: scroll;
@@ -102,6 +97,7 @@
   justify-content: flex-start;
   align-content: flex-start;
   font-size: 1.2rem;
+  margin-top: 10px;
 }
 
 .open-ended-item {
