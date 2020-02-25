@@ -15,15 +15,15 @@ import {library} from "@fortawesome/fontawesome-svg-core";
 import {
   faLaughSquint,
   faHandPointRight,
-  faChartBar
+  faChartBar,
+  faCommentDots
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faTrashAlt,
   faCopy,
   faUser,
   faChartPie,
-  faQrcode,
-  faCommentDots
+  faQrcode
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
   faLaughSquint,
@@ -258,6 +258,53 @@ const SldsItems = props => {
       delBtnClass = "trash-bin sld-item-del";
     }
 
+    let sldItemCover = null;
+    if (item.sldType === "heading-page") {
+      sldItemCover = (
+        <div className="sld-item-content heading-render-container">
+          <div className="sld-item-header">{item.heading}</div>
+          {item.hasQRCode ? (
+            <FontAwesomeIcon icon={["fas", "qrcode"]} className="sld-item-icon" />
+          ) : null}
+          <div className="sld-item-text">
+            <FormattedMessage id="edit.heading-page" />
+          </div>
+        </div>
+      );
+    } else if (item.sldType === "multiple-choice") {
+      sldItemCover = (
+        <div className="sld-item-content">
+          <div className="sld-item-header">{item.qContent}</div>
+          <div className="sld-item-type">
+            <FontAwesomeIcon
+              icon={["far", "chart-bar"]}
+              className="sld-item-icon"
+              size="lg"
+            />
+            <div className="sld-item-text">
+              <FormattedMessage id="edit.multiple-selection" />
+            </div>
+          </div>
+        </div>
+      );
+    } else if (item.sldType === "open-ended") {
+      sldItemCover = (
+        <div className="sld-item-content">
+          <div className="sld-item-header">{item.qContent}</div>
+          <div className="sld-item-type">
+            <FontAwesomeIcon
+              icon={["far", "comment-dots"]}
+              className="sld-item-icon"
+              size="sm"
+            />
+            <div className="sld-item-text">
+              <FormattedMessage id="edit.open-ended" />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div
         className={sldClass}
@@ -284,31 +331,7 @@ const SldsItems = props => {
             onClick={() => {
               props.selectSld(index);
             }}>
-            {item.sldType === "multiple-choice" ? (
-              <div className="sld-item-content">
-                <div className="sld-item-header">{item.qContent}</div>
-                <div className="sld-item-type">
-                  <FontAwesomeIcon
-                    icon={["far", "chart-bar"]}
-                    className="sld-item-icon"
-                    size="lg"
-                  />
-                  <div className="sld-item-text">
-                    <FormattedMessage id="edit.multiple-selection" />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="sld-item-content heading-render-container">
-                <div className="sld-item-header">{item.heading}</div>
-                {item.hasQRCode ? (
-                  <FontAwesomeIcon icon={["fas", "qrcode"]} className="sld-item-icon" />
-                ) : null}
-                <div className="sld-item-text">
-                  <FormattedMessage id="edit.heading-page" />
-                </div>
-              </div>
-            )}
+            {sldItemCover}
           </div>
         </Link>
       </div>
@@ -1192,7 +1215,7 @@ const ControlPanel = props => {
             }}
           />
           <div className="sld-type-w-chart">
-            <FontAwesomeIcon icon={["fas", "comment-dots"]} className="sld-type-icon" />
+            <FontAwesomeIcon icon={["far", "comment-dots"]} className="sld-type-icon" />
             <div>
               <FormattedMessage id="edit.open-ended" />
             </div>

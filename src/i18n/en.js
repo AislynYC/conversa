@@ -12,6 +12,7 @@ const en = {
   "edit.sld-type": "Slide Type",
   "edit.heading-page": "Heading",
   "edit.multiple-choice": "Multiple Choice",
+  "edit.open-ended": "Open-Ended",
   "edit.heading-label": "Heading",
   "edit.sub-heading-label": "Sub-Heading",
   "home.logIn": "Log In",
