@@ -14,6 +14,7 @@ library.add(faLaughSquint, faHeart);
 
 import Button from "@material-ui/core/Button";
 import Radio from "@material-ui/core/Radio";
+import TextField from "@material-ui/core/TextField";
 import {withStyles} from "@material-ui/core/styles";
 import {lightGreen} from "@material-ui/core/colors";
 const GreenRadio = withStyles({
@@ -26,7 +27,6 @@ const GreenRadio = withStyles({
 })(props => <Radio color="default" {...props} />);
 
 const AudiView = props => {
-  console.log(props);
   const db = useFirestore();
   //get uuid
   const _uuid = () => {
@@ -70,15 +70,102 @@ const AudiView = props => {
 export default AudiView;
 
 const Poll = props => {
+  let audiInput = null;
+
+  if (props.slds[props.curSldIndex].sldType === "heading-page") {
+    audiInput = <HeadingInput {...props} />;
+  } else if (
+    props.respondedAudi[props.slds[props.curSldIndex].id].includes(props.audiId)
+  ) {
+    if (props.curSldIndex === props.slds.length - 1) {
+      audiInput = <Ending {...props} />;
+    } else {
+      audiInput = <Wait {...props} />;
+    }
+  } else {
+    if (props.slds[props.curSldIndex].sldType === "multiple-choice") {
+      if (props.slds[props.curSldIndex].opts !== "") {
+        audiInput = <MultiSelInputs {...props} />;
+      } else {
+        audiInput = <Wait {...props} />;
+      }
+    } else if (props.slds[props.curSldIndex].sldType === "open-ended") {
+      audiInput = <OpenEndedInput {...props} />;
+    }
+  }
+
+  return <Fragment>{audiInput}</Fragment>;
+};
+
+const HeadingInput = props => {
+  const db = useFirestore();
+  const addReaction = type => {
+    var invtDocRef = db.collection("invitation").doc(props.projId);
+
+    return db
+      .runTransaction(function(transaction) {
+        // This code may get re-run multiple times if there are conflicts.
+        return transaction.get(invtDocRef).then(function(invtDoc) {
+          if (!invtDoc.exists) {
+            throw "Document does not exist!";
+          }
+          let invtData = invtDoc.data();
+          invtData.reaction[type]++;
+          transaction.update(invtDocRef, {reaction: invtData.reaction});
+        });
+      })
+      .then(function() {
+        console.log("Transaction successfully committed!");
+      })
+      .catch(function(error) {
+        console.log("Transaction failed: ", error);
+      });
+  };
+  return (
+    <div className="heading-container">
+      <div className="heading">{props.slds[props.curSldIndex].heading}</div>
+      <Button
+        variant="contained"
+        size="large"
+        className="reaction-icons"
+        id="reaction-laugh"
+        onClick={() => addReaction("laugh")}>
+        <FontAwesomeIcon icon={["far", "laugh-squint"]} size="2x" />
+      </Button>
+    </div>
+  );
+};
+
+const MultiSelInputs = props => {
   const db = useFirestore();
   const [selOptIndex, setSelOptIndex] = useState(null);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  const [isRadioDisabled, setIsRadioDisabled] = useState(false);
 
   useEffect(() => {
     setSelOptIndex(null);
   }, [props.curSldIndex]);
 
+  useEffect(() => {
+    setIsSubmitDisabled(false);
+    setIsRadioDisabled(false);
+  }, [props.curSldIndex]);
+
+  useEffect(() => {
+    if (selOptIndex === null) {
+      setIsSubmitDisabled(true);
+    } else {
+      setIsSubmitDisabled(false);
+    }
+  }, [selOptIndex]);
+
+  const submitMultiChoice = () => {
+    setIsSubmitDisabled(true);
+    setIsRadioDisabled(true);
+    respondPoll();
+  };
+
   const respondPoll = () => {
-    // e.preventDefault();
     const projDocRef = db
       .collection("users")
       .doc(props.userId)
@@ -134,19 +221,105 @@ const Poll = props => {
       });
   };
 
-  const addReaction = type => {
-    var invtDocRef = db.collection("invitation").doc(props.projId);
+  return (
+    <Fragment>
+      <div>{props.slds[props.curSldIndex].qContent}</div>
+      <form name="poll-form" id="poll-form">
+        {props.slds[props.curSldIndex].opts.map((item, index) => (
+          <label className="res-group" key={index}>
+            <GreenRadio
+              type="radio"
+              name="res-group"
+              value={index}
+              disabled={isRadioDisabled}
+              checked={selOptIndex === index}
+              onChange={() => setSelOptIndex(index)}
+              inputProps={{"aria-label": index}}
+            />
+            <div className="opts"> {item} </div>
+          </label>
+        ))}
+        <Button
+          variant="contained"
+          id="submit-btn"
+          disabled={isSubmitDisabled}
+          onClick={submitMultiChoice}>
+          <FormattedMessage id="audi.submit" />
+        </Button>
+      </form>
+    </Fragment>
+  );
+};
 
+const OpenEndedInput = props => {
+  const db = useFirestore();
+  const [resInputValue, setResInputValue] = useState("");
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+
+  useEffect(() => {
+    setIsSubmitDisabled(false);
+  }, [props.curSldIndex]);
+
+  useEffect(() => {
+    if (resInputValue === null) {
+      setIsSubmitDisabled(true);
+    } else {
+      setIsSubmitDisabled(false);
+    }
+  }, [resInputValue]);
+
+  const submitOpenEnded = resInputValue => {
+    setIsSubmitDisabled(true);
+    respondOpenEnded(resInputValue);
+  };
+
+  const respondOpenEnded = resInputValue => {
+    const projDocRef = db
+      .collection("users")
+      .doc(props.userId)
+      .collection("projects")
+      .doc(props.projId);
+
+    const invtDocRef = db.collection("invitation").doc(props.projId);
     return db
       .runTransaction(function(transaction) {
         // This code may get re-run multiple times if there are conflicts.
-        return transaction.get(invtDocRef).then(function(invtDoc) {
-          if (!invtDoc.exists) {
+        // If conflicts, below transaction.get will re-run and get newest data from db
+        return Promise.all([
+          transaction.get(projDocRef),
+          transaction.get(invtDocRef)
+        ]).then(function(docs) {
+          // Promise.all return an array includes documents from transaction.get
+          let projDoc = docs[0];
+          let invtDoc = docs[1];
+
+          if (!projDoc.exists || !invtDoc.exists) {
             throw "Document does not exist!";
           }
+
+          let projData = projDoc.data();
           let invtData = invtDoc.data();
-          invtData.reaction[type]++;
-          transaction.update(invtDocRef, {reaction: invtData.reaction});
+          // Plus 1 vote to sld.rsult of projData which was gotten from transaction
+          let newSlds = projData.slds.map((sld, index) => {
+            if (index === props.curSldIndex) {
+              sld.openEndedRes.push(resInputValue);
+              // if (sld.result[selOptIndex] === "") {
+              //   sld.result[selOptIndex] = 1;
+              // } else {
+              //   sld.result[selOptIndex]++;
+              // }
+            }
+            return sld;
+          });
+
+          // Update transaction for respondedAudi in collection invitation
+          transaction.update(projDocRef, {slds: newSlds});
+          // Push current audi ID to invtData which was gotten from transaction
+          invtData.respondedAudi[projData.slds[props.curSldIndex].id].push(props.audiId);
+          // Update transaction for respondedAudi in collection invitation
+          transaction.update(invtDocRef, {
+            respondedAudi: invtData.respondedAudi
+          });
         });
       })
       .then(function() {
@@ -156,82 +329,29 @@ const Poll = props => {
         console.log("Transaction failed: ", error);
       });
   };
-  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
-  const [isRadioDisabled, setIsRadioDisabled] = useState(false);
-
-  useEffect(() => {
-    setIsSubmitDisabled(false);
-    setIsRadioDisabled(false);
-  }, [props.curSldIndex]);
-
-  useEffect(() => {
-    if (selOptIndex === null) {
-      setIsSubmitDisabled(true);
-    } else {
-      setIsSubmitDisabled(false);
-    }
-  }, [selOptIndex]);
-
-  const submit = () => {
-    setIsSubmitDisabled(true);
-    setIsRadioDisabled(true);
-    respondPoll();
-  };
 
   return (
     <Fragment>
-      {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
-        props.slds[props.curSldIndex].opts !== "" ? (
-          props.respondedAudi[props.slds[props.curSldIndex].id].includes(props.audiId) ? (
-            props.curSldIndex === props.slds.length - 1 ? (
-              <Ending {...props} />
-            ) : (
-              <Wait {...props} />
-            )
-          ) : (
-            <Fragment>
-              <div>{props.slds[props.curSldIndex].qContent}</div>
-              <form name="poll-form" id="poll-form">
-                {props.slds[props.curSldIndex].opts.map((item, index) => (
-                  <label className="res-group" key={index}>
-                    <GreenRadio
-                      type="radio"
-                      name="res-group"
-                      value={index}
-                      disabled={isRadioDisabled}
-                      checked={selOptIndex === index}
-                      onChange={() => setSelOptIndex(index)}
-                      inputProps={{"aria-label": index}}
-                    />
-                    <div className="opts"> {item} </div>
-                  </label>
-                ))}
-                <Button
-                  variant="contained"
-                  id="submit-btn"
-                  disabled={isSubmitDisabled}
-                  onClick={submit}>
-                  <FormattedMessage id="audi.submit" />
-                </Button>
-              </form>
-            </Fragment>
-          )
-        ) : (
-          <Wait {...props} />
-        )
-      ) : (
-        <div className="heading-container">
-          <div className="heading">{props.slds[props.curSldIndex].heading}</div>
-          <Button
-            variant="contained"
-            size="large"
-            className="reaction-icons"
-            id="reaction-laugh"
-            onClick={() => addReaction("laugh")}>
-            <FontAwesomeIcon icon={["far", "laugh-squint"]} size="2x" />
-          </Button>
-        </div>
-      )}
+      <div>{props.slds[props.curSldIndex].qContent}</div>
+      <form name="poll-form" id="poll-form">
+        <TextField
+          label="Please Enter your answer here"
+          value={resInputValue}
+          multiline
+          rows="4"
+          variant="outlined"
+          onChange={e => {
+            setResInputValue(e.target.value);
+          }}
+        />
+        <Button
+          variant="contained"
+          id="submit-btn"
+          disabled={isSubmitDisabled}
+          onClick={() => submitOpenEnded(resInputValue)}>
+          <FormattedMessage id="audi.submit" />
+        </Button>
+      </form>
     </Fragment>
   );
 };

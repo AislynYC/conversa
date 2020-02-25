@@ -11,6 +11,7 @@ const zh_TW = {
   "edit.sld-type": "投影片類型",
   "edit.heading-page": "標 題",
   "edit.multiple-choice": "選 擇 題",
+  "edit.open-ended": "開放式問答",
   "edit.heading-label": "標題",
   "edit.sub-heading-label": "副標題",
   "home.logIn": "登入",

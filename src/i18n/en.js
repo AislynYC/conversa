@@ -63,6 +63,7 @@ const en = {
   "edit.option-placeholder": "Option",
   "edit.multiple-selection": "MULTIPLE SELECTION",
   "edit.heading-page": "HEADING",
+  "edit.open-ended": "OPEN-ENDED",
   "edit.diagram-type": "Diagram Type",
   "edit.bar-chart": "Bar Chart",
   "edit.pie-chart": "Pie Chart",

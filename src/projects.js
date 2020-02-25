@@ -183,7 +183,8 @@ const NewProj = props => {
               qContent: "",
               resType: "bar-chart",
               result: "",
-              sldType: "heading-page"
+              sldType: "heading-page",
+              openEndedRes: []
             }
           ]
         })

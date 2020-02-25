@@ -22,7 +22,8 @@ import {
   faCopy,
   faUser,
   faChartPie,
-  faQrcode
+  faQrcode,
+  faCommentDots
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
   faLaughSquint,
@@ -32,7 +33,8 @@ library.add(
   faHandPointRight,
   faChartBar,
   faChartPie,
-  faQrcode
+  faQrcode,
+  faCommentDots
 );
 // Material UI
 import AddIcon from "@material-ui/icons/Add";
@@ -325,6 +327,15 @@ const SldPage = props => {
       ? (path = {exact: true, path: `${props.match.url}`})
       : (path = {path: `${props.match.url}/${index}`});
 
+    let editingSldType = null;
+    if (sld.sldType === "multiple-choice") {
+      editingSldType = <MultiSelEditor {...props} sld={sld} sldIndex={index} />;
+    } else if (sld.sldType === "heading-page") {
+      editingSldType = <HeadingSldEditor {...props} sld={sld} sldIndex={index} />;
+    } else {
+      editingSldType = <OpenEndedEditor {...props} sld={sld} sldIndex={index} />;
+    }
+
     return (
       <Route {...path} key={index}>
         <SldPageRoute
@@ -333,11 +344,7 @@ const SldPage = props => {
           isFullscreen={props.isFullscreen}
           nextSld={props.nextSld}
         />
-        {sld.sldType === "multiple-choice" ? (
-          <MultiSelEditor {...props} sld={sld} sldIndex={index} />
-        ) : (
-          <HeadingSldEditor {...props} sld={sld} sldIndex={index} />
-        )}
+        {editingSldType}
       </Route>
     );
   });
@@ -591,29 +598,58 @@ const SldPageRoute = props => {
     }
   };
 
+  let sldContent = null;
+  let openEndedResContent = null;
+
+  if (
+    props.slds[props.curSldIndex].openEndedRes !== [] &&
+    props.slds[props.curSldIndex].openEndedRes !== undefined
+  ) {
+    openEndedResContent = props.slds[props.curSldIndex].openEndedRes.map(
+      (item, index) => {
+        return (
+          <div className="open-ended-item" key={index} title={item}>
+            {item}
+          </div>
+        );
+      }
+    );
+  }
+
+  if (props.slds[props.curSldIndex].sldType === "multiple-choice") {
+    sldContent = (
+      <Fragment>
+        <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
+        {chart}
+      </Fragment>
+    );
+  } else if (props.slds[props.curSldIndex].sldType === "heading-page") {
+    sldContent = (
+      <div className="heading-render-container">
+        <div className="heading-render">{props.slds[props.curSldIndex].heading}</div>
+        <Fragment>{detailContainer}</Fragment>
+        <div className="reaction-icons">
+          <FontAwesomeIcon icon={["far", "laugh-squint"]} />
+          <span className="reaction-count">{props.reaction.laugh}</span>
+        </div>
+      </div>
+    );
+  } else if (props.slds[props.curSldIndex].sldType === "open-ended") {
+    sldContent = (
+      <Fragment>
+        <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
+        <div id="open-sld-content">{openEndedResContent}</div>
+      </Fragment>
+    );
+  }
+
   return (
     <div className="center-wrap">
       <div className="center">
         <div id="current-sld-container">
           <div id="current-sld-border">
             <div id="current-sld" onClick={clickFullscreen}>
-              {props.slds[props.curSldIndex].sldType === "multiple-choice" ? (
-                <Fragment>
-                  <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
-                  {chart}
-                </Fragment>
-              ) : (
-                <div className="heading-render-container">
-                  <div className="heading-render">
-                    {props.slds[props.curSldIndex].heading}
-                  </div>
-                  <Fragment>{detailContainer}</Fragment>
-                  <div className="reaction-icons">
-                    <FontAwesomeIcon icon={["far", "laugh-squint"]} />
-                    <span className="reaction-count">{props.reaction.laugh}</span>
-                  </div>
-                </div>
-              )}
+              {sldContent}
               <div className="member-info">
                 <FontAwesomeIcon icon={["fas", "user"]} id="member-icon" />
                 {props.involvedAudi.length}
@@ -650,7 +686,8 @@ const AddSldBtn = props => {
             result: "",
             heading: "",
             subHeading: "",
-            hasQRCode: false
+            hasQRCode: false,
+            openEndedRes: []
           }
         ]
       })
@@ -725,16 +762,6 @@ const DelSld = props => {
     </div>
   );
 };
-
-// Geneal Focus Back setting
-// const UseFocus = () => {
-//   const htmlElRef = useRef(null);
-//   const setFocus = () => {
-//     htmlElRef.current.focus();
-//   };
-
-//   return [htmlElRef, setFocus];
-// };
 
 const MultiSelEditor = props => {
   const db = useFirestore();
@@ -816,6 +843,83 @@ const MultiSelEditor = props => {
         <OptInputs {...props} />
       </div>
       <AddOptBtn {...props} />
+    </div>
+  );
+};
+
+const OpenEndedEditor = props => {
+  const db = useFirestore();
+  const userId = props.userId;
+  const projId = props.projId;
+
+  // const changeDiagramType = e => {
+  //   let newSlds = props.slds.map((sld, index) => {
+  //     if (index === props.curSldIndex) {
+  //       sld.lastEdited = Date.now();
+  //       sld.resType = e.target.value;
+  //     }
+  //     return sld;
+  //   });
+
+  //   db.collection("users")
+  //     .doc(userId)
+  //     .collection("projects")
+  //     .doc(projId)
+  //     .update({
+  //       lastEdited: Date.now(),
+  //       slds: newSlds
+  //     });
+  // };
+  return (
+    <div className="edit-panel">
+      {/* <div className="diagram-type-selector">
+        <div className="diagram-label">
+          <FormattedMessage id="edit.diagram-type" />
+        </div>
+        <form name="diagram-type-form" id="diagram-type-form">
+          <label className="diagram-type-group">
+            <input
+              type="radio"
+              name="diagram-type-group"
+              value="bar-chart"
+              checked={props.sld.resType === "bar-chart"}
+              onChange={e => {
+                changeDiagramType(e);
+              }}
+            />
+            <div>
+              <FontAwesomeIcon
+                icon={["far", "chart-bar"]}
+                className="diagram-type-icon"
+              />
+              <div>
+                <FormattedMessage id="edit.bar-chart" />
+              </div>
+            </div>
+          </label>
+          <label className="diagram-type-group">
+            <input
+              type="radio"
+              name="diagram-type-group"
+              value="pie-chart"
+              checked={props.sld.resType === "pie-chart"}
+              onChange={e => {
+                changeDiagramType(e);
+              }}
+            />
+            <div>
+              <FontAwesomeIcon
+                icon={["fas", "chart-pie"]}
+                className="diagram-type-icon"
+              />
+              <div>
+                <FormattedMessage id="edit.pie-chart" />
+              </div>
+            </div>
+          </label>
+        </form>
+      </div> */}
+      <QusInput {...props} />
     </div>
   );
 };
@@ -1074,6 +1178,23 @@ const ControlPanel = props => {
             <FontAwesomeIcon icon={["far", "chart-bar"]} className="sld-type-icon" />
             <div>
               <FormattedMessage id="edit.multiple-choice" />
+            </div>
+          </div>
+        </label>
+        <label className="sld-type-group">
+          <input
+            type="radio"
+            name="sld-type-group"
+            value="open-ended"
+            checked={props.sld.sldType === "open-ended"}
+            onChange={e => {
+              changeSldType(e);
+            }}
+          />
+          <div className="sld-type-w-chart">
+            <FontAwesomeIcon icon={["fas", "comment-dots"]} className="sld-type-icon" />
+            <div>
+              <FormattedMessage id="edit.open-ended" />
             </div>
           </div>
         </label>
