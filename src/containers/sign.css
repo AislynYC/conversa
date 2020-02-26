@@ -46,7 +46,7 @@
 }
 .divider-line {
   height: 1px;
-  width: 55%;
+  width: 45%;
   margin: 10px 0;
   background-color: #999;
 }
@@ -59,4 +59,25 @@
 
 .switch-link:hover {
   transform: scale(1.1);
+}
+
+.sign-card {
+  min-width: 360px;
+  min-height: 700px;
+  width: 30%;
+  padding: 10px 50px;
+  margin-top: 50px;
+}
+
+@media (max-width: 1200px) {
+  .divider-line {
+    width: 55%;
+    width: 35%;
+  }
+}
+
+@media (max-width: 490px) {
+  #sign-card {
+    padding: 10px 0;
+  }
 }

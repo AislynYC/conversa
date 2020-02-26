@@ -109,19 +109,11 @@ const LogInScreen = props => {
   );
 };
 const LogIn = props => {
-  console.log(props);
-  const useStyles = makeStyles({
-    root: {
-      minWidth: 400,
-      padding: "25px"
-    }
-  });
-  const classes = useStyles();
   return (
     <Fragment>
       <Header {...props} locale={props.locale} setLocale={props.setLocale} />
       <div className="entry-page">
-        <Card className={classes.root}>
+        <Card className="sign-card">
           <CardContent>
             <LogInScreen {...props} />
           </CardContent>
