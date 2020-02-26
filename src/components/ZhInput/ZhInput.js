@@ -7,6 +7,8 @@ import {
   isEdge,
   isOpera
 } from "../../lib/BrowserDetection";
+import "./zhInput.css";
+
 const ZhInput = props => {
   const [inputValue, setInputValue] = useState("");
   const [isOnComposition, setIsOnComposition] = useState(false);
@@ -72,16 +74,29 @@ const ZhInput = props => {
       setIsOnComposition(false);
     }
   };
+
+  const [textAllowed, setTextAllowed] = useState(props.maxLength);
+  const checkTextAllowed = value => {
+    setTextAllowed(props.maxLength - value.length);
+  };
+
   return (
-    <input
-      type="text"
-      className="input"
-      value={inputValue}
-      onChange={e => handleChange(e)}
-      onCompositionUpdate={e => handleComposition(e)}
-      onCompositionEnd={e => handleComposition(e)}
-      onCompositionStart={e => handleComposition(e)}
-    />
+    <div className="zh-input-group">
+      <input
+        type="text"
+        className="input"
+        value={inputValue}
+        maxLength={props.maxLength}
+        onChange={e => {
+          handleChange(e);
+          checkTextAllowed(e.target.value);
+        }}
+        onCompositionUpdate={e => handleComposition(e)}
+        onCompositionEnd={e => handleComposition(e)}
+        onCompositionStart={e => handleComposition(e)}
+      />
+      <div className="sldEditor-text-count">{textAllowed}</div>
+    </div>
   );
 };
 

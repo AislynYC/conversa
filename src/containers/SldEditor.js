@@ -632,7 +632,7 @@ const SldPageRoute = props => {
       (item, index) => {
         return (
           <div className="open-ended-item" key={index} title={item}>
-            {item}
+            <p>{item}</p>
           </div>
         );
       }
@@ -982,6 +982,7 @@ const QusInput = props => {
             <ZhInput
               {...props}
               id="qus-input"
+              maxLength="50"
               placeholder={placeholder}
               curValue={props.sld.qContent}
               useInnerValue={editQus}
@@ -1064,6 +1065,7 @@ const OptInput = props => {
             id={"opt-input" + props.optIndex}
             placeholder={`${placeholder} ${props.optIndex + 1}`}
             curValue={props.opt}
+            maxLength="28"
             useInnerValue={editOpt}
           />
         )}
@@ -1302,6 +1304,7 @@ const HeadingSldEditor = props => {
           {...props}
           id="heading-input"
           curValue={props.sld.heading}
+          maxLength="50"
           useInnerValue={editHeading}
         />
       </label>
@@ -1323,6 +1326,7 @@ const HeadingSldEditor = props => {
         </div>
         <ZhInput
           {...props}
+          maxLength="20"
           id="sub-heading-input"
           curValue={props.sld.subHeading}
           useInnerValue={editSubHeading}

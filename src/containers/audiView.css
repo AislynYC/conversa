@@ -90,6 +90,31 @@ body,
 .q-content {
   padding-bottom: 20px;
 }
+
+#res-input {
+  font-size: 1.4rem;
+  width: 100%;
+  border-radius: 4px;
+  border: 2px solid #dcf3e7;
+  background-color: #dcf3e74d;
+  outline: none;
+  resize: none;
+  padding: 10px;
+}
+
+.open-input-area {
+  position: relative;
+  padding-bottom: 20px;
+}
+#audi-text-count {
+  color: rgb(241, 237, 237);
+  font-size: 1rem;
+  position: absolute;
+  z-index: 2;
+  top: 85%;
+  right: 3%;
+}
+
 /* Wait Page */
 .wait-msg {
   text-align: center;

@@ -92,6 +92,7 @@ export default AudiView;
 const Poll = props => {
   let audiInput = null;
 
+  // To determine which slide type to be shown in audi view
   if (props.slds[props.curSldIndex].sldType === "heading-page") {
     audiInput = <HeadingInput {...props} />;
   } else if (
@@ -323,11 +324,6 @@ const OpenEndedInput = props => {
           let newSlds = projData.slds.map((sld, index) => {
             if (index === props.curSldIndex) {
               sld.openEndedRes.push(resInputValue);
-              // if (sld.result[selOptIndex] === "") {
-              //   sld.result[selOptIndex] = 1;
-              // } else {
-              //   sld.result[selOptIndex]++;
-              // }
             }
             return sld;
           });
@@ -350,29 +346,35 @@ const OpenEndedInput = props => {
       });
   };
 
+  const [textAllowed, setTextAllowed] = useState(60);
+  const checkTextAllowed = value => {
+    setTextAllowed(60 - value.length);
+  };
+
   return (
     <Fragment>
       <div className="q-content">{props.slds[props.curSldIndex].qContent}</div>
       <form name="poll-form" id="poll-form">
-        <FormattedMessage
-          id="audi.open-ended-input"
-          defaultMessage="Please insert your response here">
-          {label => (
-            <ResInput
-              label={label}
-              id="res-input"
-              value={resInputValue}
-              multiline
-              rows="10"
-              variant="outlined"
-              placeholder="test"
-              onChange={e => {
-                setResInputValue(e.target.value);
-              }}
-            />
-          )}
-        </FormattedMessage>
-
+        <div className="open-input-area">
+          <FormattedMessage
+            id="audi.open-ended-input"
+            defaultMessage="Please insert your response here">
+            {placeholder => (
+              <textarea
+                id="res-input"
+                value={resInputValue}
+                placeholder={placeholder}
+                rows="10"
+                maxLength="60"
+                onChange={e => {
+                  setResInputValue(e.target.value);
+                  checkTextAllowed(e.target.value);
+                }}
+              />
+            )}
+          </FormattedMessage>
+          <div id="audi-text-count">{textAllowed}</div>
+        </div>
         <Button
           variant="contained"
           id="submit-btn"
@@ -385,7 +387,7 @@ const OpenEndedInput = props => {
   );
 };
 
-const Wait = props => {
+const Wait = () => {
   return (
     <div className="poll-container">
       <div className="wait-img">
@@ -398,7 +400,7 @@ const Wait = props => {
   );
 };
 
-const Ending = props => {
+const Ending = () => {
   return (
     <div className="poll-container">
       <div className="wait-img">
