@@ -662,6 +662,13 @@ const SldPageRoute = props => {
     );
   }
 
+  let tagCloudContent = null;
+  let curTagRes = props.slds[props.curSldIndex].tagRes;
+  let tagResArray = Object.entries(curTagRes);
+  let cloudData = tagResArray.map(item => {
+    return {x: item[0].toString(), value: item[1]};
+  });
+  console.log(cloudData);
   if (props.slds[props.curSldIndex].sldType === "multiple-choice") {
     sldContent = (
       <Fragment>
@@ -685,6 +692,13 @@ const SldPageRoute = props => {
       <Fragment>
         <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
         <div id="open-sld-content">{openEndedResContent}</div>
+      </Fragment>
+    );
+  } else if (props.slds[props.curSldIndex].sldType === "tag-cloud") {
+    sldContent = (
+      <Fragment>
+        <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
+        <div id="cloud-sld-content">{tagCloudContent}</div>
       </Fragment>
     );
   }
