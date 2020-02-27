@@ -45,7 +45,25 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CloseIcon from "@material-ui/icons/Close";
 import SwitchBtn from "@material-ui/core/Switch";
-
+import TextField from "@material-ui/core/TextField";
+import {withStyles} from "@material-ui/core/styles";
+const ResNumInput = withStyles({
+  root: {
+    width: "25%",
+    margin: "5% 0",
+    "& label.Mui-focused": {
+      color: "rgba(75, 143, 107, 0.726)"
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#bbb"
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "rgba(75, 143, 107, 0.726)"
+      }
+    }
+  }
+})(TextField);
 const history = createBrowserHistory();
 
 const SldEditor = props => {
@@ -357,8 +375,10 @@ const SldPage = props => {
       editingSldType = <MultiSelEditor {...props} sld={sld} sldIndex={index} />;
     } else if (sld.sldType === "heading-page") {
       editingSldType = <HeadingSldEditor {...props} sld={sld} sldIndex={index} />;
-    } else {
+    } else if (sld.sldType === "open-ended") {
       editingSldType = <OpenEndedEditor {...props} sld={sld} sldIndex={index} />;
+    } else if (sld.sldType === "tag-cloud") {
+      editingSldType = <TagCloudEditor {...props} sld={sld} sldIndex={index} />;
     }
 
     return (
@@ -713,7 +733,9 @@ const AddSldBtn = props => {
             heading: "",
             subHeading: "",
             hasQRCode: false,
-            openEndedRes: []
+            openEndedRes: [],
+            tagNum: 1,
+            tagRes: {}
           }
         ]
       })
@@ -950,6 +972,54 @@ const OpenEndedEditor = props => {
   );
 };
 
+const TagCloudEditor = props => {
+  const db = useFirestore();
+  const userId = props.userId;
+  const projId = props.projId;
+
+  const editTagNum = value => {
+    let newSlds = props.slds.map((sld, index) => {
+      if (index === props.sldIndex) {
+        sld.lastEdited = Date.now();
+        sld.tagNum = value;
+      }
+      return sld;
+    });
+
+    db.collection("users")
+      .doc(userId)
+      .collection("projects")
+      .doc(projId)
+      .update({
+        lastEdited: Date.now(),
+        slds: newSlds
+      });
+  };
+
+  return (
+    <div className="edit-panel">
+      <QusInput {...props} />
+      <label htmlFor="opt-input" className="edit-panel-label">
+        <FormattedMessage id="edit.cloud-opt-label" />
+      </label>
+      <ResNumInput
+        id="outlined-number"
+        type="number"
+        InputLabelProps={{
+          shrink: true
+        }}
+        inputProps={{
+          min: "1",
+          max: "5"
+        }}
+        variant="outlined"
+        value={props.sld.tagNum}
+        onChange={e => editTagNum(e.target.value)}
+      />
+    </div>
+  );
+};
+
 const QusInput = props => {
   const db = useFirestore();
   const userId = props.userId;
@@ -998,9 +1068,6 @@ const QusInput = props => {
 };
 
 const OptInputs = props => {
-  const db = useFirestore();
-  const userId = props.userId;
-  const projId = props.projId;
   // Get current rendering length
   const optsLength = useRef(props.sld.opts.length);
   const [forceUpdate, setForceUpdate] = useState(false);

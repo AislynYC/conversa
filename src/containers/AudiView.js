@@ -112,6 +112,8 @@ const Poll = props => {
       }
     } else if (props.slds[props.curSldIndex].sldType === "open-ended") {
       audiInput = <OpenEndedInput {...props} />;
+    } else if (props.slds[props.curSldIndex].sldType === "tag-cloud") {
+      audiInput = <TagCloudInput {...props} />;
     }
   }
 
@@ -345,10 +347,10 @@ const OpenEndedInput = props => {
         console.log("Transaction failed: ", error);
       });
   };
-
-  const [textAllowed, setTextAllowed] = useState(60);
+  const charLimit = 60;
+  const [textAllowed, setTextAllowed] = useState(charLimit);
   const checkTextAllowed = value => {
-    setTextAllowed(60 - value.length);
+    setTextAllowed(charLimit - value.length);
   };
 
   return (
@@ -365,7 +367,7 @@ const OpenEndedInput = props => {
                 value={resInputValue}
                 placeholder={placeholder}
                 rows="10"
-                maxLength="60"
+                maxLength={charLimit.toString()}
                 onChange={e => {
                   setResInputValue(e.target.value);
                   checkTextAllowed(e.target.value);
@@ -380,6 +382,147 @@ const OpenEndedInput = props => {
           id="submit-btn"
           disabled={isSubmitDisabled}
           onClick={() => submitOpenEnded(resInputValue)}>
+          <FormattedMessage id="audi.submit" />
+        </Button>
+      </form>
+    </Fragment>
+  );
+};
+
+const TagCloudInput = props => {
+  const db = useFirestore();
+  const charLimit = 20;
+  const [resInputValue, setResInputValue] = useState([]);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  const [textAllowed, setTextAllowed] = useState([]);
+
+  useEffect(() => {
+    for (let i = 0; i < props.slds[props.curSldIndex].tagNum; i++) {
+      textAllowed.push(charLimit);
+      setTextAllowed(textAllowed);
+    }
+  }, []);
+  useEffect(() => {
+    setIsSubmitDisabled(false);
+  }, [props.curSldIndex]);
+
+  useEffect(() => {
+    if (resInputValue.length === 0) {
+      setIsSubmitDisabled(true);
+    } else {
+      setIsSubmitDisabled(false);
+    }
+  }, [resInputValue]);
+
+  const handleChange = (value, i) => {
+    let newResInputValue = resInputValue.slice(0);
+    newResInputValue[i] = value;
+    setResInputValue(newResInputValue);
+  };
+
+  const checkTextAllowed = (value, i) => {
+    let newTextAllowed = textAllowed.slice(0);
+    newTextAllowed[i] = charLimit - value.length;
+    setTextAllowed(newTextAllowed);
+  };
+
+  let resInputs = [];
+  for (let i = 0; i < props.slds[props.curSldIndex].tagNum; i++) {
+    resInputs.push(
+      <div className="cloud-res-input-group" key={i}>
+        <input
+          className="cloud-res-input"
+          value={resInputValue[i] ? resInputValue[i] : ""}
+          maxLength={charLimit.toString()}
+          onChange={e => {
+            handleChange(e.target.value, i);
+            checkTextAllowed(e.target.value, i);
+          }}
+        />
+        <div className="tag-text-count">{textAllowed[i]}</div>
+      </div>
+    );
+  }
+
+  const submitTagCloud = resInputValue => {
+    setIsSubmitDisabled(true);
+    respondTagCloud(resInputValue);
+  };
+
+  const respondTagCloud = resInputValue => {
+    const projDocRef = db
+      .collection("users")
+      .doc(props.userId)
+      .collection("projects")
+      .doc(props.projId);
+
+    const invtDocRef = db.collection("invitation").doc(props.projId);
+    return db
+      .runTransaction(function(transaction) {
+        // This code may get re-run multiple times if there are conflicts.
+        // If conflicts, below transaction.get will re-run and get newest data from db
+        return Promise.all([
+          transaction.get(projDocRef),
+          transaction.get(invtDocRef)
+        ]).then(function(docs) {
+          // Promise.all return an array includes documents from transaction.get
+          let projDoc = docs[0];
+          let invtDoc = docs[1];
+
+          if (!projDoc.exists || !invtDoc.exists) {
+            throw "Document does not exist!";
+          }
+
+          let projData = projDoc.data();
+          let invtData = invtDoc.data();
+          // Plus 1 vote to sld.result of projData which was gotten from transaction
+          let newSlds = projData.slds.map((sld, index) => {
+            if (index === props.curSldIndex) {
+              resInputValue.forEach(item => {
+                if (sld.tagRes[item]) {
+                  sld.tagRes[item] = sld.tagRes[item] + 1;
+                  console.log(sld.tagRes[item]);
+                } else {
+                  sld.tagRes[item] = 1;
+                }
+              });
+            }
+            return sld;
+          });
+
+          // Update transaction for respondedAudi in collection invitation
+          transaction.update(projDocRef, {slds: newSlds});
+          // Push current audi ID to invtData which was gotten from transaction
+          invtData.respondedAudi[projData.slds[props.curSldIndex].id].push(props.audiId);
+          // Update transaction for respondedAudi in collection invitation
+          transaction.update(invtDocRef, {
+            respondedAudi: invtData.respondedAudi
+          });
+        });
+      })
+      .then(function() {
+        console.log("Transaction successfully committed!");
+      })
+      .catch(function(error) {
+        console.log("Transaction failed: ", error);
+      });
+  };
+  return (
+    <Fragment>
+      <div className="q-content">{props.slds[props.curSldIndex].qContent}</div>
+      <form name="poll-form" id="poll-form">
+        <div className="cloud-input-area">
+          <FormattedMessage
+            id="audi.tag-cloud-input"
+            defaultMessage="Please insert your response here"
+          />
+          {resInputs}
+        </div>
+        <Button
+          variant="contained"
+          id="submit-btn"
+          disabled={isSubmitDisabled}
+          onClick={() => submitTagCloud(resInputValue)}>
           <FormattedMessage id="audi.submit" />
         </Button>
       </form>

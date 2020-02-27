@@ -184,7 +184,9 @@ const NewProj = props => {
               resType: "bar-chart",
               result: "",
               sldType: "heading-page",
-              openEndedRes: []
+              openEndedRes: [],
+              tagNum: 1,
+              tagRes: {}
             }
           ]
         })

@@ -102,7 +102,8 @@ body,
   padding: 10px;
 }
 
-.open-input-area {
+.open-input-area,
+.cloud-input-area {
   position: relative;
   padding-bottom: 20px;
 }
