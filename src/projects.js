@@ -276,16 +276,13 @@ const DelProj = props => {
   let [deletingProjName, setDeletingProjName] = useState(null);
 
   useEffect(() => {
-    console.log("useEffect", deletingProjName);
     if (props.delProjId !== undefined && props.projects !== undefined) {
       let deletingProj = props.projects.find(proj => proj.id === props.delProjId);
       if (deletingProj !== undefined) {
         setDeletingProjName(deletingProj.name);
-        console.log("if", deletingProjName);
       }
     }
   }, [props.delProjId]);
-  console.log(deletingProjName);
 
   return (
     <div className={props.confirmDelOverlayClass}>

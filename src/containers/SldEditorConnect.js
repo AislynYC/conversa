@@ -8,35 +8,40 @@ import {showOverlay, closeOverlay} from "../ducks/sldEditorReducer";
 let mapStateToProps = (state, props) => {
   let projDataArray = state.firestore.ordered[`${props.userId}-projects`];
   let projInvitation = state.firestore.ordered.invitation;
+  let transitionState = {
+    firestore: undefined,
+    curSldIndex: undefined,
+    slds: undefined,
+    respondedAudi: undefined,
+    reaction: undefined,
+    involvedAudi: undefined,
+    confirmDelOverlayClass: state.sldEditor.confirmDelOverlayClass,
+    delSldIndex: state.sldEditor.delSldIndex
+  };
 
   if (
     projDataArray !== undefined &&
     projDataArray.length !== 0 &&
     projInvitation !== undefined
   ) {
-    let projData = projDataArray.find(proj => proj.id === props.projId);
-    const projResponded = projInvitation.find(item => item.id === props.projId);
-    return {
-      firestore: state.firestore,
-      curSldIndex: projData.curSldIndex,
-      slds: projData.slds,
-      respondedAudi: projResponded.respondedAudi,
-      reaction: projResponded.reaction,
-      involvedAudi: projResponded.involvedAudi,
-      confirmDelOverlayClass: state.sldEditor.confirmDelOverlayClass,
-      delSldIndex: state.sldEditor.delSldIndex
-    };
+    let projResponded = projInvitation.find(item => item.id === props.projId);
+    if (projResponded !== undefined) {
+      let projData = projDataArray.find(proj => proj.id === props.projId);
+      return {
+        firestore: state.firestore,
+        curSldIndex: projData.curSldIndex,
+        slds: projData.slds,
+        respondedAudi: projResponded.respondedAudi,
+        reaction: projResponded.reaction,
+        involvedAudi: projResponded.involvedAudi,
+        confirmDelOverlayClass: state.sldEditor.confirmDelOverlayClass,
+        delSldIndex: state.sldEditor.delSldIndex
+      };
+    } else {
+      return transitionState;
+    }
   } else {
-    return {
-      firestore: undefined,
-      curSldIndex: undefined,
-      slds: undefined,
-      respondedAudi: undefined,
-      reaction: undefined,
-      involvedAudi: undefined,
-      confirmDelOverlayClass: state.sldEditor.confirmDelOverlayClass,
-      delSldIndex: state.sldEditor.delSldIndex
-    };
+    return transitionState;
   }
 };
 

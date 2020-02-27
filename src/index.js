@@ -63,11 +63,7 @@ const Root = () => {
   );
 };
 
-let store = createStore(
-  rootReducer,
-  // for Redux DevTool extension
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+let store = createStore(rootReducer);
 
 // react-redux-firebase config
 const rrfConfig = {
