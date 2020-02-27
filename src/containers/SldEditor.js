@@ -23,7 +23,8 @@ import {
   faCopy,
   faUser,
   faChartPie,
-  faQrcode
+  faQrcode,
+  faCloud
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
   faLaughSquint,
@@ -34,7 +35,8 @@ library.add(
   faChartBar,
   faChartPie,
   faQrcode,
-  faCommentDots
+  faCommentDots,
+  faCloud
 );
 // Material UI
 import AddIcon from "@material-ui/icons/Add";
@@ -1221,6 +1223,23 @@ const ControlPanel = props => {
             <FontAwesomeIcon icon={["far", "comment-dots"]} className="sld-type-icon" />
             <div>
               <FormattedMessage id="edit.open-ended" />
+            </div>
+          </div>
+        </label>
+        <label className="sld-type-group">
+          <input
+            type="radio"
+            name="sld-type-group"
+            value="tag-cloud"
+            checked={props.sld.sldType === "tag-cloud"}
+            onChange={e => {
+              changeSldType(e);
+            }}
+          />
+          <div className="sld-type-w-chart">
+            <FontAwesomeIcon icon={["fas", "cloud"]} className="sld-type-icon" />
+            <div>
+              <FormattedMessage id="edit.tag-cloud" />
             </div>
           </div>
         </label>

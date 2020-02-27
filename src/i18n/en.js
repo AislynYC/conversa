@@ -13,6 +13,7 @@ const en = {
   "edit.heading-page": "Heading",
   "edit.multiple-choice": "Multiple Choice",
   "edit.open-ended": "Open-Ended",
+  "edit.tag-cloud": "Tag Cloud",
   "edit.heading-label": "Heading",
   "edit.sub-heading-label": "Sub-Heading",
   "home.logIn": "Log In",
