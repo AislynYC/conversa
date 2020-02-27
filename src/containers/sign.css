@@ -23,7 +23,7 @@
 
 .err-msg {
   color: red;
-  font-size: 0.9em;
+  font-size: 0.9rem;
   text-align: left;
 }
 #entry-btn {
@@ -39,20 +39,20 @@
   justify-content: center;
 }
 .entry-divider > p {
-  font-size: 0.9em;
+  font-size: 0.9rem;
   color: #444;
   width: 310px;
   letter-spacing: 1px;
 }
 .divider-line {
   height: 1px;
-  width: 45%;
+  width: 43%;
   margin: 10px 0;
   background-color: #999;
 }
 
 .switch-link {
-  font-size: 0.8em;
+  font-size: 0.8rem;
   color: rgb(77, 117, 190);
   padding: 0 0 20px;
 }

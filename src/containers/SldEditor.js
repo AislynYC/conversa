@@ -433,7 +433,8 @@ const SldPageRoute = props => {
 
   let barOptions = {
     legend: {position: "none"},
-    chartArea: {width: "80%", height: "70%"},
+    height: "100%",
+    chartArea: {width: "80%", height: "75%"},
     bar: {groupWidth: "68%"},
     animation: {
       duration: 1000,
