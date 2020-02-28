@@ -23,12 +23,13 @@ import {faCheck} from "@fortawesome/free-solid-svg-icons";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 library.add(faTrashAlt, faPencilAlt, faCheck, faTimes);
 
+import Loading from "./components/Loading/Loading";
 import "./reset.css";
 import "./style.css";
 
 const ProjManager = props => {
   if (props.auth === undefined) {
-    return <div>Loading</div>;
+    return <Loading />;
   }
   if (props.auth.isLoaded === false) {
   } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {

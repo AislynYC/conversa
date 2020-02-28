@@ -12,6 +12,7 @@ import step1Img from "./img/ask.png";
 import step2Img from "./img/response.png";
 import step3Img from "./img/visual-data.png";
 import "./home.css";
+import Loading from "./components/Loading/Loading";
 
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -24,6 +25,7 @@ const Home = props => {
   let path = "/signUp";
   console.log("Auth", props.auth);
   if (props.auth.isLoaded === false) {
+    <Loading />;
   } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
     console.log("No user", props.auth);
     path = "/signUp";
@@ -194,42 +196,6 @@ const Home = props => {
           </div>
         </div>
       </div>
-      {/* <div className="sec sec4">
-        <div className="usage-row">
-          <div className="usage">
-            <div className="usage-img">
-              <img src={usageImgMeeting} alt="usage-meeting" />
-            </div>
-          </div>
-          <div className="usage">
-            <div className="usage-img">
-              <img src={usageImgEdu} alt="usage-education" />
-            </div>
-          </div>
-          <div className="usage">
-            <div className="usage-img">
-              <img src={usageImgBrain} alt="usage-brain-storming" />
-            </div>
-          </div>
-        </div>
-        <div className="usage-row">
-          <div className="usage">
-            <div className="usage-img">
-              <img src={usageImgWorkshop} alt="usage-workshop" />
-            </div>
-          </div>
-          <div className="usage">
-            <div className="usage-img">
-              <img src={usageImgVote} alt="usage-vote" />
-            </div>
-          </div>
-          <div className="usage">
-            <div className="usage-img">
-              <img src={usageImgGame} alt="usage-game" />
-            </div>
-          </div>
-        </div>
-      </div> */}
       <div className="footer">
         <div>© 2020 Conversa powered by Aislyn Y.C.</div>
         <div>Icon credit to fontawesome.com. Illustration credit to undraw.co.</div>
