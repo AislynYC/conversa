@@ -135,19 +135,11 @@ const SldEditor = props => {
     }
   };
 
-  // const fullScreenClicking = () => {
-  //   console.log("fullscreen Clicking", props.slds, props.curSldIndex);
-  //   if (props.slds !== undefined && props.curSldIndex !== undefined) {
-  //     nextSld();
-  //   }
-  // };
-
   let [isFullscreen, setIsFullscreen] = useState(false);
   useEffect(() => {
     const monitorFullscreen = () => {
       if (document.fullscreenElement) {
         setIsFullscreen(true);
-        // document.addEventListener("click", fullScreenClicking);
       } else {
         setIsFullscreen(false);
       }
@@ -157,7 +149,6 @@ const SldEditor = props => {
 
     return () => {
       document.removeEventListener("fullscreenchange", monitorFullscreen);
-      // document.removeEventListener("click", fullScreenClicking);
     };
   });
 
@@ -320,6 +311,18 @@ const SldsItems = props => {
             />
             <div className="sld-item-text">
               <FormattedMessage id="edit.open-ended" />
+            </div>
+          </div>
+        </div>
+      );
+    } else if (item.sldType === "tag-cloud") {
+      sldItemCover = (
+        <div className="sld-item-content">
+          <div className="sld-item-header">{item.qContent}</div>
+          <div className="sld-item-type">
+            <FontAwesomeIcon icon={["fas", "cloud"]} className="sld-item-icon" />
+            <div className="sld-item-text">
+              <FormattedMessage id="edit.tag-cloud" />
             </div>
           </div>
         </div>

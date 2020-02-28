@@ -270,7 +270,8 @@
 
 .sld-item-icon {
   color: #666;
-  font-size: 3.2rem;
+  font-size: 2.8rem;
+  margin-bottom: 4px;
 }
 
 .sld-item-selected {
@@ -415,22 +416,6 @@
   width: 100%;
 }
 
-.cloud-res-input-group {
-  position: relative;
-  margin: 20px;
-}
-
-.cloud-res-input {
-  width: 100%;
-}
-
-.tag-text-count {
-  position: absolute;
-  right: 5px;
-  top: 30%;
-  font-size: 0.9rem;
-  color: #aaa;
-}
 /* 
 .input:hover {
   border: 1px solid #333;

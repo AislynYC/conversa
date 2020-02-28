@@ -9,7 +9,7 @@ const en = {
   "audi.ending": "Thank you for your participation!",
   "audi.go-to-home": "Sign up for Conversa",
   "audi.open-ended-input": "Please insert your response here",
-  "audi.tag-cloud-input": "Please insert your response here",
+  "audi.tag-cloud-input": "Please insert your response below",
   "edit.sld-type": "Slide Type",
   "edit.heading-page": "Heading",
   "edit.multiple-choice": "Multiple Choice",
