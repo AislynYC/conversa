@@ -25,7 +25,8 @@ import {
   faUser,
   faChartPie,
   faQrcode,
-  faCloud
+  faCloud,
+  faHandPaper
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
   faLaughSquint,
@@ -37,7 +38,8 @@ library.add(
   faChartPie,
   faQrcode,
   faCommentDots,
-  faCloud
+  faCloud,
+  faHandPaper
 );
 // Material UI
 import AddIcon from "@material-ui/icons/Add";
@@ -747,6 +749,14 @@ const SldPageRoute = props => {
             <div id="current-sld" onClick={clickFullscreen}>
               {sldContent}
               <div className="member-info">
+                {props.sld.sldType !== "heading-page" ? (
+                  <div className="hand-group">
+                    <FontAwesomeIcon icon={["fas", "hand-paper"]} id="hand-icon" />{" "}
+                    {props.respondedAudi[props.sld.id].length}
+                  </div>
+                ) : (
+                  ""
+                )}
                 <FontAwesomeIcon icon={["fas", "user"]} id="member-icon" />
                 {props.involvedAudi.length}
               </div>
