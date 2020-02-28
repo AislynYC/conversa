@@ -413,7 +413,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 70px;
+  /* top: 30%; */
   width: 80%;
   height: 80%;
 }
@@ -422,7 +422,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 270px;
+  /* top: 30%; */
   height: 100%;
   width: 100%;
 }

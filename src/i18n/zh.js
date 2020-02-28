@@ -59,7 +59,7 @@ const zh_TW = {
   "edit.del-sld": "確定刪除",
   "edit.cancel-del-sld": "取消",
   "edit.scan-to-join": "掃描加入 ",
-  "edit.QRCode-switch-label": "顯示二維條碼",
+  "edit.QRCode-switch-label": "顯示二維條碼/隱藏副標題",
   "projects.edit-proj-name": "輸入新專案名稱",
   "edit.option-placeholder": "選項",
   "edit.multiple-selection": "選 擇 題",

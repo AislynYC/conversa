@@ -1322,7 +1322,7 @@ const ControlPanel = props => {
           <div className="sld-type-w-chart">
             <FontAwesomeIcon icon={["fas", "qrcode"]} className="sld-type-icon" />
             <div>
-              <FormattedMessage id="edit.heading-label" />
+              <FormattedMessage id="edit.heading-page" />
             </div>
           </div>
         </label>
