@@ -17,7 +17,8 @@ import {
   faLaughSquint,
   faHandPointRight,
   faChartBar,
-  faCommentDots
+  faCommentDots,
+  faQuestionCircle
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faTrashAlt,
@@ -39,7 +40,8 @@ library.add(
   faQrcode,
   faCommentDots,
   faCloud,
-  faHandPaper
+  faHandPaper,
+  faQuestionCircle
 );
 // Material UI
 import AddIcon from "@material-ui/icons/Add";
@@ -945,8 +947,17 @@ const MultiSelEditor = props => {
       </div>
       <QusInput {...props} />
       <label htmlFor="opt-input" className="edit-panel-label">
-        <FormattedMessage id="edit.opt-label" />
+        <div>
+          <FormattedMessage id="edit.opt-label" />
+          <span className="help-tip">
+            <FontAwesomeIcon icon={["far", "question-circle"]} className="qus-icon" />
+            <p>
+              <FormattedMessage id="edit.multi-choice-opt-tip" />
+            </p>
+          </span>
+        </div>
       </label>
+
       <div className="input-group">
         <OptInputs {...props} />
       </div>
@@ -1465,7 +1476,14 @@ const HeadingSldEditor = props => {
       <label htmlFor="QRCode-switch" id="hQRCode-switch-group">
         <div className="edit-panel-label">
           <FormattedMessage id="edit.QRCode-switch-label" />
+          <span className="help-tip">
+            <FontAwesomeIcon icon={["far", "question-circle"]} className="qus-icon" />
+            <p>
+              <FormattedMessage id="edit.QRCode-switch-tip" />
+            </p>
+          </span>
         </div>
+
         <SwitchBtn
           checked={props.sld.hasQRCode === true}
           onChange={switchQRCode}
@@ -1474,18 +1492,22 @@ const HeadingSldEditor = props => {
           inputProps={{"aria-label": "primary checkbox"}}
         />
       </label>
-      <label htmlFor="heading-input" id="heading-input-group">
-        <div className="edit-panel-label">
-          <FormattedMessage id="edit.sub-heading-label" />
-        </div>
-        <ZhInput
-          {...props}
-          maxLength="20"
-          id="sub-heading-input"
-          curValue={props.sld.subHeading}
-          useInnerValue={editSubHeading}
-        />
-      </label>
+      {props.slds[props.curSldIndex].hasQRCode === false ? (
+        <label htmlFor="heading-input" id="heading-input-group">
+          <div className="edit-panel-label">
+            <FormattedMessage id="edit.sub-heading-label" />
+          </div>
+          <ZhInput
+            {...props}
+            maxLength="20"
+            id="sub-heading-input"
+            curValue={props.sld.subHeading}
+            useInnerValue={editSubHeading}
+          />
+        </label>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -73,6 +73,10 @@ const en = {
   "edit.bar-chart": "Bar Chart",
   "edit.pie-chart": "Pie Chart",
   "edit.qus-input-placeholder": "Enter your question here",
+  "edit.QRCode-switch-tip":
+    "If QR Code is showing, the sub-heading will be hidden. If you want to show sub-heading, please switch off the QR Code.",
+  "edit.multi-choice-opt-tip":
+    "Too many options or letters will cause poor visual quality. Please well consider before using long question, too many options and letters.",
   "home.main-title": "Connect you and your audience",
   "home.get-started": "Get Started",
   "home.sec2-box1-title": "Interactive Presentation Tool",

@@ -68,6 +68,10 @@ const zh_TW = {
   "edit.bar-chart": "長 條 圖",
   "edit.pie-chart": "圓 餅 圖",
   "edit.qus-input-placeholder": "請輸入題目",
+  "edit.QRCode-switch-tip":
+    "若顯示 QR Code 將會隱藏副標題，若需顯示副標題，請關閉 QR Code 顯示",
+  "edit.multi-choice-opt-tip":
+    "請注意，過多的選項或字數將造成較差的圖表效果，請斟酌您的問題、選項數量及字數",
   "home.main-title": "Conversa 連結你與你的聽眾",
   "home.get-started": "開始使用",
   "home.sec2-box1-title": "簡易簡報編輯器",
