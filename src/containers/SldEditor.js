@@ -5,10 +5,11 @@ import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
 import Chart from "react-google-charts";
 import ReactWordcloud from "react-wordcloud";
-
+import Loading from "../components/Loading/Loading";
 import QRCode from "qrcode.react";
 import "./sldEditor.css";
 import ZhInput from "../components/ZhInput/ZhInput";
+import Header from "../components/Header/Header";
 
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -72,6 +73,10 @@ const ResNumInput = withStyles({
 const history = createBrowserHistory();
 
 const SldEditor = props => {
+  if (props.firestore === undefined) {
+    return <Loading />;
+  }
+
   const db = useFirestore();
   const userId = props.userId;
   const projId = props.projId;
@@ -191,18 +196,21 @@ const SldEditor = props => {
   }, [keydownHandler]);
 
   return (
-    <Router basename={process.env.PUBLIC_URL} history={history}>
-      <div className="container">
-        <div id="sld-selector">
-          <SldsItems {...props} selectSld={selectSld} />
-          <AddSldBtn {...props} selectSld={selectSld} />
+    <Fragment>
+      <Header {...props} locale={props.locale} setLocale={props.setLocale} />
+      <Router basename={process.env.PUBLIC_URL} history={history}>
+        <div className="container">
+          <div id="sld-selector">
+            <SldsItems {...props} selectSld={selectSld} />
+            <AddSldBtn {...props} selectSld={selectSld} />
+          </div>
+          <Switch>
+            <SldPage {...props} isFullscreen={isFullscreen} nextSld={nextSld} />
+          </Switch>
         </div>
-        <Switch>
-          <SldPage {...props} isFullscreen={isFullscreen} nextSld={nextSld} />
-        </Switch>
-      </div>
-      <DelSld {...props} selectSld={selectSld} />
-    </Router>
+        <DelSld {...props} selectSld={selectSld} />
+      </Router>
+    </Fragment>
   );
 };
 export default SldEditor;
@@ -212,10 +220,6 @@ const SldsItems = props => {
   const userId = props.userId;
   const projId = props.projId;
   let [hovered, setHovered] = useState(null);
-
-  if (!props.slds) {
-    return <div>Loading</div>;
-  }
 
   const copySld = index => {
     let newSld = {...props.slds[index]};
@@ -368,10 +372,6 @@ const SldsItems = props => {
 };
 
 const SldPage = props => {
-  if (!props.slds) {
-    return <div>Loading</div>;
-  }
-
   return props.slds.map((sld, index) => {
     let path = null;
     index === 0
@@ -580,7 +580,7 @@ const SldPageRoute = props => {
           width="100%"
           height="100%"
           chartType="PieChart"
-          loader={<div>Loading Chart</div>}
+          loader={<div>Your chart is loading...</div>}
           data={data}
           options={pieOptions}
         />
