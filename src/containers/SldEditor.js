@@ -4,6 +4,7 @@ import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
 import Chart from "react-google-charts";
+import ReactWordcloud from "react-wordcloud";
 
 import QRCode from "qrcode.react";
 import "./sldEditor.css";
@@ -663,12 +664,44 @@ const SldPageRoute = props => {
   }
 
   let tagCloudContent = null;
-  let curTagRes = props.slds[props.curSldIndex].tagRes;
-  let tagResArray = Object.entries(curTagRes);
+  let tagResArray = Object.entries(props.slds[props.curSldIndex].tagRes);
   let cloudData = tagResArray.map(item => {
-    return {x: item[0].toString(), value: item[1]};
+    return {text: item[0].toString(), value: item[1]};
   });
-  console.log(cloudData);
+  let cloudOptions = {
+    colors: colors,
+    enableTooltip: true,
+    deterministic: true,
+    fontFamily: "Noto Sans TC",
+    fontSizes: [20, 60],
+    fontStyle: "normal",
+    fontWeight: "normal",
+    padding: 1,
+    rotations: 3,
+    rotationAngles: [0, 0],
+    scale: "log",
+    spiral: "archimedean",
+    transitionDuration: 1000
+  };
+  if (props.isFullscreen === true) {
+    cloudOptions = {
+      colors: colors,
+      enableTooltip: true,
+      deterministic: true,
+      fontFamily: "Noto Sans TC",
+      fontSizes: [30, 100],
+      fontStyle: "normal",
+      fontWeight: "normal",
+      padding: 1,
+      rotations: 3,
+      rotationAngles: [0, 0],
+      scale: "log",
+      spiral: "archimedean",
+      transitionDuration: 1000
+    };
+  }
+  tagCloudContent = <ReactWordcloud options={cloudOptions} words={cloudData} />;
+
   if (props.slds[props.curSldIndex].sldType === "multiple-choice") {
     sldContent = (
       <Fragment>

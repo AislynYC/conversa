@@ -397,6 +397,40 @@
   display: flex;
 }
 
+#cloud-sld-content {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 70px;
+  width: 80%;
+  height: 80%;
+}
+
+#current-sld:fullscreen > #cloud-sld-content {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 270px;
+  height: 100%;
+  width: 100%;
+}
+
+.cloud-res-input-group {
+  position: relative;
+  margin: 20px;
+}
+
+.cloud-res-input {
+  width: 100%;
+}
+
+.tag-text-count {
+  position: absolute;
+  right: 5px;
+  top: 30%;
+  font-size: 0.9rem;
+  color: #aaa;
+}
 /* 
 .input:hover {
   border: 1px solid #333;
