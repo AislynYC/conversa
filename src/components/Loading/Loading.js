@@ -2,28 +2,16 @@ import React, {useState} from "react";
 import "./style.css";
 
 const Loading = () => {
-  const [stemClass, setStemClass] = useState("stem");
-
-  const rain = () => {
-    setStemClass("stem rain");
-
-    setTimeout(function() {
-      setStemClass("stem");
-    }, 1200);
-  };
-
   return (
-    <div className="wrapper" onClick={rain}>
+    <div className="wrapper">
       <div className="box">
-        <div className={stemClass}>
-          <div className="leaf leaf01">
-            <div className="line"></div>
-          </div>
+        <div className="stem">
+          <div className="leaf leaf01"></div>
           <div className="leaf leaf02">
-            <div className="line"></div>
+            <div className="leaf02-green"></div>
           </div>
           <div className="leaf leaf03">
-            <div className="line"></div>
+            <div className="leaf03-light"></div>
           </div>
         </div>
         <div className="pot"></div>

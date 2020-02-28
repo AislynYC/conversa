@@ -1,14 +1,14 @@
 .wrapper {
-  position: absolute;
-  bottom: 0;
+  display: flex;
   width: 100%;
+  justify-content: center;
 }
 
 .box {
   position: relative;
   margin: auto;
   display: block;
-  margin-top: 8%;
+  margin-top: -5%;
   width: 600px;
   height: 600px;
   background: none;
@@ -16,10 +16,10 @@
 
 .pot {
   position: absolute;
-  width: 20%;
-  height: 20%;
-  bottom: 0;
-  left: 40%;
+  width: 16%;
+  height: 14%;
+  bottom: 8%;
+  left: 42%;
   background: #fcaa67;
   -webkit-clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
   clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
@@ -28,10 +28,10 @@
 
 .pot-top {
   position: absolute;
-  width: 22%;
+  width: 18%;
   height: 5%;
-  bottom: 17%;
-  left: 39%;
+  bottom: 20%;
+  left: 41%;
   background: #fcaa67;
   border-radius: 3px;
 }
@@ -41,140 +41,206 @@
   width: 2%;
   height: 20%;
   left: 49%;
-  bottom: 20%;
-  background: #70b77e;
+  bottom: 15%;
+  background: #89ab79;
 }
 
 .leaf {
   position: absolute;
-  width: 10%;
-  height: 10%;
-  border-radius: 50%;
-  background: #70b77e;
-}
-
-.leaf .line {
-  position: absolute;
-  width: 80%;
-  height: 1%;
-  background: rgba(0, 0, 0, 0.1);
-  top: 48%;
+  width: 60px;
+  height: 60px;
+  border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+  background: #89ab79;
 }
 
 .leaf01 {
-  top: 70%;
-  left: 50%;
-  transform: rotate(-25deg);
+  top: -10%;
+  left: 170%;
+  transform: rotate(-150deg);
 }
 
 .leaf02 {
-  top: 50%;
-  right: 50%;
-  transform: rotate(205deg);
+  top: 0;
+  right: 170%;
+  transform: rotate(50deg);
+}
+.leaf02-green {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+  background: #6c935c;
+  top: 1%;
+  right: 10%;
+  transform: rotate(0deg);
 }
 
 .leaf03 {
-  top: 30%;
-  left: 50%;
-  transform: rotate(-25deg);
+  width: 70px;
+  height: 70px;
+  top: -60%;
+  left: -240%;
+  transform: rotate(135deg);
 }
 
+.leaf03-light {
+  position: absolute;
+  width: 18px;
+  height: 30px;
+  border-radius: 50%;
+  right: 65%;
+  bottom: 20%;
+  background-color: white;
+}
 /* --- ANIMATION --- */
 
-.stem,
-.leaf {
-  animation-duration: 1.2s !important;
+.stem {
+  animation: grow 3s linear;
+  animation-iteration-count: infinite;
   animation-fill-mode: forwards;
-}
-
-.stem.rain {
-  animation: grow 1s linear 1;
 }
 
 @keyframes grow {
   0% {
-    bottom: -40%;
+    bottom: 8%;
     width: 1%;
   }
 
+  60% {
+    bottom: 20%;
+    width: 2%;
+  }
   100% {
     bottom: 20%;
     width: 2%;
   }
 }
 
-.stem.rain .leaf {
-  animation: leafGrow 1s linear 1;
+.stem .leaf01 {
+  animation: leafGrow01 3s linear;
   animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
 }
 
-@keyframes leafGrow {
+.stem .leaf02 {
+  animation: leafGrow02 3s linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+.stem .leaf02 .leaf02-green {
+  animation: leafGrow02-green 3s linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+.stem .leaf03 {
+  animation: leafGrow03 3s linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+.stem .leaf03-light {
+  animation: leafGrow03-light 3s linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+@keyframes leafGrow01 {
   0% {
-    width: 0%;
-    height: 0%;
-  }
-
-  100% {
-    width: 700%;
-    height: 10%;
-  }
-}
-
-.stem.rain .leaf05 {
-  animation: topLeafRight 1s linear 1;
-}
-
-@keyframes topLeafRight {
-  0% {
-    top: 5%;
-    width: 0%;
-    height: 0%;
-    left: 10%;
-  }
-
-  100% {
-    width: 700%;
-    height: 10%;
-    top: -17%;
-    left: -120%;
-  }
-}
-
-.stem.rain .leaf06 {
-  animation: topLeafLeft 1s linear 1;
-}
-
-@keyframes topLeafLeft {
-  0% {
+    width: 0;
+    height: 0;
     top: 0%;
-    width: 0%;
-    height: 0%;
+    left: 0%;
   }
 
+  60% {
+    width: 60px;
+    height: 60px;
+    top: -10%;
+    left: 170%;
+  }
   100% {
-    width: 700%;
-    height: 10%;
-    top: -9%;
+    width: 60px;
+    height: 60px;
+    top: -10%;
+    left: 170%;
   }
 }
 
-.drop {
-  position: absolute;
-  top: 30px;
-  left: 20px;
-  width: 50px;
-  height: 50px;
-  border: none;
-  -webkit-border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
-  border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
-  font: normal 100% / normal Arial, Helvetica, sans-serif;
-  background: #17bebb;
-  -webkit-transform: rotateZ(-45deg);
-  transform: rotateZ(-45deg);
-  -webkit-transform-origin: 50% 50% 0;
-  transform-origin: 50% 50% 0;
-  animation: rain 2s linear 1;
-  animation-fill-mode: forwards;
-  cursor: pointer;
-  z-index: 9999;
+@keyframes leafGrow02 {
+  0% {
+    width: 0;
+    height: 0;
+
+    right: 0%;
+  }
+  60% {
+    width: 60px;
+    height: 60px;
+
+    right: 170%;
+  }
+  100% {
+    width: 60px;
+    height: 60px;
+    right: 170%;
+  }
+}
+
+@keyframes leafGrow02-green {
+  0% {
+    width: 0;
+    height: 0;
+    top: 0%;
+    right: 0%;
+  }
+  60% {
+    width: 50px;
+    height: 50px;
+    top: 1%;
+    right: 10%;
+  }
+  100% {
+    width: 50px;
+    height: 50px;
+    top: 1%;
+    right: 10%;
+  }
+}
+@keyframes leafGrow03 {
+  0% {
+    width: 0;
+    height: 0;
+    top: 0%;
+    left: -50%;
+  }
+
+  60% {
+    width: 70px;
+    height: 70px;
+    top: -60%;
+    left: -240%;
+  }
+  100% {
+    width: 70px;
+    height: 70px;
+    top: -60%;
+    left: -240%;
+  }
+}
+
+@keyframes leafGrow03-light {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  60% {
+    width: 20px;
+    height: 32px;
+  }
+  100% {
+    width: 20px;
+    height: 32px;
+  }
 }
