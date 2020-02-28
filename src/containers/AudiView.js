@@ -105,11 +105,7 @@ const Poll = props => {
     }
   } else {
     if (props.slds[props.curSldIndex].sldType === "multiple-choice") {
-      if (props.slds[props.curSldIndex].opts !== "") {
-        audiInput = <MultiSelInputs {...props} />;
-      } else {
-        audiInput = <Wait {...props} />;
-      }
+      audiInput = <MultiSelInputs {...props} />;
     } else if (props.slds[props.curSldIndex].sldType === "open-ended") {
       audiInput = <OpenEndedInput {...props} />;
     } else if (props.slds[props.curSldIndex].sldType === "tag-cloud") {

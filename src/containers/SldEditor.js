@@ -777,9 +777,9 @@ const AddSldBtn = props => {
             id: t,
             qContent: "",
             sldType: "heading-page",
-            opts: "",
+            opts: [""],
             resType: "bar-chart",
-            result: "",
+            result: [""],
             heading: "",
             subHeading: "",
             hasQRCode: false,
@@ -1199,12 +1199,19 @@ const DelOptBtn = props => {
   const db = useFirestore();
   const userId = props.userId;
   const projId = props.projId;
+
   const deleteOpt = () => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
-        sld.lastEdited = Date.now();
-        sld.opts.splice(props.optIndex, 1);
-        sld.result.splice(props.optIndex, 1);
+        if (sld.opts.length > 1) {
+          sld.lastEdited = Date.now();
+          sld.opts.splice(props.optIndex, 1);
+          sld.result.splice(props.optIndex, 1);
+        } else {
+          alert(
+            "Multiple-choice slide type shall have at least one option. 選擇題投影片類型必須有至少一個選項。"
+          );
+        }
       }
       return sld;
     });
