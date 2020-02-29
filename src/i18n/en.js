@@ -51,7 +51,7 @@ const en = {
   "projects.days-ago": " days ago",
   "projects.hours-ago": " hours ago",
   "projects.mins-ago": " minutes ago",
-  "projects.presentation-name": "Presentation Name",
+  "projects.presentation-name": "My Presentation",
   "projects.presentation-created": "Created",
   "projects.presentation-last-edited": "Last Edited",
   "projects.confirm-del-proj":

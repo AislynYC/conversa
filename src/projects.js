@@ -1,7 +1,6 @@
 import React, {Fragment, useState, useEffect} from "react";
-import {FormattedMessage, injectIntl} from "react-intl";
+import {FormattedMessage} from "react-intl";
 import {useFirestore} from "react-redux-firebase";
-import {Link} from "react-router-dom";
 
 import Header from "./components/Header/Header";
 import Button from "@material-ui/core/Button";
@@ -10,22 +9,24 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import CloseIcon from "@material-ui/icons/Close";
-import Input from "@material-ui/core/Input";
-import {withStyles} from "@material-ui/core/styles";
 import ProjNameEditor from "./components/ProjNameEditor/ProjNameEditor";
 
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
-import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
-import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
-import {faCheck} from "@fortawesome/free-solid-svg-icons";
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
-library.add(faTrashAlt, faPencilAlt, faCheck, faTimes);
+import {
+  faTrashAlt,
+  faPencilAlt,
+  faCheck,
+  faTimes,
+  faEllipsisH
+} from "@fortawesome/free-solid-svg-icons";
+library.add(faTrashAlt, faPencilAlt, faCheck, faTimes, faEllipsisH);
 
 import Loading from "./components/Loading/Loading";
 import "./reset.css";
 import "./style.css";
+import "./projects.css";
 
 const ProjManager = props => {
   if (props.auth === undefined) {
@@ -70,7 +71,6 @@ const ToolBar = props => {
 };
 
 const ProjList = props => {
-  const db = useFirestore();
   const handleEditTimeDesc = lastEdited => {
     const curTime = new Date();
     const editTime = new Date(lastEdited);
@@ -117,20 +117,13 @@ const ProjList = props => {
     let createdDate = new Date(proj.created).toDateString();
     let lastEditedDate = handleEditTimeDesc(proj.lastEdited);
     return (
-      <div className="row" key={proj.id}>
-        <div className="col-name">
-          <ProjNameEditor {...props} proj={proj} />
-        </div>
-        <div className="col">{createdDate}</div>
-        <div className="col">{lastEditedDate}</div>
-        <div className="col proj-tool-col">
-          <FontAwesomeIcon
-            icon={["fas", "trash-alt"]}
-            className="trash-bin"
-            onClick={() => props.showOverlay("confirmDel", proj.id)}
-          />
-        </div>
-      </div>
+      <ProjRow
+        key={proj.id}
+        {...props}
+        proj={proj}
+        createdDate={createdDate}
+        lastEditedDate={lastEditedDate}
+      />
     );
   });
 
@@ -152,6 +145,52 @@ const ProjList = props => {
         <div className="proj-list">{projects}</div>
       </CardContent>
     </Card>
+  );
+};
+
+const ProjRow = props => {
+  const [moreToolClass, setMoreToolClass] = useState("more-tool-bar hide");
+  const showMoreTool = () => {
+    setMoreToolClass("more-tool-bar");
+  };
+  const hideMoreTool = () => {
+    setMoreToolClass("more-tool-bar hide");
+  };
+
+  return (
+    <div className="row">
+      <div className="col-name">
+        <ProjNameEditor {...props} proj={props.proj} />
+      </div>
+      <div className="col">{props.createdDate}</div>
+      <div className="col">{props.lastEditedDate}</div>
+      <div className="col proj-tool-col">
+        <FontAwesomeIcon
+          icon={["fas", "trash-alt"]}
+          className="trash-bin"
+          onClick={() => props.showOverlay("confirmDel", props.proj.id)}
+        />
+      </div>
+      <div className="more-col">
+        <FontAwesomeIcon
+          icon={["fas", "ellipsis-h"]}
+          className="more-icon"
+          onClick={showMoreTool}
+        />
+      </div>
+      <div className={moreToolClass}>
+        <FontAwesomeIcon
+          icon={["fas", "trash-alt"]}
+          className="trash-bin"
+          onClick={() => props.showOverlay("confirmDel", props.proj.id)}
+        />
+        <FontAwesomeIcon
+          icon={["fas", "times"]}
+          className="more-close-icon"
+          onClick={hideMoreTool}
+        />
+      </div>
+    </div>
   );
 };
 

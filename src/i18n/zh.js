@@ -48,7 +48,7 @@ const zh_TW = {
   "projects.days-ago": "天前",
   "projects.hours-ago": "小時前",
   "projects.mins-ago": "分鐘前",
-  "projects.presentation-name": "簡報名稱",
+  "projects.presentation-name": "我的簡報",
   "projects.presentation-created": "創建日期",
   "projects.presentation-last-edited": "上次編輯",
   "projects.confirm-del-proj":

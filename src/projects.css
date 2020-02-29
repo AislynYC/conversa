@@ -1,0 +1,226 @@
+/* Project Management */
+.proj-wrap {
+  width: 90%;
+  margin: 0 auto;
+}
+
+#add-project-btn {
+  letter-spacing: 3px;
+  font-size: 1.05em;
+  font-weight: 800;
+  height: 48px;
+}
+
+#add-project-icon {
+  margin-right: 10px;
+}
+
+#proj-list-card {
+  box-sizing: border-box;
+  margin-top: 30px;
+  padding: 0 30px;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #aaa;
+  justify-content: space-between;
+  padding: 20px 0;
+  padding-left: 10px;
+  position: relative;
+}
+
+.row:hover {
+  background-color: rgba(123, 144, 133, 0.11);
+}
+
+.row-header:hover {
+  background-color: transparent;
+}
+
+.col-header {
+  font-size: 1.05em;
+  font-weight: 500;
+}
+
+.project-name {
+  cursor: pointer;
+  font-weight: 450;
+  color: rgb(30, 57, 43);
+}
+
+.project-name:visited,
+.project-name:hover,
+.project-name:focus {
+  color: rgb(30, 57, 43);
+}
+
+.project-name:hover {
+  text-decoration: underline;
+  transform: scale(1.3);
+}
+
+.proj-list {
+  height: 60vh;
+  overflow-y: scroll;
+}
+
+.col-name {
+  width: 40%;
+}
+.col {
+  width: 20%;
+  text-align: center;
+}
+.proj-tool-col {
+  max-width: 60px;
+  margin-right: 50px;
+}
+
+.empty-col {
+  width: 120px;
+  height: 17px;
+}
+
+.trash-bin {
+  cursor: pointer;
+  color: #444;
+}
+
+.more-col,
+.more-tool-bar {
+  display: none;
+}
+
+.trash-bin:hover,
+.edit-icon:hover {
+  transform: scale(1.2) rotate(-15deg);
+}
+
+.edit-icon,
+.check-icon,
+.cancel-icon {
+  cursor: pointer;
+  margin-left: 10px;
+  color: #444;
+  font-size: 1em;
+}
+
+.check-icon {
+  color: green;
+}
+
+.cancel-icon {
+  color: red;
+}
+
+.check-icon:hover,
+.cancel-icon:hover {
+  transform: scale(1.2);
+}
+
+#confirm-del-card {
+  box-sizing: border-box;
+  padding: 20px 30px;
+}
+
+.deleting-proj-alert {
+  margin-bottom: 40px;
+}
+
+.deleting-proj-name {
+  color: red;
+  font-weight: bold;
+}
+
+#del-btn {
+  margin-right: 20px;
+}
+
+#new-proj-card {
+  box-sizing: border-box;
+  padding: 20px 30px;
+}
+
+#new-proj-form {
+  margin: 0 auto;
+}
+
+#new-proj-name-input {
+  width: 500px;
+}
+
+#create-proj-btns {
+  margin-top: 50px;
+}
+
+#new-proj-submit-btn {
+  margin-right: 30px;
+}
+
+/* Responsive */
+
+@media (max-width: 820px) {
+  .col-name {
+    width: 30%;
+  }
+
+  .empty-col {
+    width: 70px;
+    height: 17px;
+  }
+
+  .proj-tool-col {
+    margin-right: 0;
+  }
+}
+@media (max-width: 490px) {
+  .col {
+    display: none;
+  }
+
+  .col-name {
+    width: 100%;
+  }
+
+  #proj-list-card {
+    margin-top: 10px;
+    padding: 0;
+  }
+  .more-col {
+    display: block;
+  }
+
+  .more-icon {
+    margin-right: 10px;
+  }
+
+  .row > .more-tool-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    background-color: white;
+    right: 0;
+    width: 30%;
+    height: 100%;
+    border-radius: 4px;
+    border-left: 3px solid rgba(123, 144, 133);
+    transition: 0.3s;
+  }
+
+  .more-close-icon {
+    margin-left: 20px;
+    margin-right: 10px;
+  }
+  .row > .hide {
+    width: 0%;
+    overflow-x: hidden;
+  }
+
+  #new-proj-name-input {
+    width: 200px;
+  }
+}
