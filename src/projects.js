@@ -201,6 +201,17 @@ const NewProj = props => {
     setNewProjName(e.target.value);
   };
 
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+
+  useEffect(() => {
+    setIsSubmitDisabled(false);
+  }, []);
+
+  const submitNewProj = e => {
+    setIsSubmitDisabled(true);
+    addProj(e);
+  };
+
   const addProj = e => {
     e.preventDefault();
 
@@ -243,7 +254,10 @@ const NewProj = props => {
               respondedAudi: initRespondedAudi,
               involvedAudi: []
             })
-            .then(() => props.closeOverlay("newProj"));
+            .then(() => {
+              props.closeOverlay("newProj");
+              setIsSubmitDisabled(false);
+            });
         });
     }
   };
@@ -276,13 +290,15 @@ const NewProj = props => {
               <Button
                 type="submit"
                 variant="contained"
+                disabled={isSubmitDisabled}
                 id="new-proj-submit-btn"
-                onClick={e => addProj(e)}>
+                onClick={e => submitNewProj(e)}>
                 <FormattedMessage id="projects.create-project-btn" />
               </Button>
               <Button
                 variant="contained"
                 id="new-proj-cancel-btn"
+                disabled={isSubmitDisabled}
                 onClick={() => props.closeOverlay("newProj")}>
                 <FormattedMessage id="projects.cancel-new-project" />
               </Button>
