@@ -656,6 +656,15 @@
   .middle-editor > .edit-panel {
     width: 100%;
   }
+
+  .sld-item-icon {
+    font-size: 1.5rem;
+  }
+}
+@media (max-width: 720px) {
+  .sld-item-header {
+    display: none;
+  }
 }
 @media (max-width: 490px) {
 }
