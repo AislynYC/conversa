@@ -825,21 +825,28 @@ const DelSld = props => {
   const db = useFirestore();
 
   const deleteSld = index => {
-    props.slds.splice(index, 1);
-
-    db.collection("users")
-      .doc(props.userId)
-      .collection("projects")
-      .doc(props.projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: props.slds
-      })
-      .then(() => {
-        props.closeOverlay("confirmDel");
-        // change selection focus to the last slide of the removed slide
-        props.selectSld(index - 1);
-      });
+    // use splice to delete the slide of the index parameter
+    if (index !== 0) {
+      props.slds.splice(index, 1);
+      db.collection("users")
+        .doc(props.userId)
+        .collection("projects")
+        .doc(props.projId)
+        .update({
+          lastEdited: Date.now(),
+          slds: props.slds
+        })
+        .then(() => {
+          props.closeOverlay("confirmDel");
+          // change selection focus to the last slide of the removed slide
+          props.selectSld(index - 1);
+        });
+    } else {
+      alert(
+        "Your presentation shall have at least one slide. 您的簡報必須有至少一張投影片。"
+      );
+      props.closeOverlay("confirmDel");
+    }
   };
   return (
     <div className={props.confirmDelOverlayClass}>
