@@ -1,6 +1,5 @@
 import React, {Fragment} from "react";
 
-import Header from "./components/Header/Header";
 import SldEditorConnect from "./containers/SldEditorConnect";
 
 const Edit = props => {
@@ -9,8 +8,13 @@ const Edit = props => {
 
   return (
     <Fragment>
-      <Header {...props} locale={props.locale} setLocale={props.setLocale} />
-      <SldEditorConnect {...props} userId={userId} projId={projId} />
+      <SldEditorConnect
+        {...props}
+        userId={userId}
+        projId={projId}
+        locale={props.locale}
+        setLocale={props.setLocale}
+      />
     </Fragment>
   );
 };

@@ -10,6 +10,7 @@ const zh_TW = {
   "audi.go-to-home": "註冊 Conversa 帳戶",
   "audi.open-ended-input": "請在此輸入您的回答",
   "audi.tag-cloud-input": "請在下方輸入您的回答",
+  "audi.sending-msg": "我們正在送出您的回覆，請耐心等候...",
   "edit.sld-type": "投影片類型",
   "edit.heading-page": "標 題",
   "edit.multiple-choice": "選 擇 題",

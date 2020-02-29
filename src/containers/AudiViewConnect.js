@@ -4,6 +4,7 @@ import {compose} from "redux";
 
 import AudiView from "./AudiView.js";
 import {getAudiId} from "../ducks/audiViewReducer";
+import {setIsLoading} from "../ducks/audiViewReducer";
 
 let mapStateToProps = (state, props) => {
   let projDataArray = state.firestore.ordered[`${props.userId}-projects`];
@@ -19,27 +20,30 @@ let mapStateToProps = (state, props) => {
       firestore: state.firestore,
       curSldIndex: projData.curSldIndex,
       slds: projData.slds,
-      audiId: state.audiView.audiId,
       respondedAudi: projResponded.respondedAudi,
       reaction: projResponded.reaction,
-      involvedAudi: projResponded.involvedAudi
+      involvedAudi: projResponded.involvedAudi,
+      audiId: state.audiView.audiId,
+      isLoading: state.audiView.isLoading
     };
   } else {
     return {
       firestore: undefined,
       curSldIndex: undefined,
       slds: undefined,
-      audiId: undefined,
       respondedAudi: undefined,
       reaction: undefined,
-      involvedAudi: undefined
+      involvedAudi: undefined,
+      audiId: state.audiView.audiId,
+      isLoading: state.audiView.isLoading
     };
   }
 };
 
 let mapDispatchToProps = dispatch => {
   return {
-    getAudiId: () => dispatch(getAudiId())
+    getAudiId: () => dispatch(getAudiId()),
+    setIsLoading: boolean => dispatch(setIsLoading(boolean))
   };
 };
 
