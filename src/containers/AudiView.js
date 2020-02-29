@@ -74,7 +74,7 @@ const Poll = props => {
   let audiInput = null;
   useEffect(() => {
     props.setIsLoading(false);
-  }, []);
+  }, [props.curSldIndex]);
 
   // To determine which slide type to be shown in audi view
   if (props.slds[props.curSldIndex].sldType === "heading-page") {
