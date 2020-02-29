@@ -79,6 +79,9 @@ const ZhInput = props => {
   const checkTextAllowed = value => {
     setTextAllowed(props.maxLength - value.length);
   };
+  useEffect(() => {
+    checkTextAllowed(props.curValue);
+  }, []);
 
   return (
     <div className="zh-input-group">
