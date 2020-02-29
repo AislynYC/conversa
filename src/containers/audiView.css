@@ -185,6 +185,10 @@ body,
   color: white;
 }
 
+.loading-msg {
+  margin-top: 80px;
+}
+
 @keyframes wait-move {
   0% {
     top: 0px;
@@ -196,6 +200,8 @@ body,
     top: 0px;
   }
 }
+
+/* RWD */
 @media (min-width: 768px) {
   .poll {
     width: 600px;

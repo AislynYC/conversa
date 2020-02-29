@@ -4,6 +4,7 @@ import {FormattedMessage} from "react-intl";
 import {Link} from "react-router-dom";
 import logo from "../img/conversa.png";
 import logoC from "../img/logoC_nb.png";
+import Loading from "../components/Loading/Loading";
 import "./audiView.css";
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -25,26 +26,6 @@ const GreenRadio = withStyles({
   },
   checked: {}
 })(props => <Radio color="default" {...props} />);
-
-const ResInput = withStyles({
-  root: {
-    width: "100%",
-    margin: "5% 0",
-    "& label.Mui-focused": {
-      color: "#dcf3e7",
-      fontSize: "1.5rem"
-    },
-    "& .MuiOutlinedInput-root": {
-      fontSize: "1.5rem",
-      "& fieldset": {
-        borderColor: "#dcf3e7"
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#dcf3e7"
-      }
-    }
-  }
-})(TextField);
 
 const AudiView = props => {
   const db = useFirestore();
@@ -82,7 +63,7 @@ const AudiView = props => {
         <div className="poll-logo">
           <img src={logo} alt="logo" />
         </div>
-        {props.curSldIndex === undefined ? <span>Loading</span> : <Poll {...props} />}
+        {props.curSldIndex === undefined ? <Loading {...props} /> : <Poll {...props} />}
       </div>
     </div>
   );
@@ -91,6 +72,9 @@ export default AudiView;
 
 const Poll = props => {
   let audiInput = null;
+  useEffect(() => {
+    props.setIsLoading(false);
+  }, []);
 
   // To determine which slide type to be shown in audi view
   if (props.slds[props.curSldIndex].sldType === "heading-page") {
@@ -242,30 +226,41 @@ const MultiSelInputs = props => {
 
   return (
     <Fragment>
-      <div>{props.slds[props.curSldIndex].qContent}</div>
-      <form name="poll-form" id="poll-form">
-        {props.slds[props.curSldIndex].opts.map((item, index) => (
-          <label className="res-group" key={index}>
-            <GreenRadio
-              type="radio"
-              name="res-group"
-              value={index}
-              disabled={isRadioDisabled}
-              checked={selOptIndex === index}
-              onChange={() => setSelOptIndex(index)}
-              inputProps={{"aria-label": index}}
-            />
-            <div className="opts"> {item} </div>
-          </label>
-        ))}
-        <Button
-          variant="contained"
-          id="submit-btn"
-          disabled={isSubmitDisabled}
-          onClick={submitMultiChoice}>
-          <FormattedMessage id="audi.submit" />
-        </Button>
-      </form>
+      {props.isLoading ? (
+        <Fragment>
+          <Loading {...props} />
+          <div className="loading-msg">
+            <FormattedMessage id="audi.sending-msg" />
+          </div>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <div>{props.slds[props.curSldIndex].qContent}</div>
+          <form name="poll-form" id="poll-form">
+            {props.slds[props.curSldIndex].opts.map((item, index) => (
+              <label className="res-group" key={index}>
+                <GreenRadio
+                  type="radio"
+                  name="res-group"
+                  value={index}
+                  disabled={isRadioDisabled}
+                  checked={selOptIndex === index}
+                  onChange={() => setSelOptIndex(index)}
+                  inputProps={{"aria-label": index}}
+                />
+                <div className="opts"> {item} </div>
+              </label>
+            ))}
+            <Button
+              variant="contained"
+              id="submit-btn"
+              disabled={isSubmitDisabled}
+              onClick={submitMultiChoice}>
+              <FormattedMessage id="audi.submit" />
+            </Button>
+          </form>
+        </Fragment>
+      )}
     </Fragment>
   );
 };
@@ -351,36 +346,47 @@ const OpenEndedInput = props => {
 
   return (
     <Fragment>
-      <div className="q-content">{props.slds[props.curSldIndex].qContent}</div>
-      <form name="poll-form" id="poll-form">
-        <div className="open-input-area">
-          <FormattedMessage
-            id="audi.open-ended-input"
-            defaultMessage="Please insert your response here">
-            {placeholder => (
-              <textarea
-                id="res-input"
-                value={resInputValue}
-                placeholder={placeholder}
-                rows="10"
-                maxLength={charLimit.toString()}
-                onChange={e => {
-                  setResInputValue(e.target.value);
-                  checkTextAllowed(e.target.value);
-                }}
-              />
-            )}
-          </FormattedMessage>
-          <div id="audi-text-count">{textAllowed}</div>
-        </div>
-        <Button
-          variant="contained"
-          id="submit-btn"
-          disabled={isSubmitDisabled}
-          onClick={() => submitOpenEnded(resInputValue)}>
-          <FormattedMessage id="audi.submit" />
-        </Button>
-      </form>
+      {props.isLoading ? (
+        <Fragment>
+          <Loading {...props} />
+          <div className="loading-msg">
+            <FormattedMessage id="audi.sending-msg" />
+          </div>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <div className="q-content">{props.slds[props.curSldIndex].qContent}</div>
+          <form name="poll-form" id="poll-form">
+            <div className="open-input-area">
+              <FormattedMessage
+                id="audi.open-ended-input"
+                defaultMessage="Please insert your response here">
+                {placeholder => (
+                  <textarea
+                    id="res-input"
+                    value={resInputValue}
+                    placeholder={placeholder}
+                    rows="10"
+                    maxLength={charLimit.toString()}
+                    onChange={e => {
+                      setResInputValue(e.target.value);
+                      checkTextAllowed(e.target.value);
+                    }}
+                  />
+                )}
+              </FormattedMessage>
+              <div id="audi-text-count">{textAllowed}</div>
+            </div>
+            <Button
+              variant="contained"
+              id="submit-btn"
+              disabled={isSubmitDisabled}
+              onClick={() => submitOpenEnded(resInputValue)}>
+              <FormattedMessage id="audi.submit" />
+            </Button>
+          </form>
+        </Fragment>
+      )}
     </Fragment>
   );
 };
@@ -446,6 +452,7 @@ const TagCloudInput = props => {
   };
 
   const respondTagCloud = resInputValue => {
+    props.setIsLoading(true);
     const projDocRef = db
       .collection("users")
       .doc(props.userId)
@@ -477,7 +484,6 @@ const TagCloudInput = props => {
               resInputValue.forEach(item => {
                 if (sld.tagRes[item]) {
                   sld.tagRes[item] = sld.tagRes[item] + 1;
-                  console.log(sld.tagRes[item]);
                 } else {
                   sld.tagRes[item] = 1;
                 }
@@ -503,25 +509,37 @@ const TagCloudInput = props => {
         console.log("Transaction failed: ", error);
       });
   };
+
   return (
     <Fragment>
-      <div className="q-content">{props.slds[props.curSldIndex].qContent}</div>
-      <form name="poll-form" id="poll-form">
-        <div className="cloud-input-area">
-          <FormattedMessage
-            id="audi.tag-cloud-input"
-            defaultMessage="Please insert your response here"
-          />
-          {resInputs}
-        </div>
-        <Button
-          variant="contained"
-          id="submit-btn"
-          disabled={isSubmitDisabled}
-          onClick={() => submitTagCloud(resInputValue)}>
-          <FormattedMessage id="audi.submit" />
-        </Button>
-      </form>
+      {props.isLoading ? (
+        <Fragment>
+          <Loading {...props} />
+          <div className="loading-msg">
+            <FormattedMessage id="audi.sending-msg" />
+          </div>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <div className="q-content">{props.slds[props.curSldIndex].qContent}</div>
+          <form name="poll-form" id="poll-form">
+            <div className="cloud-input-area">
+              <FormattedMessage
+                id="audi.tag-cloud-input"
+                defaultMessage="Please insert your response here"
+              />
+              {resInputs}
+            </div>
+            <Button
+              variant="contained"
+              id="submit-btn"
+              disabled={isSubmitDisabled}
+              onClick={() => submitTagCloud(resInputValue)}>
+              <FormattedMessage id="audi.submit" />
+            </Button>
+          </form>
+        </Fragment>
+      )}
     </Fragment>
   );
 };

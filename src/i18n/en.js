@@ -10,6 +10,7 @@ const en = {
   "audi.go-to-home": "Sign up for Conversa",
   "audi.open-ended-input": "Please insert your response here",
   "audi.tag-cloud-input": "Please insert your response below",
+  "audi.sending-msg": "Your response is being submitted,please wait...",
   "edit.sld-type": "Slide Type",
   "edit.heading-page": "HEADING",
   "edit.multiple-choice": "MULTIPLE CHOICE",
