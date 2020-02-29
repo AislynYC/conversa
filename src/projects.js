@@ -29,7 +29,7 @@ import "./style.css";
 
 const ProjManager = props => {
   if (props.auth === undefined) {
-    return <Loading />;
+    return <Loading {...props} />;
   }
   if (props.auth.isLoaded === false) {
   } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
@@ -166,20 +166,21 @@ const NewProj = props => {
     e.preventDefault();
 
     if (newProjName !== "" && newProjName !== " ") {
+      const t = Date.now();
       db.collection("users")
         .doc(props.auth.uid)
         .collection("projects")
         .add({
           name: newProjName,
-          created: Date.now(),
-          lastEdited: Date.now(),
+          created: t,
+          lastEdited: t,
           curSldIndex: 0,
           slds: [
             {
               heading: "",
               subHeading: "",
               hasQRCode: true,
-              id: Date.now(),
+              id: t,
               opts: [""],
               qContent: "",
               resType: "bar-chart",
@@ -192,13 +193,15 @@ const NewProj = props => {
           ]
         })
         .then(res => {
+          let initRespondedAudi = {};
+          initRespondedAudi[t] = [];
           db.collection("invitation")
             .doc(res.id)
             .set({
               owner: props.auth.uid,
               projId: res.id,
               reaction: {laugh: 0},
-              respondedAudi: {},
+              respondedAudi: initRespondedAudi,
               involvedAudi: []
             })
             .then(() => props.closeOverlay("newProj"));
@@ -207,7 +210,7 @@ const NewProj = props => {
   };
 
   if (props.isLoading === true) {
-    return <div>Loading</div>;
+    return <Loading {...props} />;
   }
 
   return (
@@ -255,7 +258,7 @@ const NewProj = props => {
 const DelProj = props => {
   const db = useFirestore();
   if (props.isLoading === true) {
-    return <div>Loading</div>;
+    return <Loading {...props} />;
   }
 
   const deleteProj = () => {

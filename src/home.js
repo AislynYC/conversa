@@ -25,7 +25,7 @@ const Home = props => {
   let path = "/signUp";
   console.log("Auth", props.auth);
   if (props.auth.isLoaded === false) {
-    <Loading />;
+    <Loading {...props} />;
   } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
     console.log("No user", props.auth);
     path = "/signUp";
@@ -196,6 +196,7 @@ const Home = props => {
           </div>
         </div>
       </div>
+
       <div className="footer">
         <div>© 2020 Conversa powered by Aislyn Y.C.</div>
         <div>Icon credit to fontawesome.com. Illustration credit to undraw.co.</div>

@@ -74,7 +74,7 @@ const history = createBrowserHistory();
 
 const SldEditor = props => {
   if (props.firestore === undefined) {
-    return <Loading />;
+    return <Loading {...props} />;
   }
 
   const db = useFirestore();
@@ -753,8 +753,10 @@ const SldPageRoute = props => {
               <div className="member-info">
                 {props.sld.sldType !== "heading-page" ? (
                   <div className="hand-group">
-                    <FontAwesomeIcon icon={["fas", "hand-paper"]} id="hand-icon" />{" "}
-                    {props.respondedAudi[props.sld.id].length}
+                    <FontAwesomeIcon icon={["fas", "hand-paper"]} id="hand-icon" />
+                    {props.respondedAudi[props.sld.id]
+                      ? props.respondedAudi[props.sld.id].length
+                      : "0"}
                   </div>
                 ) : (
                   ""
