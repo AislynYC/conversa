@@ -16,7 +16,9 @@
 
 .center {
   width: 100%;
-  height: 100%;
+  height: 99%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* current slide */
@@ -143,11 +145,12 @@
   border-radius: 4px;
   /* prettier-ignore */
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-  height: 28.3%;
+
   width: 100%;
   margin: 20px auto 0;
   background-color: white;
   padding: 20px;
+  flex: 1 1 28%;
 }
 
 #sld-type-form {
@@ -204,7 +207,11 @@
 }
 
 .control-label {
-  margin-bottom: 23px;
+  margin-bottom: 20px;
+}
+
+.middle-editor {
+  display: none;
 }
 
 /* slide selector */
@@ -212,8 +219,7 @@
   background-color: rgb(248, 250, 246);
   border-radius: 4px;
   /* prettier-ignore */
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-     0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   width: 30%;
   height: 99%;
   overflow-y: scroll;
@@ -560,13 +566,96 @@
   }
 }
 
+/* Preview */
+.preview-container {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: black;
+  z-index: 99;
+}
+
+.preview-container.hide {
+  display: none;
+}
+#preview-close-btn {
+  color: white;
+  font-size: 50px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+/* .preview-container>.current-sld-container{
+
+} */
+
 /* RWD */
 @media (max-width: 1200px) {
   .container {
     font-size: 15px;
   }
 }
-@media (max-width: 820px) {
+@media (max-width: 1200px) {
+  .center {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #sld-type-form {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .sld-type-group {
+    flex-basis: 29%;
+  }
+  .control-panel > form > label {
+    padding: 5px 10px;
+  }
+}
+
+/* Set landscape for iPad Pro */
+@media (max-width: 1100px) and (orientation: landscape) {
+  .sld-type-group {
+    flex-basis: 35%;
+  }
+  .control-panel > form > label {
+    padding: 10px 10px;
+  }
+}
+
+@media (max-width: 1025px) {
+  #sld-type-form {
+    flex-wrap: nowrap;
+  }
+
+  .sld-type-group {
+    flex-basis: 35%;
+  }
+  .control-panel > form > label {
+    padding: 0px;
+    margin: 10px 5px;
+  }
+  .center > #current-sld-container,
+  .container > .edit-panel {
+    display: none;
+  }
+
+  .control-panel {
+    margin: 0 auto;
+  }
+  .middle-editor {
+    display: block;
+    height: 85%;
+    width: 100%;
+  }
+  .middle-editor > .edit-panel {
+    width: 100%;
+  }
 }
 @media (max-width: 490px) {
 }

@@ -195,9 +195,22 @@ const SldEditor = props => {
     };
   }, [keydownHandler]);
 
+  const [previewClass, setPreviewClass] = useState("preview-container hide");
+  const showPreview = () => {
+    setPreviewClass("preview-container");
+  };
+  const hidePreview = () => {
+    setPreviewClass("preview-container hide");
+  };
+
   return (
     <Fragment>
-      <Header {...props} locale={props.locale} setLocale={props.setLocale} />
+      <Header
+        {...props}
+        locale={props.locale}
+        setLocale={props.setLocale}
+        showPreview={showPreview}
+      />
       <Router basename={process.env.PUBLIC_URL} history={history}>
         <div className="container">
           <div id="sld-selector">
@@ -210,6 +223,19 @@ const SldEditor = props => {
         </div>
         <DelSld {...props} selectSld={selectSld} />
       </Router>
+      <div className={previewClass}>
+        <FontAwesomeIcon
+          icon={["fas", "times"]}
+          id="preview-close-btn"
+          onClick={hidePreview}
+        />
+        <CurSld
+          {...props}
+          sld={props.slds[props.curSldIndex]}
+          isFullscreen={isFullscreen}
+          nextSld={nextSld}
+        />
+      </div>
     </Fragment>
   );
 };
@@ -378,32 +404,37 @@ const SldPage = props => {
       ? (path = {exact: true, path: `${props.match.url}`})
       : (path = {path: `${props.match.url}/${index}`});
 
-    let editingSldType = null;
+    let editor = null;
     if (sld.sldType === "multiple-choice") {
-      editingSldType = <MultiSelEditor {...props} sld={sld} sldIndex={index} />;
+      editor = <MultiSelEditor {...props} sld={sld} sldIndex={index} />;
     } else if (sld.sldType === "heading-page") {
-      editingSldType = <HeadingSldEditor {...props} sld={sld} sldIndex={index} />;
+      editor = <HeadingSldEditor {...props} sld={sld} sldIndex={index} />;
     } else if (sld.sldType === "open-ended") {
-      editingSldType = <OpenEndedEditor {...props} sld={sld} sldIndex={index} />;
+      editor = <OpenEndedEditor {...props} sld={sld} sldIndex={index} />;
     } else if (sld.sldType === "tag-cloud") {
-      editingSldType = <TagCloudEditor {...props} sld={sld} sldIndex={index} />;
+      editor = <TagCloudEditor {...props} sld={sld} sldIndex={index} />;
     }
 
     return (
       <Route {...path} key={index}>
-        <SldPageRoute
-          {...props}
-          sld={sld}
-          isFullscreen={props.isFullscreen}
-          nextSld={props.nextSld}
-        />
-        {editingSldType}
+        <div className="center-wrap">
+          <div className="center">
+            <CurSld
+              {...props}
+              sld={sld}
+              isFullscreen={props.isFullscreen}
+              nextSld={props.nextSld}
+            />
+            <ControlPanel {...props} sld={sld} editor={editor} />
+          </div>
+        </div>
+        {editor}
       </Route>
     );
   });
 };
 
-const SldPageRoute = props => {
+const CurSld = props => {
   let optsArray = props.slds[props.curSldIndex].opts;
   let resultArray = props.slds[props.curSldIndex].result;
   let resultType = props.slds[props.curSldIndex].resType;
@@ -744,30 +775,25 @@ const SldPageRoute = props => {
   }
 
   return (
-    <div className="center-wrap">
-      <div className="center">
-        <div id="current-sld-container">
-          <div id="current-sld-border">
-            <div id="current-sld" onClick={clickFullscreen}>
-              {sldContent}
-              <div className="member-info">
-                {props.sld.sldType !== "heading-page" ? (
-                  <div className="hand-group">
-                    <FontAwesomeIcon icon={["fas", "hand-paper"]} id="hand-icon" />
-                    {props.respondedAudi[props.sld.id]
-                      ? props.respondedAudi[props.sld.id].length
-                      : "0"}
-                  </div>
-                ) : (
-                  ""
-                )}
-                <FontAwesomeIcon icon={["fas", "user"]} id="member-icon" />
-                {props.involvedAudi.length}
+    <div id="current-sld-container">
+      <div id="current-sld-border">
+        <div id="current-sld" onClick={clickFullscreen}>
+          {sldContent}
+          <div className="member-info">
+            {props.sld.sldType !== "heading-page" ? (
+              <div className="hand-group">
+                <FontAwesomeIcon icon={["fas", "hand-paper"]} id="hand-icon" />
+                {props.respondedAudi[props.sld.id]
+                  ? props.respondedAudi[props.sld.id].length
+                  : "0"}
               </div>
-            </div>
+            ) : (
+              ""
+            )}
+            <FontAwesomeIcon icon={["fas", "user"]} id="member-icon" />
+            {props.involvedAudi.length}
           </div>
         </div>
-        <ControlPanel {...props} />
       </div>
     </div>
   );
@@ -1398,6 +1424,7 @@ const ControlPanel = props => {
           </div>
         </label>
       </form>
+      <div className="middle-editor">{props.editor}</div>
     </div>
   );
 };
