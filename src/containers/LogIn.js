@@ -23,7 +23,7 @@ const uiConfig = {
 };
 
 const LogInScreen = props => {
-  const [userEmail, setUserEmail] = useState("test@conversa.com");
+  const [userEmail, setUserEmail] = useState("test@test.com");
   const [userPassword, setUserPassword] = useState("123456");
   const [errMsg, setErrMsg] = useState(null);
   // let errMsg = null;
