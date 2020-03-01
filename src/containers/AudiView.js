@@ -127,14 +127,20 @@ const HeadingInput = props => {
   return (
     <div className="heading-container">
       <div className="heading">{props.slds[props.curSldIndex].heading}</div>
-      <Button
+      {props.slds[props.curSldIndex].hasQRCode ? (
+        ""
+      ) : (
+        <div className="heading">{props.slds[props.curSldIndex].subHeading}</div>
+      )}
+
+      {/* <Button
         variant="contained"
         size="large"
         className="reaction-icons"
         id="reaction-laugh"
         onClick={() => addReaction("laugh")}>
         <FontAwesomeIcon icon={["far", "laugh-squint"]} size="2x" />
-      </Button>
+      </Button> */}
     </div>
   );
 };

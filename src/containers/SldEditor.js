@@ -780,10 +780,10 @@ const CurSld = props => {
       <div className="heading-render-container">
         <div className="heading-render">{props.slds[props.curSldIndex].heading}</div>
         <Fragment>{detailContainer}</Fragment>
-        <div className="reaction-icons">
+        {/* <div className="reaction-icons">
           <FontAwesomeIcon icon={["far", "laugh-squint"]} />
           <span className="reaction-count">{props.reaction.laugh}</span>
-        </div>
+        </div> */}
       </div>
     );
   } else if (props.slds[props.curSldIndex].sldType === "open-ended") {
