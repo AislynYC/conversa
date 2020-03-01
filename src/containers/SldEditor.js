@@ -782,10 +782,6 @@ const CurSld = props => {
       <div className="heading-render-container">
         <div className="heading-render">{props.slds[props.curSldIndex].heading}</div>
         <Fragment>{detailContainer}</Fragment>
-        {/* <div className="reaction-icons">
-          <FontAwesomeIcon icon={["far", "laugh-squint"]} />
-          <span className="reaction-count">{props.reaction.laugh}</span>
-        </div> */}
       </div>
     );
   } else if (props.slds[props.curSldIndex].sldType === "open-ended") {
@@ -804,22 +800,27 @@ const CurSld = props => {
     );
   }
 
+  let handRaised = null;
+  if (props.slds[props.curSldIndex].sldType !== "heading-page") {
+    handRaised = (
+      <div className="hand-group">
+        <FontAwesomeIcon icon={["fas", "hand-paper"]} id="hand-icon" />
+        {props.respondedAudi[props.slds[props.curSldIndex].id]
+          ? props.respondedAudi[props.slds[props.curSldIndex].id].length
+          : "0"}
+      </div>
+    );
+  } else {
+    handRaised = "";
+  }
+
   return (
     <div id="current-sld-container">
       <div id="current-sld-border">
         <div id="current-sld" onClick={clickFullscreen}>
           {sldContent}
           <div className="member-info">
-            {props.sld.sldType !== "heading-page" ? (
-              <div className="hand-group">
-                <FontAwesomeIcon icon={["fas", "hand-paper"]} id="hand-icon" />
-                {props.respondedAudi[props.sld.id]
-                  ? props.respondedAudi[props.sld.id].length
-                  : "0"}
-              </div>
-            ) : (
-              ""
-            )}
+            {handRaised}
             <FontAwesomeIcon icon={["fas", "user"]} id="member-icon" />
             {props.involvedAudi.length}
           </div>
@@ -882,20 +883,27 @@ const DelSld = props => {
 
   const deleteSld = index => {
     // use splice to delete the slide of the index parameter
-    if (index !== 0) {
+    if (props.slds.length > 1) {
+      let newSelected=null;
+      if(index===0){
+        newSelected=0
+      }else{
+        newSelected=index-1
+      }
       props.slds.splice(index, 1);
       db.collection("users")
         .doc(props.userId)
         .collection("projects")
         .doc(props.projId)
         .update({
+          curSldIndex: newSelected,
           lastEdited: Date.now(),
           slds: props.slds
         })
         .then(() => {
           props.closeOverlay("confirmDel");
           // change selection focus to the last slide of the removed slide
-          props.selectSld(index - 1);
+          props.selectSld(newSelected);
         });
     } else {
       alert(
