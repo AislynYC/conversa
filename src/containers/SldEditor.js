@@ -76,7 +76,10 @@ const SldEditor = props => {
   if (props.firestore === undefined) {
     return <Loading {...props} />;
   }
-
+  if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
+    props.history.push("/");
+  } else {
+  }
   const db = useFirestore();
   const userId = props.userId;
   const projId = props.projId;

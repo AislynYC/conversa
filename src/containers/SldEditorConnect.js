@@ -10,6 +10,7 @@ let mapStateToProps = (state, props) => {
   let projInvitation = state.firestore.ordered.invitation;
   let transitionState = {
     firestore: undefined,
+    auth: undefined,
     curSldIndex: undefined,
     slds: undefined,
     respondedAudi: undefined,
@@ -29,6 +30,7 @@ let mapStateToProps = (state, props) => {
       let projData = projDataArray.find(proj => proj.id === props.projId);
       return {
         firestore: state.firestore,
+        auth: state.firebase.auth,
         curSldIndex: projData.curSldIndex,
         slds: projData.slds,
         respondedAudi: projResponded.respondedAudi,

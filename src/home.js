@@ -23,49 +23,15 @@ library.add(faComments, faHeart, faChartBar, faFileAlt);
 
 const Home = props => {
   let path = "/signUp";
-  console.log("Auth", props.auth);
   if (props.auth.isLoaded === false) {
     <Loading {...props} />;
   } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
-    console.log("No user", props.auth);
     path = "/signUp";
   } else {
-    if (firebase.auth().currentUser === null) {
+    if (firebase.auth().currentUser !== null) {
       // After user signed out and redirect to this page, auth.isLoaded & auth.isEmpty are still remain sign in status for a while
       // so currentUser need to be confirmed first before loading this page
-      console.log("user is signed out", props.auth);
-    } else {
       path = `/pm/${props.auth.uid}`;
-      // User is signed in.
-      var displayName = props.auth.displayName;
-      var email = props.auth.email;
-      var emailVerified = props.auth.emailVerified;
-      var photoURL = props.auth.photoURL;
-      var uid = props.auth.uid;
-      var phoneNumber = props.auth.phoneNumber;
-      var providerData = props.auth.providerData;
-      firebase
-        .auth()
-        .currentUser.getIdToken()
-        .then(function(accessToken) {
-          console.log("Signed in");
-
-          let userData = JSON.stringify(
-            {
-              displayName: displayName,
-              email: email,
-              emailVerified: emailVerified,
-              phoneNumber: phoneNumber,
-              photoURL: photoURL,
-              uid: uid,
-              accessToken: accessToken,
-              providerData: providerData
-            },
-            null,
-            "  "
-          );
-          console.log(userData);
-        });
     }
   }
 
