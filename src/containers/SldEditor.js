@@ -30,7 +30,8 @@ import {
   faQrcode,
   faCloud,
   faHandPaper,
-  faChevronDown
+  faChevronDown,
+  faChevronUp
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
   faLaughSquint,
@@ -45,7 +46,8 @@ library.add(
   faCloud,
   faHandPaper,
   faQuestionCircle,
-  faChevronDown
+  faChevronDown,
+  faChevronUp
 );
 // Material UI
 import AddIcon from "@material-ui/icons/Add";
@@ -1328,6 +1330,14 @@ const ControlPanel = props => {
     }
   };
 
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleExpanded = () => {
+    if (isExpanded) {
+      setIsExpanded(false);
+    } else {
+      setIsExpanded(true);
+    }
+  };
   return (
     <div className="control-panel">
       <Button variant="contained" id="finish-btn" onClick={props.hideMobileControl}>
@@ -1336,12 +1346,21 @@ const ControlPanel = props => {
       <div className="control-label">
         <FormattedMessage id="edit.sld-type" />
       </div>
-      <div className="current-sld-type" onClick={toggleSldTypeForm}>
+      <div
+        className="current-sld-type"
+        onClick={() => {
+          toggleSldTypeForm();
+          toggleExpanded();
+        }}>
         <FormattedMessage id="edit.current-sld-type" />
         <span>{curSldType}</span>
         <div>
-          <FormattedMessage id="edit.extend-to-edit" />
-          <FontAwesomeIcon icon={["fas", "chevron-down"]} />
+          <FormattedMessage id="edit.expand-to-edit" />
+          {isExpanded ? (
+            <FontAwesomeIcon icon={["fas", "chevron-up"]} />
+          ) : (
+            <FontAwesomeIcon icon={["fas", "chevron-down"]} />
+          )}
         </div>
       </div>
       <form name="sld-type-form" className={sldTypeFormClass}>

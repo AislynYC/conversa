@@ -5,7 +5,6 @@ import {useFirestore} from "react-redux-firebase";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
-import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Header from "../components/Header/Header";
 import "./sign.css";

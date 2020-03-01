@@ -82,7 +82,7 @@ const en = {
   "edit.preview": "PREVIEW",
   "edit.finish-editing": "Done",
   "edit.current-sld-type": "Current slide type is ",
-  "edit.extend-to-edit": "Click here to change slide type",
+  "edit.expand-to-edit": "Click to expand/collapse slide type options ",
   "home.main-title": "Connect you and your audience",
   "home.get-started": "Get Started",
   "home.sec2-box1-title": "Interactive Presentation Tool",

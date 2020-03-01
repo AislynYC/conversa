@@ -77,7 +77,7 @@ const zh_TW = {
   "edit.preview": "投影預覽",
   "edit.finish-editing": "完成",
   "edit.current-sld-type": "當前投影片類型為 ",
-  "edit.extend-to-edit": "點擊更換投影片類型",
+  "edit.expand-to-edit": "點擊展開／收合以更換投影片類型 ",
   "home.main-title": "Conversa 連結你與你的聽眾",
   "home.get-started": "開始使用",
   "home.sec2-box1-title": "簡易簡報編輯器",
