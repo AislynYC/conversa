@@ -74,6 +74,9 @@ const zh_TW = {
   "edit.multi-choice-opt-tip":
     "請注意，過多的選項或字數將造成較差的圖表效果，請斟酌您的問題、選項數量及字數",
   "edit.preview": "投影預覽",
+  "edit.finish-editing": "完成",
+  "edit.current-sld-type": "當前投影片類型為 ",
+  "edit.extend-to-edit": "點擊更換投影片類型",
   "home.main-title": "Conversa 連結你與你的聽眾",
   "home.get-started": "開始使用",
   "home.sec2-box1-title": "簡易簡報編輯器",

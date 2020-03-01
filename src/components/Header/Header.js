@@ -12,8 +12,8 @@ import "./style.css";
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
-import {faBars, faTimes} from "@fortawesome/free-solid-svg-icons";
-library.add(faBars, faTimes);
+import {faBars, faTimes, faPlay} from "@fortawesome/free-solid-svg-icons";
+library.add(faBars, faTimes, faPlay);
 import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
 import firebase from "../../config/fbConfig";
@@ -84,20 +84,20 @@ const Header = props => {
             }}>
             <FormattedMessage id="home.my-presentation" />
           </Button>
-          <PresentBtn />
         </Fragment>
       );
       menuBtns = (
         <Fragment>
           <Button
-            variant="contained"
             id="my-presentation-btn"
             onClick={() => {
               props.history.push(`/pm/${props.auth.uid}`);
             }}>
             <FormattedMessage id="home.my-presentation" />
           </Button>
-          <PresentBtn />
+          <SignBtn onClick={logOut}>
+            <FormattedMessage id="home.log-out" />
+          </SignBtn>
         </Fragment>
       );
       if (props.editProj !== undefined)
@@ -166,8 +166,15 @@ const Header = props => {
           <div>{linkBtns}</div>
         </div>
         {props.match.url.includes("/edit/") ? (
-          <Button id="preview-btn" variant="contained" onClick={props.showPreview}>
-            <FormattedMessage id="edit.preview" />
+          <Button
+            id="preview-btn"
+            variant="contained"
+            size="small"
+            onClick={props.showPreview}>
+            <FontAwesomeIcon icon={["fas", "play"]} />
+            <span className="preview-btn-text">
+              <FormattedMessage id="edit.preview" />
+            </span>
           </Button>
         ) : (
           ""

@@ -6,6 +6,7 @@ import {FormattedMessage} from "react-intl";
 import Chart from "react-google-charts";
 import ReactWordcloud from "react-wordcloud";
 import Loading from "../components/Loading/Loading";
+import ProjNameEditor from "../components/ProjNameEditor/ProjNameEditor";
 import QRCode from "qrcode.react";
 import "./sldEditor.css";
 import ZhInput from "../components/ZhInput/ZhInput";
@@ -28,7 +29,8 @@ import {
   faChartPie,
   faQrcode,
   faCloud,
-  faHandPaper
+  faHandPaper,
+  faChevronDown
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
   faLaughSquint,
@@ -42,7 +44,8 @@ library.add(
   faCommentDots,
   faCloud,
   faHandPaper,
-  faQuestionCircle
+  faQuestionCircle,
+  faChevronDown
 );
 // Material UI
 import AddIcon from "@material-ui/icons/Add";
@@ -203,6 +206,17 @@ const SldEditor = props => {
     setPreviewClass("preview-container hide");
   };
 
+  const [mobileControlClass, setMobileControlClass] = useState(
+    "center-wrap mobile-control-panel"
+  );
+  const showMobileControl = () => {
+    setMobileControlClass("center-wrap mobile-control-panel show");
+  };
+
+  const hideMobileControl = () => {
+    setMobileControlClass("center-wrap mobile-control-panel");
+  };
+
   return (
     <Fragment>
       <Header
@@ -213,12 +227,25 @@ const SldEditor = props => {
       />
       <Router basename={process.env.PUBLIC_URL} history={history}>
         <div className="container">
+          <div className="mobile-proj-name-editor">
+            <ProjNameEditor {...props} proj={props.editProj} />
+          </div>
           <div id="sld-selector">
-            <SldsItems {...props} selectSld={selectSld} />
+            <SldsItems
+              {...props}
+              selectSld={selectSld}
+              showMobileControl={showMobileControl}
+            />
             <AddSldBtn {...props} selectSld={selectSld} />
           </div>
           <Switch>
-            <SldPage {...props} isFullscreen={isFullscreen} nextSld={nextSld} />
+            <SldPage
+              {...props}
+              isFullscreen={isFullscreen}
+              nextSld={nextSld}
+              mobileControlClass={mobileControlClass}
+              hideMobileControl={hideMobileControl}
+            />
           </Switch>
         </div>
         <DelSld {...props} selectSld={selectSld} />
@@ -259,7 +286,6 @@ const SldsItems = props => {
       return item;
     });
     props.slds.splice(index + 1, 0, newSld);
-    console.log(newSld, props.slds);
 
     // console.log(props.slds[index], props.slds[index + 1]);
     db.collection("users")
@@ -288,13 +314,6 @@ const SldsItems = props => {
       sldClass = "sld-item sld-item-selected";
     } else {
       sldClass = "sld-item";
-    }
-
-    let optionLi = null;
-    if (item.opts) {
-      optionLi = item.opts.map((opt, index) => {
-        return <li key={index}>{opt}</li>;
-      });
     }
 
     let copyBtnClass = "sld-copy-btn hide-tool";
@@ -383,11 +402,12 @@ const SldsItems = props => {
           />
         </div>
 
-        <Link to={path}>
+        <Link to={path} className="sld-item-link">
           <div
             className="sld"
             onClick={() => {
               props.selectSld(index);
+              props.showMobileControl();
             }}>
             {sldItemCover}
           </div>
@@ -417,7 +437,7 @@ const SldPage = props => {
 
     return (
       <Route {...path} key={index}>
-        <div className="center-wrap">
+        <div className={props.mobileControlClass}>
           <div className="center">
             <CurSld
               {...props}
@@ -425,7 +445,12 @@ const SldPage = props => {
               isFullscreen={props.isFullscreen}
               nextSld={props.nextSld}
             />
-            <ControlPanel {...props} sld={sld} editor={editor} />
+            <ControlPanel
+              {...props}
+              sld={sld}
+              editor={editor}
+              hideMobileControl={props.hideMobileControl}
+            />
           </div>
         </div>
         {editor}
@@ -937,7 +962,7 @@ const MultiSelEditor = props => {
         <div className="diagram-label">
           <FormattedMessage id="edit.diagram-type" />
         </div>
-        <form name="diagram-type-form" id="diagram-type-form">
+        <form name="diagram-type-form" className="diagram-type-form">
           <label className="diagram-type-group">
             <input
               type="radio"
@@ -1002,77 +1027,8 @@ const MultiSelEditor = props => {
 };
 
 const OpenEndedEditor = props => {
-  const db = useFirestore();
-  const userId = props.userId;
-  const projId = props.projId;
-
-  // const changeDiagramType = e => {
-  //   let newSlds = props.slds.map((sld, index) => {
-  //     if (index === props.curSldIndex) {
-  //       sld.lastEdited = Date.now();
-  //       sld.resType = e.target.value;
-  //     }
-  //     return sld;
-  //   });
-
-  //   db.collection("users")
-  //     .doc(userId)
-  //     .collection("projects")
-  //     .doc(projId)
-  //     .update({
-  //       lastEdited: Date.now(),
-  //       slds: newSlds
-  //     });
-  // };
   return (
     <div className="edit-panel">
-      {/* <div className="diagram-type-selector">
-        <div className="diagram-label">
-          <FormattedMessage id="edit.diagram-type" />
-        </div>
-        <form name="diagram-type-form" id="diagram-type-form">
-          <label className="diagram-type-group">
-            <input
-              type="radio"
-              name="diagram-type-group"
-              value="bar-chart"
-              checked={props.sld.resType === "bar-chart"}
-              onChange={e => {
-                changeDiagramType(e);
-              }}
-            />
-            <div>
-              <FontAwesomeIcon
-                icon={["far", "chart-bar"]}
-                className="diagram-type-icon"
-              />
-              <div>
-                <FormattedMessage id="edit.bar-chart" />
-              </div>
-            </div>
-          </label>
-          <label className="diagram-type-group">
-            <input
-              type="radio"
-              name="diagram-type-group"
-              value="pie-chart"
-              checked={props.sld.resType === "pie-chart"}
-              onChange={e => {
-                changeDiagramType(e);
-              }}
-            />
-            <div>
-              <FontAwesomeIcon
-                icon={["fas", "chart-pie"]}
-                className="diagram-type-icon"
-              />
-              <div>
-                <FormattedMessage id="edit.pie-chart" />
-              </div>
-            </div>
-          </label>
-        </form>
-      </div> */}
       <QusInput {...props} />
     </div>
   );
@@ -1349,12 +1305,43 @@ const ControlPanel = props => {
       });
   };
 
+  let curSldType = null;
+  if (props.sld.sldType === "heading-page") {
+    curSldType = <FormattedMessage id="edit.heading-page" />;
+  } else if (props.sld.sldType === "multiple-choice") {
+    curSldType = <FormattedMessage id="edit.multiple-choice" />;
+  } else if (props.sld.sldType === "open-ended") {
+    curSldType = <FormattedMessage id="edit.open-ended" />;
+  } else if (props.sld.sldType === "tag-cloud") {
+    curSldType = <FormattedMessage id="edit.tag-cloud" />;
+  }
+
+  const [sldTypeFormClass, setSldTypeFormClass] = useState("sld-type-form");
+  const toggleSldTypeForm = () => {
+    if (sldTypeFormClass === "sld-type-form") {
+      setSldTypeFormClass("sld-type-form show");
+    } else {
+      setSldTypeFormClass("sld-type-form");
+    }
+  };
+
   return (
     <div className="control-panel">
+      <Button variant="contained" id="finish-btn" onClick={props.hideMobileControl}>
+        <FormattedMessage id="edit.finish-editing" />
+      </Button>
       <div className="control-label">
         <FormattedMessage id="edit.sld-type" />
       </div>
-      <form name="sld-type-form" id="sld-type-form">
+      <div className="current-sld-type" onClick={toggleSldTypeForm}>
+        <FormattedMessage id="edit.current-sld-type" />
+        <span>{curSldType}</span>
+        <div>
+          <FormattedMessage id="edit.extend-to-edit" />
+          <FontAwesomeIcon icon={["fas", "chevron-down"]} />
+        </div>
+      </div>
+      <form name="sld-type-form" className={sldTypeFormClass}>
         <label className="sld-type-group">
           <input
             type="radio"

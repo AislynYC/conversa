@@ -10,11 +10,13 @@ let mapStateToProps = (state, props) => {
   let projInvitation = state.firestore.ordered.invitation;
   let transitionState = {
     firestore: undefined,
+    auth: undefined,
     curSldIndex: undefined,
     slds: undefined,
     respondedAudi: undefined,
     reaction: undefined,
     involvedAudi: undefined,
+    editProj: undefined,
     confirmDelOverlayClass: state.sldEditor.confirmDelOverlayClass,
     delSldIndex: state.sldEditor.delSldIndex
   };
@@ -29,11 +31,13 @@ let mapStateToProps = (state, props) => {
       let projData = projDataArray.find(proj => proj.id === props.projId);
       return {
         firestore: state.firestore,
+        auth: state.firebase.auth,
         curSldIndex: projData.curSldIndex,
         slds: projData.slds,
         respondedAudi: projResponded.respondedAudi,
         reaction: projResponded.reaction,
         involvedAudi: projResponded.involvedAudi,
+        editProj: projData,
         confirmDelOverlayClass: state.sldEditor.confirmDelOverlayClass,
         delSldIndex: state.sldEditor.delSldIndex
       };
