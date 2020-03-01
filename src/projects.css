@@ -172,6 +172,10 @@
 /* Responsive */
 
 @media (max-width: 820px) {
+  .greeting-msg {
+    display: none;
+  }
+
   .col-name {
     width: 30%;
   }
@@ -186,9 +190,6 @@
   }
 }
 @media (max-width: 490px) {
-  .greeting-msg {
-    display: none;
-  }
   .col {
     display: none;
   }
