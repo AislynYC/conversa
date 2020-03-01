@@ -127,7 +127,11 @@ const ProjList = props => {
     }
   };
 
-  let projects = props.projects.map(proj => {
+  // ordered by created time
+  let orderedProjs = props.projects.sort((a, b) => {
+    return b.created - a.created;
+  });
+  let projects = orderedProjs.map(proj => {
     let createdDate = new Date(proj.created).toDateString();
     let lastEditedDate = handleEditTimeDesc(proj.lastEdited);
     return (
