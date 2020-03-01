@@ -12,8 +12,8 @@ import "./style.css";
 // FontAwesome Setting
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
-import {faBars} from "@fortawesome/free-solid-svg-icons";
-library.add(faBars);
+import {faBars, faTimes, faPlay} from "@fortawesome/free-solid-svg-icons";
+library.add(faBars, faTimes, faPlay);
 import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
 import firebase from "../../config/fbConfig";
@@ -54,6 +54,7 @@ const Header = props => {
 
   if (props.auth.isLoaded === false) {
   } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
+    // user does not sign up/login in
     linkBtns = (
       <Fragment>
         <Link to="/login">
@@ -72,6 +73,7 @@ const Header = props => {
     menuBtns = linkBtns;
   } else {
     if (props.match.url.includes("/edit/")) {
+      // user is login & located in edit page
       linkBtns = (
         <Fragment>
           <Button
@@ -82,12 +84,26 @@ const Header = props => {
             }}>
             <FormattedMessage id="home.my-presentation" />
           </Button>
-          <PresentBtn />
+        </Fragment>
+      );
+      menuBtns = (
+        <Fragment>
+          <Button
+            id="my-presentation-btn"
+            onClick={() => {
+              props.history.push(`/pm/${props.auth.uid}`);
+            }}>
+            <FormattedMessage id="home.my-presentation" />
+          </Button>
+          <SignBtn onClick={logOut}>
+            <FormattedMessage id="home.log-out" />
+          </SignBtn>
         </Fragment>
       );
       if (props.editProj !== undefined)
         editProjName = <ProjNameEditor {...props} proj={props.editProj} />;
     } else if (props.match.url.includes("/pm/")) {
+      // user is login & located in project management page
       linkBtns = (
         <SignBtn onClick={logOut}>
           <FormattedMessage id="home.log-out" />
@@ -101,6 +117,7 @@ const Header = props => {
         </Fragment>
       );
     } else {
+      // user is login & located in home page or other page
       linkBtns = (
         <Fragment>
           <Button
@@ -148,6 +165,20 @@ const Header = props => {
           <LangBtn locale={props.locale} setLocale={props.setLocale} />
           <div>{linkBtns}</div>
         </div>
+        {props.match.url.includes("/edit/") ? (
+          <Button
+            id="preview-btn"
+            variant="contained"
+            size="small"
+            onClick={props.showPreview}>
+            <FontAwesomeIcon icon={["fas", "play"]} />
+            <span className="preview-btn-text">
+              <FormattedMessage id="edit.preview" />
+            </span>
+          </Button>
+        ) : (
+          ""
+        )}
         <div className="menu-btn" onClick={toggleMenu}>
           <FontAwesomeIcon icon={["fas", "bars"]} />
         </div>

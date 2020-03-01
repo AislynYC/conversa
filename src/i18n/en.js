@@ -79,6 +79,10 @@ const en = {
     "If QR Code is showing, the sub-heading will be hidden. If you want to show sub-heading, please switch off the QR Code.",
   "edit.multi-choice-opt-tip":
     "Too many options or letters will cause poor visual quality. Please well consider before using long question, too many options and letters.",
+  "edit.preview": "PREVIEW",
+  "edit.finish-editing": "Done",
+  "edit.current-sld-type": "Current slide type is ",
+  "edit.extend-to-edit": "Click here to change slide type",
   "home.main-title": "Connect you and your audience",
   "home.get-started": "Get Started",
   "home.sec2-box1-title": "Interactive Presentation Tool",
