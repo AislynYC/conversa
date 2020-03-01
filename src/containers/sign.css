@@ -5,6 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  min-height: 688px;
 }
 .entry-screen {
   text-align: center;
