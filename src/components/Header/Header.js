@@ -84,6 +84,7 @@ const Header = props => {
             }}>
             <FormattedMessage id="home.my-presentation" />
           </Button>
+          <PresentBtn />
         </Fragment>
       );
       menuBtns = (
