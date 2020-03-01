@@ -2,10 +2,8 @@ import React from "react";
 import "./style.css";
 
 const Loading = props => {
-  console.log(props);
   let loadingCircle = null;
   if (props.match.url.includes("/audi/")) {
-    console.log("ya");
     loadingCircle = <div className="loading-circle"></div>;
   }
   return (

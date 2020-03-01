@@ -72,9 +72,12 @@ const ToolBar = props => {
         <FormattedMessage id="projects.add-presentation" />
       </Button>
       <span className="greeting-msg">
-        {props.userData.displayName !== null
-          ? `${props.userData.displayName}`
-          : `${props.userData.email}`}
+        {props.userData !== null
+          ? props.userData.displayName !== null
+            ? `${props.userData.displayName}`
+            : `${props.userData.email}`
+          : ""}
+
         <FormattedMessage id="projects.greeting" />
       </span>
     </div>
