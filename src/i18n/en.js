@@ -59,6 +59,7 @@ const en = {
   "projects.del-proj-name": "You are deleting: ",
   "projects.del-proj": "DELETE",
   "projects.cancel-del-project": "No",
+  "projects.greeting": ", Hi! choose a presentation project below to start editing.",
   "edit.confirm-del-sld":
     "Are you sure you want to DELETE this slide? All your data and result will be removed and cannot be recovered!",
   "edit.del-sld": "DELETE",

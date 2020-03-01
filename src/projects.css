@@ -4,6 +4,10 @@
   margin: 0 auto;
 }
 
+.tool-bar {
+  margin-top: 10px;
+}
+
 #add-project-btn {
   letter-spacing: 3px;
   font-size: 1.05em;
@@ -17,7 +21,7 @@
 
 #proj-list-card {
   box-sizing: border-box;
-  margin-top: 30px;
+  margin-top: 15px;
   padding: 0 30px;
   width: 100%;
 }
@@ -160,6 +164,11 @@
   margin-right: 30px;
 }
 
+.greeting-msg {
+  padding-left: 20px;
+  color: white;
+}
+
 /* Responsive */
 
 @media (max-width: 820px) {
@@ -177,6 +186,9 @@
   }
 }
 @media (max-width: 490px) {
+  .greeting-msg {
+    display: none;
+  }
   .col {
     display: none;
   }

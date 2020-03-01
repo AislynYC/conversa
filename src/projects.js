@@ -29,13 +29,18 @@ import "./style.css";
 import "./projects.css";
 
 const ProjManager = props => {
+  let userData = null;
   if (props.auth === undefined) {
     return <Loading {...props} />;
   }
-  if (props.auth.isLoaded === false) {
-  } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
-    console.log("No user", props.auth);
+  if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
+    props.history.push("/");
   } else {
+    // User is signed in.
+    userData = {
+      displayName: props.auth.displayName,
+      email: props.auth.email
+    };
   }
 
   return (
@@ -43,7 +48,7 @@ const ProjManager = props => {
       <Header {...props} locale={props.locale} setLocale={props.setLocale} />
       <div className="container">
         <div className="proj-wrap">
-          <ToolBar {...props} />
+          <ToolBar {...props} userData={userData} />
           <ProjList {...props} />
         </div>
       </div>
@@ -66,6 +71,12 @@ const ToolBar = props => {
         <AddIcon id="add-project-icon" />
         <FormattedMessage id="projects.add-presentation" />
       </Button>
+      <span className="greeting-msg">
+        {props.userData.displayName !== null
+          ? `${props.userData.displayName}`
+          : `${props.userData.email}`}
+        <FormattedMessage id="projects.greeting" />
+      </span>
     </div>
   );
 };
