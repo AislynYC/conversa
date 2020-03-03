@@ -57,7 +57,8 @@ const zh_TW = {
   "projects.del-proj": "確定刪除",
   "projects.cancel-del-project": "取消",
   "projects.greeting": "，您好！請選擇一個簡報專案開始編輯。",
-  "edit.confirm-del-sld": "確定要刪除投影片？所有的資料、聽眾結果都將被刪除且無法恢復",
+  "edit.confirm-del-sld":
+    "確定要刪除該投影片？所有這張投影片的資料、聽眾結果都將被刪除且無法恢復",
   "edit.del-sld": "確定刪除",
   "edit.cancel-del-sld": "取消",
   "edit.scan-to-join": "掃描加入 ",

@@ -10,10 +10,10 @@ import "./sldEditor.css";
 import ZhInput from "../components/ZhInput/ZhInput";
 import Header from "../components/Header/Header";
 import CurSld from "./CurSld";
+import SldSelector from "./SldSelector";
 import "../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-// Material UI
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -199,14 +199,11 @@ const SldEditor = props => {
           <div className="mobile-proj-name-editor">
             <ProjNameEditor {...props} proj={props.editProj} />
           </div>
-          <div id="sld-selector">
-            <SldsItems
-              {...props}
-              selectSld={selectSld}
-              showMobileControl={showMobileControl}
-            />
-            <AddSldBtn {...props} selectSld={selectSld} />
-          </div>
+          <SldSelector
+            {...props}
+            selectSld={selectSld}
+            showMobileControl={showMobileControl}
+          />
           <Switch>
             <SldPage
               {...props}
@@ -231,155 +228,6 @@ const SldEditor = props => {
   );
 };
 export default SldEditor;
-
-const SldsItems = props => {
-  const db = useFirestore();
-  const userId = props.userId;
-  const projId = props.projId;
-  let [hovered, setHovered] = useState(null);
-
-  const copySld = index => {
-    let newSld = {...props.slds[index]};
-    let t = Date.now();
-    newSld.id = t;
-    newSld.lastEdited = t;
-    newSld.result = props.slds[index].result.map(item => {
-      if (item !== "") {
-        item = "";
-      }
-      return item;
-    });
-    props.slds.splice(index + 1, 0, newSld);
-
-    // console.log(props.slds[index], props.slds[index + 1]);
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({lastEdited: t, slds: props.slds})
-      .then(() => {
-        // Add a responded audi container to the new slide
-        props.respondedAudi[t] = [];
-        db.collection("invitation")
-          .doc(projId)
-          .update({respondedAudi: props.respondedAudi});
-      });
-  };
-
-  return props.slds.map((item, index) => {
-    let path = null;
-    let sldClass = null;
-
-    // Compose path according to slide index
-    index === 0 ? (path = `${props.match.url}`) : (path = `${props.match.url}/${index}`);
-
-    // Highlight current selected slide by different class name according to db curSldIndex
-    if (index === parseInt(props.curSldIndex)) {
-      sldClass = "sld-item sld-item-selected";
-    } else {
-      sldClass = "sld-item";
-    }
-
-    let copyBtnClass = "sld-copy-btn hide-tool";
-    let delBtnClass = "trash-bin sld-item-del hide-tool";
-    if (index === hovered) {
-      copyBtnClass = "sld-copy-btn";
-      delBtnClass = "trash-bin sld-item-del";
-    }
-
-    let sldItemCover = null;
-    if (item.sldType === "heading-page") {
-      sldItemCover = (
-        <div className="sld-item-content heading-render-container">
-          <div className="sld-item-header">{item.heading}</div>
-          {item.hasQRCode ? (
-            <FontAwesomeIcon icon={["fas", "qrcode"]} className="sld-item-icon" />
-          ) : null}
-          <div className="sld-item-text">
-            <FormattedMessage id="edit.heading-page" />
-          </div>
-        </div>
-      );
-    } else if (item.sldType === "multiple-choice") {
-      sldItemCover = (
-        <div className="sld-item-content">
-          <div className="sld-item-header">{item.qContent}</div>
-          <div className="sld-item-type">
-            <FontAwesomeIcon
-              icon={["far", "chart-bar"]}
-              className="sld-item-icon"
-              size="lg"
-            />
-            <div className="sld-item-text">
-              <FormattedMessage id="edit.multiple-selection" />
-            </div>
-          </div>
-        </div>
-      );
-    } else if (item.sldType === "open-ended") {
-      sldItemCover = (
-        <div className="sld-item-content">
-          <div className="sld-item-header">{item.qContent}</div>
-          <div className="sld-item-type">
-            <FontAwesomeIcon
-              icon={["far", "comment-dots"]}
-              className="sld-item-icon"
-              size="sm"
-            />
-            <div className="sld-item-text">
-              <FormattedMessage id="edit.open-ended" />
-            </div>
-          </div>
-        </div>
-      );
-    } else if (item.sldType === "tag-cloud") {
-      sldItemCover = (
-        <div className="sld-item-content">
-          <div className="sld-item-header">{item.qContent}</div>
-          <div className="sld-item-type">
-            <FontAwesomeIcon icon={["fas", "cloud"]} className="sld-item-icon" />
-            <div className="sld-item-text">
-              <FormattedMessage id="edit.tag-cloud" />
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div
-        className={sldClass}
-        key={index}
-        onMouseOver={() => setHovered(index)}
-        onMouseLeave={() => setHovered(null)}>
-        <div className="sld-item-title">
-          <div>{index + 1}</div>
-          <FontAwesomeIcon
-            icon={["fas", "copy"]}
-            className={copyBtnClass}
-            onClick={() => copySld(index)}
-          />
-          <FontAwesomeIcon
-            icon={["fas", "trash-alt"]}
-            className={delBtnClass}
-            onClick={() => props.showOverlay("confirmDel", index)}
-          />
-        </div>
-
-        <Link to={path} className="sld-item-link">
-          <div
-            className="sld"
-            onClick={() => {
-              props.selectSld(index);
-              props.showMobileControl();
-            }}>
-            {sldItemCover}
-          </div>
-        </Link>
-      </div>
-    );
-  });
-};
 
 const SldPage = props => {
   return props.slds.map((sld, index) => {
@@ -420,54 +268,6 @@ const SldPage = props => {
       </Route>
     );
   });
-};
-
-const AddSldBtn = props => {
-  const db = useFirestore();
-  const userId = props.userId;
-  const projId = props.projId;
-  const addSld = () => {
-    const t = Date.now();
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: t,
-        slds: [
-          ...props.slds,
-          {
-            id: t,
-            qContent: "",
-            sldType: "heading-page",
-            opts: [""],
-            resType: "bar-chart",
-            result: [""],
-            heading: "",
-            subHeading: "",
-            hasQRCode: false,
-            openEndedRes: [],
-            tagNum: 1,
-            tagRes: {}
-          }
-        ]
-      })
-      .then(() => {
-        // change selection focus to the new created slide
-        props.selectSld(props.slds.length);
-        // Add a responded audi container to the new slide
-        props.respondedAudi[t] = [];
-        db.collection("invitation")
-          .doc(projId)
-          .update({respondedAudi: props.respondedAudi});
-      });
-  };
-  return (
-    <Button variant="contained" id="add-sld-btn" onClick={addSld}>
-      <AddIcon />
-      <FormattedMessage id="edit.add-sld" />
-    </Button>
-  );
 };
 
 const DelSld = props => {
