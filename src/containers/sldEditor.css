@@ -600,7 +600,25 @@
 }
 
 /* RWD */
-@media (max-width: 1200px) {
+
+@media (max-width: 1800px) and (min-height: 780px) {
+  .center {
+    display: flex;
+    flex-direction: column;
+  }
+  .sld-type-form {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .sld-type-group {
+    flex-basis: 33%;
+  }
+  .control-panel > form > label {
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 1170px) {
   .container {
     font-size: 15px;
   }
@@ -631,7 +649,7 @@
   }
 }
 
-@media (max-width: 1025px) {
+@media (max-width: 1025px), (max-width: 1200px) and (min-height: 780px) {
   .sld-type-form {
     flex-wrap: nowrap;
   }

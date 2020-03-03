@@ -5,7 +5,7 @@ html {
 }
 
 .sec1 {
-  height: 650px;
+  height: 620px;
   background-color: white;
   display: flex;
   justify-content: space-around;
@@ -31,8 +31,8 @@ html {
   height: 300px;
   border-radius: 99em;
   background-color: #7b9085;
-  left: 500px;
-  top: 400px;
+  left: 35%;
+  top: 380px;
   z-index: 0;
   opacity: 0.2;
 }
@@ -49,7 +49,7 @@ html {
 
 .sec1 > .sec1-desc {
   padding: 0 30px;
-  line-height: 30px;
+  line-height: 3.5rem;
 }
 .sec1 > .sec1-desc > .desc-text {
   color: rgb(44, 39, 61);
@@ -76,8 +76,9 @@ html {
   z-index: 1;
 }
 #main-img-svg {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: -250px;
+  right: 0;
 }
 .sec2 {
   background-color: rgb(165, 182, 173);
@@ -136,6 +137,8 @@ html {
   position: relative;
   z-index: 1;
   line-height: 1.7rem;
+  width: 80%;
+  padding-top: 5px;
 }
 
 .sec3 {
@@ -239,6 +242,12 @@ html {
   }
   .sec1 > .main-img {
     text-align: center;
+  }
+
+  #main-img-svg {
+    position: static;
+    width: 100%;
+    height: 100%;
   }
   .sec2 > .boxes {
     flex-wrap: wrap;
