@@ -60,6 +60,7 @@ const en = {
   "projects.del-proj": "DELETE",
   "projects.cancel-del-project": "No",
   "projects.greeting": ", Hi! choose a presentation project below to start editing.",
+  "projects.copy-tag": " - copy",
   "edit.confirm-del-sld":
     "Are you sure you want to DELETE this slide? All your data and result of this slide will be removed and cannot be recovered!",
   "edit.del-sld": "DELETE",

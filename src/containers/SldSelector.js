@@ -29,15 +29,11 @@ const SldsItems = props => {
     let t = Date.now();
     newSld.id = t;
     newSld.lastEdited = t;
-    newSld.result = props.slds[index].result.map(item => {
-      if (item !== "") {
-        item = "";
-      }
-      return item;
-    });
+    newSld.result = props.slds[index].result.map(item => (item = ""));
+    newSld.openEndedRes = [];
+    newSld.tagRes = {};
     props.slds.splice(index + 1, 0, newSld);
 
-    // console.log(props.slds[index], props.slds[index + 1]);
     db.collection("users")
       .doc(userId)
       .collection("projects")

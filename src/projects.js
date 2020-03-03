@@ -158,12 +158,60 @@ const ProjList = props => {
 };
 
 const ProjRow = props => {
+  console.log(props);
+  const db = useFirestore();
   const [moreToolClass, setMoreToolClass] = useState("more-tool-bar hide");
   const showMoreTool = () => {
     setMoreToolClass("more-tool-bar");
   };
   const hideMoreTool = () => {
     setMoreToolClass("more-tool-bar hide");
+  };
+
+  const copyProj = projId => {
+    const t = Date.now();
+    // deep copy the copy target object
+    let copyTarget = JSON.parse(
+      JSON.stringify(props.projects.find(proj => proj.id === projId))
+    );
+    copyTarget.created = t;
+    copyTarget.lastEdited = t;
+    copyTarget.curSldIndex = 0;
+    delete copyTarget.id;
+
+    let copyTag = null;
+    props.locale.includes("zh") ? (copyTag = " - 複製") : (copyTag = " - copy");
+    copyTarget.name = copyTarget.name + copyTag;
+
+    copyTarget.slds.forEach(sld => {
+      sld.result = sld.result.map(item => (item = ""));
+    });
+
+    copyTarget.slds.forEach(sld => {
+      sld.openEndedRes = [];
+    });
+    copyTarget.slds.forEach(sld => {
+      sld.tagRes = {};
+    });
+
+    console.log(copyTarget);
+    db.collection("users")
+      .doc(props.auth.uid)
+      .collection("projects")
+      .add(copyTarget)
+      .then(res => {
+        let initRespondedAudi = {};
+        initRespondedAudi[t] = [];
+        db.collection("invitation")
+          .doc(res.id)
+          .set({
+            owner: props.auth.uid,
+            projId: res.id,
+            reaction: {laugh: 0},
+            respondedAudi: initRespondedAudi,
+            involvedAudi: []
+          });
+      });
   };
 
   return (
@@ -174,6 +222,11 @@ const ProjRow = props => {
       <div className="col">{props.createdDate}</div>
       <div className="col">{props.lastEditedDate}</div>
       <div className="col proj-tool-col">
+        <FontAwesomeIcon
+          icon={["fas", "copy"]}
+          className="copy-btn"
+          onClick={() => copyProj(props.proj.id)}
+        />
         <FontAwesomeIcon
           icon={["fas", "trash-alt"]}
           className="trash-bin"
@@ -187,7 +240,13 @@ const ProjRow = props => {
           onClick={showMoreTool}
         />
       </div>
+
       <div className={moreToolClass}>
+        <FontAwesomeIcon
+          icon={["fas", "copy"]}
+          className="copy-btn"
+          onClick={() => copyProj(props.proj.id)}
+        />
         <FontAwesomeIcon
           icon={["fas", "trash-alt"]}
           className="trash-bin"
