@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, Fragment, useState} from "react";
+import React, {Fragment} from "react";
 import {FormattedMessage} from "react-intl";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Loading from "../components/Loading/Loading";
@@ -10,6 +10,8 @@ import ReactWordcloud from "react-wordcloud";
 import QRCode from "qrcode.react";
 
 const CurSld = props => {
+  let curSldType = props.slds[props.curSldIndex].sldType;
+  let sldRespondedAudi = props.respondedAudi[props.slds[props.curSldIndex].id];
   const clickFullscreen = () => {
     if (
       props.isFullscreen === true &&
@@ -21,19 +23,19 @@ const CurSld = props => {
   };
 
   let sldContent = null;
-  if (props.slds[props.curSldIndex].sldType === "heading-page") {
+  if (curSldType === "heading-page") {
     sldContent = <Headings {...props} />;
-  } else if (props.slds[props.curSldIndex].sldType === "multiple-choice") {
+  } else if (curSldType === "multiple-choice") {
     sldContent = <MultiSel {...props} colors={colors} />;
-  } else if (props.slds[props.curSldIndex].sldType === "open-ended") {
+  } else if (curSldType === "open-ended") {
     sldContent = <OpenEnded {...props} />;
-  } else if (props.slds[props.curSldIndex].sldType === "tag-cloud") {
+  } else if (curSldType === "tag-cloud") {
     sldContent = <TagCloud {...props} />;
   }
 
   let handRaised = null;
-  const sldRespondedAudi = props.respondedAudi[props.slds[props.curSldIndex].id];
-  if (props.slds[props.curSldIndex].sldType !== "heading-page") {
+
+  if (curSldType !== "heading-page") {
     handRaised = (
       <div className="hand-group">
         <FontAwesomeIcon icon={["fas", "hand-paper"]} id="hand-icon" />
@@ -63,6 +65,7 @@ const CurSld = props => {
 export default CurSld;
 
 const Headings = props => {
+  let curSld = props.slds[props.curSldIndex];
   let headingContainer = null;
   let scanToJoinClass = "scan-to-join";
   let qrCodeSize = 230;
@@ -76,7 +79,7 @@ const Headings = props => {
   }
 
   // for switching two types (QRCode or sub-heading) of heading slide
-  if (props.slds[props.curSldIndex].hasQRCode) {
+  if (curSld.hasQRCode) {
     headingContainer = (
       <div className="qr-code">
         <Fragment>
@@ -101,33 +104,34 @@ const Headings = props => {
       </div>
     );
   } else {
-    headingContainer = (
-      <div className="sub-heading-render">{props.slds[props.curSldIndex].subHeading}</div>
-    );
+    headingContainer = <div className="sub-heading-render">{curSld.subHeading}</div>;
   }
 
   return (
     <div className="heading-render-container">
-      <div className="heading-render">{props.slds[props.curSldIndex].heading}</div>
+      <div className="heading-render">{curSld.heading}</div>
       <Fragment>{headingContainer}</Fragment>
     </div>
   );
 };
 
 const MultiSel = props => {
-  let optsArray = props.slds[props.curSldIndex].opts;
-  let resultArray = props.slds[props.curSldIndex].result;
-  let resultType = props.slds[props.curSldIndex].resType;
+  let curSld = props.slds[props.curSldIndex];
+  let optsArray = curSld.opts;
+  let resultArray = curSld.result;
+  let resultType = curSld.resType;
   let optResult = null;
   let pieColors = null;
+
+  // build color array structure for pie chart
   if (optsArray !== "") {
-    pieColors = props.slds[props.curSldIndex].opts.map((opt, index) => {
+    pieColors = optsArray.map((opt, index) => {
       return {color: props.colors[index]};
     });
   }
 
   if (optsArray !== "") {
-    optResult = props.slds[props.curSldIndex].opts.map((opt, index) => {
+    optResult = optsArray.map((opt, index) => {
       let result = resultArray[index] !== "" ? resultArray[index] : 0;
       return [`${opt}`, result, props.colors[index], result];
     });
@@ -149,10 +153,33 @@ const MultiSel = props => {
     ]
   ].concat(optResult);
 
+  let barVar = {
+    height: "75%",
+    hAxisFontSize: 20,
+    annotationsFontSize: 20
+  };
+
+  let pieVar = {
+    legendFontSize: 16,
+    pieSliceFontSize: 16
+  };
+
+  if (props.isFullscreen === true) {
+    barVar = {
+      height: "70%",
+      hAxisFontSize: 36,
+      annotationsFontSize: 36
+    };
+    pieVar = {
+      legendFontSize: 28,
+      pieSliceFontSize: 36
+    };
+  }
+
   let barOptions = {
     legend: {position: "none"},
     height: "100%",
-    chartArea: {width: "80%", height: "75%"},
+    chartArea: {width: "80%", height: barVar.height},
     bar: {groupWidth: "68%"},
     animation: {
       duration: 1000,
@@ -166,12 +193,12 @@ const MultiSel = props => {
     },
     hAxis: {
       textStyle: {
-        fontSize: 20
+        fontSize: barVar.hAxisFontSize
       }
     },
     annotations: {
       textStyle: {
-        fontSize: 20,
+        fontSize: barVar.annotationsFontSize,
         bold: true
       }
     }
@@ -189,65 +216,15 @@ const MultiSel = props => {
     legend: {
       position: "labeled",
       textStyle: {
-        fontSize: 16
+        fontSize: pieVar.legendFontSize
       }
     },
     pieSliceText: "value",
     pieSliceTextStyle: {
       color: "#333",
-      fontSize: 16
+      fontSize: pieVar.pieSliceFontSize
     }
   };
-
-  if (props.isFullscreen === true) {
-    barOptions = {
-      legend: {position: "none"},
-      chartArea: {width: "80%", height: "70%"},
-      bar: {groupWidth: "68%"},
-      animation: {
-        duration: 1000,
-        easing: "out",
-        startup: true
-      },
-      vAxis: {
-        gridlines: {count: 0},
-        minorGridlines: {count: 0},
-        ticks: []
-      },
-      hAxis: {
-        textStyle: {
-          fontSize: 36
-        }
-      },
-      annotations: {
-        textStyle: {
-          fontSize: 36,
-          bold: true
-        }
-      }
-    };
-    pieOptions = {
-      slices: pieColors,
-      animation: {
-        duration: 1000,
-        easing: "out",
-        startup: true
-      },
-      is3D: false,
-      pieHole: 0,
-      legend: {
-        position: "labeled",
-        textStyle: {
-          fontSize: 36
-        }
-      },
-      pieSliceText: "value",
-      pieSliceTextStyle: {
-        color: "#333",
-        fontSize: 36
-      }
-    };
-  }
 
   // To make sure the chart will be drawn only when there is an option exists
   let chart = null;
@@ -259,19 +236,19 @@ const MultiSel = props => {
           width="100%"
           height="100%"
           data={data}
-          loader={<Loading {...props} />}
           options={barOptions}
+          loader={<Loading {...props} />}
         />
       );
     } else if (resultType === "pie-chart") {
       chart = (
         <Chart
+          chartType="PieChart"
           width="100%"
           height="100%"
-          chartType="PieChart"
-          loader={<Loading {...props} />}
           data={data}
           options={pieOptions}
+          loader={<Loading {...props} />}
         />
       );
     }
@@ -279,49 +256,53 @@ const MultiSel = props => {
 
   return (
     <Fragment>
-      <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
+      <div className="qus-div">{curSld.qContent}</div>
       {chart}
     </Fragment>
   );
 };
 
 const OpenEnded = props => {
+  let curSld = props.slds[props.curSldIndex];
   let openEndedResContent = null;
 
-  if (
-    props.slds[props.curSldIndex].openEndedRes !== [] &&
-    props.slds[props.curSldIndex].openEndedRes !== undefined
-  ) {
-    openEndedResContent = props.slds[props.curSldIndex].openEndedRes.map(
-      (item, index) => {
-        return (
-          <div className="open-ended-item" key={index} title={item}>
-            <p>{item}</p>
-          </div>
-        );
-      }
-    );
+  if (curSld.openEndedRes !== [] && curSld.openEndedRes !== undefined) {
+    openEndedResContent = curSld.openEndedRes.map((item, index) => {
+      return (
+        <div className="open-ended-item" key={index} title={item}>
+          <p>{item}</p>
+        </div>
+      );
+    });
   }
   return (
     <Fragment>
-      <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
+      <div className="qus-div">{curSld.qContent}</div>
       <div id="open-sld-content">{openEndedResContent}</div>
     </Fragment>
   );
 };
 
 const TagCloud = props => {
-  let tagCloudContent = null;
-  let tagResArray = Object.entries(props.slds[props.curSldIndex].tagRes);
+  let curSld = props.slds[props.curSldIndex];
+  let tagResArray = Object.entries(curSld.tagRes);
   let cloudData = tagResArray.map(item => {
     return {text: item[0].toString(), value: item[1]};
   });
+  let cloudVar = {
+    fontSizes: [20, 60]
+  };
+  if (props.isFullscreen) {
+    cloudVar = {
+      fontSizes: [30, 100]
+    };
+  }
   let cloudOptions = {
     colors: colors,
     enableTooltip: true,
     deterministic: true,
     fontFamily: "Noto Sans TC",
-    fontSizes: [20, 60],
+    fontSizes: cloudVar.fontSizes,
     fontStyle: "normal",
     fontWeight: "normal",
     padding: 1,
@@ -331,28 +312,13 @@ const TagCloud = props => {
     spiral: "archimedean",
     transitionDuration: 1000
   };
-  if (props.isFullscreen === true) {
-    cloudOptions = {
-      colors: colors,
-      enableTooltip: true,
-      deterministic: true,
-      fontFamily: "Noto Sans TC",
-      fontSizes: [30, 100],
-      fontStyle: "normal",
-      fontWeight: "normal",
-      padding: 1,
-      rotations: 3,
-      rotationAngles: [0, 0],
-      scale: "log",
-      spiral: "archimedean",
-      transitionDuration: 1000
-    };
-  }
-  tagCloudContent = <ReactWordcloud options={cloudOptions} words={cloudData} />;
+
   return (
     <Fragment>
-      <div className="qus-div">{props.slds[props.curSldIndex].qContent}</div>
-      <div id="cloud-sld-content">{tagCloudContent}</div>
+      <div className="qus-div">{curSld.qContent}</div>
+      <div id="cloud-sld-content">
+        <ReactWordcloud options={cloudOptions} words={cloudData} />
+      </div>
     </Fragment>
   );
 };
