@@ -6,12 +6,8 @@ import logo from "../img/conversa.png";
 import logoC from "../img/logoC_nb.png";
 import Loading from "../components/Loading/Loading";
 import "./audiView.css";
-// FontAwesome Setting
+import "../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {library} from "@fortawesome/fontawesome-svg-core";
-import {faLaughSquint} from "@fortawesome/free-regular-svg-icons";
-import {faHeart} from "@fortawesome/free-solid-svg-icons";
-library.add(faLaughSquint, faHeart);
 
 import Button from "@material-ui/core/Button";
 import Radio from "@material-ui/core/Radio";

@@ -14,12 +14,8 @@ import step3Img from "./img/visual-data.png";
 import "./home.css";
 import Loading from "./components/Loading/Loading";
 
-// FontAwesome Setting
+import "./lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {library} from "@fortawesome/fontawesome-svg-core";
-import {faComments, faChartBar} from "@fortawesome/free-regular-svg-icons";
-import {faHeart, faFileAlt} from "@fortawesome/free-solid-svg-icons";
-library.add(faComments, faHeart, faChartBar, faFileAlt);
 
 const Home = props => {
   let path = "/signUp";

@@ -11,17 +11,8 @@ import TextField from "@material-ui/core/TextField";
 import CloseIcon from "@material-ui/icons/Close";
 import ProjNameEditor from "./components/ProjNameEditor/ProjNameEditor";
 
-// FontAwesome Setting
+import "./lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {library} from "@fortawesome/fontawesome-svg-core";
-import {
-  faTrashAlt,
-  faPencilAlt,
-  faCheck,
-  faTimes,
-  faEllipsisH
-} from "@fortawesome/free-solid-svg-icons";
-library.add(faTrashAlt, faPencilAlt, faCheck, faTimes, faEllipsisH);
 
 import Loading from "./components/Loading/Loading";
 import "./reset.css";

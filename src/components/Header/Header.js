@@ -8,12 +8,8 @@ import PresentBtn from "../PresentBtn/PresentBtn.js";
 import ProjNameEditor from "../ProjNameEditor/ProjNameEditor";
 import logo from "../../img/conversa-s.png";
 import "./style.css";
-
-// FontAwesome Setting
+import "../../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {library} from "@fortawesome/fontawesome-svg-core";
-import {faBars, faTimes, faPlay} from "@fortawesome/free-solid-svg-icons";
-library.add(faBars, faTimes, faPlay);
 import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
 import firebase from "../../config/fbConfig";
