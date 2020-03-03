@@ -12,43 +12,9 @@ import "./sldEditor.css";
 import ZhInput from "../components/ZhInput/ZhInput";
 import Header from "../components/Header/Header";
 
-// FontAwesome Setting
+import "../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {library} from "@fortawesome/fontawesome-svg-core";
-import {
-  faLaughSquint,
-  faHandPointRight,
-  faChartBar,
-  faCommentDots,
-  faQuestionCircle
-} from "@fortawesome/free-regular-svg-icons";
-import {
-  faTrashAlt,
-  faCopy,
-  faUser,
-  faChartPie,
-  faQrcode,
-  faCloud,
-  faHandPaper,
-  faChevronDown,
-  faChevronUp
-} from "@fortawesome/free-solid-svg-icons";
-library.add(
-  faLaughSquint,
-  faTrashAlt,
-  faCopy,
-  faUser,
-  faHandPointRight,
-  faChartBar,
-  faChartPie,
-  faQrcode,
-  faCommentDots,
-  faCloud,
-  faHandPaper,
-  faQuestionCircle,
-  faChevronDown,
-  faChevronUp
-);
+
 // Material UI
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
@@ -884,11 +850,11 @@ const DelSld = props => {
   const deleteSld = index => {
     // use splice to delete the slide of the index parameter
     if (props.slds.length > 1) {
-      let newSelected=null;
-      if(index===0){
-        newSelected=0
-      }else{
-        newSelected=index-1
+      let newSelected = null;
+      if (index === 0) {
+        newSelected = 0;
+      } else {
+        newSelected = index - 1;
       }
       props.slds.splice(index, 1);
       db.collection("users")

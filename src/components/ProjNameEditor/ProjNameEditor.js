@@ -3,13 +3,8 @@ import {FormattedMessage} from "react-intl";
 import {Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import "./projNameEditor.css";
-
+import "../../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {library} from "@fortawesome/fontawesome-svg-core";
-import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
-import {faCheck} from "@fortawesome/free-solid-svg-icons";
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
-library.add(faPencilAlt, faCheck, faTimes);
 
 import Input from "@material-ui/core/Input";
 import {withStyles} from "@material-ui/core/styles";
