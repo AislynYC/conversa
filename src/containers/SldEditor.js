@@ -9,10 +9,11 @@ import ProjNameEditor from "../components/ProjNameEditor/ProjNameEditor";
 import "./sldEditor.css";
 
 import Header from "../components/Header/Header";
-import CurSld from "./CurSld";
+import CurSld from "../components/CurSld/CurSld";
 import SldSelector from "./SldSelector";
 import ControlPanel from "./ControlPanel";
 import EditPanel from "./EditPanel";
+import {writeDBUser} from "../lib/writeDB";
 
 import "../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -29,7 +30,6 @@ const SldEditor = props => {
   }
   if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
     props.history.push("/");
-  } else {
   }
   const db = useFirestore();
   const userId = props.userId;
@@ -47,46 +47,49 @@ const SldEditor = props => {
 
   const selectSld = selIndex => {
     if (selIndex !== props.curSldIndex) {
-      return db
-        .collection("users")
-        .doc(userId)
-        .collection("projects")
-        .doc(projId)
-        .update({curSldIndex: selIndex})
-        .then(() => {
+      return writeDBUser(
+        db,
+        userId,
+        projId,
+        "updateProjDoc",
+        {curSldIndex: selIndex},
+        () => {
           if (selIndex === 0) {
             history.push(`${props.match.url}`);
           } else {
             history.push(`${props.match.url}/${selIndex}`);
           }
-        });
+        }
+      );
     }
   };
 
   const nextSld = () => {
     if (props.curSldIndex < props.slds.length - 1) {
-      return db
-        .collection("users")
-        .doc(userId)
-        .collection("projects")
-        .doc(projId)
-        .update({curSldIndex: props.curSldIndex + 1})
-        .then(() => {
+      return writeDBUser(
+        db,
+        userId,
+        projId,
+        "updateProjDoc",
+        {curSldIndex: props.curSldIndex + 1},
+        () => {
           if (!document.fullscreenElement) {
             history.push(`${props.match.url}/${props.curSldIndex + 1}`);
           }
-        });
+        }
+      );
     }
   };
 
   const lastSld = () => {
     if (props.curSldIndex > 0) {
-      db.collection("users")
-        .doc(userId)
-        .collection("projects")
-        .doc(projId)
-        .update({curSldIndex: props.curSldIndex - 1})
-        .then(() => {
+      return writeDBUser(
+        db,
+        userId,
+        projId,
+        "updateProjDoc",
+        {curSldIndex: props.curSldIndex - 1},
+        () => {
           if (!document.fullscreenElement) {
             if (props.curSldIndex - 1 === 0) {
               history.push(`${props.match.url}`);
@@ -94,7 +97,8 @@ const SldEditor = props => {
               history.push(`${props.match.url}/${props.curSldIndex - 1}`);
             }
           }
-        });
+        }
+      );
     }
   };
 
@@ -118,27 +122,34 @@ const SldEditor = props => {
   useEffect(() => {
     let url = props.location.pathname;
     let urlSplitArr = url.split("/");
+    let urlLastSplit = urlSplitArr[urlSplitArr.length - 1];
     // Each time enter this page, the UseEffect function will check the URL path
-    if (/^\d{1,2}$/.test(urlSplitArr[urlSplitArr.length - 1])) {
-      // if the URL path contained page number info, this will update the curSldIndex according to the URL path
-      history.push(`${props.match.url}/${parseInt(urlSplitArr[urlSplitArr.length - 1])}`);
-      db.collection("users")
-        .doc(userId)
-        .collection("projects")
-        .doc(projId)
-        .update({
-          curSldIndex: parseInt(urlSplitArr[urlSplitArr.length - 1])
-        });
+    if (/^\d{1,2}$/.test(urlLastSplit) && urlLastSplit < props.slds.length) {
+      // if the URL path contained page number info and the slide index exists, this will update the curSldIndex according to the URL path
+      history.push(`${props.match.url}/${parseInt(urlLastSplit)}`);
+      writeDBUser(
+        db,
+        userId,
+        projId,
+        "updateProjDoc",
+        {
+          curSldIndex: parseInt(urlLastSplit)
+        },
+        null
+      );
     } else {
       // if the URL path does not contained page number info, this will update the curSldIndex to 0 (i.e. the first page)
       history.push(`${props.match.url}`);
-      db.collection("users")
-        .doc(userId)
-        .collection("projects")
-        .doc(projId)
-        .update({
+      writeDBUser(
+        db,
+        userId,
+        projId,
+        "updateProjDoc",
+        {
           curSldIndex: 0
-        });
+        },
+        null
+      );
     }
   }, []);
 
@@ -254,20 +265,22 @@ const DelSld = props => {
         newSelected = index - 1;
       }
       props.slds.splice(index, 1);
-      db.collection("users")
-        .doc(props.userId)
-        .collection("projects")
-        .doc(props.projId)
-        .update({
+      writeDBUser(
+        db,
+        props.userId,
+        props.projId,
+        "updateProjDoc",
+        {
           curSldIndex: newSelected,
           lastEdited: Date.now(),
           slds: props.slds
-        })
-        .then(() => {
+        },
+        () => {
           props.closeOverlay("confirmDel");
           // change selection focus to the last slide of the removed slide
           props.selectSld(newSelected);
-        });
+        }
+      );
     } else {
       alert(
         "Your presentation shall have at least one slide. 您的簡報必須有至少一張投影片。"

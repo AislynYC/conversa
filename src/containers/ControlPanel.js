@@ -4,6 +4,7 @@ import {FormattedMessage} from "react-intl";
 import "../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Button from "@material-ui/core/Button";
+import {writeDbUser} from "../lib/writeDb";
 
 const ControlPanel = props => {
   const db = useFirestore();
@@ -18,14 +19,14 @@ const ControlPanel = props => {
       return sld;
     });
 
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: newSlds
-      });
+    writeDbUser(
+      db,
+      userId,
+      projId,
+      "updateProjDoc",
+      {lastEdited: Date.now(), slds: newSlds},
+      null
+    );
   };
 
   let curSldType = null;
