@@ -49,7 +49,7 @@ html {
 
 .sec1 > .sec1-desc {
   padding: 0 30px;
-  line-height: 3.5rem;
+  line-height: 2.9rem;
 }
 .sec1 > .sec1-desc > .desc-text {
   color: rgb(44, 39, 61);
@@ -355,6 +355,13 @@ html {
   .sec1 > .main-img {
     top: 50%;
     width: 350px;
+    height: 320px;
     right: 0px;
+  }
+
+  #main-img-svg {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
