@@ -1,4 +1,4 @@
-export const writeDBUser = (
+export const writeDbUser = (
   db,
   userDocId,
   projDocId,
@@ -33,7 +33,7 @@ export const writeDBUser = (
   }
 };
 
-export const writeDBInvt = (db, projDocId, writingType, writingData, callback) => {
+export const writeDbInvt = (db, projDocId, writingType, writingData, callback) => {
   const invtDocRef = db.collection("invitation").doc(projDocId);
 
   if (writingType === "updateInvtDoc") {
