@@ -15,6 +15,7 @@ import "./lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import Loading from "./components/Loading/Loading";
+import {writeDBUser, writeDBInvt} from "./lib/writeDB";
 import "./reset.css";
 import "./style.css";
 import "./projects.css";
@@ -158,7 +159,6 @@ const ProjList = props => {
 };
 
 const ProjRow = props => {
-  console.log(props);
   const db = useFirestore();
   const [moreToolClass, setMoreToolClass] = useState("more-tool-bar hide");
   const showMoreTool = () => {
@@ -185,33 +185,27 @@ const ProjRow = props => {
 
     copyTarget.slds.forEach(sld => {
       sld.result = sld.result.map(item => (item = ""));
-    });
-
-    copyTarget.slds.forEach(sld => {
       sld.openEndedRes = [];
-    });
-    copyTarget.slds.forEach(sld => {
       sld.tagRes = {};
     });
 
-    console.log(copyTarget);
-    db.collection("users")
-      .doc(props.auth.uid)
-      .collection("projects")
-      .add(copyTarget)
-      .then(res => {
-        let initRespondedAudi = {};
-        initRespondedAudi[t] = [];
-        db.collection("invitation")
-          .doc(res.id)
-          .set({
-            owner: props.auth.uid,
-            projId: res.id,
-            reaction: {laugh: 0},
-            respondedAudi: initRespondedAudi,
-            involvedAudi: []
-          });
-      });
+    writeDBUser(db, props.auth.uid, null, "addProjColl", copyTarget, res => {
+      let initRespondedAudi = {};
+      initRespondedAudi[t] = [];
+      writeDBInvt(
+        db,
+        res.id,
+        "setInvtDoc",
+        {
+          owner: props.auth.uid,
+          projId: res.id,
+          reaction: {laugh: 0},
+          respondedAudi: initRespondedAudi,
+          involvedAudi: []
+        },
+        null
+      );
+    });
   };
 
   return (
@@ -285,10 +279,12 @@ const NewProj = props => {
 
     if (newProjName !== "" && newProjName !== " ") {
       const t = Date.now();
-      db.collection("users")
-        .doc(props.auth.uid)
-        .collection("projects")
-        .add({
+      writeDBUser(
+        db,
+        props.auth.uid,
+        null,
+        "addProjColl",
+        {
           name: newProjName,
           created: t,
           lastEdited: t,
@@ -309,24 +305,29 @@ const NewProj = props => {
               tagRes: {}
             }
           ]
-        })
-        .then(res => {
+        },
+        res => {
           let initRespondedAudi = {};
           initRespondedAudi[t] = [];
-          db.collection("invitation")
-            .doc(res.id)
-            .set({
+
+          writeDBInvt(
+            db,
+            res.id,
+            "setInvtDoc",
+            {
               owner: props.auth.uid,
               projId: res.id,
               reaction: {laugh: 0},
               respondedAudi: initRespondedAudi,
               involvedAudi: []
-            })
-            .then(() => {
+            },
+            () => {
               props.closeOverlay("newProj");
               setIsSubmitDisabled(false);
-            });
-        });
+            }
+          );
+        }
+      );
     }
   };
 
@@ -386,20 +387,13 @@ const DelProj = props => {
 
   const deleteProj = () => {
     props.onLoading(true);
-    db.collection("users")
-      .doc(props.auth.uid)
-      .collection("projects")
-      .doc(props.delProjId)
-      .delete()
-      .then(() => {
-        db.collection("invitation")
-          .doc(props.delProjId)
-          .delete()
-          .then(() => {
-            props.onLoading(false);
-            props.closeOverlay("confirmDel");
-          });
+
+    writeDBUser(db, props.auth.uid, props.delProjId, "delProjDoc", null, () => {
+      writeDBInvt(db, props.delProjId, "delInvtDoc", null, () => {
+        props.onLoading(false);
+        props.closeOverlay("confirmDel");
       });
+    });
   };
 
   let [deletingProjName, setDeletingProjName] = useState(null);

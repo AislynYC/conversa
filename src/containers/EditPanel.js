@@ -3,6 +3,7 @@ import {Router, Switch, Route, Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
 import ZhInput from "../components/ZhInput/ZhInput";
+import {writeDbUser} from "../lib/writeDb";
 
 import "../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -30,28 +31,39 @@ const ResNumInput = withStyles({
 })(TextField);
 
 const EditPanel = props => {
-  let editor = null;
+  const db = useFirestore();
+  const userId = props.userId;
+  const projId = props.projId;
   let sldType = props.sld.sldType;
 
+  const updateDb = (timeStamp, newSlds) => {
+    writeDbUser(
+      db,
+      userId,
+      projId,
+      "updateProjDoc",
+      {
+        lastEdited: timeStamp,
+        slds: newSlds
+      },
+      null
+    );
+  };
+
   if (sldType === "multiple-choice") {
-    editor = <MultiSelEditor {...props} />;
+    return <MultiSelEditor {...props} updateDb={updateDb} />;
   } else if (sldType === "heading-page") {
-    editor = <HeadingSldEditor {...props} />;
+    return <HeadingSldEditor {...props} updateDb={updateDb} />;
   } else if (sldType === "open-ended") {
-    editor = <OpenEndedEditor {...props} />;
+    return <OpenEndedEditor {...props} updateDb={updateDb} />;
   } else if (sldType === "tag-cloud") {
-    editor = <TagCloudEditor {...props} />;
+    return <TagCloudEditor {...props} updateDb={updateDb} />;
   }
-  return <Fragment>{editor}</Fragment>;
 };
 
 export default EditPanel;
 
 const MultiSelEditor = props => {
-  const db = useFirestore();
-  const userId = props.userId;
-  const projId = props.projId;
-
   const changeDiagramType = e => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.curSldIndex) {
@@ -61,15 +73,9 @@ const MultiSelEditor = props => {
       return sld;
     });
 
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: newSlds
-      });
+    props.updateDb(Date.now(), newSlds);
   };
+
   return (
     <div className="edit-panel">
       <div className="diagram-type-selector">
@@ -149,10 +155,6 @@ const OpenEndedEditor = props => {
 };
 
 const TagCloudEditor = props => {
-  const db = useFirestore();
-  const userId = props.userId;
-  const projId = props.projId;
-
   const editTagNum = value => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
@@ -161,15 +163,7 @@ const TagCloudEditor = props => {
       }
       return sld;
     });
-
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: newSlds
-      });
+    props.updateDb(Date.now(), newSlds);
   };
 
   return (
@@ -197,10 +191,6 @@ const TagCloudEditor = props => {
 };
 
 const QusInput = props => {
-  const db = useFirestore();
-  const userId = props.userId;
-  const projId = props.projId;
-
   const editQus = (value, props) => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
@@ -210,14 +200,7 @@ const QusInput = props => {
       return sld;
     });
 
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: newSlds
-      });
+    props.updateDb(Date.now(), newSlds);
   };
 
   return (
@@ -279,10 +262,6 @@ const OptInputs = props => {
 };
 
 const OptInput = props => {
-  const db = useFirestore();
-  const userId = props.userId;
-  const projId = props.projId;
-
   const editOpt = (value, props) => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
@@ -291,15 +270,7 @@ const OptInput = props => {
       }
       return sld;
     });
-
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: newSlds
-      });
+    props.updateDb(Date.now(), newSlds);
   };
 
   return (
@@ -322,10 +293,6 @@ const OptInput = props => {
 };
 
 const DelOptBtn = props => {
-  const db = useFirestore();
-  const userId = props.userId;
-  const projId = props.projId;
-
   const deleteOpt = () => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
@@ -342,14 +309,7 @@ const DelOptBtn = props => {
       return sld;
     });
 
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: newSlds
-      });
+    props.updateDb(Date.now(), newSlds);
   };
   return (
     <div className="delete-opt-btn" onClick={deleteOpt}>
@@ -359,9 +319,6 @@ const DelOptBtn = props => {
 };
 
 const AddOptBtn = props => {
-  const db = useFirestore();
-  const userId = props.userId;
-  const projId = props.projId;
   const addOption = e => {
     e.preventDefault();
 
@@ -374,14 +331,7 @@ const AddOptBtn = props => {
       return sld;
     });
 
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: newSlds
-      });
+    props.updateDb(Date.now(), newSlds);
   };
 
   return (
@@ -397,10 +347,6 @@ const AddOptBtn = props => {
 };
 
 const HeadingSldEditor = props => {
-  const db = useFirestore();
-  const userId = props.userId;
-  const projId = props.projId;
-
   const editHeading = (value, props) => {
     let newSlds = props.slds.map((sld, index) => {
       if (index === props.sldIndex) {
@@ -410,14 +356,7 @@ const HeadingSldEditor = props => {
       return sld;
     });
 
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: newSlds
-      });
+    props.updateDb(Date.now(), newSlds);
   };
 
   const editSubHeading = (value, props) => {
@@ -429,14 +368,7 @@ const HeadingSldEditor = props => {
       return sld;
     });
 
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: newSlds
-      });
+    props.updateDb(Date.now(), newSlds);
   };
 
   const switchQRCode = () => {
@@ -451,15 +383,7 @@ const HeadingSldEditor = props => {
       }
       return sld;
     });
-
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
-        lastEdited: Date.now(),
-        slds: newSlds
-      });
+    props.updateDb(Date.now(), newSlds);
   };
 
   return (

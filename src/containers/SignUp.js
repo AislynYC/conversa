@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Header from "../components/Header/Header";
 import "./sign.css";
+import {writeDbUser} from "../lib/writeDb";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "../config/fbConfig";
 import {connect} from "react-redux";
@@ -45,17 +46,18 @@ const SignInScreen = props => {
         .auth()
         .createUserWithEmailAndPassword(userEmail, userPassword)
         .then(res => {
-          return db
-            .collection("users")
-            .doc(res.user.uid)
-            .set({createdTime: Date.now()})
-            .then(() => {
-              console.log("signUp success");
+          return writeDbUser(
+            db,
+            res.user.uid,
+            null,
+            "setUserDoc",
+            {createdTime: Date.now()},
+            () => {
               props.history.push(`/pm/${res.user.uid}`);
-            });
+            }
+          );
         })
         .catch(error => {
-          console.log("signUp error", error.code, error.message);
           if (error.code === "auth/invalid-email") {
             setErrMsg(<FormattedMessage id="sign-up.invalid-email" />);
           } else if (error.code === "auth/weak-password") {

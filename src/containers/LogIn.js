@@ -41,11 +41,9 @@ const LogInScreen = props => {
       .auth()
       .signInWithEmailAndPassword(userEmail, userPassword)
       .then(res => {
-        console.log("login success");
         props.history.push(`/pm/${res.user.uid}`);
       })
       .catch(function(error) {
-        console.log("login error", error.code, error.message);
         if (error.code === "auth/invalid-email") {
           setErrMsg(<FormattedMessage id="log-in.invalid-email" />);
         } else if (error.code === "auth/wrong-password") {

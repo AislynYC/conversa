@@ -1,9 +1,10 @@
-import React, {useEffect, useRef, Fragment, useState} from "react";
-import {Router, Switch, Route, Link} from "react-router-dom";
+import React, {useState} from "react";
+import {Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
 import "../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {writeDbUser, writeDbInvt} from "../lib/writeDb";
 
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
@@ -34,20 +35,25 @@ const SldsItems = props => {
     newSld.tagRes = {};
     props.slds.splice(index + 1, 0, newSld);
 
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({lastEdited: t, slds: props.slds})
-      .then(() => {
+    writeDbUser(
+      db,
+      userId,
+      projId,
+      "updateProjDoc",
+      {lastEdited: t, slds: props.slds},
+      () => {
         // Add a responded audi container to the new slide
         props.respondedAudi[t] = [];
-        db.collection("invitation")
-          .doc(projId)
-          .update({respondedAudi: props.respondedAudi});
-      });
+        writeDbInvt(
+          db,
+          projId,
+          "updateInvtDoc",
+          {respondedAudi: props.respondedAudi},
+          null
+        );
+      }
+    );
   };
-
   return props.slds.map((item, index) => {
     let path = null;
     let sldClass = null;
@@ -132,7 +138,7 @@ const SldsItems = props => {
       <div
         className={sldClass}
         key={index}
-        onMouseOver={() => setHovered(index)}
+        onMouseEnter={() => setHovered(index)}
         onMouseLeave={() => setHovered(null)}>
         <div className="sld-item-title">
           <div>{index + 1}</div>
@@ -169,11 +175,12 @@ const AddSldBtn = props => {
   const projId = props.projId;
   const addSld = () => {
     const t = Date.now();
-    db.collection("users")
-      .doc(userId)
-      .collection("projects")
-      .doc(projId)
-      .update({
+    writeDbUser(
+      db,
+      userId,
+      projId,
+      "updateProjDoc",
+      {
         lastEdited: t,
         slds: [
           ...props.slds,
@@ -192,16 +199,21 @@ const AddSldBtn = props => {
             tagRes: {}
           }
         ]
-      })
-      .then(() => {
+      },
+      () => {
         // change selection focus to the new created slide
         props.selectSld(props.slds.length);
         // Add a responded audi container to the new slide
         props.respondedAudi[t] = [];
-        db.collection("invitation")
-          .doc(projId)
-          .update({respondedAudi: props.respondedAudi});
-      });
+        writeDbInvt(
+          db,
+          projId,
+          "updateInvtDoc",
+          {respondedAudi: props.respondedAudi},
+          null
+        );
+      }
+    );
   };
   return (
     <Button variant="contained" id="add-sld-btn" onClick={addSld}>

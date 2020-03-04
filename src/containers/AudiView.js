@@ -7,6 +7,7 @@ import logoC from "../img/logoC_nb.png";
 import Loading from "../components/Loading/Loading";
 import "./audiView.css";
 import "../lib/icons";
+import {writeDbInvt} from "../lib/writeDb";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import Button from "@material-ui/core/Button";
@@ -48,9 +49,13 @@ const AudiView = props => {
   if (props.involvedAudi !== undefined && props.audiId !== undefined) {
     if (!props.involvedAudi.includes(props.audiId)) {
       props.involvedAudi.push(props.audiId);
-      db.collection("invitation")
-        .doc(props.projId)
-        .update({involvedAudi: props.involvedAudi});
+      writeDbInvt(
+        db,
+        props.projId,
+        "updateInvtDoc",
+        {involvedAudi: props.involvedAudi},
+        null
+      );
     }
   }
   return (
