@@ -1,8 +1,9 @@
 import React, {Fragment} from "react";
 import {FormattedMessage} from "react-intl";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import Loading from "../components/Loading/Loading";
-import colors from "../lib/colors";
+import Loading from "../Loading/Loading";
+import colors from "../../lib/colors";
+import "./curSld.css";
 
 // for each slide types
 import Chart from "react-google-charts";
