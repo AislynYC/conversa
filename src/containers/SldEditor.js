@@ -13,7 +13,7 @@ import CurSld from "../components/CurSld/CurSld";
 import SldSelector from "./SldSelector";
 import ControlPanel from "./ControlPanel";
 import EditPanel from "./EditPanel";
-import {writeDBUser} from "../lib/writeDB";
+import {writeDbUser} from "../lib/writeDb";
 
 import "../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -47,7 +47,7 @@ const SldEditor = props => {
 
   const selectSld = selIndex => {
     if (selIndex !== props.curSldIndex) {
-      return writeDBUser(
+      return writeDbUser(
         db,
         userId,
         projId,
@@ -66,7 +66,7 @@ const SldEditor = props => {
 
   const nextSld = () => {
     if (props.curSldIndex < props.slds.length - 1) {
-      return writeDBUser(
+      return writeDbUser(
         db,
         userId,
         projId,
@@ -83,7 +83,7 @@ const SldEditor = props => {
 
   const lastSld = () => {
     if (props.curSldIndex > 0) {
-      return writeDBUser(
+      return writeDbUser(
         db,
         userId,
         projId,
@@ -127,7 +127,7 @@ const SldEditor = props => {
     if (/^\d{1,2}$/.test(urlLastSplit) && urlLastSplit < props.slds.length) {
       // if the URL path contained page number info and the slide index exists, this will update the curSldIndex according to the URL path
       history.push(`${props.match.url}/${parseInt(urlLastSplit)}`);
-      writeDBUser(
+      writeDbUser(
         db,
         userId,
         projId,
@@ -140,7 +140,7 @@ const SldEditor = props => {
     } else {
       // if the URL path does not contained page number info, this will update the curSldIndex to 0 (i.e. the first page)
       history.push(`${props.match.url}`);
-      writeDBUser(
+      writeDbUser(
         db,
         userId,
         projId,
@@ -265,7 +265,7 @@ const DelSld = props => {
         newSelected = index - 1;
       }
       props.slds.splice(index, 1);
-      writeDBUser(
+      writeDbUser(
         db,
         props.userId,
         props.projId,

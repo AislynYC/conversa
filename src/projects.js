@@ -15,7 +15,7 @@ import "./lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import Loading from "./components/Loading/Loading";
-import {writeDBUser, writeDBInvt} from "./lib/writeDB";
+import {writeDbUser, writeDbInvt} from "./lib/writeDb";
 import "./reset.css";
 import "./style.css";
 import "./projects.css";
@@ -189,10 +189,10 @@ const ProjRow = props => {
       sld.tagRes = {};
     });
 
-    writeDBUser(db, props.auth.uid, null, "addProjColl", copyTarget, res => {
+    writeDbUser(db, props.auth.uid, null, "addProjColl", copyTarget, res => {
       let initRespondedAudi = {};
       initRespondedAudi[t] = [];
-      writeDBInvt(
+      writeDbInvt(
         db,
         res.id,
         "setInvtDoc",
@@ -279,7 +279,7 @@ const NewProj = props => {
 
     if (newProjName !== "" && newProjName !== " ") {
       const t = Date.now();
-      writeDBUser(
+      writeDbUser(
         db,
         props.auth.uid,
         null,
@@ -310,7 +310,7 @@ const NewProj = props => {
           let initRespondedAudi = {};
           initRespondedAudi[t] = [];
 
-          writeDBInvt(
+          writeDbInvt(
             db,
             res.id,
             "setInvtDoc",
@@ -388,8 +388,8 @@ const DelProj = props => {
   const deleteProj = () => {
     props.onLoading(true);
 
-    writeDBUser(db, props.auth.uid, props.delProjId, "delProjDoc", null, () => {
-      writeDBInvt(db, props.delProjId, "delInvtDoc", null, () => {
+    writeDbUser(db, props.auth.uid, props.delProjId, "delProjDoc", null, () => {
+      writeDbInvt(db, props.delProjId, "delInvtDoc", null, () => {
         props.onLoading(false);
         props.closeOverlay("confirmDel");
       });
