@@ -198,6 +198,7 @@
   width: 55%;
   align-self: center;
   margin: 25px auto;
+  min-height: 40px;
 }
 
 .sld-item-title {
@@ -521,6 +522,10 @@
     display: none;
   }
 
+  .center-wrap {
+    margin: 0;
+  }
+
   .control-panel {
     margin: 0 auto;
     height: 100%;
@@ -641,6 +646,7 @@
 
   .sld-type-form.show {
     height: 37%;
+    min-height: 250px;
   }
 
   .sld-type-group {
