@@ -94,7 +94,8 @@
   color: #444;
 }
 
-.proj-tool-col > .copy-btn {
+.proj-tool-col > .copy-btn,
+.more-tool-bar > .copy-btn {
   margin-right: 10px;
 }
 
