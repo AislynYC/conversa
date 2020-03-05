@@ -190,8 +190,12 @@ const ProjRow = props => {
     });
 
     writeDbUser(db, props.auth.uid, null, "addProjDoc", copyTarget, res => {
-      let initRespondedAudi = {};
-      initRespondedAudi[t] = [];
+      const sldIdArray = copyTarget.slds.map(sld => sld.id);
+      let RespondedAudiObj = {};
+      sldIdArray.forEach(sldId => {
+        RespondedAudiObj[sldId] = [];
+      });
+
       writeDbInvt(
         db,
         res.id,
@@ -200,7 +204,7 @@ const ProjRow = props => {
           owner: props.auth.uid,
           projId: res.id,
           reaction: {laugh: 0},
-          respondedAudi: initRespondedAudi,
+          respondedAudi: RespondedAudiObj,
           involvedAudi: []
         },
         null
