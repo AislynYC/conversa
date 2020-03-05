@@ -99,7 +99,7 @@ const Headings = props => {
             size={qrCodeSize}
             imageSettings={{
               src:
-                "https://lh3.googleusercontent.com/ZgZLV4rnkakeFPtT14X_lz3BdDpv8kEQ6bzWvXgHw-Wj_WYqiPNSqkq2oUBBRMQiQePrmDmO6WBrRq7_bqFsQBvnTd1_vh4BVg7opHZRsvYUTRrgoL59qyzcflYMnmHy0NzjtngT4A=w400",
+                "https://firebasestorage.googleapis.com/v0/b/conversa-a419b.appspot.com/o/logoC_nb.png?alt=media&token=444f79ff-ef6f-4bfd-a379-316da82b2be2",
               x: null,
               y: null,
               height: qrCodeImgSize.height,
