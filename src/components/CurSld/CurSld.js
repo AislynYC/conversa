@@ -19,7 +19,7 @@ const CurSld = props => {
       props.slds !== undefined &&
       props.curSldIndex !== undefined
     ) {
-      props.nextSld();
+      props.switchNextSld();
     }
   };
 
@@ -57,6 +57,12 @@ const CurSld = props => {
             <FontAwesomeIcon icon={["fas", "user"]} id="member-icon" />
             {props.involvedAudi.length}
           </div>
+          <a className="prev" onClick={props.switchPrevSld}>
+            &#10094;
+          </a>
+          <a className="next" onClick={props.switchNextSld}>
+            &#10095;
+          </a>
         </div>
       </div>
     </div>
@@ -156,8 +162,8 @@ const MultiSel = props => {
 
   let barVar = {
     height: "75%",
-    hAxisFontSize: 20,
-    annotationsFontSize: 20
+    hAxisFontSize: 18,
+    annotationsFontSize: 18
   };
 
   let pieVar = {

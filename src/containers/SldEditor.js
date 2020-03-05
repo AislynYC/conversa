@@ -38,9 +38,9 @@ const SldEditor = props => {
   const keydownHandler = e => {
     if (e.target.tagName !== "INPUT") {
       if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-        nextSld();
+        switchNextSld();
       } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-        lastSld();
+        switchPrevSld();
       }
     }
   };
@@ -64,7 +64,7 @@ const SldEditor = props => {
     }
   };
 
-  const nextSld = () => {
+  const switchNextSld = () => {
     if (props.curSldIndex < props.slds.length - 1) {
       return writeDbUser(
         db,
@@ -81,7 +81,7 @@ const SldEditor = props => {
     }
   };
 
-  const lastSld = () => {
+  const switchPrevSld = () => {
     if (props.curSldIndex > 0) {
       return writeDbUser(
         db,
@@ -201,7 +201,7 @@ const SldEditor = props => {
             <SldPage
               {...props}
               isFullscreen={isFullscreen}
-              nextSld={nextSld}
+              switchNextSld={switchNextSld}
               mobileControlClass={mobileControlClass}
               hideMobileControl={hideMobileControl}
             />
@@ -215,7 +215,12 @@ const SldEditor = props => {
           id="preview-close-btn"
           onClick={hidePreview}
         />
-        <CurSld {...props} isFullscreen={isFullscreen} nextSld={nextSld} />
+        <CurSld
+          {...props}
+          isFullscreen={isFullscreen}
+          switchNextSld={switchNextSld}
+          switchPrevSld={switchPrevSld}
+        />
       </div>
     </Fragment>
   );
@@ -236,7 +241,8 @@ const SldPage = props => {
             <CurSld
               {...props}
               isFullscreen={props.isFullscreen}
-              nextSld={props.nextSld}
+              switchNextSld={props.switchNextSld}
+              switchPrevSld={props.switchPrevSld}
             />
             <ControlPanel
               {...props}

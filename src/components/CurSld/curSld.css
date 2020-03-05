@@ -81,6 +81,28 @@
   font-size: 1.5em;
 }
 
+/* Full screen */
+#current-sld:-moz-full-screen {
+  width: 100%;
+  background-color: white;
+}
+
+#current-sld:-webkit-full-screen {
+  width: 100%;
+  background-color: white;
+}
+
+#current-sld:-ms-fullscreen {
+  background-color: white;
+  width: 100%; /* needed to center contents in IE */
+}
+#current-sld:fullscreen {
+  width: 100%;
+  background-color: white;
+  font-size: 3.3em;
+  padding: 60px 70px;
+}
+
 /* Heading Slide */
 .heading-render-container {
   display: flex;
@@ -145,4 +167,64 @@
   transform: translateX(-50%);
   height: 100%;
   width: 100%;
+}
+
+/* prev slide/next sld button */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev:hover,
+.next:hover {
+  background-color: rgba(169, 167, 167, 0.8);
+}
+
+#current-sld:fullscreen > .prev,
+#current-sld:fullscreen > .next {
+  display: none;
+}
+
+/* at preview size*/
+
+@media (max-width: 1025px) {
+  .prev,
+  .next {
+    background-color: rgba(169, 167, 167, 0.8);
+  }
+}
+@media (max-width: 720px) {
+  #current-sld-container {
+    height: 100vmin;
+    width: 100%;
+    max-width: 100vmax;
+  }
+  #current-sld-border {
+    height: 100%;
+    padding-top: 0;
+    border-radius: 0;
+  }
+  #current-sld {
+    border-radius: 0;
+  }
 }
