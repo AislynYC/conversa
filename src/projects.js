@@ -189,7 +189,7 @@ const ProjRow = props => {
       sld.tagRes = {};
     });
 
-    writeDbUser(db, props.auth.uid, null, "addProjColl", copyTarget, res => {
+    writeDbUser(db, props.auth.uid, null, "addProjDoc", copyTarget, res => {
       let initRespondedAudi = {};
       initRespondedAudi[t] = [];
       writeDbInvt(
@@ -283,7 +283,7 @@ const NewProj = props => {
         db,
         props.auth.uid,
         null,
-        "addProjColl",
+        "addProjDoc",
         {
           name: newProjName,
           created: t,

@@ -26,7 +26,7 @@ export const writeDbUser = (
     return userDocRef.set(writingData).then(callback);
   } else if (writingType === "updateProjDoc") {
     return projDocRef.update(writingData).then(callback);
-  } else if (writingType === "addProjColl") {
+  } else if (writingType === "addProjDoc") {
     return projCollRef.add(writingData).then(callback);
   } else if (writingType === "delProjDoc") {
     return projDocRef.delete().then(callback);
