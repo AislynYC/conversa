@@ -22,6 +22,8 @@ body {
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 2;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .overlay-show {
@@ -31,7 +33,7 @@ body {
 }
 
 .overlay-card-title {
-  min-width: 600px;
+  /* min-width: 600px; */
   margin-bottom: 30px;
   font-weight: 500;
   padding: 10px 0;

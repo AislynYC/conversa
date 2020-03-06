@@ -568,6 +568,8 @@
 
   .logo-wrap > .proj-name-edit-wrap {
     display: none;
+    position: fixed;
+    top: 0;
   }
   .mobile-proj-name-editor {
     display: block;
@@ -616,6 +618,11 @@
   .sld-item {
     min-height: 250px;
   }
+
+  #add-sld-btn {
+    margin: 25px auto 80px;
+  }
+
   .mobile-control-panel,
   .mobile-control-panel > .center > .control-panel {
     width: 100%;
@@ -683,6 +690,11 @@
     height: 100vmin;
     transform-origin: top left;
     transform: rotate(90deg) translate(0, -100vmin);
+  }
+
+  .container {
+    position: absolute;
+    top: 90px;
   }
 }
 

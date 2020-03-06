@@ -114,6 +114,11 @@
   }
 }
 @media (max-width: 720px) {
+  .header {
+    position: fixed;
+    top: 0;
+    z-index: 85;
+  }
   .preview-btn-text {
     display: none;
   }
