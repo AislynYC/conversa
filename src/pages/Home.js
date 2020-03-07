@@ -6,7 +6,8 @@ import {Link} from "react-router-dom";
 import Header from "../containers/Header/Header";
 import firebase from "../config/fbConfig";
 import MainImg from "../img/main_img.svg";
-import logoLeaf from "../img/logo.png";
+// import logoLeaf from "../img/logo.png";
+import Succulent from "../components/Succulent/Succulent";
 import step1Img from "../img/ask.png";
 import step2Img from "../img/response.png";
 import step3Img from "../img/visual-data.png";
@@ -45,7 +46,7 @@ const Home = props => {
             <Link to={path}>
               <Button variant="contained" id="get-started-btn">
                 <div className="logo-leaf">
-                  <img src={logoLeaf} alt="logo-leaf" />
+                  <Succulent />
                 </div>
                 <FormattedMessage id="home.get-started" />
               </Button>

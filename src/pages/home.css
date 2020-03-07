@@ -35,13 +35,81 @@ html {
   top: 380px;
   z-index: 0;
   opacity: 0.2;
+  animation-name: float;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes float {
+  0% {
+    top: 380px;
+  }
+  50% {
+    top: 360px;
+  }
+  100% {
+    top: 380px;
+  }
+}
+.svg-circle1 {
+  position: absolute;
+  animation-name: svg-circle1;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes svg-circle1 {
+  0% {
+    cy: 151;
+  }
+  50% {
+    cy: 171;
+  }
+  100% {
+    cy: 151;
+  }
+}
+.svg-circle2 {
+  position: absolute;
+  animation-name: svg-circle2;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes svg-circle2 {
+  0% {
+    cy: 351;
+  }
+  50% {
+    cy: 330;
+  }
+  100% {
+    cy: 351;
+  }
+}
+
+.svg-circle3 {
+  animation-name: svg-circle3;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+@keyframes svg-circle3 {
+  0% {
+    cy: 50;
+  }
+  50% {
+    cy: 32;
+  }
+  100% {
+    cy: 50;
+  }
 }
 
 .logo-leaf {
   position: absolute;
   width: 300px;
-  top: -252px;
-  left: -68px;
+  top: -390px;
+  left: -160px;
 }
 .logo-leaf > img {
   width: 100%;
@@ -132,7 +200,7 @@ html {
   text-align: center;
   position: relative;
   z-index: 1;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .sec2-box-text {

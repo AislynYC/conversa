@@ -1,0 +1,93 @@
+.wrapper.home-succulent {
+  display: flex;
+  width: 500px;
+  height: 500px;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-succulent > .home-succulent-box > div,
+.home-succulent > .home-succulent-box > div > div {
+  animation-duration: 0s;
+}
+
+.home-succulent > .home-succulent-box {
+  position: relative;
+  margin: auto;
+  display: block;
+  width: 400px;
+  height: 400px;
+}
+
+.home-succulent > .home-succulent-box > .home-stem {
+  position: absolute;
+  width: 2.3%;
+  height: 25%;
+  left: 49.5%;
+  bottom: 15%;
+  background: #89ab79;
+}
+
+.home-succulent > .home-succulent-box > .home-leaf {
+  position: absolute;
+  border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+  background: #89ab79;
+}
+
+.home-succulent > .home-succulent-box > .home-leaf01 {
+  transform: rotate(-150deg);
+  width: 20%;
+  height: 20%;
+  top: 55%;
+  left: 54.5%;
+}
+
+.home-succulent > .home-succulent-box > .home-leaf02 {
+  transform: rotate(50deg);
+  width: 20%;
+  height: 20%;
+  right: 53.5%;
+  top: 59%;
+}
+.home-leaf02 > .home-leaf02-green {
+  position: absolute;
+  border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+  background: #6c935c;
+  transform: rotate(0deg);
+  width: 80%;
+  height: 80%;
+  top: 1%;
+  right: 10%;
+}
+
+.home-succulent > .home-succulent-box > .home-leaf03 {
+  transform: rotate(135deg);
+  width: 24%;
+  height: 24%;
+  top: 35%;
+  left: 38.5%;
+}
+
+.home-leaf03 > .home-leaf03-light {
+  position: absolute;
+  border-radius: 50%;
+  right: 65%;
+  bottom: 20%;
+  background-color: white;
+  width: 28%;
+  height: 43%;
+}
+
+/* @media (min-width: 768px) {
+  .home-succulent > .succulent-box {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .home-succulent > .succulent-box {
+    width: 400px;
+    height: 400px;
+  }
+} */

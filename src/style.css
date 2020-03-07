@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap");
-@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap");
 
 * {
   box-sizing: border-box;
@@ -15,6 +15,7 @@ body,
   overflow-x: hidden;
   overflow-y: auto;
 }
+
 /* Overlay */
 
 .overlay {
