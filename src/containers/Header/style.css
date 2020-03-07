@@ -89,6 +89,9 @@
   font-size: 1.05em;
 }
 @media (max-width: 1025px) {
+  .logo-wrap {
+    width: 70%;
+  }
   .header-tools {
     display: none;
   }

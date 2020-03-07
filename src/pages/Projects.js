@@ -32,11 +32,6 @@ const ProjManager = props => {
     };
   }
 
-  // Get the viewport height and multiple it by 1% to get a value for a vh unit
-  let vh = window.innerHeight * 0.01;
-  // Set the value in the --vh custom property to the root of the document
-  document.documentElement.style.setProperty("--vh", `${vh}px`);
-
   return (
     <Fragment>
       <Header {...props} locale={props.locale} setLocale={props.setLocale} />
@@ -142,23 +137,21 @@ const ProjList = props => {
   });
 
   return (
-    <Card id="proj-list-card">
-      <CardContent>
-        <div className="row row-header">
-          <div className="col-name col-header">
-            <FormattedMessage id="projects.presentation-name" />
-          </div>
-          <div className="col col-header">
-            <FormattedMessage id="projects.presentation-created" />
-          </div>
-          <div className="col col-header">
-            <FormattedMessage id="projects.presentation-last-edited" />
-          </div>
-          <div className="col col-header empty-col"></div>
+    <div id="proj-list-card">
+      <div className="row row-header">
+        <div className="col-name col-header">
+          <FormattedMessage id="projects.presentation-name" />
         </div>
-        <div className="proj-list">{projects}</div>
-      </CardContent>
-    </Card>
+        <div className="col col-header">
+          <FormattedMessage id="projects.presentation-created" />
+        </div>
+        <div className="col col-header">
+          <FormattedMessage id="projects.presentation-last-edited" />
+        </div>
+        <div className="col col-header empty-col"></div>
+      </div>
+      <div className="proj-list">{projects}</div>
+    </div>
   );
 };
 

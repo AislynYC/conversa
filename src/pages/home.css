@@ -97,7 +97,7 @@ html {
   0% {
     cy: 50;
   }
-  50% {
+  60% {
     cy: 32;
   }
   100% {
@@ -116,8 +116,11 @@ html {
 }
 
 .home-wrap {
-  position: absolute;
+  position: fixed;
   top: 90px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: calc(100% - 90px);
 }
 
 .sec1 > .sec1-desc {
@@ -310,9 +313,6 @@ html {
 }
 
 @media (max-width: 1200px) {
-  .logo-wrap {
-    width: 40%;
-  }
   .sec1 > .main-img {
     text-align: center;
   }

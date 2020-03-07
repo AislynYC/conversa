@@ -24,10 +24,15 @@
 }
 
 #proj-list-card {
+  background-color: white;
+  border-radius: 4px;
+  /* prettier-ignore */
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
   margin-top: 15px;
-  padding: 0 30px;
+  padding: 30px 40px;
   width: 100%;
+  height: calc(95% - 73px);
 }
 
 .row {
@@ -74,7 +79,7 @@
 }
 
 .proj-list {
-  height: 60vh;
+  height: calc(100% - 59px);
   overflow-y: scroll;
 }
 
@@ -103,7 +108,7 @@
 
 .proj-tool-col > .copy-btn,
 .more-tool-bar > .copy-btn {
-  margin-right: 20px;
+  margin-right: 30px;
 }
 
 .more-col,
@@ -204,26 +209,35 @@
   }
 }
 
-@media (max-width: 490px) {
+@media (max-width: 530px) {
   .container.proj-container {
     top: 90px;
-    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-    height: calc(var(--vh, 1vh) * 100 - 90px);
-  }
-
-  .container.proj-container {
-    top: 90px;
+    height: calc(100% - 90px);
     background-color: white;
   }
+
   .tool-bar {
     position: absolute;
     right: 20px;
-    top: 13px;
+    top: 8px;
     z-index: 10;
+    margin: 0;
   }
 
   .tool-bar > #add-proj-btn {
     height: 40px;
+  }
+
+  .row-header {
+    height: 59px;
+    display: flex;
+    padding: 0;
+    align-items: center;
+  }
+
+  .col-header {
+    line-height: 59px;
+    margin-left: 10px;
   }
 
   .btn-text {
@@ -234,19 +248,14 @@
   }
   .proj-wrap {
     width: 100%;
-  }
-
-  #proj-list-card.MuiPaper-rounded {
-    border-radius: 0;
-  }
-
-  #proj-list-card.MuiPaper-elevation1 {
-    box-shadow: none;
+    height: calc(100% - 90px);
+    position: fixed;
   }
 
   #proj-list-card {
-    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-    height: calc(var(--vh, 1vh) * 100 -90px);
+    height: 100%;
+    margin-top: 0;
+    padding: 0 10px;
   }
   .col {
     display: none;
@@ -256,10 +265,6 @@
     width: 100%;
   }
 
-  #proj-list-card {
-    margin-top: 10px;
-    padding: 0;
-  }
   .more-col {
     display: block;
   }
@@ -283,7 +288,7 @@
   }
 
   .more-close-icon {
-    margin-left: 20px;
+    margin-left: 30px;
     margin-right: 10px;
   }
   .row > .hide {

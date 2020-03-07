@@ -553,11 +553,10 @@
 
 @media (max-width: 720px) {
   .container {
-    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-    height: calc(var(--vh, 1vh) * 100 - 90px);
+    height: calc(100% - 122px);
     flex-direction: column;
     position: absolute;
-    top: 112px;
+    top: 122px;
   }
   .center-wrap {
     margin: 0;
