@@ -47,6 +47,11 @@ html {
   width: 100%;
 }
 
+.home-wrap {
+  position: absolute;
+  top: 90px;
+}
+
 .sec1 > .sec1-desc {
   padding: 0 30px;
   line-height: 2.9rem;

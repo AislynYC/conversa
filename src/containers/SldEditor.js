@@ -189,9 +189,6 @@ const SldEditor = props => {
       />
       <Router basename={process.env.PUBLIC_URL} history={history}>
         <div className="container">
-          <div className="mobile-proj-name-editor">
-            <ProjNameEditor {...props} proj={props.editProj} />
-          </div>
           <SldSelector
             {...props}
             selectSld={selectSld}

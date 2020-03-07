@@ -35,10 +35,15 @@ const ProjManager = props => {
     };
   }
 
+  // Get the viewport height and multiple it by 1% to get a value for a vh unit
+  let vh = window.innerHeight * 0.01;
+  // Set the value in the --vh custom property to the root of the document
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
+
   return (
     <Fragment>
       <Header {...props} locale={props.locale} setLocale={props.setLocale} />
-      <div className="container">
+      <div className="container proj-container">
         <div className="proj-wrap">
           <ToolBar {...props} userData={userData} />
           <ProjList {...props} />
@@ -59,9 +64,11 @@ const ToolBar = props => {
 
   return (
     <div className="tool-bar">
-      <Button variant="contained" onClick={newProjName} id="add-project-btn">
+      <Button variant="contained" onClick={newProjName} id="add-proj-btn">
         <AddIcon id="add-project-icon" />
-        <FormattedMessage id="projects.add-presentation" />
+        <div className="btn-text">
+          <FormattedMessage id="projects.add-presentation" />
+        </div>
       </Button>
       <span className="greeting-msg">
         {props.userData !== null
@@ -328,6 +335,7 @@ const NewProj = props => {
             () => {
               props.closeOverlay("newProj");
               setIsSubmitDisabled(false);
+              setNewProjName("");
             }
           );
         }

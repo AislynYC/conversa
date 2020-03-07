@@ -150,39 +150,42 @@ const Header = props => {
   return (
     <Fragment>
       <div className="header">
-        <div className="logo-wrap">
-          <Link to="/">
-            <div className="logo">
-              <img src={logo} alt="logo" />
-            </div>
-          </Link>
-          {editProjName}
+        <div className="header-wrap">
+          <div className="logo-wrap">
+            <Link to="/">
+              <div className="logo">
+                <img src={logo} alt="logo" />
+              </div>
+            </Link>
+            {editProjName}
+          </div>
+          <div className="header-tools">
+            <LangBtn locale={props.locale} setLocale={props.setLocale} />
+            <div>{linkBtns}</div>
+          </div>
+          {props.match.url.includes("/edit/") ? (
+            <Button
+              id="preview-btn"
+              variant="contained"
+              size="small"
+              onClick={props.showPreview}>
+              <FontAwesomeIcon icon={["fas", "play"]} />
+              <span className="preview-btn-text">
+                <FormattedMessage id="edit.preview" />
+              </span>
+            </Button>
+          ) : (
+            ""
+          )}
+          <div className="menu-btn" onClick={toggleMenu}>
+            <FontAwesomeIcon icon={["fas", "bars"]} />
+          </div>
         </div>
-        <div className="header-tools">
+        <div className="mobile-proj-name-editor">{editProjName}</div>
+        <div className={menuClass}>
           <LangBtn locale={props.locale} setLocale={props.setLocale} />
-          <div>{linkBtns}</div>
+          <div className="menu-links">{menuBtns}</div>
         </div>
-        {props.match.url.includes("/edit/") ? (
-          <Button
-            id="preview-btn"
-            variant="contained"
-            size="small"
-            onClick={props.showPreview}>
-            <FontAwesomeIcon icon={["fas", "play"]} />
-            <span className="preview-btn-text">
-              <FormattedMessage id="edit.preview" />
-            </span>
-          </Button>
-        ) : (
-          ""
-        )}
-        <div className="menu-btn" onClick={toggleMenu}>
-          <FontAwesomeIcon icon={["fas", "bars"]} />
-        </div>
-      </div>
-      <div className={menuClass}>
-        <LangBtn locale={props.locale} setLocale={props.setLocale} />
-        <div className="menu-links">{menuBtns}</div>
       </div>
     </Fragment>
   );

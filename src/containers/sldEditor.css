@@ -1,7 +1,7 @@
 .container {
   display: flex;
   width: 100%;
-  height: calc(100vh - 90px);
+  height: 100%;
   overflow: hidden;
   font-size: 1rem;
   margin: 0 auto;
@@ -522,10 +522,6 @@
     display: none;
   }
 
-  .center-wrap {
-    margin: 0;
-  }
-
   .control-panel {
     margin: 0 auto;
     height: 100%;
@@ -556,6 +552,16 @@
 }
 
 @media (max-width: 720px) {
+  .container {
+    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    height: calc(var(--vh, 1vh) * 100 - 90px);
+    flex-direction: column;
+    position: absolute;
+    top: 112px;
+  }
+  .center-wrap {
+    margin: 0;
+  }
   .sld-item > a {
     padding-bottom: 0;
     width: 80%;
@@ -566,28 +572,10 @@
     height: 100%;
   }
 
-  .logo-wrap > .proj-name-edit-wrap {
-    display: none;
-    position: fixed;
-    top: 0;
-  }
-  .mobile-proj-name-editor {
-    display: block;
-  }
-
-  .mobile-proj-name-editor > .proj-name-edit-wrap {
-    display: flex;
-    align-items: center;
-    padding: 0 10px 10px;
-    width: 100%;
-  }
-
-  .container {
-    flex-direction: column;
-  }
-
   #sld-selector {
     width: 100%;
+    height: 100%;
+    border-radius: 0;
   }
 
   #preview-close-btn {
@@ -684,6 +672,7 @@
   }
 }
 
+/* Force preview to rotate to landscape when phone size */
 @media (max-width: 720px) and (orientation: portrait) {
   .preview-container {
     width: 100vmax;
@@ -692,9 +681,8 @@
     transform: rotate(90deg) translate(0, -100vmin);
   }
 
-  .container {
-    position: absolute;
-    top: 90px;
+  .preview-container > #current-sld-container {
+    width: 90%;
   }
 }
 

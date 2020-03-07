@@ -1,4 +1,8 @@
 /* Project Management */
+.container.proj-container {
+  top: 90px;
+}
+
 .proj-wrap {
   width: 90%;
   margin: 0 auto;
@@ -8,7 +12,7 @@
   margin-top: 10px;
 }
 
-#add-project-btn {
+#add-proj-btn {
   letter-spacing: 3px;
   font-size: 1.05em;
   font-weight: 800;
@@ -31,8 +35,7 @@
   align-items: center;
   border-bottom: 1px solid #aaa;
   justify-content: space-between;
-  padding: 20px 0;
-  padding-left: 10px;
+  padding: 20px 0 20px 10px;
   position: relative;
 }
 
@@ -42,6 +45,10 @@
 
 .row-header:hover {
   background-color: transparent;
+}
+
+.row-header {
+  padding: 10px 0 20px 10px;
 }
 
 .col-header {
@@ -196,7 +203,51 @@
     margin-right: 0;
   }
 }
+
 @media (max-width: 490px) {
+  .container.proj-container {
+    top: 90px;
+    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    height: calc(var(--vh, 1vh) * 100 - 90px);
+  }
+
+  .container.proj-container {
+    top: 90px;
+    background-color: white;
+  }
+  .tool-bar {
+    position: absolute;
+    right: 20px;
+    top: 13px;
+    z-index: 10;
+  }
+
+  .tool-bar > #add-proj-btn {
+    height: 40px;
+  }
+
+  .btn-text {
+    display: none;
+  }
+  #add-project-icon {
+    margin: 0;
+  }
+  .proj-wrap {
+    width: 100%;
+  }
+
+  #proj-list-card.MuiPaper-rounded {
+    border-radius: 0;
+  }
+
+  #proj-list-card.MuiPaper-elevation1 {
+    box-shadow: none;
+  }
+
+  #proj-list-card {
+    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    height: calc(var(--vh, 1vh) * 100 -90px);
+  }
   .col {
     display: none;
   }
