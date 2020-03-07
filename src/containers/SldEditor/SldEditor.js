@@ -33,7 +33,7 @@ const SldEditor = props => {
   const userId = props.userId;
   const projId = props.projId;
 
-  const keydownHandler = e => {
+  const handleKeydown = e => {
     if (e.target.tagName !== "INPUT") {
       if (e.key === "ArrowDown" || e.key === "ArrowRight") {
         switchNextSld();
@@ -152,11 +152,11 @@ const SldEditor = props => {
   }, []);
 
   useEffect(() => {
-    document.addEventListener("keydown", keydownHandler);
+    document.addEventListener("keydown", handleKeydown);
     return () => {
-      document.removeEventListener("keydown", keydownHandler);
+      document.removeEventListener("keydown", handleKeydown);
     };
-  }, [keydownHandler]);
+  }, [handleKeydown]);
 
   const [previewClass, setPreviewClass] = useState("preview-container hide");
   const showPreview = () => {

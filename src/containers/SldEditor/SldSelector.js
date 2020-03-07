@@ -78,61 +78,13 @@ const SldsItems = props => {
 
     let sldItemCover = null;
     if (item.sldType === "heading-page") {
-      sldItemCover = (
-        <div className="sld-item-content heading-render-container">
-          <div className="sld-item-header">{item.heading}</div>
-          {item.hasQRCode ? (
-            <FontAwesomeIcon icon={["fas", "qrcode"]} className="sld-item-icon" />
-          ) : null}
-          <div className="sld-item-text">
-            <FormattedMessage id="edit.heading-page" />
-          </div>
-        </div>
-      );
+      sldItemCover = <HeadingCover {...props} sldItem={item} sldIndex={index} />;
     } else if (item.sldType === "multiple-choice") {
-      sldItemCover = (
-        <div className="sld-item-content">
-          <div className="sld-item-header">{item.qContent}</div>
-          <div className="sld-item-type">
-            <FontAwesomeIcon
-              icon={["far", "chart-bar"]}
-              className="sld-item-icon"
-              size="lg"
-            />
-            <div className="sld-item-text">
-              <FormattedMessage id="edit.multiple-selection" />
-            </div>
-          </div>
-        </div>
-      );
+      sldItemCover = <MultiCover {...props} sldItem={item} sldIndex={index} />;
     } else if (item.sldType === "open-ended") {
-      sldItemCover = (
-        <div className="sld-item-content">
-          <div className="sld-item-header">{item.qContent}</div>
-          <div className="sld-item-type">
-            <FontAwesomeIcon
-              icon={["far", "comment-dots"]}
-              className="sld-item-icon"
-              size="sm"
-            />
-            <div className="sld-item-text">
-              <FormattedMessage id="edit.open-ended" />
-            </div>
-          </div>
-        </div>
-      );
+      sldItemCover = <OpenCover {...props} sldItem={item} sldIndex={index} />;
     } else if (item.sldType === "tag-cloud") {
-      sldItemCover = (
-        <div className="sld-item-content">
-          <div className="sld-item-header">{item.qContent}</div>
-          <div className="sld-item-type">
-            <FontAwesomeIcon icon={["fas", "cloud"]} className="sld-item-icon" />
-            <div className="sld-item-text">
-              <FormattedMessage id="edit.tag-cloud" />
-            </div>
-          </div>
-        </div>
-      );
+      sldItemCover = <CloudCover {...props} sldItem={item} sldIndex={index} />;
     }
 
     return (
@@ -221,5 +173,68 @@ const AddSldBtn = props => {
       <AddIcon />
       <FormattedMessage id="edit.add-sld" />
     </Button>
+  );
+};
+
+const HeadingCover = props => {
+  return (
+    <div className="sld-item-content heading-render-container">
+      <div className="sld-item-header">{props.sldItem.heading}</div>
+      {props.sldItem.hasQRCode ? (
+        <FontAwesomeIcon icon={["fas", "qrcode"]} className="sld-item-icon" />
+      ) : null}
+      <div className="sld-item-text">
+        <FormattedMessage id="edit.heading-page" />
+      </div>
+    </div>
+  );
+};
+const MultiCover = props => {
+  return (
+    <div className="sld-item-content">
+      <div className="sld-item-header">{props.sldItem.qContent}</div>
+      <div className="sld-item-type">
+        <FontAwesomeIcon
+          icon={["far", "chart-bar"]}
+          className="sld-item-icon"
+          size="lg"
+        />
+        <div className="sld-item-text">
+          <FormattedMessage id="edit.multiple-selection" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const OpenCover = props => {
+  return (
+    <div className="sld-item-content">
+      <div className="sld-item-header">{props.sldItem.qContent}</div>
+      <div className="sld-item-type">
+        <FontAwesomeIcon
+          icon={["far", "comment-dots"]}
+          className="sld-item-icon"
+          size="sm"
+        />
+        <div className="sld-item-text">
+          <FormattedMessage id="edit.open-ended" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const CloudCover = props => {
+  return (
+    <div className="sld-item-content">
+      <div className="sld-item-header">{props.sldItem.qContent}</div>
+      <div className="sld-item-type">
+        <FontAwesomeIcon icon={["fas", "cloud"]} className="sld-item-icon" />
+        <div className="sld-item-text">
+          <FormattedMessage id="edit.tag-cloud" />
+        </div>
+      </div>
+    </div>
   );
 };
