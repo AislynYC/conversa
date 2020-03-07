@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
-import "../lib/icons";
+
+import {writeDbUser} from "../../lib/writeDb";
+
+import "../../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Button from "@material-ui/core/Button";
-import {writeDbUser} from "../lib/writeDb";
 
 const ControlPanel = props => {
   const db = useFirestore();

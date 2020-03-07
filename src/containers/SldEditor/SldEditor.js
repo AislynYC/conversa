@@ -4,18 +4,18 @@ import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
 
-import Loading from "../components/Loading/Loading";
-import ProjNameEditor from "../components/ProjNameEditor/ProjNameEditor";
+import Loading from "../../components/Loading/Loading";
+import ProjNameEditor from "../../components/ProjNameEditor/ProjNameEditor";
 import "./sldEditor.css";
 
-import Header from "../components/Header/Header";
-import CurSld from "../components/CurSld/CurSld";
+import Header from "../Header/Header";
+import CurSld from "../../components/CurSld/CurSld";
 import SldSelector from "./SldSelector";
 import ControlPanel from "./ControlPanel";
 import EditPanel from "./EditPanel";
-import {writeDbUser} from "../lib/writeDb";
+import {writeDbUser} from "../../lib/writeDb";
 
-import "../lib/icons";
+import "../../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";

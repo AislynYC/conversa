@@ -1,17 +1,18 @@
-import React, {useEffect, useRef, Fragment, useState} from "react";
-import {Router, Switch, Route, Link} from "react-router-dom";
+import React, {useEffect, useRef, useState} from "react";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
-import ZhInput from "../components/ZhInput/ZhInput";
-import {writeDbUser} from "../lib/writeDb";
 
-import "../lib/icons";
+import ZhInput from "../../components/ZhInput/ZhInput";
+import {writeDbUser} from "../../lib/writeDb";
+
+import "../../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AddIcon from "@material-ui/icons/Add";
 import SwitchBtn from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import {withStyles} from "@material-ui/core/styles";
+
 const ResNumInput = withStyles({
   root: {
     width: "25%",

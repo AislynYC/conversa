@@ -1,17 +1,17 @@
 import React, {Fragment, useState} from "react";
+import {connect} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {Link} from "react-router-dom";
-import {useFirestore} from "react-redux-firebase";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+
+import Header from "../containers/Header/Header";
+import firebase from "../config/fbConfig";
+import "./sign.css";
+
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Header from "../components/Header/Header";
-import "./sign.css";
-import {writeDbUser} from "../lib/writeDb";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import firebase from "../config/fbConfig";
-import {connect} from "react-redux";
 
 // Configure FirebaseUI.
 const uiConfig = {
@@ -23,63 +23,47 @@ const uiConfig = {
   ]
 };
 
-const SignInScreen = props => {
-  const db = useFirestore();
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-  const [pwConfirm, setPwConfirm] = useState("");
+const LogInScreen = props => {
+  const [userEmail, setUserEmail] = useState("test@test.com");
+  const [userPassword, setUserPassword] = useState("123456");
   const [errMsg, setErrMsg] = useState(null);
+  // let errMsg = null;
 
   const handleChange = (e, type) => {
     if (type === "email") {
       setUserEmail(e.target.value);
     } else if (type === "password") {
       setUserPassword(e.target.value);
-    } else if (type === "confirmPw") {
-      setPwConfirm(e.target.value);
     }
   };
   const handleSubmit = e => {
     e.preventDefault();
-    if (userPassword === pwConfirm) {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(userEmail, userPassword)
-        .then(res => {
-          return writeDbUser(
-            db,
-            res.user.uid,
-            null,
-            "setUserDoc",
-            {createdTime: Date.now()},
-            () => {
-              props.history.push(`/pm/${res.user.uid}`);
-            }
-          );
-        })
-        .catch(error => {
-          if (error.code === "auth/invalid-email") {
-            setErrMsg(<FormattedMessage id="sign-up.invalid-email" />);
-          } else if (error.code === "auth/weak-password") {
-            setErrMsg(<FormattedMessage id="sign-up.weak-password" />);
-          } else if (error.code === "auth/email-already-in-use") {
-            setErrMsg(<FormattedMessage id="sign-up.email-already-in-use" />);
-          }
-        });
-    } else {
-      setErrMsg(<FormattedMessage id="sign-up.password-diff" />);
-    }
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(userEmail, userPassword)
+      .then(res => {
+        props.history.push(`/pm/${res.user.uid}`);
+      })
+      .catch(function(error) {
+        if (error.code === "auth/invalid-email") {
+          setErrMsg(<FormattedMessage id="log-in.invalid-email" />);
+        } else if (error.code === "auth/wrong-password") {
+          setErrMsg(<FormattedMessage id="log-in.wrong-password" />);
+        } else if (error.code === "auth/user-not-found") {
+          setErrMsg(<FormattedMessage id="log-in.user-not-found" />);
+        }
+      });
   };
 
   return (
     <div className="entry-screen">
       <h2>
-        <FormattedMessage id="sign-up.welcome" />
+        <FormattedMessage id="log-in.welcome" />
       </h2>
       <p>
-        <FormattedMessage id="sign-up.instruction" />
+        <FormattedMessage id="log-in.instruction" />
       </p>
-      <form name="sign-up" id="sign-up-form" className="entry-form">
+      <form name="log-in" id="log-in-form" className="entry-form">
         <TextField
           required
           id="email-input"
@@ -97,33 +81,24 @@ const SignInScreen = props => {
           value={userPassword}
           onChange={e => handleChange(e, "password")}
         />
-        <div className="empty-divider"></div>
-        <TextField
-          required
-          id="confirm-pw-input"
-          label="Confirm Password"
-          type="password"
-          value={pwConfirm}
-          onChange={e => handleChange(e, "confirmPw")}
-        />
         <div className="err-msg">{errMsg}</div>
         <Button
           type="submit"
           variant="contained"
           id="entry-btn"
           onClick={e => handleSubmit(e)}>
-          <FormattedMessage id="sign-up.create-account" />
+          <FormattedMessage id="log-in.log-in" />
         </Button>
       </form>
-      <Link to="/login">
+      <Link to="/signup">
         <div className="switch-link">
-          <FormattedMessage id="sign-up.go-to-login" />
+          <FormattedMessage id="log-in.go-to-signup" />
         </div>
       </Link>
       <div className="entry-divider">
         <div className="divider-line"></div>
         <p>
-          <FormattedMessage id="sign-up.3rd-sign-up" />
+          <FormattedMessage id="log-in.3rd-log-in" />
         </p>
         <div className="divider-line"></div>
       </div>
@@ -132,14 +107,14 @@ const SignInScreen = props => {
     </div>
   );
 };
-const SignUp = props => {
+const LogIn = props => {
   return (
     <Fragment>
       <Header {...props} locale={props.locale} setLocale={props.setLocale} />
       <div className="entry-page">
         <Card className="sign-card">
           <CardContent>
-            <SignInScreen {...props} />
+            <LogInScreen {...props} />
           </CardContent>
         </Card>
       </div>
@@ -154,4 +129,4 @@ let mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps)(SignUp);
+export default connect(mapStateToProps)(LogIn);

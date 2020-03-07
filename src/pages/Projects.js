@@ -2,23 +2,20 @@ import React, {Fragment, useState, useEffect} from "react";
 import {FormattedMessage} from "react-intl";
 import {useFirestore} from "react-redux-firebase";
 
-import Header from "./components/Header/Header";
+import Header from "../containers/Header/Header";
+import Loading from "../components/Loading/Loading";
+import {writeDbUser, writeDbInvt} from "../lib/writeDb";
+import ProjNameEditor from "../components/ProjNameEditor/ProjNameEditor";
+import "./projects.css";
+
+import "../lib/icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import CloseIcon from "@material-ui/icons/Close";
-import ProjNameEditor from "./components/ProjNameEditor/ProjNameEditor";
-
-import "./lib/icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
-import Loading from "./components/Loading/Loading";
-import {writeDbUser, writeDbInvt} from "./lib/writeDb";
-import "./reset.css";
-import "./style.css";
-import "./projects.css";
 
 const ProjManager = props => {
   let userData = null;

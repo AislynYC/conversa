@@ -2,10 +2,10 @@ import {connect} from "react-redux";
 import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 
-import ProjManager from "../projects";
-import {showOverlay} from "../ducks/projectsReducer";
-import {closeOverlay} from "../ducks/projectsReducer";
-import {onLoading} from "../ducks/projectsReducer";
+import ProjManager from "./Projects";
+import {showOverlay} from "../reducers/projectsReducer";
+import {closeOverlay} from "../reducers/projectsReducer";
+import {onLoading} from "../reducers/projectsReducer";
 
 let mapStateToProps = (state, props) => {
   let projDataArray = state.firestore.ordered[`${props.match.params.userId}-projects`];

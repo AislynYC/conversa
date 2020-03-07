@@ -3,16 +3,17 @@ import {connect} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {Link} from "react-router-dom";
 
-import LangBtn from "../LangBtn/LangBtn.js";
-import PresentBtn from "../PresentBtn/PresentBtn.js";
-import ProjNameEditor from "../ProjNameEditor/ProjNameEditor";
+import firebase from "../../config/fbConfig";
+import LangBtn from "../../components/LangBtn/LangBtn.js";
+import PresentBtn from "../../components/PresentBtn/PresentBtn.js";
+import ProjNameEditor from "../../components/ProjNameEditor/ProjNameEditor";
 import logo from "../../img/conversa-s.png";
 import "./style.css";
+
 import "../../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
-import firebase from "../../config/fbConfig";
 
 const SignBtn = withStyles({
   root: {

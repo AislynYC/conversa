@@ -3,19 +3,19 @@ import {connect} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {Link} from "react-router-dom";
 
-import Header from "./components/Header/Header";
-import firebase from "./config/fbConfig";
-import MainImg from "./img/main_img.svg";
-import logoLeaf from "./img/logo.png";
-import Button from "@material-ui/core/Button";
-import step1Img from "./img/ask.png";
-import step2Img from "./img/response.png";
-import step3Img from "./img/visual-data.png";
+import Header from "../containers/Header/Header";
+import firebase from "../config/fbConfig";
+import MainImg from "../img/main_img.svg";
+import logoLeaf from "../img/logo.png";
+import step1Img from "../img/ask.png";
+import step2Img from "../img/response.png";
+import step3Img from "../img/visual-data.png";
+import Loading from "../components/Loading/Loading";
 import "./home.css";
-import Loading from "./components/Loading/Loading";
 
-import "./lib/icons";
+import "../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Button from "@material-ui/core/Button";
 
 const Home = props => {
   let path = "/signUp";

@@ -3,7 +3,7 @@ import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 
 import SldEditor from "./SldEditor.js";
-import {showOverlay, closeOverlay} from "../ducks/sldEditorReducer";
+import {showOverlay, closeOverlay} from "../../reducers/sldEditorReducer";
 
 let mapStateToProps = (state, props) => {
   let projDataArray = state.firestore.ordered[`${props.userId}-projects`];

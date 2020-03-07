@@ -2,9 +2,10 @@ import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
-import "../lib/icons";
+
+import {writeDbUser, writeDbInvt} from "../../lib/writeDb";
+import "../../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {writeDbUser, writeDbInvt} from "../lib/writeDb";
 
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";

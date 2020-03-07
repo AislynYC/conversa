@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 
-import SldEditorConnect from "./containers/SldEditorConnect";
+import SldEditorConnect from "../containers/SldEditor/SldEditorConnect";
 
 const Edit = props => {
   let userId = props.match.params.userId;

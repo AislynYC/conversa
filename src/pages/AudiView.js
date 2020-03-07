@@ -2,14 +2,15 @@ import React, {Fragment, useEffect, useState} from "react";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
 import {Link} from "react-router-dom";
+
 import logo from "../img/conversa.png";
 import logoC from "../img/logoC_nb.png";
 import Loading from "../components/Loading/Loading";
 import "./audiView.css";
 import "../lib/icons";
+
 import {writeDbInvt} from "../lib/writeDb";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
 import Button from "@material-ui/core/Button";
 import Radio from "@material-ui/core/Radio";
 import TextField from "@material-ui/core/TextField";

@@ -10,15 +10,15 @@ import fbConfig from "./config/fbConfig";
 
 import en from "./i18n/en.js";
 import zh from "./i18n/zh.js";
-import rootReducer from "./ducks/rootReducer";
-import Home from "./home";
-import Edit from "./edit";
-import InviteConnect from "./containers/InviteConnect";
+import rootReducer from "./reducers/rootReducer";
+import Home from "./pages/Home";
+import Edit from "./pages/Edit";
+import InviteConnect from "./pages/InviteConnect";
+import SignUp from "./pages/SignUp";
+import LogIn from "./pages/LogIn";
+import ProjectsConnect from "./pages/ProjectsConnect";
 import "./reset.css";
 import "./style.css";
-import SignUp from "./containers/SignUp";
-import LogIn from "./containers/LogIn";
-import ProjectsConnect from "./containers/ProjectsConnect";
 
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language);
