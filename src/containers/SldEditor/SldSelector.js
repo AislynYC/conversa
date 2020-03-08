@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
@@ -21,13 +21,23 @@ const SldSelector = props => {
 export default SldSelector;
 
 const SldsItems = props => {
+  return props.slds.map((item, index) => {
+    return (
+      <SldItem key={index} {...props} sldItem={item} sldIndex={index} />
+    );
+  });
+};
+
+const SldItem=props=>{
   const db = useFirestore();
   const userId = props.userId;
   const projId = props.projId;
+  let path = null;
+  let sldClass = null;
   let [hovered, setHovered] = useState(null);
 
   const copySld = index => {
-    let newSld = {...props.slds[index]};
+    let newSld = { ...props.slds[index] };
     let t = Date.now();
     newSld.id = t;
     newSld.lastEdited = t;
@@ -41,7 +51,7 @@ const SldsItems = props => {
       userId,
       projId,
       "updateProjDoc",
-      {lastEdited: t, slds: props.slds},
+      { lastEdited: t, slds: props.slds },
       () => {
         // Add a responded audi container to the new slide
         props.respondedAudi[t] = [];
@@ -49,78 +59,160 @@ const SldsItems = props => {
           db,
           projId,
           "updateInvtDoc",
-          {respondedAudi: props.respondedAudi},
+          { respondedAudi: props.respondedAudi },
           null
         );
       }
     );
   };
-  return props.slds.map((item, index) => {
-    let path = null;
-    let sldClass = null;
 
-    // Compose path according to slide index
-    index === 0 ? (path = `${props.match.url}`) : (path = `${props.match.url}/${index}`);
-
-    // Highlight current selected slide by different class name according to db curSldIndex
-    if (index === parseInt(props.curSldIndex)) {
-      sldClass = "sld-item sld-item-selected";
-    } else {
-      sldClass = "sld-item";
+  const moveUp = index => {
+    let newSlds = props.slds.slice(0);
+    let t = Date.now();
+    if (index > 0) {
+      let movingSld = newSlds.splice(index, 1)[0];
+      newSlds.splice(index - 1, 0, movingSld);
+      writeDbUser(
+        db,
+        userId,
+        projId,
+        "updateProjDoc",
+        { lastEdited: t, slds: newSlds },
+        null
+      );
     }
-
-    let copyBtnClass = "sld-copy-btn hide-tool";
-    let delBtnClass = "trash-bin sld-item-del hide-tool";
-    if (index === hovered) {
-      copyBtnClass = "sld-copy-btn";
-      delBtnClass = "trash-bin sld-item-del";
+  };
+  const moveDown = index => {
+    let newSlds = props.slds.slice(0);
+    let t = Date.now();
+    if (index < newSlds.length - 1) {
+      let movingSld = newSlds.splice(index, 1)[0];
+      newSlds.splice(index + 1, 0, movingSld);
+      writeDbUser(
+        db,
+        userId,
+        projId,
+        "updateProjDoc",
+        { lastEdited: t, slds: newSlds },
+        null
+      );
     }
+  };
 
-    let sldItemCover = null;
-    if (item.sldType === "heading-page") {
-      sldItemCover = <HeadingCover {...props} sldItem={item} sldIndex={index} />;
-    } else if (item.sldType === "multiple-choice") {
-      sldItemCover = <MultiCover {...props} sldItem={item} sldIndex={index} />;
-    } else if (item.sldType === "open-ended") {
-      sldItemCover = <OpenCover {...props} sldItem={item} sldIndex={index} />;
-    } else if (item.sldType === "tag-cloud") {
-      sldItemCover = <CloudCover {...props} sldItem={item} sldIndex={index} />;
-    }
+  // Compose path according to slide index
+  props.sldIndex === 0 ? (path = `${props.match.url}`) : (path = `${props.match.url}/${props.sldIndex}`);
 
-    return (
-      <div
-        className={sldClass}
-        key={index}
-        onMouseEnter={() => setHovered(index)}
-        onMouseLeave={() => setHovered(null)}>
-        <div className="sld-item-title">
-          <div>{index + 1}</div>
-          <FontAwesomeIcon
-            icon={["fas", "copy"]}
-            className={copyBtnClass}
-            onClick={() => copySld(index)}
-          />
-          <FontAwesomeIcon
-            icon={["fas", "trash-alt"]}
-            className={delBtnClass}
-            onClick={() => props.showOverlay("confirmDel", index)}
-          />
-        </div>
+  // Highlight current selected slide by different class name according to db curSldIndex
+  if (props.sldIndex === parseInt(props.curSldIndex)) {
+    sldClass = "sld-item sld-item-selected";
+  } else {
+    sldClass = "sld-item";
+  }
 
-        <Link to={path} className="sld-item-link">
-          <div
-            className="sld"
-            onClick={() => {
-              props.selectSld(index);
-              props.showMobileControl();
-            }}>
-            {sldItemCover}
-          </div>
-        </Link>
-      </div>
-    );
+  const [classes, setClasses] = useState({
+    copyBtnClass: "sld-copy-btn hide-tool mobile-hide-tool",
+    delBtnClass: "trash-bin sld-item-del hide-tool mobile-hide-tool",
+    moveBtnClass: "sld-move-btn hide-tool mobile-hide-tool",
+    emptyClass: "empty-tool-space"
   });
-};
+
+  useEffect(() => {
+    if (props.sldIndex === hovered && window.innerWidth > 720) {
+      setClasses({
+        copyBtnClass: "sld-copy-btn",
+        delBtnClass: "trash-bin sld-item-del",
+        moveBtnClass: "sld-move-btn",
+        emptyClass: "empty-tool-space hide-tool"
+      });
+    } else {
+      setClasses({
+        copyBtnClass: "sld-copy-btn hide-tool mobile-hide-tool",
+        delBtnClass: "trash-bin sld-item-del hide-tool mobile-hide-tool",
+        moveBtnClass: "sld-move-btn hide-tool mobile-hide-tool",
+        emptyClass: "empty-tool-space"
+      });
+    }
+  }, [hovered]);
+
+  const toggleItemTool = () => {
+    if (classes.emptyClass === "empty-tool-space") {
+      setClasses({
+        copyBtnClass: "sld-copy-btn",
+        delBtnClass: "trash-bin sld-item-del",
+        moveBtnClass: "sld-move-btn",
+        emptyClass: "empty-tool-space hide-tool mobile-hide-tool"
+      });
+    } else {
+      setClasses({
+        copyBtnClass: "sld-copy-btn hide-tool mobile-hide-tool",
+        delBtnClass: "trash-bin sld-item-del hide-tool mobile-hide-tool",
+        moveBtnClass: "sld-move-btn hide-tool mobile-hide-tool",
+        emptyClass: "empty-tool-space"
+      });
+    }
+  };
+
+  let sldItemCover = null;
+  if (props.sldItem.sldType === "heading-page") {
+    sldItemCover = <HeadingCover {...props} />;
+  } else if (props.sldItem.sldType === "multiple-choice") {
+    sldItemCover = <MultiCover {...props} />;
+  } else if (props.sldItem.sldType === "open-ended") {
+    sldItemCover = <OpenCover {...props}  />;
+  } else if (props.sldItem.sldType === "tag-cloud") {
+    sldItemCover = <CloudCover {...props} />;
+  }
+  return(
+    <div
+      className={sldClass}
+      key={props.sldIndex}
+      onMouseEnter={() => setHovered(props.sldIndex)}
+      onMouseLeave={() => setHovered(null)}>
+      <div className="sld-item-title">
+        <div>{props.sldIndex + 1}</div>
+        <FontAwesomeIcon
+          icon={["fas", "copy"]}
+          className={classes.copyBtnClass}
+          onClick={() => copySld(props.sldIndex)}
+        />
+        <FontAwesomeIcon
+          icon={["fas", "trash-alt"]}
+          className={classes.delBtnClass}
+          onClick={() => props.showOverlay("confirmDel", props.sldIndex)}
+        />
+      </div>
+
+      <Link to={path} className="sld-item-link">
+        <div
+          className="sld"
+          onClick={() => {
+            props.selectSld(props.sldIndex);
+            props.showMobileControl();
+          }}>
+          {sldItemCover}
+        </div>
+      </Link>
+      <div className={classes.emptyClass}></div>
+      <div className="sld-item-tools">
+        <FontAwesomeIcon
+          icon={["fas", "wrench"]}
+          className="item-tool-switch"
+          onClick={toggleItemTool}
+        />
+        <FontAwesomeIcon
+          icon={["fas", "long-arrow-alt-up"]}
+          className={classes.moveBtnClass}
+          onClick={() => moveUp(props.sldIndex)}
+        />
+        <FontAwesomeIcon
+          icon={["fas", "long-arrow-alt-down"]}
+          className={classes.moveBtnClass}
+          onClick={() => moveDown(props.sldIndex)}
+        />
+      </div>
+    </div>
+  )
+}
 
 const AddSldBtn = props => {
   const db = useFirestore();

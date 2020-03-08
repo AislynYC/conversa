@@ -25,7 +25,10 @@ import {
   faHeart,
   faFileAlt,
   faBars,
-  faPlay
+  faPlay,
+  faLongArrowAltUp,
+  faLongArrowAltDown,
+  faWrench
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -51,5 +54,8 @@ library.add(
   faHeart,
   faFileAlt,
   faBars,
-  faPlay
+  faPlay,
+  faLongArrowAltUp,
+  faLongArrowAltDown,
+  faWrench
 );
