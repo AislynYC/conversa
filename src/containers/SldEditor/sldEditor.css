@@ -1,0 +1,746 @@
+.container {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 90px);
+  overflow: hidden;
+  font-size: 1rem;
+  margin: 0 auto;
+  background-color: rgb(123, 144, 133);
+  color: #444;
+}
+
+.center-wrap {
+  margin: 0 20px;
+  width: 100%;
+}
+
+.center {
+  width: 100%;
+  height: 99%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-proj-name-editor {
+  display: none;
+}
+
+/* control panel */
+.control-panel {
+  box-sizing: border-box;
+  border-radius: 4px;
+  /* prettier-ignore */
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+
+  width: 100%;
+  height: 30%;
+  margin: 20px auto 0;
+  background-color: white;
+  padding: 20px;
+  flex: 1 1 28%;
+}
+
+#finish-btn {
+  display: none;
+}
+
+.sld-type-form {
+  display: flex;
+  justify-content: center;
+}
+
+.control-panel > form > label {
+  margin: 0 15px;
+  width: 20%;
+}
+
+.control-panel > form > label > input {
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+
+.control-panel > form > label > input + div {
+  /* DIV STYLES */
+  cursor: pointer;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  width: 100%;
+  padding-bottom: 15%;
+  padding-top: 15%;
+  text-align: center;
+}
+
+.sld-type-w-chart {
+  padding-bottom: 15%;
+  padding-top: 15%;
+}
+
+.sld-type-icon {
+  font-size: 30px;
+}
+
+.control-panel > form > label > input:checked + div {
+  /* (RADIO CHECKED) DIV STYLES */
+  display: block;
+  background-color: rgba(239, 245, 234, 0.514);
+  border: 2px solid #5a9179a6;
+  width: 100%;
+  text-align: center;
+  color: #5a9179;
+}
+
+.control-label,
+.diagram-label,
+.heading-label {
+  font-weight: 500;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.control-label {
+  margin-bottom: 20px;
+}
+
+.middle-editor {
+  display: none;
+}
+
+.current-sld-type {
+  display: none;
+}
+
+/* slide selector */
+#sld-selector {
+  background-color: rgb(248, 250, 246);
+  border-radius: 4px;
+  /* prettier-ignore */
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  width: 35%;
+  height: 99%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sld-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0 20px 0;
+}
+.sld-item > a {
+  width: 80%;
+  padding-bottom: 55%;
+  position: relative;
+  max-width: 330px;
+}
+
+.sld {
+  box-sizing: border-box;
+  background-color: white;
+  border: 1px solid #aaa;
+  font-size: 0.7rem;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  max-width: 330px;
+}
+
+.sld-item-content {
+  box-sizing: border-box;
+  padding: 10px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-width: 330px;
+}
+
+.sld-item-header {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  word-break: break-all;
+  overflow: hidden;
+  line-height: 15px;
+}
+
+.sld-item-type {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sld-item-text {
+  text-align: center;
+  color: #666;
+  font-weight: 500;
+}
+
+.sld-item-icon {
+  color: #666;
+  font-size: 2.8rem;
+  margin-bottom: 4px;
+}
+
+.sld-item-selected {
+  background-color: rgba(191, 212, 212, 0.63);
+}
+
+#add-sld-btn {
+  width: 55%;
+  align-self: center;
+  margin: 25px auto;
+  min-height: 40px;
+}
+
+.sld-item-title {
+  position: relative;
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.hide-tool {
+  display: none;
+}
+
+.sld-item-tools {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 5px;
+}
+.sld-copy-btn,
+.sld-move-btn,
+.item-tool-switch {
+  cursor: pointer;
+}
+
+.item-tool-switch {
+  display: none;
+}
+.sld-copy-btn:hover {
+  transform: scale(1.2) rotate(-15deg);
+}
+
+.sld-move-btn {
+  font-size: 1.5em;
+  /* margin: 10px 0 10px 5px; */
+}
+.sld-move-btn:hover {
+  transform: scale(1.3);
+}
+
+.empty-tool-space {
+  width: 13px;
+}
+
+/* Edit Panel */
+.edit-panel {
+  width: 40%;
+  height: 99%;
+  border-radius: 4px;
+  /* prettier-ignore */
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  background-color: white;
+  overflow-y: scroll;
+  padding: 20px;
+}
+
+.diagram-type-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.diagram-type-selector > form > label {
+  width: 50%;
+}
+
+.diagram-type-selector > form > label:nth-child(1) {
+  margin-right: 20px;
+}
+
+.diagram-type-selector > form > label > input {
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+
+.diagram-type-selector > form > label > input + div {
+  /* DIV STYLES */
+  cursor: pointer;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  width: 100%;
+  padding-bottom: 14%;
+  padding-top: 14%;
+  text-align: center;
+}
+
+.diagram-type-icon {
+  font-size: 30px;
+}
+
+.diagram-type-selector > form > label > input:checked + div {
+  /* (RADIO CHECKED) DIV STYLES */
+  display: block;
+  background-color: rgba(239, 245, 234, 0.514);
+  border: 2px solid #5a9179a6;
+  width: 100%;
+  text-align: center;
+  color: #5a9179;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+#qus-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+#qus-input-group > .zh-input-group,
+.opt-input-group > .zh-input-group,
+#heading-input-group > .zh-input-group {
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  margin: 5px 0;
+}
+
+#qus-input-group > .zh-input-group:hover,
+.opt-input-group > .zh-input-group:hover,
+#heading-input-group > .zh-input-group:hover {
+  border: 1px solid #333;
+}
+#qus-input-group > .zh-input-group:focus-within,
+.opt-input-group > .zh-input-group:focus-within,
+#heading-input-group > .zh-input-group:focus-within {
+  outline: none;
+  border: 1.5px solid rgba(75, 143, 107, 0.726);
+  transition: border 0.1s;
+}
+.edit-panel-label {
+  font-weight: 400;
+  margin: 14px 0 5px;
+  font-size: 1.05em;
+}
+.opt-input-group {
+  display: flex;
+}
+
+@keyframes input-focus {
+  from {
+    border: 1px solid #333;
+  }
+  to {
+    border: 1.5px solid rgba(75, 143, 107, 0.726);
+  }
+}
+.delete-opt-btn {
+  vertical-align: middle;
+  font-size: 1.3em;
+  cursor: pointer;
+  align-self: center;
+  padding: 0 8px;
+  color: rgba(15, 99, 51, 0.473);
+}
+.delete-opt-btn:hover {
+  animation-name: rotate;
+  animation-duration: 0.3s;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+}
+
+#add-opt-btn {
+  color: #3c4e57;
+  min-width: 120px;
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 3px;
+}
+
+/* Heading setting */
+.edit-panel > label {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Help Tip */
+.qus-icon {
+  margin-left: 4px;
+}
+
+.help-tip:hover p {
+  display: block;
+  transform-origin: 100% 0%;
+
+  -webkit-animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.help-tip p {
+  /* The tooltip */
+  display: none;
+  text-align: left;
+  background-color: #333;
+  padding: 20px;
+  width: 300px;
+  position: absolute;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  right: -4px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.4;
+  z-index: 99;
+}
+
+.help-tip p:after {
+  /* Prevents the tooltip from being hidden */
+  width: 100%;
+  height: 40px;
+  content: "";
+  position: absolute;
+  top: -40px;
+  left: 0;
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  100% {
+    opacity: 100%;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+
+/* Preview */
+.preview-container {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: black;
+  z-index: 90;
+}
+
+.preview-container.hide {
+  display: none;
+}
+.preview-btn-text {
+  margin-left: 10px;
+}
+#preview-close-btn {
+  color: white;
+  font-size: 50px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+/* RWD */
+
+@media (max-width: 1800px) and (min-height: 780px) {
+  .center {
+    display: flex;
+    flex-direction: column;
+  }
+  .sld-type-form {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .sld-type-group {
+    flex-basis: 33%;
+  }
+  .control-panel > form > label {
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 1170px) {
+  .container {
+    font-size: 15px;
+  }
+  .center {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sld-type-form {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .sld-type-group {
+    flex-basis: 29%;
+  }
+  .control-panel > form > label {
+    padding: 5px 10px;
+  }
+  .sld-item-header {
+    display: none;
+  }
+}
+
+/* Set landscape for iPad Pro */
+@media (max-width: 1100px) and (orientation: landscape) {
+  .sld-type-group {
+    flex-basis: 35%;
+  }
+  .control-panel > form > label {
+    padding: 10px 10px;
+  }
+}
+
+@media (max-width: 1025px), (max-width: 1200px) and (min-height: 780px) {
+  .sld-type-form {
+    flex-wrap: nowrap;
+  }
+
+  .sld-type-group {
+    flex-basis: 35%;
+  }
+  .control-panel > form > label {
+    padding: 0px;
+    margin: 10px 5px;
+    max-width: 200px;
+  }
+  .center > #current-sld-container,
+  .container > .edit-panel {
+    display: none;
+  }
+
+  .control-panel {
+    margin: 0 auto;
+    height: 100%;
+  }
+  .middle-editor {
+    display: block;
+    height: 85%;
+    width: 100%;
+  }
+  .middle-editor > .edit-panel {
+    width: 100%;
+    height: 90%;
+  }
+
+  .sld-item-header {
+    display: block;
+  }
+
+  .sld-item-icon {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 820px) {
+  .sld-item-header {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .container {
+    height: calc(100% - 122px);
+    flex-direction: column;
+    position: absolute;
+    top: 122px;
+  }
+  .center-wrap {
+    margin: 0;
+  }
+  .sld-item > a {
+    padding-bottom: 0;
+    width: 80%;
+    height: 90%;
+  }
+
+  .middle-editor > .edit-panel {
+    height: 100%;
+  }
+
+  #sld-selector {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  #preview-close-btn {
+    color: #999;
+    font-size: 30px;
+    z-index: 99;
+  }
+  .sld-item-header {
+    display: block;
+  }
+  .sld-item-header,
+  .sld-item-text {
+    font-size: 1rem;
+  }
+  .sld-item-icon {
+    font-size: 4rem;
+  }
+
+  .sld-item-title {
+    font-size: 1.3rem;
+    min-height: 230px;
+  }
+
+  .sld-item {
+    min-height: 250px;
+  }
+
+  .item-tool-switch {
+    display: block;
+  }
+
+  .sld-item-tools {
+    height: 210px;
+    margin: 0 18px;
+  }
+
+  .hide-tool {
+    display: block;
+  }
+
+  .mobile-hide-tool {
+    display: none;
+  }
+  .item-tool-switch {
+    font-size: 1.3em;
+  }
+  .sld-move-btn {
+    font-size: 1.7em;
+    /* margin: 28px 0 28px 5px; */
+  }
+  .empty-tool-space,
+  .empty-tool-space.hide-tool {
+    display: none;
+  }
+
+  #add-sld-btn {
+    margin: 25px auto 80px;
+  }
+
+  .mobile-control-panel,
+  .mobile-control-panel > .center > .control-panel {
+    width: 100%;
+    overflow: hidden;
+    position: fixed;
+    z-index: 90;
+    top: 0;
+    right: -100%;
+    transition: 0.6s;
+    padding: 0;
+  }
+
+  .mobile-control-panel.show,
+  .mobile-control-panel.show > .center > .control-panel {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    padding: 20px;
+    top: 0;
+    right: 0;
+  }
+
+  .sld-type-form {
+    flex-wrap: wrap;
+    height: 0;
+    transition: 0.5s;
+  }
+
+  .sld-type-form.show {
+    height: 37%;
+    min-height: 250px;
+  }
+
+  .sld-type-group {
+    flex-basis: 43%;
+  }
+
+  .current-sld-type {
+    display: block;
+    line-height: 1.5rem;
+    margin-bottom: 5px;
+  }
+
+  .current-sld-type span {
+    font-weight: 600;
+  }
+  #finish-btn {
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    background-color: #333;
+    color: white;
+  }
+  .edit-panel {
+    overflow: scroll;
+    position: relative;
+    z-index: 6;
+  }
+}
+
+/* Force preview to rotate to landscape when phone size */
+@media (max-width: 720px) and (orientation: portrait) {
+  .preview-container {
+    width: 100vmax;
+    height: 100vmin;
+    transform-origin: top left;
+    transform: rotate(90deg) translate(0, -100vmin);
+  }
+
+  .preview-container > #current-sld-container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 490px) {
+  .sld-move-btn:hover,
+  .sld-copy-btn:hover,
+  .sld-item-title > .trash-bin:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .sld-item > a {
+    padding-bottom: 55%;
+  }
+}

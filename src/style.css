@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Source Sans Pro", "Noto Sans TC", sans-serif;
+}
+
+body,
+#root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Overlay */
+
+.overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 20;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.overlay-show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay-card-title {
+  /* min-width: 600px; */
+  margin-bottom: 30px;
+  font-weight: 500;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 2px;
+  font-size: 1.1em;
+}
+
+.closeX {
+  cursor: pointer;
+}
+
+.closeX:hover {
+  animation-name: rotate;
+  animation-duration: 0.3s;
+}
+
+/* Scroll bar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  margin: 0 0 5px 0;
+}
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  background: rgb(219, 219, 219);
+}

@@ -1,0 +1,204 @@
+/* Audi Page */
+
+.audi-container {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background-color: #7b9085;
+  padding: 20px 30px;
+  overflow-y: scroll;
+}
+
+.poll-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.poll {
+  color: white;
+  font-size: 1.6em;
+  margin: 0 auto;
+}
+
+.poll-logo {
+  margin: 0 auto 20px;
+  width: 300px;
+  height: 100px;
+}
+
+.poll-logo > img {
+  width: 100%;
+  border-radius: 20px;
+}
+.res-group {
+  display: flex;
+  margin: 15px 0;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 4px;
+}
+
+.res-group > .opts {
+  margin-left: 10px;
+  line-height: 35px;
+  font-size: 1.3rem;
+}
+
+.display-none {
+  display: none;
+}
+
+#reaction-laugh {
+  width: 50px;
+  height: 50px;
+  border-radius: 99em;
+}
+
+.heading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.heading-container > .heading {
+  margin-bottom: 100px;
+}
+.heading-container > .reaction-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  width: 80px;
+  background-color: white;
+}
+
+#submit-btn {
+  background-color: #333;
+  color: white;
+  letter-spacing: 4px;
+  width: 100%;
+  font-size: 1.3rem;
+}
+
+/* open-ended */
+.q-content {
+  padding-bottom: 20px;
+}
+
+#res-input {
+  font-size: 1.4rem;
+  width: 100%;
+  border-radius: 4px;
+  border: 2px solid #dcf3e7;
+  background-color: #dcf3e74d;
+  outline: none;
+  resize: none;
+  padding: 10px;
+}
+
+.open-input-area,
+.cloud-input-area {
+  position: relative;
+  padding-bottom: 20px;
+}
+#audi-text-count {
+  color: rgb(241, 237, 237);
+  font-size: 1rem;
+  position: absolute;
+  z-index: 2;
+  bottom: 10%;
+  right: 3%;
+}
+
+/* Tag Cloud */
+
+.cloud-res-input-group {
+  position: relative;
+  margin: 20px 0;
+}
+
+.cloud-res-input {
+  width: 100%;
+  height: 50px;
+  border: 2px solid #dcf3e7;
+  background-color: #dcf3e74d;
+  outline: none;
+  border-radius: 4px;
+}
+
+.tag-text-count {
+  position: absolute;
+  right: 5px;
+  top: 30%;
+  font-size: 1rem;
+  color: rgb(241, 237, 237);
+}
+
+/* Wait Page */
+.wait-msg {
+  text-align: center;
+  margin: 0 auto;
+  letter-spacing: 2px;
+}
+
+.wait-img {
+  width: 180px;
+  margin: 40px auto 30px;
+  position: relative;
+  height: 200px;
+}
+
+.wait-img > img {
+  position: absolute;
+  width: 100%;
+  animation-name: wait-move;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+/* End Page */
+.end-circle {
+  background-color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  color: pink;
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 99em;
+  animation-name: wait-move;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+#go-to-home {
+  margin-top: 30px;
+  background-color: #333;
+  color: white;
+}
+
+.loading-msg {
+  margin-top: 80px;
+}
+
+@keyframes wait-move {
+  0% {
+    top: 0px;
+  }
+  40% {
+    top: -10px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+
+/* RWD */
+@media (min-width: 768px) {
+  .poll {
+    width: 600px;
+  }
+}

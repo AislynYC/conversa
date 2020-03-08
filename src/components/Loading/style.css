@@ -1,0 +1,257 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.succulent-box {
+  position: relative;
+  margin: auto;
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+
+.loading-circle {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  border-radius: 99em;
+  background-color: #333;
+  top: 45px;
+  left: 10px;
+}
+.pot {
+  position: absolute;
+  width: 25%;
+  height: 20%;
+  bottom: 0%;
+  left: 38%;
+  background: #fcaa67;
+  -webkit-clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+  box-shadow: inset 0 16px 20px rgba(0, 0, 0, 0.3);
+}
+
+.pot-top {
+  position: absolute;
+  width: 27%;
+  height: 5%;
+  bottom: 16%;
+  left: 37%;
+  background: #fcaa67;
+  border-radius: 3px;
+}
+
+.stem {
+  position: absolute;
+  width: 2%;
+  height: 20%;
+  left: 49%;
+  bottom: 15%;
+  background: #89ab79;
+}
+
+.leaf {
+  position: absolute;
+  border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+  background: #89ab79;
+}
+
+.leaf01 {
+  transform: rotate(-150deg);
+}
+
+.leaf02 {
+  transform: rotate(50deg);
+}
+.leaf02-green {
+  position: absolute;
+  border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+  background: #6c935c;
+  transform: rotate(0deg);
+}
+
+.leaf03 {
+  transform: rotate(135deg);
+}
+
+.leaf03-light {
+  position: absolute;
+  border-radius: 50%;
+  right: 65%;
+  bottom: 20%;
+  background-color: white;
+}
+/* --- ANIMATION --- */
+
+.stem {
+  animation: grow 2s linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+
+@keyframes grow {
+  0% {
+    bottom: 8%;
+    width: 1%;
+    height: 15%;
+  }
+
+  60% {
+    bottom: 20%;
+    width: 3%;
+    height: 20%;
+  }
+  100% {
+    bottom: 20%;
+    width: 3%;
+    height: 20%;
+  }
+}
+
+.leaf01 {
+  animation: leafGrow01 2s linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+.leaf02 {
+  animation: leafGrow02 2s linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+.leaf02 .leaf02-green {
+  animation: leafGrow02-green 2s linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+.leaf03 {
+  animation: leafGrow03 2s linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+.leaf03-light {
+  animation: leafGrow03-light 2s linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+@keyframes leafGrow01 {
+  0% {
+    width: 0;
+    height: 0;
+    top: 80%;
+    left: 50%;
+  }
+
+  60% {
+    width: 20%;
+    height: 20%;
+    top: 55%;
+    left: 55%;
+  }
+  100% {
+    width: 20%;
+    height: 20%;
+    top: 55%;
+    left: 55%;
+  }
+}
+
+@keyframes leafGrow02 {
+  0% {
+    width: 0;
+    height: 0;
+    right: 50%;
+    top: 79%;
+  }
+  60% {
+    width: 20%;
+    height: 20%;
+    right: 54%;
+    top: 59%;
+  }
+  100% {
+    width: 20%;
+    height: 20%;
+    right: 54%;
+    top: 59%;
+  }
+}
+
+@keyframes leafGrow02-green {
+  0% {
+    width: 0;
+    height: 0;
+    top: 0%;
+    right: 0%;
+  }
+  50% {
+    width: 80%;
+    height: 80%;
+    top: 1%;
+    right: 10%;
+  }
+  100% {
+    width: 80%;
+    height: 80%;
+    top: 1%;
+    right: 10%;
+  }
+}
+@keyframes leafGrow03 {
+  0% {
+    width: 0;
+    height: 0;
+    top: 80%;
+    left: 49%;
+  }
+
+  60% {
+    width: 24%;
+    height: 24%;
+    top: 35%;
+    left: 38.5%;
+  }
+  100% {
+    width: 24%;
+    height: 24%;
+    top: 35%;
+    left: 38.5%;
+  }
+}
+
+@keyframes leafGrow03-light {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  60% {
+    width: 28%;
+    height: 43%;
+  }
+  100% {
+    width: 28%;
+    height: 43%;
+  }
+}
+
+@media (min-width: 768px) {
+  .succulent-box {
+    width: 230px;
+    height: 230px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .succulent-box {
+    width: 250px;
+    height: 250px;
+  }
+}

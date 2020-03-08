@@ -1,0 +1,23 @@
+.zh-input-group {
+  position: relative;
+  width: 100%;
+}
+
+.sldEditor-text-count {
+  font-size: 0.9rem;
+  position: absolute;
+  color: #aaa;
+  bottom: 31%;
+  right: 3%;
+}
+
+.input {
+  box-sizing: border-box;
+  width: 90%;
+  border-radius: 4px;
+  height: 45px;
+  border: none;
+  outline: transparent;
+  margin: 1px;
+  padding: 5px 10px;
+}
