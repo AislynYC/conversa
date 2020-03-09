@@ -122,26 +122,11 @@
   transform: scale(1.2) rotate(-15deg);
 }
 
-.edit-icon,
-.check-icon,
-.cancel-icon {
+.edit-icon {
   cursor: pointer;
   margin-left: 10px;
   color: #444;
   font-size: 1em;
-}
-
-.check-icon {
-  color: green;
-}
-
-.cancel-icon {
-  color: red;
-}
-
-.check-icon:hover,
-.cancel-icon:hover {
-  transform: scale(1.2);
 }
 
 #confirm-del-card {
@@ -255,7 +240,7 @@
   #proj-list-card {
     height: 100%;
     margin-top: 0;
-    padding: 0 10px;
+    padding: 0 15px;
   }
   .col {
     display: none;
