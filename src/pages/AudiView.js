@@ -135,14 +135,14 @@ const HeadingInput = props => {
         <div className="heading">{props.slds[props.curSldIndex].subHeading}</div>
       )}
 
-      {/* <Button
+      <Button
         variant="contained"
         size="large"
         className="reaction-icons"
         id="reaction-laugh"
         onClick={() => addReaction("laugh")}>
         <FontAwesomeIcon icon={["far", "laugh-squint"]} size="2x" />
-      </Button> */}
+      </Button>
     </div>
   );
 };
@@ -202,7 +202,7 @@ const MultiSelInputs = props => {
 
           let projData = projDoc.data();
           let invtData = invtDoc.data();
-          // Plus 1 vote to sld.rsult of projData which was gotten from transaction
+          // Plus 1 vote to sld.result of projData which was gotten from transaction
           let newSlds = projData.slds.map((sld, index) => {
             if (index === props.curSldIndex) {
               if (sld.result[selOptIndex] === "") {
@@ -321,7 +321,7 @@ const OpenEndedInput = props => {
 
           let projData = projDoc.data();
           let invtData = invtDoc.data();
-          // Plus 1 vote to sld.rsult of projData which was gotten from transaction
+          // Plus 1 vote to sld.result of projData which was gotten from transaction
           let newSlds = projData.slds.map((sld, index) => {
             if (index === props.curSldIndex) {
               sld.openEndedRes.push(resInputValue);

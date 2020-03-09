@@ -370,7 +370,10 @@ const NewProj = props => {
                 variant="contained"
                 id="new-proj-cancel-btn"
                 disabled={isSubmitDisabled}
-                onClick={() => props.closeOverlay("newProj")}>
+                onClick={() => {
+                  props.closeOverlay("newProj");
+                  setNewProjName("");
+                }}>
                 <FormattedMessage id="projects.cancel-new-project" />
               </Button>
             </div>

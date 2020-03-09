@@ -2,6 +2,7 @@ import React, {Fragment, useState} from "react";
 import {FormattedMessage} from "react-intl";
 import {Link} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
+import {writeDbUser} from "../../lib/writeDb";
 import "./projNameEditor.css";
 import "../../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -37,17 +38,19 @@ const ProjNameEditor = props => {
 
   const editProjName = () => {
     if (editInput !== "") {
-      db.collection("users")
-        .doc(props.auth.uid)
-        .collection("projects")
-        .doc(editProjId)
-        .update({
+      writeDbUser(
+        db,
+        props.auth.uid,
+        editProjId,
+        "updateProjDoc",
+        {
           lastEdited: Date.now(),
           name: editInput
-        })
-        .then(() => {
+        },
+        () => {
           setIsEditing(false);
-        });
+        }
+      );
     } else {
       setIsEditing(false);
     }
