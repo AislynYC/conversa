@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState, useEffect} from "react";
 import {FormattedMessage} from "react-intl";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Loading from "../Loading/Loading";
@@ -13,9 +13,26 @@ import QRCode from "qrcode.react";
 const CurSld = props => {
   let curSldType = props.slds[props.curSldIndex].sldType;
   let sldRespondedAudi = props.respondedAudi[props.slds[props.curSldIndex].id];
+  let [isFullscreen, setIsFullscreen] = useState(false);
+  useEffect(() => {
+    const monitorFullscreen = () => {
+      if (document.fullscreenElement) {
+        setIsFullscreen(true);
+      } else {
+        setIsFullscreen(false);
+      }
+    };
+
+    document.addEventListener("fullscreenchange", monitorFullscreen);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", monitorFullscreen);
+    };
+  });
+
   const clickFullscreen = () => {
     if (
-      props.isFullscreen === true &&
+      isFullscreen === true &&
       props.slds !== undefined &&
       props.curSldIndex !== undefined
     ) {
@@ -25,13 +42,13 @@ const CurSld = props => {
 
   let sldContent = null;
   if (curSldType === "heading-page") {
-    sldContent = <Headings {...props} />;
+    sldContent = <Headings {...props} isFullscreen={isFullscreen} />;
   } else if (curSldType === "multiple-choice") {
-    sldContent = <MultiSel {...props} colors={colors} />;
+    sldContent = <MultiSel {...props} colors={colors} isFullscreen={isFullscreen} />;
   } else if (curSldType === "open-ended") {
-    sldContent = <OpenEnded {...props} />;
+    sldContent = <OpenEnded {...props} isFullscreen={isFullscreen} />;
   } else if (curSldType === "tag-cloud") {
-    sldContent = <TagCloud {...props} />;
+    sldContent = <TagCloud {...props} isFullscreen={isFullscreen} />;
   }
 
   let handRaised = null;

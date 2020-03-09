@@ -6,6 +6,7 @@
 .proj-wrap {
   width: 90%;
   margin: 0 auto;
+  height: 100%;
 }
 
 .tool-bar {
@@ -194,13 +195,14 @@
   }
 }
 
-@media (max-width: 530px) {
+@media (max-width: 720px) {
   .container.proj-container {
     top: 90px;
     height: calc(100% - 90px);
-    background-color: white;
   }
+}
 
+@media (max-width: 530px) {
   .tool-bar {
     position: absolute;
     right: 20px;
@@ -241,6 +243,7 @@
     height: 100%;
     margin-top: 0;
     padding: 0 15px;
+    border-radius: 0;
   }
   .col {
     display: none;

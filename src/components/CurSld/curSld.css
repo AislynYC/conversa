@@ -50,6 +50,8 @@
 .qus-div {
   word-break: break-all;
   line-height: 2.5rem;
+  position: absolute;
+  z-index: 99;
 }
 
 #current-sld:fullscreen > .qus-div {

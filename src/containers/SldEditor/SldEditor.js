@@ -100,23 +100,6 @@ const SldEditor = props => {
     }
   };
 
-  let [isFullscreen, setIsFullscreen] = useState(false);
-  useEffect(() => {
-    const monitorFullscreen = () => {
-      if (document.fullscreenElement) {
-        setIsFullscreen(true);
-      } else {
-        setIsFullscreen(false);
-      }
-    };
-
-    document.addEventListener("fullscreenchange", monitorFullscreen);
-
-    return () => {
-      document.removeEventListener("fullscreenchange", monitorFullscreen);
-    };
-  });
-
   useEffect(() => {
     let url = props.location.pathname;
     let urlSplitArr = url.split("/");
@@ -195,7 +178,6 @@ const SldEditor = props => {
           <Switch>
             <SldPage
               {...props}
-              isFullscreen={isFullscreen}
               switchNextSld={switchNextSld}
               mobileControlClass={mobileControlClass}
               hideMobileControl={hideMobileControl}
@@ -210,12 +192,7 @@ const SldEditor = props => {
           id="preview-close-btn"
           onClick={hidePreview}
         />
-        <CurSld
-          {...props}
-          isFullscreen={isFullscreen}
-          switchNextSld={switchNextSld}
-          switchPrevSld={switchPrevSld}
-        />
+        <CurSld {...props} switchNextSld={switchNextSld} switchPrevSld={switchPrevSld} />
       </div>
     </Fragment>
   );
@@ -235,7 +212,6 @@ const SldPage = props => {
           <div className="center">
             <CurSld
               {...props}
-              isFullscreen={props.isFullscreen}
               switchNextSld={props.switchNextSld}
               switchPrevSld={props.switchPrevSld}
             />
