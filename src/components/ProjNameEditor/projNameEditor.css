@@ -24,7 +24,7 @@
 }
 
 .proj-name-edit-wrap > .MuiInput-root {
-  max-width: 75%;
+  max-width: 80%;
 }
 
 .check-icon,
@@ -55,6 +55,13 @@
   transform: scale(1.2);
 }
 
-/* @media (max-width: 530px) {
- 
-} */
+@media (max-width: 820px) {
+  .proj-name-edit-wrap > .MuiInput-root {
+    max-width: 90%;
+  }
+}
+@media (max-width: 530px) {
+  .proj-name-edit-wrap > .MuiInput-root {
+    max-width: 75%;
+  }
+}
