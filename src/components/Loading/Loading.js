@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./style.css";
 
 const Loading = props => {
@@ -6,6 +6,16 @@ const Loading = props => {
   if (props.match.url.includes("/audi/")) {
     loadingCircle = <div className="loading-circle"></div>;
   }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (props.firestore === undefined && !props.match.url.includes("/audi/")) {
+        props.history.push("/*");
+      }
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="wrapper">
       <div className="succulent-box">

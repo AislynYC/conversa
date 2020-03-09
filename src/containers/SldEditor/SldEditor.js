@@ -26,6 +26,7 @@ const SldEditor = props => {
   if (props.firestore === undefined) {
     return <Loading {...props} />;
   }
+
   if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
     props.history.push("/");
   }
@@ -231,6 +232,11 @@ const SldPage = props => {
 
 const DelSld = props => {
   const db = useFirestore();
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
+
+  useEffect(() => {
+    setIsBtnDisabled(false);
+  }, []);
 
   const deleteSld = index => {
     // use splice to delete the slide of the index parameter
@@ -256,6 +262,7 @@ const DelSld = props => {
           props.closeOverlay("confirmDel");
           // change selection focus to the last slide of the removed slide
           props.selectSld(newSelected);
+          setIsBtnDisabled(false);
         }
       );
     } else {
@@ -282,13 +289,18 @@ const DelSld = props => {
               value="true"
               variant="contained"
               id="del-btn"
-              onClick={() => deleteSld(props.delSldIndex)}>
+              disabled={isBtnDisabled}
+              onClick={() => {
+                setIsBtnDisabled();
+                deleteSld(props.delSldIndex);
+              }}>
               <FormattedMessage id="edit.del-sld" />
             </Button>
             <Button
               value="false"
               variant="contained"
               id="cancel-del-btn"
+              disabled={isBtnDisabled}
               onClick={() => props.closeOverlay("confirmDel")}>
               <FormattedMessage id="edit.cancel-del-sld" />
             </Button>

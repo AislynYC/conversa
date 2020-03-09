@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import {createStore} from "redux";
 import {Provider} from "react-redux";
 import {IntlProvider} from "react-intl";
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {ReactReduxFirebaseProvider} from "react-redux-firebase";
 import {createFirestoreInstance} from "redux-firestore";
 import fbConfig from "./config/fbConfig";
@@ -17,6 +17,7 @@ import InviteConnect from "./pages/InviteConnect";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import ProjectsConnect from "./pages/ProjectsConnect";
+import NotFound from "./components/NotFound/NotFound";
 import "./reset.css";
 import "./style.css";
 
@@ -30,32 +31,44 @@ const Root = () => {
       <Provider store={store}>
         <ReactReduxFirebaseProvider {...rrfProps}>
           <Router>
-            <Route
-              exact
-              path="/"
-              render={props => <Home {...props} locale={locale} setLocale={setLocale} />}
-            />
-            <Route
-              path="/login"
-              render={props => <LogIn {...props} locale={locale} setLocale={setLocale} />}
-            />
-            <Route
-              path="/signup"
-              render={props => (
-                <SignUp {...props} locale={locale} setLocale={setLocale} />
-              )}
-            />
-            <Route
-              path="/edit/:userId/:projId"
-              render={props => <Edit {...props} locale={locale} setLocale={setLocale} />}
-            />
-            <Route path="/audi/:projId" render={props => <InviteConnect {...props} />} />
-            <Route
-              path="/pm/:userId"
-              render={props => (
-                <ProjectsConnect {...props} locale={locale} setLocale={setLocale} />
-              )}
-            />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => (
+                  <Home {...props} locale={locale} setLocale={setLocale} />
+                )}
+              />
+              <Route
+                path="/login"
+                render={props => (
+                  <LogIn {...props} locale={locale} setLocale={setLocale} />
+                )}
+              />
+              <Route
+                path="/signup"
+                render={props => (
+                  <SignUp {...props} locale={locale} setLocale={setLocale} />
+                )}
+              />
+              <Route
+                path="/edit/:userId/:projId"
+                render={props => (
+                  <Edit {...props} locale={locale} setLocale={setLocale} />
+                )}
+              />
+              <Route
+                path="/audi/:projId"
+                render={props => <InviteConnect {...props} />}
+              />
+              <Route
+                path="/pm/:userId"
+                render={props => (
+                  <ProjectsConnect {...props} locale={locale} setLocale={setLocale} />
+                )}
+              />
+              <Route path="/*" component={NotFound} />
+            </Switch>
           </Router>
         </ReactReduxFirebaseProvider>
       </Provider>
