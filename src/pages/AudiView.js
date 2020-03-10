@@ -141,7 +141,7 @@ const HeadingInput = props => {
         className="reaction-icons"
         id="reaction-laugh"
         onClick={() => addReaction("laugh")}>
-        <FontAwesomeIcon icon={["far", "laugh-squint"]} size="2x" />
+        <FontAwesomeIcon icon={["fas", "heart"]} size="2x" />
       </Button>
     </div>
   );
