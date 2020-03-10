@@ -130,11 +130,24 @@ const Headings = props => {
   } else {
     headingContainer = <div className="sub-heading-render">{curSld.subHeading}</div>;
   }
-
+  const [reactionClass, setReactionClass] = useState("reaction-icon");
+  useEffect(() => {
+    setReactionClass("reaction-icon scale");
+    const timer = setTimeout(() => {
+      setReactionClass("reaction-icon");
+    }, 300);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [props.reaction.laugh]);
   return (
     <div className="heading-render-container">
       <div className="heading-render">{curSld.heading}</div>
       <Fragment>{headingContainer}</Fragment>
+      <div className="reaction-icons">
+        <FontAwesomeIcon icon={["fas", "heart"]} className={reactionClass} />
+        <span className="reaction-count">{props.reaction.laugh}</span>
+      </div>
     </div>
   );
 };

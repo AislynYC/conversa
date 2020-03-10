@@ -66,6 +66,10 @@
   margin-left: 10px;
 }
 
+.reaction-icon.scale {
+  transform: scale(1.3);
+  color: rgba(250, 61, 127, 0.39);
+}
 .qr-code {
   display: flex;
   justify-content: center;
