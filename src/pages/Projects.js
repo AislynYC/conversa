@@ -122,29 +122,26 @@ const ProjList = props => {
   let orderedProjs = props.projects.sort((a, b) => {
     return b.created - a.created;
   });
-  let projects = null;
-
-  if (orderedProjs.length !== 0) {
-    orderedProjs.map(proj => {
-      let createdDate = new Date(proj.created).toDateString();
-      let lastEditedDate = handleEditTimeDesc(proj.lastEdited);
-      projects = (
-        <ProjRow
-          key={proj.id}
-          {...props}
-          proj={proj}
-          createdDate={createdDate}
-          lastEditedDate={lastEditedDate}
-        />
-      );
-    });
-  } else {
-    projects = (
+  let projects =
+    orderedProjs.length !== 0 ? (
+      orderedProjs.map(proj => {
+        let createdDate = new Date(proj.created).toDateString();
+        let lastEditedDate = handleEditTimeDesc(proj.lastEdited);
+        return (
+          <ProjRow
+            key={proj.id}
+            {...props}
+            proj={proj}
+            createdDate={createdDate}
+            lastEditedDate={lastEditedDate}
+          />
+        );
+      })
+    ) : (
       <h4>
         <FormattedMessage id="projects.no-project" />
       </h4>
     );
-  }
 
   return (
     <div id="proj-list-card">
