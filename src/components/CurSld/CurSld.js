@@ -359,3 +359,5 @@ const TagCloud = props => {
     </Fragment>
   );
 };
+
+export {Headings, MultiSel, OpenEnded, TagCloud};
