@@ -19,7 +19,7 @@ import CloseIcon from "@material-ui/icons/Close";
 
 const ProjManager = props => {
   let userData = null;
-  if (props.auth === undefined) {
+  if (props.projects === undefined || props.auth === undefined) {
     return <Loading {...props} />;
   }
   if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
@@ -92,7 +92,7 @@ const ProjList = props => {
     const minPasted = Math.floor(timeDiff / min);
 
     if (weekPasted > 0) {
-      return new Date(proj.lastEdited).toDateString();
+      return new Date(lastEdited).toDateString();
     } else {
       if (dayPasted < 7 && dayPasted > 0) {
         return (
@@ -122,19 +122,29 @@ const ProjList = props => {
   let orderedProjs = props.projects.sort((a, b) => {
     return b.created - a.created;
   });
-  let projects = orderedProjs.map(proj => {
-    let createdDate = new Date(proj.created).toDateString();
-    let lastEditedDate = handleEditTimeDesc(proj.lastEdited);
-    return (
-      <ProjRow
-        key={proj.id}
-        {...props}
-        proj={proj}
-        createdDate={createdDate}
-        lastEditedDate={lastEditedDate}
-      />
+  let projects = null;
+
+  if (orderedProjs.length !== 0) {
+    orderedProjs.map(proj => {
+      let createdDate = new Date(proj.created).toDateString();
+      let lastEditedDate = handleEditTimeDesc(proj.lastEdited);
+      projects = (
+        <ProjRow
+          key={proj.id}
+          {...props}
+          proj={proj}
+          createdDate={createdDate}
+          lastEditedDate={lastEditedDate}
+        />
+      );
+    });
+  } else {
+    projects = (
+      <h4>
+        <FormattedMessage id="projects.no-project" />
+      </h4>
     );
-  });
+  }
 
   return (
     <div id="proj-list-card">

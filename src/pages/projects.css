@@ -84,6 +84,10 @@
   overflow-y: scroll;
 }
 
+.proj-list > h4 {
+  text-align: center;
+}
+
 .col-name {
   width: 40%;
 }
@@ -92,7 +96,7 @@
   text-align: center;
 }
 .proj-tool-col {
-  max-width: 60px;
+  max-width: 65px;
   margin-right: 50px;
 }
 
