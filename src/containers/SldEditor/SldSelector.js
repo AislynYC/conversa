@@ -4,6 +4,7 @@ import {useFirestore} from "react-redux-firebase";
 import {FormattedMessage} from "react-intl";
 
 import {writeDbUser, writeDbInvt} from "../../lib/writeDb";
+import Loading from "../../components/Loading/Loading";
 import "../../lib/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 

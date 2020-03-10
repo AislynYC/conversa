@@ -35,9 +35,9 @@ const SldEditor = props => {
     return null;
   };
 
-  if (!isInvtCollRequested || !isUserCollRequested) {
+  if (!isInvtCollRequested || !isUserCollRequested || props.slds === undefined) {
     return <Loading {...props} />;
-  } else if (isInvtCollRequested && isUserCollRequested && props.slds === undefined) {
+  } else if (isInvtCollRequested && isUserCollRequested && props.slds === null) {
     return <Redirect to="/*" />;
   }
 

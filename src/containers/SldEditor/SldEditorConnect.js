@@ -43,6 +43,7 @@ let mapStateToProps = (state, props) => {
         delSldIndex: state.sldEditor.delSldIndex
       };
     } else {
+      transitionState.slds = null;
       return transitionState;
     }
   } else {
