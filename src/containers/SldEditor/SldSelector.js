@@ -22,13 +22,11 @@ export default SldSelector;
 
 const SldsItems = props => {
   return props.slds.map((item, index) => {
-    return (
-      <SldItem key={index} {...props} sldItem={item} sldIndex={index} />
-    );
+    return <SldItem key={index} {...props} sldItem={item} sldIndex={index} />;
   });
 };
 
-const SldItem=props=>{
+const SldItem = props => {
   const db = useFirestore();
   const userId = props.userId;
   const projId = props.projId;
@@ -37,7 +35,7 @@ const SldItem=props=>{
   let [hovered, setHovered] = useState(null);
 
   const copySld = index => {
-    let newSld = { ...props.slds[index] };
+    let newSld = {...props.slds[index]};
     let t = Date.now();
     newSld.id = t;
     newSld.lastEdited = t;
@@ -51,7 +49,7 @@ const SldItem=props=>{
       userId,
       projId,
       "updateProjDoc",
-      { lastEdited: t, slds: props.slds },
+      {lastEdited: t, slds: props.slds},
       () => {
         // Add a responded audi container to the new slide
         props.respondedAudi[t] = [];
@@ -59,7 +57,7 @@ const SldItem=props=>{
           db,
           projId,
           "updateInvtDoc",
-          { respondedAudi: props.respondedAudi },
+          {respondedAudi: props.respondedAudi},
           null
         );
       }
@@ -77,7 +75,7 @@ const SldItem=props=>{
         userId,
         projId,
         "updateProjDoc",
-        { lastEdited: t, slds: newSlds },
+        {lastEdited: t, slds: newSlds},
         null
       );
     }
@@ -93,14 +91,16 @@ const SldItem=props=>{
         userId,
         projId,
         "updateProjDoc",
-        { lastEdited: t, slds: newSlds },
+        {lastEdited: t, slds: newSlds},
         null
       );
     }
   };
 
   // Compose path according to slide index
-  props.sldIndex === 0 ? (path = `${props.match.url}`) : (path = `${props.match.url}/${props.sldIndex}`);
+  props.sldIndex === 0
+    ? (path = `${props.match.url}`)
+    : (path = `${props.match.url}/${props.sldIndex}`);
 
   // Highlight current selected slide by different class name according to db curSldIndex
   if (props.sldIndex === parseInt(props.curSldIndex)) {
@@ -158,11 +158,11 @@ const SldItem=props=>{
   } else if (props.sldItem.sldType === "multiple-choice") {
     sldItemCover = <MultiCover {...props} />;
   } else if (props.sldItem.sldType === "open-ended") {
-    sldItemCover = <OpenCover {...props}  />;
+    sldItemCover = <OpenCover {...props} />;
   } else if (props.sldItem.sldType === "tag-cloud") {
     sldItemCover = <CloudCover {...props} />;
   }
-  return(
+  return (
     <div
       className={sldClass}
       key={props.sldIndex}
@@ -211,8 +211,8 @@ const SldItem=props=>{
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 const AddSldBtn = props => {
   const db = useFirestore();

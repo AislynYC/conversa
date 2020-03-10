@@ -1,5 +1,5 @@
 import React, {useEffect, Fragment, useState} from "react";
-import {Router, Switch, Route} from "react-router-dom";
+import {Router, Switch, Route, Redirect} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
@@ -23,13 +23,28 @@ import CloseIcon from "@material-ui/icons/Close";
 const history = createBrowserHistory();
 
 const SldEditor = props => {
-  if (props.firestore === undefined) {
+  let dbRequestedObj = props.firestore.status.requested;
+  let isInvtCollRequested = dbRequestedObj.invitation;
+  let isUserCollRequested = () => {
+    // to get requested boolean of user-projects sub-collection
+    for (let prop in dbRequestedObj) {
+      if (prop.endsWith("projects")) {
+        return dbRequestedObj[prop];
+      }
+    }
+    return null;
+  };
+
+  if (!isInvtCollRequested || !isUserCollRequested) {
     return <Loading {...props} />;
+  } else if (isInvtCollRequested && isUserCollRequested && props.slds === undefined) {
+    return <Redirect to="/*" />;
   }
 
-  if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
-    props.history.push("/");
+  if (props.auth.isLoaded && props.auth.isEmpty) {
+    return <Redirect to="/" />;
   }
+
   const db = useFirestore();
   const userId = props.userId;
   const projId = props.projId;
