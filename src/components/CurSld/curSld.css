@@ -54,6 +54,9 @@
   z-index: 99;
 }
 
+#open-ended-qus {
+  position: relative;
+}
 #current-sld:fullscreen > .qus-div {
   line-height: 4rem;
 }

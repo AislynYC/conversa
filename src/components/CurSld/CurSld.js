@@ -314,7 +314,9 @@ const OpenEnded = props => {
   }
   return (
     <Fragment>
-      <div className="qus-div">{curSld.qContent}</div>
+      <div className="qus-div" id="open-ended-qus">
+        {curSld.qContent}
+      </div>
       <div id="open-sld-content">{openEndedResContent}</div>
     </Fragment>
   );
