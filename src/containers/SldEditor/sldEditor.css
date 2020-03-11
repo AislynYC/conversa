@@ -487,6 +487,24 @@
     flex-direction: column;
   }
   .sld-type-form {
+    flex-wrap: nowrap;
+    justify-content: space-around;
+  }
+  .sld-type-group {
+    flex-basis: 33%;
+  }
+  .control-panel > form > label {
+    padding: 10px 20px;
+    margin: 0;
+  }
+}
+
+@media (max-width: 1800px) and (min-height: 1000px) {
+  .center {
+    display: flex;
+    flex-direction: column;
+  }
+  .sld-type-form {
     flex-wrap: wrap;
     justify-content: space-around;
   }
@@ -495,6 +513,16 @@
   }
   .control-panel > form > label {
     padding: 10px 20px;
+    margin: 0 5%;
+  }
+}
+
+@media (max-width: 1250px) {
+  .sld-type-form {
+    flex-wrap: wrap;
+  }
+  .control-panel > form > label {
+    margin: 0 30px;
   }
 }
 
@@ -562,6 +590,10 @@
   .middle-editor > .edit-panel {
     width: 100%;
     height: 90%;
+  }
+
+  .sld-item {
+    height: 150px;
   }
 
   .sld-item-header {

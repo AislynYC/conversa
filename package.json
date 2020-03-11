@@ -61,7 +61,6 @@
     "@material-ui/icons": "^4.9.1",
     "firebase": "^7.8.0",
     "identity-obj-proxy": "^3.0.0",
-    "material-table": "^1.57.2",
     "qrcode.react": "^1.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
