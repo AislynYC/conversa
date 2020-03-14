@@ -549,6 +549,7 @@
   }
   .control-panel > form > label {
     padding: 5px 10px;
+    font-size: 0.9rem;
   }
   .sld-item-header {
     display: none;
@@ -649,6 +650,7 @@
   }
   .sld-item-header {
     display: block;
+    line-height: 1.6rem;
   }
   .sld-item-header,
   .sld-item-text {

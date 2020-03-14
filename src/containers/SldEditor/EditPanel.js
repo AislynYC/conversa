@@ -288,7 +288,7 @@ const DelOptBtn = props => {
   };
   return (
     <div className="delete-opt-btn" onClick={deleteOpt}>
-      ✖
+      <FontAwesomeIcon icon={["fas", "times"]} />
     </div>
   );
 };

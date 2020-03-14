@@ -88,6 +88,15 @@ const ProjNameEditor = props => {
                 placeholder={placeholder}
                 inputProps={{"aria-label": "description"}}
                 onChange={e => handleChange(e)}
+                onKeyDown={e => {
+                  if (e.keyCode === 13) {
+                    editProjName();
+                  }
+                  if (e.keyCode === 27) {
+                    cancelEdit();
+                  }
+                }}
+                autoFocus
               />
             )}
           </FormattedMessage>

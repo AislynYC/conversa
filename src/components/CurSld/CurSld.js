@@ -193,7 +193,8 @@ const MultiSel = props => {
   let barVar = {
     height: "75%",
     hAxisFontSize: 18,
-    annotationsFontSize: 18
+    annotationsFontSize: 18,
+    bottom: 50
   };
 
   let pieVar = {
@@ -204,11 +205,12 @@ const MultiSel = props => {
   if (props.isFullscreen === true) {
     barVar = {
       height: "70%",
-      hAxisFontSize: 36,
-      annotationsFontSize: 36
+      hAxisFontSize: 30,
+      annotationsFontSize: 30,
+      bottom: 110
     };
     pieVar = {
-      legendFontSize: 28,
+      legendFontSize: 26,
       pieSliceFontSize: 36
     };
   }
@@ -216,7 +218,7 @@ const MultiSel = props => {
   let barOptions = {
     legend: {position: "none"},
     height: "100%",
-    chartArea: {width: "80%", height: barVar.height},
+    chartArea: {width: "80%", height: barVar.height, bottom: barVar.bottom},
     bar: {groupWidth: "68%"},
     animation: {
       duration: 1000,
@@ -242,6 +244,8 @@ const MultiSel = props => {
   };
 
   let pieOptions = {
+    width: "100%",
+    chartArea: {width: "80%"},
     slices: pieColors,
     animation: {
       duration: 1000,
