@@ -38,6 +38,7 @@ Password : 123456
   * Cloud Firestore
   * Firebase Hosting
   * Firebase Authentication
+  * Firebase transaction
 * Google Charts
 * Material Design
 
@@ -64,7 +65,9 @@ Conversa provides RWD (Responsive Web Design) for all sizes of popular device.
 ### Real-Time Interaction
 
 Conversa provides real-time poll feature for user to collect audiences' feedbacks.
-![](https://i.imgur.com/4Ob7PlE.gif)
+
+![](https://i.imgur.com/rbTVbsy.gif)
+
 
 Audience can express reactions to slides.
 ![](https://i.imgur.com/gCP5wE9.gif)
