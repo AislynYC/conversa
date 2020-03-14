@@ -6,8 +6,9 @@ import {useFirestore} from "react-redux-firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 import Header from "../containers/Header/Header";
-import {writeDbUser} from "../lib/writeDb";
+import {writeDbUser, writeDbInvt} from "../lib/writeDb";
 import firebase from "../config/fbConfig";
+import {exampleSlds, exampleRes} from "../lib/example";
 import "./sign.css";
 
 import Card from "@material-ui/core/Card";
@@ -43,21 +44,44 @@ const SignInScreen = props => {
   };
   const handleSubmit = e => {
     e.preventDefault();
+    const t = Date.now();
     if (userPassword === pwConfirm) {
       firebase
         .auth()
         .createUserWithEmailAndPassword(userEmail, userPassword)
         .then(res => {
-          return writeDbUser(
-            db,
-            res.user.uid,
-            null,
-            "setUserDoc",
-            {createdTime: Date.now()},
-            () => {
-              props.history.push(`/pm/${res.user.uid}`);
-            }
-          );
+          console.log(res);
+          const uid = res.user.uid;
+          writeDbUser(db, uid, null, "setUserDoc", {createdTime: Date.now()}, () => {
+            writeDbUser(
+              db,
+              uid,
+              null,
+              "addProjDoc",
+              {
+                name: "Example Presentation",
+                created: t,
+                lastEdited: t,
+                curSldIndex: 0,
+                slds: exampleSlds
+              },
+              res => {
+                writeDbInvt(
+                  db,
+                  res.id,
+                  "setInvtDoc",
+                  {
+                    owner: uid,
+                    projId: res.id,
+                    ...exampleRes
+                  },
+                  () => {
+                    props.history.push(`/pm/${uid}`);
+                  }
+                );
+              }
+            );
+          });
         })
         .catch(error => {
           if (error.code === "auth/invalid-email") {
