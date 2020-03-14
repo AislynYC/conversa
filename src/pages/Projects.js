@@ -188,7 +188,7 @@ const ProjRow = props => {
     copyTarget.name = copyTarget.name + copyTag;
 
     copyTarget.slds.forEach(sld => {
-      sld.result = sld.result.map(item => (item = ""));
+      sld.result = sld.result.map(() => "");
       sld.openEndedRes = [];
       sld.tagRes = {};
     });
