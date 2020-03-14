@@ -1,6 +1,6 @@
 # Conversa
 
-Conversa is a Real-time Poll Tool & Presentation Editor. With Conversa, you can interact with your audience and collect feedbacks with easy and fun. Conversa can also show an instant diagram with audience responses. Conversa connect you and your audience! Also connect audience with each other!
+Conversa is a Real-time Poll Tool & Presentation Editor. With Conversa, you can interact with your audience and collect feedbacks with ease and fun. Conversa can also show an instant diagram with audience responses. Conversa connect you and your audience! Also connect audience with each other!
 
 Conversa can be used for meetings, speeches, votings, events for business, entertainment or education.
 
