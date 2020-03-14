@@ -343,6 +343,11 @@
   margin: 14px 0 5px;
   font-size: 1.05em;
 }
+
+.edit-panel > .MuiInput-underline:after {
+  border-bottom: 2px solid rgba(75, 143, 107, 0.726);
+}
+
 .opt-input-group {
   display: flex;
 }

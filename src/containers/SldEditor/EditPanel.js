@@ -10,26 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AddIcon from "@material-ui/icons/Add";
 import SwitchBtn from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import {withStyles} from "@material-ui/core/styles";
-
-const ResNumInput = withStyles({
-  root: {
-    width: "25%",
-    margin: "5% 0",
-    "& label.Mui-focused": {
-      color: "rgba(75, 143, 107, 0.726)"
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#bbb"
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "rgba(75, 143, 107, 0.726)"
-      }
-    }
-  }
-})(TextField);
+import NativeSelect from "@material-ui/core/NativeSelect";
 
 const EditPanel = props => {
   const db = useFirestore();
@@ -173,20 +154,13 @@ const TagCloudEditor = props => {
       <label htmlFor="opt-input" className="edit-panel-label">
         <FormattedMessage id="edit.cloud-opt-label" />
       </label>
-      <ResNumInput
-        id="outlined-number"
-        type="number"
-        InputLabelProps={{
-          shrink: true
-        }}
-        inputProps={{
-          min: "1",
-          max: "5"
-        }}
-        variant="outlined"
-        value={props.sld.tagNum}
-        onChange={e => editTagNum(e.target.value)}
-      />
+      <NativeSelect value={props.sld.tagNum} onChange={e => editTagNum(e.target.value)}>
+        <option value={1}>1</option>
+        <option value={2}>2</option>
+        <option value={3}>3</option>
+        <option value={4}>4</option>
+        <option value={5}>5</option>
+      </NativeSelect>
     </div>
   );
 };
@@ -215,7 +189,7 @@ const QusInput = props => {
             <ZhInput
               {...props}
               id="qus-input"
-              maxLength="50"
+              maxLength="60"
               placeholder={placeholder}
               curValue={props.sld.qContent}
               useInnerValue={editQus}
@@ -397,7 +371,7 @@ const HeadingSldEditor = props => {
           {...props}
           id="heading-input"
           curValue={props.sld.heading}
-          maxLength="50"
+          maxLength="60"
           useInnerValue={editHeading}
         />
       </label>
@@ -427,7 +401,7 @@ const HeadingSldEditor = props => {
           </div>
           <ZhInput
             {...props}
-            maxLength="20"
+            maxLength="60"
             id="sub-heading-input"
             curValue={props.sld.subHeading}
             useInnerValue={editSubHeading}
