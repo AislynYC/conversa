@@ -6,6 +6,7 @@ const Loading = props => {
   if (props.match.url.includes("/audi/")) {
     loadingCircle = <div className="loading-circle"></div>;
   }
+
   return (
     <div className="wrapper">
       <div className="succulent-box">

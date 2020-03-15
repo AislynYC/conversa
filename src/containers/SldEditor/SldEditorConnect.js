@@ -1,7 +1,6 @@
 import {connect} from "react-redux";
 import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
-
 import SldEditor from "./SldEditor.js";
 import {showOverlay, closeOverlay} from "../../reducers/sldEditorReducer";
 
@@ -9,8 +8,8 @@ let mapStateToProps = (state, props) => {
   let projDataArray = state.firestore.ordered[`${props.userId}-projects`];
   let projInvitation = state.firestore.ordered.invitation;
   let transitionState = {
-    firestore: undefined,
-    auth: undefined,
+    firestore: state.firestore,
+    auth: state.firebase.auth,
     curSldIndex: undefined,
     slds: undefined,
     respondedAudi: undefined,
@@ -22,12 +21,14 @@ let mapStateToProps = (state, props) => {
   };
 
   if (
+    //Make sure data is correctly loaded & check user auth
     projDataArray !== undefined &&
-    projDataArray.length !== 0 &&
-    projInvitation !== undefined
+    projInvitation !== undefined &&
+    state.firebase.auth
   ) {
     let projResponded = projInvitation.find(item => item.id === props.projId);
     if (projResponded !== undefined) {
+      // Prevent open failure when open new project immediately after creation
       let projData = projDataArray.find(proj => proj.id === props.projId);
       return {
         firestore: state.firestore,
@@ -42,6 +43,7 @@ let mapStateToProps = (state, props) => {
         delSldIndex: state.sldEditor.delSldIndex
       };
     } else {
+      transitionState.slds = null;
       return transitionState;
     }
   } else {

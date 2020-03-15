@@ -1,5 +1,5 @@
 import React, {useEffect, Fragment, useState} from "react";
-import {Router, Switch, Route} from "react-router-dom";
+import {Router, Switch, Route, Redirect} from "react-router-dom";
 import {useFirestore} from "react-redux-firebase";
 import {createBrowserHistory} from "history";
 import {FormattedMessage} from "react-intl";
@@ -23,12 +23,28 @@ import CloseIcon from "@material-ui/icons/Close";
 const history = createBrowserHistory();
 
 const SldEditor = props => {
-  if (props.firestore === undefined) {
+  let dbRequestedObj = props.firestore.status.requested;
+  let isInvtCollRequested = dbRequestedObj.invitation;
+  let isUserCollRequested = () => {
+    // to get requested boolean of user-projects sub-collection
+    for (let prop in dbRequestedObj) {
+      if (prop.endsWith("projects")) {
+        return dbRequestedObj[prop];
+      }
+    }
+    return null;
+  };
+
+  if (!isInvtCollRequested || !isUserCollRequested || props.slds === undefined) {
     return <Loading {...props} />;
+  } else if (isInvtCollRequested && isUserCollRequested && props.slds === null) {
+    return <Redirect to="/*" />;
   }
-  if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
-    props.history.push("/");
+
+  if (props.auth.isLoaded && props.auth.isEmpty) {
+    return <Redirect to="/" />;
   }
+
   const db = useFirestore();
   const userId = props.userId;
   const projId = props.projId;
@@ -99,23 +115,6 @@ const SldEditor = props => {
       );
     }
   };
-
-  let [isFullscreen, setIsFullscreen] = useState(false);
-  useEffect(() => {
-    const monitorFullscreen = () => {
-      if (document.fullscreenElement) {
-        setIsFullscreen(true);
-      } else {
-        setIsFullscreen(false);
-      }
-    };
-
-    document.addEventListener("fullscreenchange", monitorFullscreen);
-
-    return () => {
-      document.removeEventListener("fullscreenchange", monitorFullscreen);
-    };
-  });
 
   useEffect(() => {
     let url = props.location.pathname;
@@ -195,7 +194,6 @@ const SldEditor = props => {
           <Switch>
             <SldPage
               {...props}
-              isFullscreen={isFullscreen}
               switchNextSld={switchNextSld}
               mobileControlClass={mobileControlClass}
               hideMobileControl={hideMobileControl}
@@ -210,12 +208,7 @@ const SldEditor = props => {
           id="preview-close-btn"
           onClick={hidePreview}
         />
-        <CurSld
-          {...props}
-          isFullscreen={isFullscreen}
-          switchNextSld={switchNextSld}
-          switchPrevSld={switchPrevSld}
-        />
+        <CurSld {...props} switchNextSld={switchNextSld} switchPrevSld={switchPrevSld} />
       </div>
     </Fragment>
   );
@@ -235,7 +228,6 @@ const SldPage = props => {
           <div className="center">
             <CurSld
               {...props}
-              isFullscreen={props.isFullscreen}
               switchNextSld={props.switchNextSld}
               switchPrevSld={props.switchPrevSld}
             />
@@ -255,6 +247,11 @@ const SldPage = props => {
 
 const DelSld = props => {
   const db = useFirestore();
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
+
+  useEffect(() => {
+    setIsBtnDisabled(false);
+  }, []);
 
   const deleteSld = index => {
     // use splice to delete the slide of the index parameter
@@ -280,6 +277,7 @@ const DelSld = props => {
           props.closeOverlay("confirmDel");
           // change selection focus to the last slide of the removed slide
           props.selectSld(newSelected);
+          setIsBtnDisabled(false);
         }
       );
     } else {
@@ -306,13 +304,18 @@ const DelSld = props => {
               value="true"
               variant="contained"
               id="del-btn"
-              onClick={() => deleteSld(props.delSldIndex)}>
+              disabled={isBtnDisabled}
+              onClick={() => {
+                setIsBtnDisabled();
+                deleteSld(props.delSldIndex);
+              }}>
               <FormattedMessage id="edit.del-sld" />
             </Button>
             <Button
               value="false"
               variant="contained"
               id="cancel-del-btn"
+              disabled={isBtnDisabled}
               onClick={() => props.closeOverlay("confirmDel")}>
               <FormattedMessage id="edit.cancel-del-sld" />
             </Button>

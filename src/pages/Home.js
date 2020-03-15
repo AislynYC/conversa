@@ -170,7 +170,7 @@ const Home = props => {
   );
 };
 
-let mapStateToProps = (state, props) => {
+let mapStateToProps = state => {
   return {
     firestore: state.firestore,
     auth: state.firebase.auth

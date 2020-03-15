@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState, useEffect} from "react";
 import {FormattedMessage} from "react-intl";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Loading from "../Loading/Loading";
@@ -13,9 +13,26 @@ import QRCode from "qrcode.react";
 const CurSld = props => {
   let curSldType = props.slds[props.curSldIndex].sldType;
   let sldRespondedAudi = props.respondedAudi[props.slds[props.curSldIndex].id];
+  let [isFullscreen, setIsFullscreen] = useState(false);
+  useEffect(() => {
+    const monitorFullscreen = () => {
+      if (document.fullscreenElement) {
+        setIsFullscreen(true);
+      } else {
+        setIsFullscreen(false);
+      }
+    };
+
+    document.addEventListener("fullscreenchange", monitorFullscreen);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", monitorFullscreen);
+    };
+  });
+
   const clickFullscreen = () => {
     if (
-      props.isFullscreen === true &&
+      isFullscreen === true &&
       props.slds !== undefined &&
       props.curSldIndex !== undefined
     ) {
@@ -25,13 +42,13 @@ const CurSld = props => {
 
   let sldContent = null;
   if (curSldType === "heading-page") {
-    sldContent = <Headings {...props} />;
+    sldContent = <Headings {...props} isFullscreen={isFullscreen} />;
   } else if (curSldType === "multiple-choice") {
-    sldContent = <MultiSel {...props} colors={colors} />;
+    sldContent = <MultiSel {...props} colors={colors} isFullscreen={isFullscreen} />;
   } else if (curSldType === "open-ended") {
-    sldContent = <OpenEnded {...props} />;
+    sldContent = <OpenEnded {...props} isFullscreen={isFullscreen} />;
   } else if (curSldType === "tag-cloud") {
-    sldContent = <TagCloud {...props} />;
+    sldContent = <TagCloud {...props} isFullscreen={isFullscreen} />;
   }
 
   let handRaised = null;
@@ -113,11 +130,24 @@ const Headings = props => {
   } else {
     headingContainer = <div className="sub-heading-render">{curSld.subHeading}</div>;
   }
-
+  const [reactionClass, setReactionClass] = useState("reaction-icon");
+  useEffect(() => {
+    setReactionClass("reaction-icon scale");
+    const timer = setTimeout(() => {
+      setReactionClass("reaction-icon");
+    }, 300);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [props.reaction.laugh]);
   return (
     <div className="heading-render-container">
       <div className="heading-render">{curSld.heading}</div>
       <Fragment>{headingContainer}</Fragment>
+      <div className="reaction-icons">
+        <FontAwesomeIcon icon={["fas", "heart"]} className={reactionClass} />
+        <span className="reaction-count">{props.reaction.laugh}</span>
+      </div>
     </div>
   );
 };
@@ -163,7 +193,8 @@ const MultiSel = props => {
   let barVar = {
     height: "75%",
     hAxisFontSize: 18,
-    annotationsFontSize: 18
+    annotationsFontSize: 18,
+    bottom: 50
   };
 
   let pieVar = {
@@ -174,11 +205,12 @@ const MultiSel = props => {
   if (props.isFullscreen === true) {
     barVar = {
       height: "70%",
-      hAxisFontSize: 36,
-      annotationsFontSize: 36
+      hAxisFontSize: 30,
+      annotationsFontSize: 30,
+      bottom: 110
     };
     pieVar = {
-      legendFontSize: 28,
+      legendFontSize: 26,
       pieSliceFontSize: 36
     };
   }
@@ -186,7 +218,7 @@ const MultiSel = props => {
   let barOptions = {
     legend: {position: "none"},
     height: "100%",
-    chartArea: {width: "80%", height: barVar.height},
+    chartArea: {width: "80%", height: barVar.height, bottom: barVar.bottom},
     bar: {groupWidth: "68%"},
     animation: {
       duration: 1000,
@@ -212,6 +244,8 @@ const MultiSel = props => {
   };
 
   let pieOptions = {
+    width: "100%",
+    chartArea: {width: "80%"},
     slices: pieColors,
     animation: {
       duration: 1000,
@@ -284,7 +318,9 @@ const OpenEnded = props => {
   }
   return (
     <Fragment>
-      <div className="qus-div">{curSld.qContent}</div>
+      <div className="qus-div" id="open-ended-qus">
+        {curSld.qContent}
+      </div>
       <div id="open-sld-content">{openEndedResContent}</div>
     </Fragment>
   );
@@ -329,3 +365,5 @@ const TagCloud = props => {
     </Fragment>
   );
 };
+
+export {Headings, MultiSel, OpenEnded, TagCloud};

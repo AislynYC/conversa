@@ -22,3 +22,46 @@
   font-weight: 450;
   color: rgb(30, 57, 43);
 }
+
+.proj-name-edit-wrap > .MuiInput-root {
+  max-width: 80%;
+}
+
+.check-icon,
+.cancel-icon {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.cancel-icon {
+  font-size: 1.3em;
+  padding-top: 2px;
+}
+
+.check-icon {
+  font-size: 1em;
+}
+
+.check-icon {
+  color: green;
+}
+
+.cancel-icon {
+  color: red;
+}
+
+.check-icon:hover,
+.cancel-icon:hover {
+  transform: scale(1.2);
+}
+
+@media (max-width: 820px) {
+  .proj-name-edit-wrap > .MuiInput-root {
+    max-width: 90%;
+  }
+}
+@media (max-width: 530px) {
+  .proj-name-edit-wrap > .MuiInput-root {
+    max-width: 75%;
+  }
+}

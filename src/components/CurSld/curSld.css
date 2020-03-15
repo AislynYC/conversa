@@ -50,8 +50,13 @@
 .qus-div {
   word-break: break-all;
   line-height: 2.5rem;
+  position: absolute;
+  z-index: 99;
 }
 
+#open-ended-qus {
+  position: relative;
+}
 #current-sld:fullscreen > .qus-div {
   line-height: 4rem;
 }
@@ -64,6 +69,10 @@
   margin-left: 10px;
 }
 
+.reaction-icon.scale {
+  transform: scale(1.3);
+  color: rgba(250, 61, 127, 0.39);
+}
 .qr-code {
   display: flex;
   justify-content: center;

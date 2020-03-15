@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot Testing for Succulent Component 1`] = `
+<div
+  className="wrapper home-succulent"
+>
+  <div
+    className="home-succulent-box"
+  >
+    <div
+      className="home-stem"
+    />
+    <div
+      className="home-leaf home-leaf01"
+    />
+    <div
+      className="home-leaf home-leaf02"
+    >
+      <div
+        className="home-leaf02-green"
+      />
+    </div>
+    <div
+      className="home-leaf home-leaf03"
+    >
+      <div
+        className="home-leaf03-light"
+      />
+    </div>
+  </div>
+</div>
+`;

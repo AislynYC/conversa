@@ -1,0 +1,25 @@
+.not-found-wrap {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.not-found-wrap > h1 {
+  font-weight: 900;
+  font-size: 4rem;
+  color: #7b9085;
+}
+
+.not-found-wrap > h2 {
+  font-size: 2rem;
+}
+.not-found-img {
+  width: 50%;
+}
+
+.not-found-img > img {
+  width: 100%;
+}

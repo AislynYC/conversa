@@ -19,7 +19,7 @@ import CloseIcon from "@material-ui/icons/Close";
 
 const ProjManager = props => {
   let userData = null;
-  if (props.auth === undefined) {
+  if (props.projects === undefined || props.auth === undefined) {
     return <Loading {...props} />;
   }
   if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
@@ -92,7 +92,7 @@ const ProjList = props => {
     const minPasted = Math.floor(timeDiff / min);
 
     if (weekPasted > 0) {
-      return new Date(proj.lastEdited).toDateString();
+      return new Date(lastEdited).toDateString();
     } else {
       if (dayPasted < 7 && dayPasted > 0) {
         return (
@@ -122,19 +122,26 @@ const ProjList = props => {
   let orderedProjs = props.projects.sort((a, b) => {
     return b.created - a.created;
   });
-  let projects = orderedProjs.map(proj => {
-    let createdDate = new Date(proj.created).toDateString();
-    let lastEditedDate = handleEditTimeDesc(proj.lastEdited);
-    return (
-      <ProjRow
-        key={proj.id}
-        {...props}
-        proj={proj}
-        createdDate={createdDate}
-        lastEditedDate={lastEditedDate}
-      />
+  let projects =
+    orderedProjs.length !== 0 ? (
+      orderedProjs.map(proj => {
+        let createdDate = new Date(proj.created).toDateString();
+        let lastEditedDate = handleEditTimeDesc(proj.lastEdited);
+        return (
+          <ProjRow
+            key={proj.id}
+            {...props}
+            proj={proj}
+            createdDate={createdDate}
+            lastEditedDate={lastEditedDate}
+          />
+        );
+      })
+    ) : (
+      <h4>
+        <FormattedMessage id="projects.no-project" />
+      </h4>
     );
-  });
 
   return (
     <div id="proj-list-card">
@@ -181,7 +188,7 @@ const ProjRow = props => {
     copyTarget.name = copyTarget.name + copyTag;
 
     copyTarget.slds.forEach(sld => {
-      sld.result = sld.result.map(item => (item = ""));
+      sld.result = sld.result.map(() => "");
       sld.openEndedRes = [];
       sld.tagRes = {};
     });
@@ -370,7 +377,10 @@ const NewProj = props => {
                 variant="contained"
                 id="new-proj-cancel-btn"
                 disabled={isSubmitDisabled}
-                onClick={() => props.closeOverlay("newProj")}>
+                onClick={() => {
+                  props.closeOverlay("newProj");
+                  setNewProjName("");
+                }}>
                 <FormattedMessage id="projects.cancel-new-project" />
               </Button>
             </div>

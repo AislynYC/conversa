@@ -6,6 +6,7 @@
 .proj-wrap {
   width: 90%;
   margin: 0 auto;
+  height: 100%;
 }
 
 .tool-bar {
@@ -83,6 +84,10 @@
   overflow-y: scroll;
 }
 
+.proj-list > h4 {
+  text-align: center;
+}
+
 .col-name {
   width: 40%;
 }
@@ -91,7 +96,7 @@
   text-align: center;
 }
 .proj-tool-col {
-  max-width: 60px;
+  max-width: 65px;
   margin-right: 50px;
 }
 
@@ -122,26 +127,11 @@
   transform: scale(1.2) rotate(-15deg);
 }
 
-.edit-icon,
-.check-icon,
-.cancel-icon {
+.edit-icon {
   cursor: pointer;
   margin-left: 10px;
   color: #444;
   font-size: 1em;
-}
-
-.check-icon {
-  color: green;
-}
-
-.cancel-icon {
-  color: red;
-}
-
-.check-icon:hover,
-.cancel-icon:hover {
-  transform: scale(1.2);
 }
 
 #confirm-del-card {
@@ -209,13 +199,14 @@
   }
 }
 
-@media (max-width: 530px) {
+@media (max-width: 720px) {
   .container.proj-container {
     top: 90px;
     height: calc(100% - 90px);
-    background-color: white;
   }
+}
 
+@media (max-width: 530px) {
   .tool-bar {
     position: absolute;
     right: 20px;
@@ -255,7 +246,8 @@
   #proj-list-card {
     height: 100%;
     margin-top: 0;
-    padding: 0 10px;
+    padding: 0 15px;
+    border-radius: 0;
   }
   .col {
     display: none;

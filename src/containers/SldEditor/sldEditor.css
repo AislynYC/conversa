@@ -1,7 +1,7 @@
 .container {
   display: flex;
   width: 100%;
-  height: calc(100vh - 90px);
+  height: calc(100% - 90px);
   overflow: hidden;
   font-size: 1rem;
   margin: 0 auto;
@@ -31,7 +31,8 @@
   border-radius: 4px;
   /* prettier-ignore */
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-
+  overflow-x: hidden;
+  overflow-y: scroll;
   width: 100%;
   height: 30%;
   margin: 20px auto 0;
@@ -128,12 +129,16 @@
   justify-content: center;
   align-items: center;
   padding: 20px 0 20px 0;
+  min-height: 170px;
+  height: 20%;
 }
 .sld-item > a {
-  width: 80%;
-  padding-bottom: 55%;
+  height: 100%;
+  padding-left: 56.25%;
   position: relative;
   max-width: 330px;
+  min-width: 120px;
+  flex-grow: 1;
 }
 
 .sld {
@@ -148,6 +153,7 @@
   bottom: 0;
   top: 0;
   max-width: 330px;
+  height: 100%;
 }
 
 .sld-item-content {
@@ -337,6 +343,11 @@
   margin: 14px 0 5px;
   font-size: 1.05em;
 }
+
+.edit-panel > .MuiInput-underline:after {
+  border-bottom: 2px solid rgba(75, 143, 107, 0.726);
+}
+
 .opt-input-group {
   display: flex;
 }
@@ -451,8 +462,8 @@
   display: flex;
   position: fixed;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   background-color: black;
@@ -481,6 +492,24 @@
     flex-direction: column;
   }
   .sld-type-form {
+    flex-wrap: nowrap;
+    justify-content: space-around;
+  }
+  .sld-type-group {
+    flex-basis: 33%;
+  }
+  .control-panel > form > label {
+    padding: 10px 20px;
+    margin: 0;
+  }
+}
+
+@media (max-width: 1800px) and (min-height: 1000px) {
+  .center {
+    display: flex;
+    flex-direction: column;
+  }
+  .sld-type-form {
     flex-wrap: wrap;
     justify-content: space-around;
   }
@@ -489,6 +518,16 @@
   }
   .control-panel > form > label {
     padding: 10px 20px;
+    margin: 0 5%;
+  }
+}
+
+@media (max-width: 1250px) {
+  .sld-type-form {
+    flex-wrap: wrap;
+  }
+  .control-panel > form > label {
+    margin: 0 30px;
   }
 }
 
@@ -510,6 +549,7 @@
   }
   .control-panel > form > label {
     padding: 5px 10px;
+    font-size: 0.9rem;
   }
   .sld-item-header {
     display: none;
@@ -558,6 +598,10 @@
     height: 90%;
   }
 
+  .sld-item {
+    height: 150px;
+  }
+
   .sld-item-header {
     display: block;
   }
@@ -585,8 +629,8 @@
   }
   .sld-item > a {
     padding-bottom: 0;
-    width: 80%;
-    height: 90%;
+    width: 100%;
+    height: 190px;
   }
 
   .middle-editor > .edit-panel {
@@ -606,6 +650,7 @@
   }
   .sld-item-header {
     display: block;
+    line-height: 1.6rem;
   }
   .sld-item-header,
   .sld-item-text {
@@ -618,6 +663,8 @@
   .sld-item-title {
     font-size: 1.3rem;
     min-height: 230px;
+    margin: 0 18px;
+    width: 15%;
   }
 
   .sld-item {
@@ -631,6 +678,7 @@
   .sld-item-tools {
     height: 210px;
     margin: 0 18px;
+    width: 15%;
   }
 
   .hide-tool {
@@ -736,11 +784,5 @@
   .sld-copy-btn:hover,
   .sld-item-title > .trash-bin:hover {
     transform: none;
-  }
-}
-
-@media (max-width: 400px) {
-  .sld-item > a {
-    padding-bottom: 55%;
   }
 }
