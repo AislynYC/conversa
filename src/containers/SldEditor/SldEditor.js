@@ -184,7 +184,7 @@ const SldEditor = props => {
         setLocale={props.setLocale}
         showPreview={showPreview}
       />
-      <Router basename={process.env.PUBLIC_URL} history={history}>
+      <Router history={history}>
         <div className="container">
           <SldSelector
             {...props}
