@@ -1,4 +1,6 @@
-export const exampleSlds = [
+import {writeDbUser, writeDbInvt} from "../lib/writeDb";
+
+const exampleSlds = [
   {
     heading: "Welcome to Conversa Example",
     subHeading: "",
@@ -96,7 +98,7 @@ export const exampleSlds = [
   }
 ];
 
-export const exampleRes = {
+const exampleRes = {
   reaction: {laugh: 9},
   respondedAudi: {
     1: [],
@@ -139,4 +141,37 @@ export const exampleRes = {
     "involved10",
     "involved11"
   ]
+};
+
+export const createNewUser = (db, t, uid, props) => {
+  writeDbUser(db, uid, null, "setUserDoc", {createdTime: Date.now()}, () => {
+    writeDbUser(
+      db,
+      uid,
+      null,
+      "addProjDoc",
+      {
+        name: "Example Presentation",
+        created: t,
+        lastEdited: t,
+        curSldIndex: 0,
+        slds: exampleSlds
+      },
+      res => {
+        writeDbInvt(
+          db,
+          res.id,
+          "setInvtDoc",
+          {
+            owner: uid,
+            projId: res.id,
+            ...exampleRes
+          },
+          () => {
+            props.history.push(`/pm/${uid}`);
+          }
+        );
+      }
+    );
+  });
 };

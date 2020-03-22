@@ -76,7 +76,13 @@ const Root = () => {
   );
 };
 
-let store = createStore(rootReducer);
+/* eslint-disable no-underscore-dangle */
+let store = createStore(
+  rootReducer,
+  // for Redux devTool
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+/* eslint-enable */
 
 // react-redux-firebase config
 const rrfConfig = {

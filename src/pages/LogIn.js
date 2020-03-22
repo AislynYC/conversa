@@ -2,10 +2,12 @@ import React, {Fragment, useState} from "react";
 import {connect} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {Link} from "react-router-dom";
+import {useFirestore} from "react-redux-firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 import Header from "../containers/Header/Header";
 import firebase from "../config/fbConfig";
+import {createNewUser} from "../lib/createNewUser";
 import "./sign.css";
 
 import Card from "@material-ui/core/Card";
@@ -13,22 +15,32 @@ import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-// Configure FirebaseUI.
-const uiConfig = {
-  signInFlow: "popup",
-  signInSuccessUrl: "/",
-  signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID
-  ]
-};
-
 const LogInScreen = props => {
   const [userEmail, setUserEmail] = useState("test@test.com");
   const [userPassword, setUserPassword] = useState("123456");
   const [errMsg, setErrMsg] = useState(null);
-  // let errMsg = null;
+  const db = useFirestore();
 
+  // Configure FirebaseUI.
+  const uiConfig = {
+    signInFlow: "popup",
+    signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      // Avoid redirects after sign-in.
+      signInSuccessWithAuthResult: authResult => {
+        const t = Date.now();
+        if (authResult.additionalUserInfo.isNewUser === true) {
+          createNewUser(db, t, authResult.user.uid, props);
+        } else {
+          props.history.push(`/pm/${authResult.user.uid}`);
+        }
+        return false;
+      }
+    }
+  };
   const handleChange = (e, type) => {
     if (type === "email") {
       setUserEmail(e.target.value);

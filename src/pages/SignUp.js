@@ -6,9 +6,8 @@ import {useFirestore} from "react-redux-firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 import Header from "../containers/Header/Header";
-import {writeDbUser, writeDbInvt} from "../lib/writeDb";
 import firebase from "../config/fbConfig";
-import {exampleSlds, exampleRes} from "../lib/example";
+import {createNewUser} from "../lib/createNewUser";
 import "./sign.css";
 
 import Card from "@material-ui/core/Card";
@@ -16,22 +15,33 @@ import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-// Configure FirebaseUI.
-const uiConfig = {
-  signInFlow: "popup",
-  signInSuccessUrl: "/",
-  signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID
-  ]
-};
-
 const SignInScreen = props => {
   const db = useFirestore();
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");
   const [errMsg, setErrMsg] = useState(null);
+
+  // Configure FirebaseUI.
+  const uiConfig = {
+    signInFlow: "popup",
+    signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      // Avoid redirects after sign-in.
+      signInSuccessWithAuthResult: authResult => {
+        const t = Date.now();
+        if (authResult.additionalUserInfo.isNewUser === true) {
+          createNewUser(db, t, authResult.user.uid, props);
+        } else {
+          props.history.push(`/pm/${authResult.user.uid}`);
+        }
+        return false;
+      }
+    }
+  };
 
   const handleChange = (e, type) => {
     if (type === "email") {
@@ -50,38 +60,8 @@ const SignInScreen = props => {
         .auth()
         .createUserWithEmailAndPassword(userEmail, userPassword)
         .then(res => {
-          console.log(res);
           const uid = res.user.uid;
-          writeDbUser(db, uid, null, "setUserDoc", {createdTime: Date.now()}, () => {
-            writeDbUser(
-              db,
-              uid,
-              null,
-              "addProjDoc",
-              {
-                name: "Example Presentation",
-                created: t,
-                lastEdited: t,
-                curSldIndex: 0,
-                slds: exampleSlds
-              },
-              res => {
-                writeDbInvt(
-                  db,
-                  res.id,
-                  "setInvtDoc",
-                  {
-                    owner: uid,
-                    projId: res.id,
-                    ...exampleRes
-                  },
-                  () => {
-                    props.history.push(`/pm/${uid}`);
-                  }
-                );
-              }
-            );
-          });
+          createNewUser(db, t, uid, props);
         })
         .catch(error => {
           if (error.code === "auth/invalid-email") {
