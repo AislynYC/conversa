@@ -1,34 +1,34 @@
-import React, {Fragment, useState, useEffect} from "react";
-import {FormattedMessage} from "react-intl";
-import {useFirestore} from "react-redux-firebase";
+import React, {Fragment, useState, useEffect} from 'react';
+import {FormattedMessage} from 'react-intl';
+import {useFirestore} from 'react-redux-firebase';
 
-import Header from "../containers/Header/Header";
-import Loading from "../components/Loading/Loading";
-import {writeDbUser, writeDbInvt} from "../lib/writeDb";
-import ProjNameEditor from "../components/ProjNameEditor/ProjNameEditor";
-import "./projects.css";
+import Header from '../containers/Header/Header';
+import Loading from '../components/Loading';
+import {writeDbUser, writeDbInvt} from '../lib/writeDb';
+import ProjNameEditor from '../components/ProjNameEditor/ProjNameEditor';
+import './projects.css';
 
-import "../lib/icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import TextField from "@material-ui/core/TextField";
-import CloseIcon from "@material-ui/icons/Close";
+import '../lib/icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import TextField from '@material-ui/core/TextField';
+import CloseIcon from '@material-ui/icons/Close';
 
-const ProjManager = props => {
+const ProjManager = (props) => {
   let userData = null;
   if (props.projects === undefined || props.auth === undefined) {
     return <Loading {...props} />;
   }
   if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
-    props.history.push("/");
+    props.history.push('/');
   } else {
     // User is signed in.
     userData = {
       displayName: props.auth.displayName,
-      email: props.auth.email
+      email: props.auth.email,
     };
   }
 
@@ -49,9 +49,9 @@ const ProjManager = props => {
 
 export default ProjManager;
 
-const ToolBar = props => {
+const ToolBar = (props) => {
   const newProjName = () => {
-    props.showOverlay("newProj", null);
+    props.showOverlay('newProj', null);
   };
 
   return (
@@ -67,7 +67,7 @@ const ToolBar = props => {
           ? props.userData.displayName !== null
             ? `${props.userData.displayName}`
             : `${props.userData.email}`
-          : ""}
+          : ''}
 
         <FormattedMessage id="projects.greeting" />
       </span>
@@ -75,8 +75,8 @@ const ToolBar = props => {
   );
 };
 
-const ProjList = props => {
-  const handleEditTimeDesc = lastEdited => {
+const ProjList = (props) => {
+  const handleEditTimeDesc = (lastEdited) => {
     const curTime = new Date();
     const editTime = new Date(lastEdited);
     const timeDiff = curTime.getTime() - editTime.getTime();
@@ -124,7 +124,7 @@ const ProjList = props => {
   });
   let projects =
     orderedProjs.length !== 0 ? (
-      orderedProjs.map(proj => {
+      orderedProjs.map((proj) => {
         let createdDate = new Date(proj.created).toDateString();
         let lastEditedDate = handleEditTimeDesc(proj.lastEdited);
         return (
@@ -162,21 +162,21 @@ const ProjList = props => {
   );
 };
 
-const ProjRow = props => {
+const ProjRow = (props) => {
   const db = useFirestore();
-  const [moreToolClass, setMoreToolClass] = useState("more-tool-bar hide");
+  const [moreToolClass, setMoreToolClass] = useState('more-tool-bar hide');
   const showMoreTool = () => {
-    setMoreToolClass("more-tool-bar");
+    setMoreToolClass('more-tool-bar');
   };
   const hideMoreTool = () => {
-    setMoreToolClass("more-tool-bar hide");
+    setMoreToolClass('more-tool-bar hide');
   };
 
-  const copyProj = projId => {
+  const copyProj = (projId) => {
     const t = Date.now();
     // deep copy the copy target object
     let copyTarget = JSON.parse(
-      JSON.stringify(props.projects.find(proj => proj.id === projId))
+      JSON.stringify(props.projects.find((proj) => proj.id === projId))
     );
     copyTarget.created = t;
     copyTarget.lastEdited = t;
@@ -184,32 +184,32 @@ const ProjRow = props => {
     delete copyTarget.id;
 
     let copyTag = null;
-    props.locale.includes("zh") ? (copyTag = " - 複製") : (copyTag = " - copy");
+    props.locale.includes('zh') ? (copyTag = ' - 複製') : (copyTag = ' - copy');
     copyTarget.name = copyTarget.name + copyTag;
 
-    copyTarget.slds.forEach(sld => {
-      sld.result = sld.result.map(() => "");
+    copyTarget.slds.forEach((sld) => {
+      sld.result = sld.result.map(() => '');
       sld.openEndedRes = [];
       sld.tagRes = {};
     });
 
-    writeDbUser(db, props.auth.uid, null, "addProjDoc", copyTarget, res => {
-      const sldIdArray = copyTarget.slds.map(sld => sld.id);
+    writeDbUser(db, props.auth.uid, null, 'addProjDoc', copyTarget, (res) => {
+      const sldIdArray = copyTarget.slds.map((sld) => sld.id);
       let RespondedAudiObj = {};
-      sldIdArray.forEach(sldId => {
+      sldIdArray.forEach((sldId) => {
         RespondedAudiObj[sldId] = [];
       });
 
       writeDbInvt(
         db,
         res.id,
-        "setInvtDoc",
+        'setInvtDoc',
         {
           owner: props.auth.uid,
           projId: res.id,
           reaction: {laugh: 0},
           respondedAudi: RespondedAudiObj,
-          involvedAudi: []
+          involvedAudi: [],
         },
         null
       );
@@ -225,19 +225,19 @@ const ProjRow = props => {
       <div className="col">{props.lastEditedDate}</div>
       <div className="col proj-tool-col">
         <FontAwesomeIcon
-          icon={["fas", "copy"]}
+          icon={['fas', 'copy']}
           className="copy-btn"
           onClick={() => copyProj(props.proj.id)}
         />
         <FontAwesomeIcon
-          icon={["fas", "trash-alt"]}
+          icon={['fas', 'trash-alt']}
           className="trash-bin"
-          onClick={() => props.showOverlay("confirmDel", props.proj.id)}
+          onClick={() => props.showOverlay('confirmDel', props.proj.id)}
         />
       </div>
       <div className="more-col">
         <FontAwesomeIcon
-          icon={["fas", "ellipsis-h"]}
+          icon={['fas', 'ellipsis-h']}
           className="more-icon"
           onClick={showMoreTool}
         />
@@ -245,17 +245,17 @@ const ProjRow = props => {
 
       <div className={moreToolClass}>
         <FontAwesomeIcon
-          icon={["fas", "copy"]}
+          icon={['fas', 'copy']}
           className="copy-btn"
           onClick={() => copyProj(props.proj.id)}
         />
         <FontAwesomeIcon
-          icon={["fas", "trash-alt"]}
+          icon={['fas', 'trash-alt']}
           className="trash-bin"
-          onClick={() => props.showOverlay("confirmDel", props.proj.id)}
+          onClick={() => props.showOverlay('confirmDel', props.proj.id)}
         />
         <FontAwesomeIcon
-          icon={["fas", "times"]}
+          icon={['fas', 'times']}
           className="more-close-icon"
           onClick={hideMoreTool}
         />
@@ -264,10 +264,10 @@ const ProjRow = props => {
   );
 };
 
-const NewProj = props => {
+const NewProj = (props) => {
   const db = useFirestore();
-  const [newProjName, setNewProjName] = useState("");
-  const handleChange = e => {
+  const [newProjName, setNewProjName] = useState('');
+  const handleChange = (e) => {
     setNewProjName(e.target.value);
   };
 
@@ -277,21 +277,21 @@ const NewProj = props => {
     setIsSubmitDisabled(false);
   }, []);
 
-  const submitNewProj = e => {
+  const submitNewProj = (e) => {
     setIsSubmitDisabled(true);
     addProj(e);
   };
 
-  const addProj = e => {
+  const addProj = (e) => {
     e.preventDefault();
 
-    if (newProjName !== "" && newProjName !== " ") {
+    if (newProjName !== '' && newProjName !== ' ') {
       const t = Date.now();
       writeDbUser(
         db,
         props.auth.uid,
         null,
-        "addProjDoc",
+        'addProjDoc',
         {
           name: newProjName,
           created: t,
@@ -299,40 +299,40 @@ const NewProj = props => {
           curSldIndex: 0,
           slds: [
             {
-              heading: "",
-              subHeading: "",
+              heading: '',
+              subHeading: '',
               hasQRCode: true,
               id: t,
-              opts: [""],
-              qContent: "",
-              resType: "bar-chart",
-              result: [""],
-              sldType: "heading-page",
+              opts: [''],
+              qContent: '',
+              resType: 'bar-chart',
+              result: [''],
+              sldType: 'heading-page',
               openEndedRes: [],
               tagNum: 1,
-              tagRes: {}
-            }
-          ]
+              tagRes: {},
+            },
+          ],
         },
-        res => {
+        (res) => {
           let initRespondedAudi = {};
           initRespondedAudi[t] = [];
 
           writeDbInvt(
             db,
             res.id,
-            "setInvtDoc",
+            'setInvtDoc',
             {
               owner: props.auth.uid,
               projId: res.id,
               reaction: {laugh: 0},
               respondedAudi: initRespondedAudi,
-              involvedAudi: []
+              involvedAudi: [],
             },
             () => {
-              props.closeOverlay("newProj");
+              props.closeOverlay('newProj');
               setIsSubmitDisabled(false);
-              setNewProjName("");
+              setNewProjName('');
             }
           );
         }
@@ -350,7 +350,7 @@ const NewProj = props => {
         <CardContent>
           <div className="overlay-card-title">
             <FormattedMessage id="projects.create-new-project" />
-            <CloseIcon className="closeX" onClick={() => props.closeOverlay("newProj")} />
+            <CloseIcon className="closeX" onClick={() => props.closeOverlay('newProj')} />
           </div>
 
           <form name="new-proj" id="new-proj-form">
@@ -362,7 +362,7 @@ const NewProj = props => {
               id="new-proj-name-input"
               type="text"
               value={newProjName}
-              onChange={e => handleChange(e)}
+              onChange={(e) => handleChange(e)}
             />
             <div id="create-proj-btns">
               <Button
@@ -370,7 +370,7 @@ const NewProj = props => {
                 variant="contained"
                 disabled={isSubmitDisabled}
                 id="new-proj-submit-btn"
-                onClick={e => submitNewProj(e)}>
+                onClick={(e) => submitNewProj(e)}>
                 <FormattedMessage id="projects.create-project-btn" />
               </Button>
               <Button
@@ -378,8 +378,8 @@ const NewProj = props => {
                 id="new-proj-cancel-btn"
                 disabled={isSubmitDisabled}
                 onClick={() => {
-                  props.closeOverlay("newProj");
-                  setNewProjName("");
+                  props.closeOverlay('newProj');
+                  setNewProjName('');
                 }}>
                 <FormattedMessage id="projects.cancel-new-project" />
               </Button>
@@ -391,7 +391,7 @@ const NewProj = props => {
   );
 };
 
-const DelProj = props => {
+const DelProj = (props) => {
   const db = useFirestore();
   if (props.isLoading === true) {
     return <Loading {...props} />;
@@ -400,10 +400,10 @@ const DelProj = props => {
   const deleteProj = () => {
     props.onLoading(true);
 
-    writeDbUser(db, props.auth.uid, props.delProjId, "delProjDoc", null, () => {
-      writeDbInvt(db, props.delProjId, "delInvtDoc", null, () => {
+    writeDbUser(db, props.auth.uid, props.delProjId, 'delProjDoc', null, () => {
+      writeDbInvt(db, props.delProjId, 'delInvtDoc', null, () => {
         props.onLoading(false);
-        props.closeOverlay("confirmDel");
+        props.closeOverlay('confirmDel');
       });
     });
   };
@@ -412,7 +412,7 @@ const DelProj = props => {
 
   useEffect(() => {
     if (props.delProjId !== undefined && props.projects !== undefined) {
-      let deletingProj = props.projects.find(proj => proj.id === props.delProjId);
+      let deletingProj = props.projects.find((proj) => proj.id === props.delProjId);
       if (deletingProj !== undefined) {
         setDeletingProjName(deletingProj.name);
       }
@@ -427,7 +427,7 @@ const DelProj = props => {
             <FormattedMessage id="projects.confirm-del-proj" />
             <CloseIcon
               className="closeX"
-              onClick={() => props.closeOverlay("confirmDel")}
+              onClick={() => props.closeOverlay('confirmDel')}
             />
           </div>
           {props.delProjId !== undefined ? (
@@ -453,7 +453,7 @@ const DelProj = props => {
               value="false"
               variant="contained"
               id="cancel-del-btn"
-              onClick={() => props.closeOverlay("confirmDel")}>
+              onClick={() => props.closeOverlay('confirmDel')}>
               <FormattedMessage id="projects.cancel-del-project" />
             </Button>
           </div>

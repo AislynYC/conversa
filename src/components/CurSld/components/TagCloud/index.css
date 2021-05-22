@@ -1,0 +1,22 @@
+.qus-div {
+  word-break: break-all;
+  line-height: 2.5rem;
+  position: absolute;
+  z-index: 99;
+}
+
+#cloud-sld-content {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 80%;
+}
+
+#current-sld:fullscreen > #cloud-sld-content {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  width: 100%;
+}

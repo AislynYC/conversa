@@ -1,28 +1,26 @@
-import React, {Fragment} from "react";
-import {connect} from "react-redux";
-import {FormattedMessage} from "react-intl";
-import {Link} from "react-router-dom";
+import React, {Fragment} from 'react';
+import {connect} from 'react-redux';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router-dom';
+import Header from '../containers/Header/Header';
+import firebase from '../config/fbConfig';
+import MainImg from '../img/main_img.svg';
+import Succulent from '../components/Succulent/Succulent';
+import step1Img from '../img/ask.png';
+import step2Img from '../img/response.png';
+import step3Img from '../img/visual-data.png';
+import Loading from '../components/Loading';
+import './home.css';
+import '../lib/icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import Button from '@material-ui/core/Button';
 
-import Header from "../containers/Header/Header";
-import firebase from "../config/fbConfig";
-import MainImg from "../img/main_img.svg";
-import Succulent from "../components/Succulent/Succulent";
-import step1Img from "../img/ask.png";
-import step2Img from "../img/response.png";
-import step3Img from "../img/visual-data.png";
-import Loading from "../components/Loading/Loading";
-import "./home.css";
-
-import "../lib/icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import Button from "@material-ui/core/Button";
-
-const Home = props => {
-  let path = "/signUp";
+const Home = (props) => {
+  let path = '/signUp';
   if (props.auth.isLoaded === false) {
     <Loading {...props} />;
   } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
-    path = "/signUp";
+    path = '/signUp';
   } else {
     if (firebase.auth().currentUser !== null) {
       // After user signed out and redirect to this page, auth.isLoaded & auth.isEmpty are still remain sign in status for a while
@@ -59,7 +57,7 @@ const Home = props => {
           <div className="boxes">
             <div className="box">
               <div className="box-circle"></div>
-              <FontAwesomeIcon className="sec2-icon" icon={["fas", "file-alt"]} />
+              <FontAwesomeIcon className="sec2-icon" icon={['fas', 'file-alt']} />
               <div className="sec2-box-title">
                 <FormattedMessage id="home.sec2-box1-title" />
               </div>
@@ -69,7 +67,7 @@ const Home = props => {
             </div>
             <div className="box">
               <div className="box-circle"></div>
-              <FontAwesomeIcon className="sec2-icon" icon={["far", "comments"]} />
+              <FontAwesomeIcon className="sec2-icon" icon={['far', 'comments']} />
               <div className="sec2-box-title">
                 <FormattedMessage id="home.sec2-box2-title" />
               </div>
@@ -79,7 +77,7 @@ const Home = props => {
             </div>
             <div className="box">
               <div className="box-circle"></div>
-              <FontAwesomeIcon className="sec2-icon" icon={["fas", "heart"]} />
+              <FontAwesomeIcon className="sec2-icon" icon={['fas', 'heart']} />
               <div className="sec2-box-title">
                 <FormattedMessage id="home.sec2-box3-title" />
               </div>
@@ -89,7 +87,7 @@ const Home = props => {
             </div>
             <div className="box">
               <div className="box-circle"></div>
-              <FontAwesomeIcon className="sec2-icon" icon={["far", "chart-bar"]} />
+              <FontAwesomeIcon className="sec2-icon" icon={['far', 'chart-bar']} />
               <div className="sec2-box-title">
                 <FormattedMessage id="home.sec2-box4-title" />
               </div>
@@ -169,10 +167,10 @@ const Home = props => {
   );
 };
 
-let mapStateToProps = state => {
+let mapStateToProps = (state) => {
   return {
     firestore: state.firestore,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
   };
 };
 

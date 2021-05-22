@@ -1,34 +1,34 @@
-import React, {useEffect, Fragment, useState} from "react";
-import {Router, Switch, Route, Redirect} from "react-router-dom";
-import {useFirestore} from "react-redux-firebase";
-import {createBrowserHistory} from "history";
-import {FormattedMessage} from "react-intl";
+import React, {useEffect, Fragment, useState} from 'react';
+import {Router, Switch, Route, Redirect} from 'react-router-dom';
+import {useFirestore} from 'react-redux-firebase';
+import {createBrowserHistory} from 'history';
+import {FormattedMessage} from 'react-intl';
 
-import Loading from "../../components/Loading/Loading";
-import Header from "../Header/Header";
-import CurSld from "../../components/CurSld/CurSld";
-import SldSelector from "./SldSelector";
-import ControlPanel from "./ControlPanel";
-import EditPanel from "./EditPanel";
-import {writeDbUser} from "../../lib/writeDb";
-import "./sldEditor.css";
+import Loading from '../../components/Loading';
+import Header from '../Header/Header';
+import CurSld from '../../components/CurSld/CurSld';
+import SldSelector from './SldSelector';
+import ControlPanel from './ControlPanel';
+import EditPanel from './EditPanel';
+import {writeDbUser} from '../../lib/writeDb';
+import './sldEditor.css';
 
-import "../../lib/icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CloseIcon from "@material-ui/icons/Close";
+import '../../lib/icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CloseIcon from '@material-ui/icons/Close';
 
 const history = createBrowserHistory();
 
-const SldEditor = props => {
+const SldEditor = (props) => {
   let dbRequestedObj = props.firestore.status.requested;
   let isInvtCollRequested = dbRequestedObj.invitation;
   let isUserCollRequested = () => {
     // to get requested boolean of user-projects sub-collection
     for (let prop in dbRequestedObj) {
-      if (prop.endsWith("projects")) {
+      if (prop.endsWith('projects')) {
         return dbRequestedObj[prop];
       }
     }
@@ -49,23 +49,23 @@ const SldEditor = props => {
   const userId = props.userId;
   const projId = props.projId;
 
-  const handleKeydown = e => {
-    if (e.target.tagName !== "INPUT") {
-      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+  const handleKeydown = (e) => {
+    if (e.target.tagName !== 'INPUT') {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
         switchNextSld();
-      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
         switchPrevSld();
       }
     }
   };
 
-  const selectSld = selIndex => {
+  const selectSld = (selIndex) => {
     if (selIndex !== props.curSldIndex) {
       return writeDbUser(
         db,
         userId,
         projId,
-        "updateProjDoc",
+        'updateProjDoc',
         {curSldIndex: selIndex},
         () => {
           if (selIndex === 0) {
@@ -84,7 +84,7 @@ const SldEditor = props => {
         db,
         userId,
         projId,
-        "updateProjDoc",
+        'updateProjDoc',
         {curSldIndex: props.curSldIndex + 1},
         () => {
           if (!document.fullscreenElement) {
@@ -101,7 +101,7 @@ const SldEditor = props => {
         db,
         userId,
         projId,
-        "updateProjDoc",
+        'updateProjDoc',
         {curSldIndex: props.curSldIndex - 1},
         () => {
           if (!document.fullscreenElement) {
@@ -118,7 +118,7 @@ const SldEditor = props => {
 
   useEffect(() => {
     let url = props.location.pathname;
-    let urlSplitArr = url.split("/");
+    let urlSplitArr = url.split('/');
     let urlLastSplit = urlSplitArr[urlSplitArr.length - 1];
     // Each time enter this page, the UseEffect function will check the URL path
     if (/^\d{1,2}$/.test(urlLastSplit) && urlLastSplit < props.slds.length) {
@@ -128,9 +128,9 @@ const SldEditor = props => {
         db,
         userId,
         projId,
-        "updateProjDoc",
+        'updateProjDoc',
         {
-          curSldIndex: parseInt(urlLastSplit)
+          curSldIndex: parseInt(urlLastSplit),
         },
         null
       );
@@ -141,9 +141,9 @@ const SldEditor = props => {
         db,
         userId,
         projId,
-        "updateProjDoc",
+        'updateProjDoc',
         {
-          curSldIndex: 0
+          curSldIndex: 0,
         },
         null
       );
@@ -151,29 +151,29 @@ const SldEditor = props => {
   }, []);
 
   useEffect(() => {
-    document.addEventListener("keydown", handleKeydown);
+    document.addEventListener('keydown', handleKeydown);
     return () => {
-      document.removeEventListener("keydown", handleKeydown);
+      document.removeEventListener('keydown', handleKeydown);
     };
   }, [handleKeydown]);
 
-  const [previewClass, setPreviewClass] = useState("preview-container hide");
+  const [previewClass, setPreviewClass] = useState('preview-container hide');
   const showPreview = () => {
-    setPreviewClass("preview-container");
+    setPreviewClass('preview-container');
   };
   const hidePreview = () => {
-    setPreviewClass("preview-container hide");
+    setPreviewClass('preview-container hide');
   };
 
   const [mobileControlClass, setMobileControlClass] = useState(
-    "center-wrap mobile-control-panel"
+    'center-wrap mobile-control-panel'
   );
   const showMobileControl = () => {
-    setMobileControlClass("center-wrap mobile-control-panel show");
+    setMobileControlClass('center-wrap mobile-control-panel show');
   };
 
   const hideMobileControl = () => {
-    setMobileControlClass("center-wrap mobile-control-panel");
+    setMobileControlClass('center-wrap mobile-control-panel');
   };
 
   return (
@@ -204,7 +204,7 @@ const SldEditor = props => {
       </Router>
       <div className={previewClass}>
         <FontAwesomeIcon
-          icon={["fas", "times"]}
+          icon={['fas', 'times']}
           id="preview-close-btn"
           onClick={hidePreview}
         />
@@ -215,7 +215,7 @@ const SldEditor = props => {
 };
 export default SldEditor;
 
-const SldPage = props => {
+const SldPage = (props) => {
   return props.slds.map((sld, index) => {
     let path = null;
     index === 0
@@ -245,7 +245,7 @@ const SldPage = props => {
   });
 };
 
-const DelSld = props => {
+const DelSld = (props) => {
   const db = useFirestore();
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
@@ -253,7 +253,7 @@ const DelSld = props => {
     setIsBtnDisabled(false);
   }, []);
 
-  const deleteSld = index => {
+  const deleteSld = (index) => {
     // use splice to delete the slide of the index parameter
     if (props.slds.length > 1) {
       let newSelected = null;
@@ -267,14 +267,14 @@ const DelSld = props => {
         db,
         props.userId,
         props.projId,
-        "updateProjDoc",
+        'updateProjDoc',
         {
           curSldIndex: newSelected,
           lastEdited: Date.now(),
-          slds: props.slds
+          slds: props.slds,
         },
         () => {
-          props.closeOverlay("confirmDel");
+          props.closeOverlay('confirmDel');
           // change selection focus to the last slide of the removed slide
           props.selectSld(newSelected);
           setIsBtnDisabled(false);
@@ -282,9 +282,9 @@ const DelSld = props => {
       );
     } else {
       alert(
-        "Your presentation shall have at least one slide. 您的簡報必須有至少一張投影片。"
+        'Your presentation shall have at least one slide. 您的簡報必須有至少一張投影片。'
       );
-      props.closeOverlay("confirmDel");
+      props.closeOverlay('confirmDel');
     }
   };
   return (
@@ -295,7 +295,7 @@ const DelSld = props => {
             <FormattedMessage id="edit.confirm-del-sld" />
             <CloseIcon
               className="closeX"
-              onClick={() => props.closeOverlay("confirmDel")}
+              onClick={() => props.closeOverlay('confirmDel')}
             />
           </div>
 
@@ -316,7 +316,7 @@ const DelSld = props => {
               variant="contained"
               id="cancel-del-btn"
               disabled={isBtnDisabled}
-              onClick={() => props.closeOverlay("confirmDel")}>
+              onClick={() => props.closeOverlay('confirmDel')}>
               <FormattedMessage id="edit.cancel-del-sld" />
             </Button>
           </div>

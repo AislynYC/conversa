@@ -1,47 +1,47 @@
-import React, {Fragment, useEffect, useState} from "react";
-import {useFirestore} from "react-redux-firebase";
-import {FormattedMessage} from "react-intl";
-import {Link} from "react-router-dom";
+import React, {Fragment, useEffect, useState} from 'react';
+import {useFirestore} from 'react-redux-firebase';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router-dom';
 
-import logo from "../img/conversa.png";
-import logoC from "../img/logoC_nb.png";
-import Loading from "../components/Loading/Loading";
-import "./audiView.css";
-import "../lib/icons";
+import logo from '../img/conversa.png';
+import logoC from '../img/logoC_nb.png';
+import Loading from '../components/Loading';
+import './audiView.css';
+import '../lib/icons';
 
-import {writeDbInvt} from "../lib/writeDb";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import Button from "@material-ui/core/Button";
-import Radio from "@material-ui/core/Radio";
-import {withStyles} from "@material-ui/core/styles";
-import {lightGreen} from "@material-ui/core/colors";
+import {writeDbInvt} from '../lib/writeDb';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import Button from '@material-ui/core/Button';
+import Radio from '@material-ui/core/Radio';
+import {withStyles} from '@material-ui/core/styles';
+import {lightGreen} from '@material-ui/core/colors';
 const GreenRadio = withStyles({
   root: {
-    "&$checked": {
-      color: lightGreen[600]
-    }
+    '&$checked': {
+      color: lightGreen[600],
+    },
   },
-  checked: {}
-})(props => <Radio color="default" {...props} />);
+  checked: {},
+})((props) => <Radio color="default" {...props} />);
 
-const AudiView = props => {
+const AudiView = (props) => {
   const db = useFirestore();
   //get uuid
   const _uuid = () => {
     let d = Date.now();
-    if (typeof performance !== "undefined" && typeof performance.now === "function") {
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
       d += performance.now(); //use high-precision timer if available
     }
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
       let r = (d + Math.random() * 16) % 16 | 0;
       d = Math.floor(d / 16);
-      return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+      return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
     });
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("audiId")) {
-      localStorage.setItem("audiId", _uuid());
+    if (!localStorage.getItem('audiId')) {
+      localStorage.setItem('audiId', _uuid());
     }
     props.getAudiId();
   }, []);
@@ -52,7 +52,7 @@ const AudiView = props => {
       writeDbInvt(
         db,
         props.projId,
-        "updateInvtDoc",
+        'updateInvtDoc',
         {involvedAudi: props.involvedAudi},
         null
       );
@@ -71,14 +71,14 @@ const AudiView = props => {
 };
 export default AudiView;
 
-const Poll = props => {
+const Poll = (props) => {
   let audiInput = null;
   useEffect(() => {
     props.setIsLoading(false);
   }, [props.curSldIndex]);
 
   // To determine which slide type to be shown in audi view
-  if (props.slds[props.curSldIndex].sldType === "heading-page") {
+  if (props.slds[props.curSldIndex].sldType === 'heading-page') {
     audiInput = <HeadingInput {...props} />;
   } else if (
     props.respondedAudi[props.slds[props.curSldIndex].id].includes(props.audiId)
@@ -89,11 +89,11 @@ const Poll = props => {
       audiInput = <Wait {...props} />;
     }
   } else {
-    if (props.slds[props.curSldIndex].sldType === "multiple-choice") {
+    if (props.slds[props.curSldIndex].sldType === 'multiple-choice') {
       audiInput = <MultiSelInputs {...props} />;
-    } else if (props.slds[props.curSldIndex].sldType === "open-ended") {
+    } else if (props.slds[props.curSldIndex].sldType === 'open-ended') {
       audiInput = <OpenEndedInput {...props} />;
-    } else if (props.slds[props.curSldIndex].sldType === "tag-cloud") {
+    } else if (props.slds[props.curSldIndex].sldType === 'tag-cloud') {
       audiInput = <TagCloudInput {...props} />;
     }
   }
@@ -101,35 +101,35 @@ const Poll = props => {
   return <Fragment>{audiInput}</Fragment>;
 };
 
-const HeadingInput = props => {
+const HeadingInput = (props) => {
   const db = useFirestore();
-  const addReaction = type => {
-    var invtDocRef = db.collection("invitation").doc(props.projId);
+  const addReaction = (type) => {
+    var invtDocRef = db.collection('invitation').doc(props.projId);
 
     return db
-      .runTransaction(function(transaction) {
+      .runTransaction(function (transaction) {
         // This code may get re-run multiple times if there are conflicts.
-        return transaction.get(invtDocRef).then(function(invtDoc) {
+        return transaction.get(invtDocRef).then(function (invtDoc) {
           if (!invtDoc.exists) {
-            throw "Document does not exist!";
+            throw 'Document does not exist!';
           }
           let invtData = invtDoc.data();
           invtData.reaction[type]++;
           transaction.update(invtDocRef, {reaction: invtData.reaction});
         });
       })
-      .then(function() {
-        console.log("Transaction successfully committed!");
+      .then(function () {
+        console.log('Transaction successfully committed!');
       })
-      .catch(function(error) {
-        console.log("Transaction failed: ", error);
+      .catch(function (error) {
+        console.log('Transaction failed: ', error);
       });
   };
   return (
     <div className="heading-container">
       <div className="heading">{props.slds[props.curSldIndex].heading}</div>
       {props.slds[props.curSldIndex].hasQRCode ? (
-        ""
+        ''
       ) : (
         <div className="heading">{props.slds[props.curSldIndex].subHeading}</div>
       )}
@@ -139,14 +139,14 @@ const HeadingInput = props => {
         size="large"
         className="reaction-icons"
         id="reaction-laugh"
-        onClick={() => addReaction("laugh")}>
-        <FontAwesomeIcon icon={["fas", "heart"]} size="2x" />
+        onClick={() => addReaction('laugh')}>
+        <FontAwesomeIcon icon={['fas', 'heart']} size="2x" />
       </Button>
     </div>
   );
 };
 
-const MultiSelInputs = props => {
+const MultiSelInputs = (props) => {
   const db = useFirestore();
   const [selOptIndex, setSelOptIndex] = useState(null);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
@@ -177,26 +177,26 @@ const MultiSelInputs = props => {
 
   const respondPoll = () => {
     const projDocRef = db
-      .collection("users")
+      .collection('users')
       .doc(props.userId)
-      .collection("projects")
+      .collection('projects')
       .doc(props.projId);
 
-    const invtDocRef = db.collection("invitation").doc(props.projId);
+    const invtDocRef = db.collection('invitation').doc(props.projId);
     return db
-      .runTransaction(function(transaction) {
+      .runTransaction(function (transaction) {
         // This code may get re-run multiple times if there are conflicts.
         // If conflicts, below transaction.get will re-run and get newest data from db
         return Promise.all([
           transaction.get(projDocRef),
-          transaction.get(invtDocRef)
-        ]).then(function(docs) {
+          transaction.get(invtDocRef),
+        ]).then(function (docs) {
           // Promise.all return an array includes documents from transaction.get
           let projDoc = docs[0];
           let invtDoc = docs[1];
 
           if (!projDoc.exists || !invtDoc.exists) {
-            throw "Document does not exist!";
+            throw 'Document does not exist!';
           }
 
           let projData = projDoc.data();
@@ -204,7 +204,7 @@ const MultiSelInputs = props => {
           // Plus 1 vote to sld.result of projData which was gotten from transaction
           let newSlds = projData.slds.map((sld, index) => {
             if (index === props.curSldIndex) {
-              if (sld.result[selOptIndex] === "") {
+              if (sld.result[selOptIndex] === '') {
                 sld.result[selOptIndex] = 1;
               } else {
                 sld.result[selOptIndex]++;
@@ -219,15 +219,15 @@ const MultiSelInputs = props => {
           invtData.respondedAudi[projData.slds[props.curSldIndex].id].push(props.audiId);
           // Update transaction for respondedAudi in collection invitation
           transaction.update(invtDocRef, {
-            respondedAudi: invtData.respondedAudi
+            respondedAudi: invtData.respondedAudi,
           });
         });
       })
-      .then(function() {
-        console.log("Transaction successfully committed!");
+      .then(function () {
+        console.log('Transaction successfully committed!');
       })
-      .catch(function(error) {
-        console.log("Transaction failed: ", error);
+      .catch(function (error) {
+        console.log('Transaction failed: ', error);
       });
   };
 
@@ -253,7 +253,7 @@ const MultiSelInputs = props => {
                   disabled={isRadioDisabled}
                   checked={selOptIndex === index}
                   onChange={() => setSelOptIndex(index)}
-                  inputProps={{"aria-label": index}}
+                  inputProps={{'aria-label': index}}
                 />
                 <div className="opts"> {item} </div>
               </label>
@@ -272,9 +272,9 @@ const MultiSelInputs = props => {
   );
 };
 
-const OpenEndedInput = props => {
+const OpenEndedInput = (props) => {
   const db = useFirestore();
-  const [resInputValue, setResInputValue] = useState("");
+  const [resInputValue, setResInputValue] = useState('');
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
   useEffect(() => {
@@ -289,33 +289,33 @@ const OpenEndedInput = props => {
     }
   }, [resInputValue]);
 
-  const submitOpenEnded = resInputValue => {
+  const submitOpenEnded = (resInputValue) => {
     setIsSubmitDisabled(true);
     respondOpenEnded(resInputValue);
   };
 
-  const respondOpenEnded = resInputValue => {
+  const respondOpenEnded = (resInputValue) => {
     const projDocRef = db
-      .collection("users")
+      .collection('users')
       .doc(props.userId)
-      .collection("projects")
+      .collection('projects')
       .doc(props.projId);
 
-    const invtDocRef = db.collection("invitation").doc(props.projId);
+    const invtDocRef = db.collection('invitation').doc(props.projId);
     return db
-      .runTransaction(function(transaction) {
+      .runTransaction(function (transaction) {
         // This code may get re-run multiple times if there are conflicts.
         // If conflicts, below transaction.get will re-run and get newest data from db
         return Promise.all([
           transaction.get(projDocRef),
-          transaction.get(invtDocRef)
-        ]).then(function(docs) {
+          transaction.get(invtDocRef),
+        ]).then(function (docs) {
           // Promise.all return an array includes documents from transaction.get
           let projDoc = docs[0];
           let invtDoc = docs[1];
 
           if (!projDoc.exists || !invtDoc.exists) {
-            throw "Document does not exist!";
+            throw 'Document does not exist!';
           }
 
           let projData = projDoc.data();
@@ -334,20 +334,20 @@ const OpenEndedInput = props => {
           invtData.respondedAudi[projData.slds[props.curSldIndex].id].push(props.audiId);
           // Update transaction for respondedAudi in collection invitation
           transaction.update(invtDocRef, {
-            respondedAudi: invtData.respondedAudi
+            respondedAudi: invtData.respondedAudi,
           });
         });
       })
-      .then(function() {
-        console.log("Transaction successfully committed!");
+      .then(function () {
+        console.log('Transaction successfully committed!');
       })
-      .catch(function(error) {
-        console.log("Transaction failed: ", error);
+      .catch(function (error) {
+        console.log('Transaction failed: ', error);
       });
   };
   const charLimit = 60;
   const [textAllowed, setTextAllowed] = useState(charLimit);
-  const checkTextAllowed = value => {
+  const checkTextAllowed = (value) => {
     setTextAllowed(charLimit - value.length);
   };
 
@@ -368,14 +368,14 @@ const OpenEndedInput = props => {
               <FormattedMessage
                 id="audi.open-ended-input"
                 defaultMessage="Please insert your response here">
-                {placeholder => (
+                {(placeholder) => (
                   <textarea
                     id="res-input"
                     value={resInputValue}
                     placeholder={placeholder}
                     rows="10"
                     maxLength={charLimit.toString()}
-                    onChange={e => {
+                    onChange={(e) => {
                       setResInputValue(e.target.value);
                       checkTextAllowed(e.target.value);
                     }}
@@ -398,7 +398,7 @@ const OpenEndedInput = props => {
   );
 };
 
-const TagCloudInput = props => {
+const TagCloudInput = (props) => {
   const db = useFirestore();
   const charLimit = 20;
   const [resInputValue, setResInputValue] = useState([]);
@@ -441,9 +441,9 @@ const TagCloudInput = props => {
       <div className="cloud-res-input-group" key={i}>
         <input
           className="cloud-res-input"
-          value={resInputValue[i] ? resInputValue[i] : ""}
+          value={resInputValue[i] ? resInputValue[i] : ''}
           maxLength={charLimit.toString()}
-          onChange={e => {
+          onChange={(e) => {
             handleChange(e.target.value, i);
             checkTextAllowed(e.target.value, i);
           }}
@@ -453,34 +453,34 @@ const TagCloudInput = props => {
     );
   }
 
-  const submitTagCloud = resInputValue => {
+  const submitTagCloud = (resInputValue) => {
     setIsSubmitDisabled(true);
     respondTagCloud(resInputValue);
   };
 
-  const respondTagCloud = resInputValue => {
+  const respondTagCloud = (resInputValue) => {
     props.setIsLoading(true);
     const projDocRef = db
-      .collection("users")
+      .collection('users')
       .doc(props.userId)
-      .collection("projects")
+      .collection('projects')
       .doc(props.projId);
 
-    const invtDocRef = db.collection("invitation").doc(props.projId);
+    const invtDocRef = db.collection('invitation').doc(props.projId);
     return db
-      .runTransaction(function(transaction) {
+      .runTransaction(function (transaction) {
         // This code may get re-run multiple times if there are conflicts.
         // If conflicts, below transaction.get will re-run and get newest data from db
         return Promise.all([
           transaction.get(projDocRef),
-          transaction.get(invtDocRef)
-        ]).then(function(docs) {
+          transaction.get(invtDocRef),
+        ]).then(function (docs) {
           // Promise.all return an array includes documents from transaction.get
           let projDoc = docs[0];
           let invtDoc = docs[1];
 
           if (!projDoc.exists || !invtDoc.exists) {
-            throw "Document does not exist!";
+            throw 'Document does not exist!';
           }
 
           let projData = projDoc.data();
@@ -488,7 +488,7 @@ const TagCloudInput = props => {
           // Plus 1 vote to sld.result of projData which was gotten from transaction
           let newSlds = projData.slds.map((sld, index) => {
             if (index === props.curSldIndex) {
-              resInputValue.forEach(item => {
+              resInputValue.forEach((item) => {
                 if (sld.tagRes[item]) {
                   sld.tagRes[item] = sld.tagRes[item] + 1;
                 } else {
@@ -505,15 +505,15 @@ const TagCloudInput = props => {
           invtData.respondedAudi[projData.slds[props.curSldIndex].id].push(props.audiId);
           // Update transaction for respondedAudi in collection invitation
           transaction.update(invtDocRef, {
-            respondedAudi: invtData.respondedAudi
+            respondedAudi: invtData.respondedAudi,
           });
         });
       })
-      .then(function() {
-        console.log("Transaction successfully committed!");
+      .then(function () {
+        console.log('Transaction successfully committed!');
       })
-      .catch(function(error) {
-        console.log("Transaction failed: ", error);
+      .catch(function (error) {
+        console.log('Transaction failed: ', error);
       });
   };
 
@@ -569,7 +569,7 @@ const Ending = () => {
     <div className="poll-container">
       <div className="wait-img">
         <div className="end-circle">
-          <FontAwesomeIcon icon={["fas", "heart"]} size="2x" />
+          <FontAwesomeIcon icon={['fas', 'heart']} size="2x" />
         </div>
       </div>
       <div className="wait-msg">
