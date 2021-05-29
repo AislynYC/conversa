@@ -1,16 +1,11 @@
-import React from "react";
-import "./style.css";
+import React from 'react';
+import './style.css';
 
-const Loading = props => {
-  let loadingCircle = null;
-  if (props.match.url.includes("/audi/")) {
-    loadingCircle = <div className="loading-circle"></div>;
-  }
-
+const Loading = ({match}) => {
   return (
     <div className="wrapper">
       <div className="succulent-box">
-        {loadingCircle}
+        {match.url.includes('/audi/') && <div className="loading-circle" />}
         <div className="stem"></div>
         <div className="leaf leaf01"></div>
         <div className="leaf leaf02">
