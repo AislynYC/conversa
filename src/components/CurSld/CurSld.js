@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import colors from '../../lib/colors';
 import './curSld.css';
@@ -36,7 +36,7 @@ const CurSld = (props) => {
     }
   };
 
-  const sldContent = () => {
+  const sldContent = useMemo(() => {
     switch (curSldType) {
       case 'heading-page':
         return <Headings {...props} isFullscreen={isFullscreen} />;
@@ -49,7 +49,7 @@ const CurSld = (props) => {
       default:
         return null;
     }
-  };
+  }, [curSldType]);
 
   return (
     <div id="current-sld-container">
