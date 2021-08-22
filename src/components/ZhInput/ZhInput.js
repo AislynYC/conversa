@@ -1,18 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   isChrome,
   isFirefox,
   isSafari,
   isIE,
   isEdge,
-  isOpera
+  isOpera,
 } from "../../lib/BrowserDetection";
 import "./zhInput.css";
 
-const ZhInput = props => {
+const ZhInput = (props) => {
   const [inputValue, setInputValue] = useState("");
   const [isOnComposition, setIsOnComposition] = useState(false);
   const [isInnerChangeFromOnChange, setIsInnerChangeFromOnChange] = useState(false);
+  const [textAllowed, setTextAllowed] = useState(props.maxLength);
 
   useEffect(() => {
     setInputValue(props.curValue);
@@ -25,7 +26,7 @@ const ZhInput = props => {
     }
   });
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     // Flow check
     if (!(e.target instanceof HTMLInputElement)) return;
 
@@ -46,7 +47,7 @@ const ZhInput = props => {
     }
   };
 
-  const handleComposition = e => {
+  const handleComposition = (e) => {
     // Flow check
     if (!(e.target instanceof HTMLInputElement)) return;
 
@@ -75,10 +76,10 @@ const ZhInput = props => {
     }
   };
 
-  const [textAllowed, setTextAllowed] = useState(props.maxLength);
-  const checkTextAllowed = value => {
+  const checkTextAllowed = (value) => {
     setTextAllowed(props.maxLength - value.length);
   };
+
   useEffect(() => {
     checkTextAllowed(props.curValue);
   }, []);
@@ -90,13 +91,13 @@ const ZhInput = props => {
         className="input"
         value={inputValue}
         maxLength={props.maxLength}
-        onChange={e => {
+        onChange={(e) => {
           handleChange(e);
           checkTextAllowed(e.target.value);
         }}
-        onCompositionUpdate={e => handleComposition(e)}
-        onCompositionEnd={e => handleComposition(e)}
-        onCompositionStart={e => handleComposition(e)}
+        onCompositionUpdate={(e) => handleComposition(e)}
+        onCompositionEnd={(e) => handleComposition(e)}
+        onCompositionStart={(e) => handleComposition(e)}
       />
       <div className="sldEditor-text-count">{textAllowed}</div>
     </div>
