@@ -3,7 +3,7 @@ import "firebase/firestore";
 import "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "", // firebase api key
+  apiKey: "AIzaSyDCtYWOFUFUJqhQTk0InJTOPsgp26KOcA0", 
   authDomain: "conversa-a419b.firebaseapp.com",
   databaseURL: "https://conversa-a419b.firebaseio.com",
   projectId: "conversa-a419b",

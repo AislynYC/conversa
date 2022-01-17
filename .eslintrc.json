@@ -2,8 +2,7 @@
   "env": {
     "browser": true,
     "node": true,
-    "es6": true,
-    "es2020": true
+    "es6": true
   },
   "extends": [
     "eslint:recommended",
@@ -21,8 +20,12 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react"],
-  "rules": {"react/prop-types": 0},
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "react/prop-types": 0
+  },
   "settings": {
     "react": {
       "pragma": "React",

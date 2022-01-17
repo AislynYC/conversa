@@ -16,11 +16,11 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Button from '@material-ui/core/Button';
 
 const Home = (props) => {
-  let path = '/signUp';
+  let path = '/login';
   if (props.auth.isLoaded === false) {
     <Loading {...props} />;
   } else if (props.auth.isLoaded === true && props.auth.isEmpty === true) {
-    path = '/signUp';
+    path = '/login';
   } else {
     if (firebase.auth().currentUser !== null) {
       // After user signed out and redirect to this page, auth.isLoaded & auth.isEmpty are still remain sign in status for a while
