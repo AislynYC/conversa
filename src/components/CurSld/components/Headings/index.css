@@ -1,0 +1,40 @@
+.qr-code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-code > img {
+  width: 100%;
+}
+
+.reaction-count {
+  margin-left: 10px;
+}
+
+.reaction-icon.scale {
+  transform: scale(1.3);
+  color: rgba(250, 61, 127, 0.39);
+}
+
+.scan-to-join {
+  margin-right: 30px;
+}
+
+.fullscreenFontSize {
+  font-size: 1.5em;
+}
+
+/* Heading Slide */
+.heading-render-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.heading-render-container > .heading-render {
+  font-size: 1.5em;
+  word-break: break-all;
+}
